@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+.env
+.env.local
+Thumbs.db
+.vscode/
+.idea/
+files.zip
+tahoe200-2026-cowork-handoff.zip
+tahoe200-cowork-brief.md
+tahoe200-handoff/

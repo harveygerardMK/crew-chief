@@ -1,0 +1,30 @@
+---
+import { race, status } from "../lib/data";
+import { getCountdown, getRacePhase } from "../lib/dates";
+
+const phase = status.phase === "pre-race" && getRacePhase() === "on-course" ? "on-course" : status.phase;
+const countdown = phase === "pre-race" ? getCountdown() : null;
+
+let primary = "";
+let secondary = status.message;
+
+if (phase === "pre-race") {
+  primary = countdown ?? "Race week";
+} else if (phase === "on-course") {
+  primary = status.last_seen_station
+    ? `On course — last seen at ${status.last_seen_station}`
+    : "On course";
+  secondary = status.last_seen_time
+    ? `Last update: ${status.last_seen_time}`
+    : status.message;
+} else {
+  primary = "Race complete";
+  secondary = status.message;
+}
+---
+
+<section class="status-block" aria-live="polite">
+  <p class="status-block__label">{race.runner}</p>
+  <p class="status-block__primary">{primary}</p>
+  {secondary && <p class="status-block__secondary">{secondary}</p>}
+</section>

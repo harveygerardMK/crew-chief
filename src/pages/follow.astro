@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import StatusBlock from "../components/StatusBlock.astro";
+import { race, status } from "../lib/data";
+import { getEntry } from "astro:content";
+
+const about = await getEntry("pages", "about-the-race");
+const { Content: AboutContent } = await about.render();
+const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placeholder;
+---
+
+<BaseLayout title="Follow" description="Follow Harvey at the Tahoe 200 — plain-language guide for family and friends.">
+  <div class="container">
+    <h1>Follow along</h1>
+    <p class="lead">What is a 200-miler, where is Harvey, and how to cheer from afar</p>
+
+    <StatusBlock />
+
+    <p>
+      <a class="btn btn--primary" href={trackingUrl} target="_blank" rel="noopener noreferrer">
+        Live tracking
+      </a>
+    </p>
+
+    <div class="prose">
+      <AboutContent />
+    </div>
+
+    <h2>Reading the tracker</h2>
+    <ul>
+      <li>
+        <strong>Green / moving:</strong> Harvey is on course and the SPOT is updating.
+      </li>
+      <li>
+        <strong>Stopped at an aid station:</strong> Normal — eating, sleeping, or foot care. Sleep stations allow up to 6 hours.
+      </li>
+      <li>
+        <strong>Gaps in updates:</strong> Common in backcountry. Crew has the detailed plan; don’t panic on short gaps.
+      </li>
+    </ul>
+
+    <h2>Sending a message</h2>
+    <p>
+      Cell service is limited on course. The best way to reach Harvey is through crew at a crew-access aid station
+      (Heavenly, Sierra at Tahoe, Loon Lake, Tahoe City, Brockway Summit, Village Green, Finish). Ask crew to pass a
+      short note — keep it encouraging and brief.
+    </p>
+
+    <h2>Important links</h2>
+    <ul>
+      <li>
+        <a href={race.official_url} target="_blank" rel="noopener noreferrer">Official race site</a>
+      </li>
+      <li>
+        <a href={race.course_map_url} target="_blank" rel="noopener noreferrer">Course map (CalTopo)</a>
+      </li>
+    </ul>
+  </div>
+</BaseLayout>

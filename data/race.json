@@ -1,0 +1,38 @@
+{
+  "name": "Tahoe 200 Endurance Run",
+  "year": 2026,
+  "course": "Full Loop",
+  "distance_miles": 200.4,
+  "elevation_gain_ft": 32093,
+  "elevation_loss_ft": 32077,
+  "cutoff_hours": 105,
+  "start": {
+    "date": "2026-06-12",
+    "time_local": "09:00",
+    "timezone": "America/Los_Angeles",
+    "location": "Heavenly Stagecoach Lodge",
+    "address": "375 Quaking Aspen Ln, Stateline, NV 89449",
+    "coordinates": {
+      "lat": 38.96107,
+      "lng": -119.88593
+    }
+  },
+  "finish_cutoff": {
+    "date": "2026-06-16",
+    "time_local": "18:00",
+    "timezone": "America/Los_Angeles"
+  },
+  "check_in": {
+    "date": "2026-06-11",
+    "time_local_start": "13:00",
+    "time_local_end": "15:30",
+    "location": "Heavenly Stagecoach Lodge",
+    "drop_bag_deadline": "17:00",
+    "mandatory_meeting": "16:00-17:00"
+  },
+  "runner": "Harvey Schaefer",
+  "live_tracking_url_placeholder": "https://www.destinationtrailrun.com/tahoe",
+  "course_map_url": "https://caltopo.com/m/9G4NM",
+  "official_url": "https://www.destinationtrailrun.com/tahoe",
+  "source": "Tahoe 200 2026 Runner Manual"
+}

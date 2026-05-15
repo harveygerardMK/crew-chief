@@ -1,0 +1,113 @@
+[
+  {
+    "n": 1,
+    "aid_station": "Heavenly (Start)",
+    "mile": 0.0,
+    "cutoff": "Fri 9:00 AM",
+    "planned_eta": "Fri 7:00 AM (arrive early)",
+    "parking": "Lower lot at Heavenly Stagecoach Lodge. May park overnight.",
+    "drive_notes": "375 Quaking Aspen Ln, Stateline, NV 89449",
+    "restock_priorities": [
+      "Final gear check",
+      "Hand off SPOT pack to runner",
+      "Apply chamois cream, sunscreen",
+      "Last bathroom, last coffee"
+    ]
+  },
+  {
+    "n": 2,
+    "aid_station": "Sierra at Tahoe",
+    "mile": 52.2,
+    "cutoff": "Sat 11:30 AM",
+    "planned_eta": "Sat early afternoon (depends on pace)",
+    "parking": "Standard aid-station parking. Display crew pass.",
+    "drive_notes": "Coordinates: 38.80072, -120.08097",
+    "restock_priorities": [
+      "First major restock",
+      "Hot food + savory calories",
+      "Foot care + sock change",
+      "Fresh shirt",
+      "Top off water",
+      "Check feet for hot spots"
+    ]
+  },
+  {
+    "n": 3,
+    "aid_station": "Loon Lake",
+    "mile": 87.6,
+    "cutoff": "Sun 6:30 AM",
+    "planned_eta": "Sat late night / Sun pre-dawn",
+    "parking": "Use Icehouse Rd. DO NOT use Wrights Lake Rd \u2014 no crew access there.",
+    "drive_notes": "Coordinates: 38.98226, -120.31479",
+    "restock_priorities": [
+      "PACER #1 PICKUP",
+      "Full kit reset",
+      "Calorie restock for back half",
+      "Poles handoff",
+      "Headlamp + spare batteries",
+      "Warm layer for night"
+    ]
+  },
+  {
+    "n": 4,
+    "aid_station": "Tahoe City",
+    "mile": 130.0,
+    "cutoff": "Mon 4:30 AM",
+    "planned_eta": "Sun evening / Mon early morning",
+    "parking": "Park at the Transit Center and walk 0.2 mi to the aid station.",
+    "drive_notes": "Coordinates: 39.16445, -120.14735",
+    "restock_priorities": [
+      "Pacer swap option (Pacer #2)",
+      "Major fuel restock for final 70 mi",
+      "Hot food",
+      "Foot care round 2",
+      "Caffeine top-up"
+    ]
+  },
+  {
+    "n": 5,
+    "aid_station": "Brockway Summit",
+    "mile": 148.6,
+    "cutoff": "Mon 2:30 PM",
+    "planned_eta": "Mon morning / midday",
+    "parking": "Park in the designated area and walk 0.6 mi to the aid station.",
+    "drive_notes": "Coordinates: 39.25748, -120.08087",
+    "restock_priorities": [
+      "SLEEP STOP \u2014 sleeping bag, ear plugs",
+      "Full dry change of clothes",
+      "Warm puffy",
+      "Hot food before sleeping",
+      "Set alarm \u2014 6-hour sleep cap"
+    ]
+  },
+  {
+    "n": 6,
+    "aid_station": "Village Green",
+    "mile": 163.6,
+    "cutoff": "Mon 10:00 PM",
+    "planned_eta": "Mon evening",
+    "parking": "Park in either of the designated crew parking areas (marked green).",
+    "drive_notes": "Coordinates: 39.24127, -119.94491",
+    "restock_priorities": [
+      "Headlamp + fresh batteries for final night",
+      "Caffeine reload",
+      "Warm layers",
+      "Light fuel \u2014 almost there"
+    ]
+  },
+  {
+    "n": 7,
+    "aid_station": "Finish (Heavenly)",
+    "mile": 200.4,
+    "cutoff": "Tue 6:00 PM",
+    "planned_eta": "Tue (target before cutoff)",
+    "parking": "Same site as start \u2014 Stagecoach Lodge lower lot.",
+    "drive_notes": "375 Quaking Aspen Ln, Stateline, NV 89449",
+    "restock_priorities": [
+      "Dry recovery clothes",
+      "Easy-to-digest food",
+      "Buckle photo",
+      "Get Harvey horizontal ASAP"
+    ]
+  }
+]

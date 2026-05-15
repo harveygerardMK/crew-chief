@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PacerLegCard from "../components/PacerLegCard.astro";
+import { gear, pacerLegs, keyNotes } from "../lib/data";
+import { getEntry } from "astro:content";
+
+const onboarding = await getEntry("pages", "pacer-onboarding");
+const { Content: OnboardingContent } = await onboarding.render();
+const mandatoryGear = [...gear.mandatory_clothing, ...gear.mandatory_equipment, ...gear.mandatory_food];
+---
+
+<BaseLayout title="Pacers" description="Six pacer legs from Loon Lake to the finish.">
+  <div class="container">
+    <h1>Pacers</h1>
+    <p class="lead">Pickup at Loon Lake (mile 87.6) · six legs to the finish</p>
+
+    <div class="note-box">
+      <strong>Pickup:</strong> {keyNotes.pacer_pickup}
+    </div>
+    <div class="note-box">
+      <strong>No muling:</strong> {keyNotes.no_muling}
+    </div>
+
+    <h2>Legs</h2>
+    {pacerLegs.map((leg) => <PacerLegCard leg={leg} />)}
+
+    <h2>Mandatory pacer gear</h2>
+    <p class="card__meta">Same mandatory kit as the runner, plus pacer bib at check-in.</p>
+    <ul class="list-check">
+      {mandatoryGear.map((item) => (
+        <li>
+          <strong>{item.item}</strong>
+          {item.spec ? ` — ${item.spec}` : ""}
+          {item.notes ? ` (${item.notes})` : ""}
+        </li>
+      ))}
+    </ul>
+
+    <h2>Onboarding</h2>
+    <div class="prose">
+      <OnboardingContent />
+    </div>
+  </div>
+</BaseLayout>

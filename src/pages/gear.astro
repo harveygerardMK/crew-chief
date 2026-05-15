@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { gear } from "../lib/data";
+---
+
+<BaseLayout title="Gear" description="Mandatory and recommended gear for Tahoe 200 2026.">
+  <div class="container">
+    <h1>Gear</h1>
+
+    <h2>Mandatory clothing</h2>
+    <ul>
+      {
+        gear.mandatory_clothing.map((item) => (
+          <li>
+            <strong>{item.item}</strong> — {item.spec}
+            {item.notes && <em> ({item.notes})</em>}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Mandatory equipment</h2>
+    <ul>
+      {
+        gear.mandatory_equipment.map((item) => (
+          <li>
+            <strong>{item.item}</strong> — {item.spec}
+            {item.notes && <em> ({item.notes})</em>}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Mandatory food</h2>
+    <ul>
+      {
+        gear.mandatory_food.map((item) => (
+          <li>
+            <strong>{item.item}</strong> — {item.spec}
+            {item.notes && <em> ({item.notes})</em>}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Recommended carry</h2>
+    <ul class="list-check">
+      {gear.recommended_carry.map((item) => <li>{item.item}{item.notes ? ` — ${item.notes}` : ""}</li>)}
+    </ul>
+
+    <h2>Drop bag strategy</h2>
+    {
+      gear.drop_bag_strategy.map((bag) => (
+        <article class="card">
+          <div class="card__header card__header--static">
+            <div>
+              <h3 class="card__title">{bag.station}</h3>
+              <span class="badge">{bag.tier}</span>
+            </div>
+          </div>
+          <div class="card__body">
+            <p>{bag.contents}</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>

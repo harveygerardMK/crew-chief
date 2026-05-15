@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { crewStops, keyNotes } from "../lib/data";
+---
+
+<BaseLayout title="Crew" description="Crew-access stops with parking, ETAs, and restock priorities.">
+  <div class="container">
+    <h1>Crew guide</h1>
+    <p class="lead">7 crew-access stops · one vehicle (Rivian R1S fits 20′ × 8.5′ limit)</p>
+
+    <div class="note-box">
+      <strong>Vehicle:</strong> {keyNotes.crew_vehicle}. Roofnest Sparrow on the R1S — plan parking accordingly.
+    </div>
+    <div class="note-box">
+      <strong>Cell service:</strong> {keyNotes.cell_service}
+    </div>
+
+    {
+      crewStops.map((stop) => (
+        <article class="card">
+          <div class="card__header card__header--static">
+            <div>
+              <span class="card__mile">Mile {stop.mile}</span>
+              <h3 class="card__title">{stop.aid_station}</h3>
+            </div>
+            <span class="badge">Cutoff {stop.cutoff}</span>
+          </div>
+          <div class="card__body">
+            <p class="card__meta">
+              <strong>Planned ETA:</strong> {stop.planned_eta}
+            </p>
+            <p>
+              <strong>Parking:</strong> {stop.parking}
+            </p>
+            <p>
+              <strong>Drive:</strong> {stop.drive_notes}
+            </p>
+            <h4>Restock priorities</h4>
+            <ul class="list-check">
+              {stop.restock_priorities.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>

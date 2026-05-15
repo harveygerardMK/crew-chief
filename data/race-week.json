@@ -1,0 +1,74 @@
+[
+  {
+    "date": "2026-06-07",
+    "day": "Sunday",
+    "activity": "Depart Grand Rapids (Day 1 westbound)",
+    "notes": "Rivian R1S + Roofnest Sparrow. ~10\u201315% range hit factored in."
+  },
+  {
+    "date": "2026-06-08",
+    "day": "Monday",
+    "activity": "Drive Day 2",
+    "notes": "Rivian Adventure Network charging stops planned."
+  },
+  {
+    "date": "2026-06-09",
+    "day": "Tuesday",
+    "activity": "Drive Day 3",
+    "notes": ""
+  },
+  {
+    "date": "2026-06-10",
+    "day": "Wednesday",
+    "activity": "Arrive Lake Tahoe area",
+    "notes": "Truckee, CA key RAN stop. Settle, hydrate, sleep low."
+  },
+  {
+    "date": "2026-06-11",
+    "day": "Thursday",
+    "activity": "RUNNER CHECK-IN at Heavenly Stagecoach Lodge",
+    "notes": "1:00\u20133:30 PM check-in, medical, GPS, gear check, mugshot. Drop-bag deadline 5:00 PM. Mandatory meeting 4:00\u20135:00 PM."
+  },
+  {
+    "date": "2026-06-12",
+    "day": "Friday",
+    "activity": "RACE START \u2014 9:00 AM",
+    "notes": "Drop remaining bags 6:00\u20138:30 AM. SPOT pickup + check-in 7:00\u20138:45 AM."
+  },
+  {
+    "date": "2026-06-13",
+    "day": "Saturday",
+    "activity": "On course \u2014 day 2",
+    "notes": "Target Wrights Lake sleep stop."
+  },
+  {
+    "date": "2026-06-14",
+    "day": "Sunday",
+    "activity": "On course \u2014 day 3",
+    "notes": "Target Barker Pass sleep stop. Pacer pickup at Loon Lake."
+  },
+  {
+    "date": "2026-06-15",
+    "day": "Monday",
+    "activity": "On course \u2014 day 4",
+    "notes": "Target Brockway Summit sleep stop."
+  },
+  {
+    "date": "2026-06-16",
+    "day": "Tuesday",
+    "activity": "FINISH \u2014 cutoff 6:00 PM",
+    "notes": "Buckle photo. Recovery food."
+  },
+  {
+    "date": "2026-06-17",
+    "day": "Wednesday",
+    "activity": "Drop bag pickup deadline 10:00 AM",
+    "notes": "Recovery day. Unclaimed bags donated."
+  },
+  {
+    "date": "2026-06-18",
+    "day": "Thursday",
+    "activity": "Begin return drive (or extra rest day)",
+    "notes": "Decide based on recovery."
+  }
+]

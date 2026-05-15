@@ -1,0 +1,212 @@
+[
+  {
+    "n": 0,
+    "name": "Start (Heavenly Stagecoach)",
+    "mile": 0.0,
+    "type": "Start",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": false,
+    "cutoff": "Fri 9:00 AM",
+    "coordinates": {
+      "lat": 38.96107,
+      "lng": -119.88593
+    },
+    "notes": "Lower parking lot. Runners may park overnight."
+  },
+  {
+    "n": 1,
+    "name": "Heavenly",
+    "mile": 10.0,
+    "type": "Grab & Go",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": false,
+    "cutoff": "No cutoff",
+    "coordinates": {
+      "lat": 38.96107,
+      "lng": -119.88593
+    },
+    "notes": "Same site as start/finish."
+  },
+  {
+    "n": 2,
+    "name": "Armstrong Pass",
+    "mile": 26.0,
+    "type": "Full",
+    "drop_bag": false,
+    "crew_access": false,
+    "pacer_access": false,
+    "cutoff": "No cutoff",
+    "coordinates": {
+      "lat": 38.83051,
+      "lng": -119.90041
+    },
+    "notes": "Rough road. Uses Lug-a-Loo toilets."
+  },
+  {
+    "n": 3,
+    "name": "Housewife Hill",
+    "mile": 43.2,
+    "type": "Full",
+    "drop_bag": true,
+    "crew_access": false,
+    "pacer_access": false,
+    "cutoff": "No cutoff",
+    "coordinates": {
+      "lat": 38.79596,
+      "lng": -120.01778
+    },
+    "notes": ""
+  },
+  {
+    "n": 4,
+    "name": "Sierra at Tahoe",
+    "mile": 52.2,
+    "type": "Full",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": false,
+    "cutoff": "Sat 11:30 AM",
+    "coordinates": {
+      "lat": 38.80072,
+      "lng": -120.08097
+    },
+    "notes": ""
+  },
+  {
+    "n": 5,
+    "name": "Wrights Lake",
+    "mile": 70.7,
+    "type": "Sleep",
+    "drop_bag": true,
+    "crew_access": false,
+    "pacer_access": false,
+    "cutoff": "Sat 9:30 PM",
+    "coordinates": {
+      "lat": 38.848,
+      "lng": -120.23897
+    },
+    "notes": "No crew on Wrights Lake Road."
+  },
+  {
+    "n": 6,
+    "name": "Loon Lake",
+    "mile": 87.6,
+    "type": "Full",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": true,
+    "cutoff": "Sun 6:30 AM",
+    "coordinates": {
+      "lat": 38.98226,
+      "lng": -120.31479
+    },
+    "notes": "Use Icehouse Rd \u2014 NO crew on Wrights Lake Rd. FIRST PACER PICKUP."
+  },
+  {
+    "n": 7,
+    "name": "Barker Pass",
+    "mile": 103.1,
+    "type": "Sleep",
+    "drop_bag": true,
+    "crew_access": false,
+    "pacer_access": true,
+    "cutoff": "Sun 2:30 PM",
+    "coordinates": {
+      "lat": 39.07662,
+      "lng": -120.23305
+    },
+    "notes": ""
+  },
+  {
+    "n": 8,
+    "name": "Stephen Jones Memorial",
+    "mile": 110.6,
+    "type": "Full",
+    "drop_bag": true,
+    "crew_access": false,
+    "pacer_access": true,
+    "cutoff": "Sun 6:00 PM",
+    "coordinates": {
+      "lat": 39.11393,
+      "lng": -120.15854
+    },
+    "notes": ""
+  },
+  {
+    "n": 9,
+    "name": "Tahoe City",
+    "mile": 130.0,
+    "type": "Full",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": true,
+    "cutoff": "Mon 4:30 AM",
+    "coordinates": {
+      "lat": 39.16445,
+      "lng": -120.14735
+    },
+    "notes": "Crew parks at Transit Center and walks 0.2 mi."
+  },
+  {
+    "n": 10,
+    "name": "Brockway Summit",
+    "mile": 148.6,
+    "type": "Sleep",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": true,
+    "cutoff": "Mon 2:30 PM",
+    "coordinates": {
+      "lat": 39.25748,
+      "lng": -120.08087
+    },
+    "notes": "Crew parks in designated area and walks 0.6 mi."
+  },
+  {
+    "n": 11,
+    "name": "Village Green",
+    "mile": 163.6,
+    "type": "Full",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": true,
+    "cutoff": "Mon 10:00 PM",
+    "coordinates": {
+      "lat": 39.24127,
+      "lng": -119.94491
+    },
+    "notes": "Park in designated crew areas (marked green)."
+  },
+  {
+    "n": 12,
+    "name": "Spooner Summit",
+    "mile": 182.3,
+    "type": "Full",
+    "drop_bag": true,
+    "crew_access": false,
+    "pacer_access": true,
+    "cutoff": "Tue 8:00 AM",
+    "coordinates": {
+      "lat": 39.10374,
+      "lng": -119.89581
+    },
+    "notes": ""
+  },
+  {
+    "n": 13,
+    "name": "Finish (Heavenly Stagecoach)",
+    "mile": 200.4,
+    "type": "Finish",
+    "drop_bag": true,
+    "crew_access": true,
+    "pacer_access": false,
+    "cutoff": "Tue 6:00 PM",
+    "coordinates": {
+      "lat": 38.96107,
+      "lng": -119.88593
+    },
+    "notes": "Same site as start. 105-hour cutoff."
+  }
+]

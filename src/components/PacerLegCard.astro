@@ -1,0 +1,40 @@
+---
+import type { PacerLeg } from "../lib/data";
+
+interface Props {
+  leg: PacerLeg;
+}
+
+const { leg } = Astro.props;
+---
+
+<article class="card">
+  <div class="card__header card__header--static">
+    <div>
+      <span class="card__mile">Leg {leg.leg}</span>
+      <h3 class="card__title">
+        {leg.from} → {leg.to}
+      </h3>
+    </div>
+  </div>
+  <div class="card__body">
+    <div class="stat-strip">
+      <div>
+        <strong>{leg.miles}</strong>
+        miles
+      </div>
+      <div>
+        <strong>{leg.gain_ft.toLocaleString()}</strong>
+        ft gain
+      </div>
+    </div>
+    <p class="card__meta">
+      <strong>When:</strong> {leg.estimated_time_of_day}
+    </p>
+    <p>{leg.terrain_notes}</p>
+    <h4>What to bring</h4>
+    <ul class="list-check">
+      {leg.what_to_bring.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</article>

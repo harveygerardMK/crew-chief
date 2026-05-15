@@ -1,0 +1,71 @@
+---
+import type { AidStation } from "../lib/data";
+
+interface Props {
+  station: AidStation;
+  expandable?: boolean;
+}
+
+const { station, expandable = true } = Astro.props;
+const id = `aid-${station.n}`;
+const isSleep = station.type === "Sleep";
+---
+
+<article class="card" data-aid-card data-crew={station.crew_access} data-pacer={station.pacer_access} data-sleep={isSleep}>
+  {
+    expandable ? (
+      <>
+        <button type="button" class="card__header" aria-expanded="false" aria-controls={`${id}-body`} data-expand>
+          <div>
+            <span class="card__mile">Mile {station.mile}</span>
+            <h3 class="card__title">{station.name}</h3>
+          </div>
+          <div class="card__badges">
+            <span class="badge">{station.type}</span>
+            {station.crew_access && <span class="badge badge--crew">Crew</span>}
+            {station.pacer_access && <span class="badge badge--pacer">Pacer</span>}
+            {isSleep && <span class="badge badge--sleep">Sleep</span>}
+            {station.drop_bag && <span class="badge badge--drop">Drop bag</span>}
+          </div>
+        </button>
+        <div id={`${id}-body`} class="card__body" hidden>
+          <p class="card__meta">
+            <strong>Cutoff:</strong> {station.cutoff}
+          </p>
+          {station.notes && <p>{station.notes}</p>}
+          <p class="card__meta">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${station.coordinates.lat},${station.coordinates.lng}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open in Maps
+            </a>
+          </p>
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="card__header card__header--static">
+          <div>
+            <span class="card__mile">Mile {station.mile}</span>
+            <h3 class="card__title">{station.name}</h3>
+          </div>
+          <div class="card__badges">
+            <span class="badge">{station.type}</span>
+            {station.crew_access && <span class="badge badge--crew">Crew</span>}
+            {station.pacer_access && <span class="badge badge--pacer">Pacer</span>}
+            {isSleep && <span class="badge badge--sleep">Sleep</span>}
+            {station.drop_bag && <span class="badge badge--drop">Drop bag</span>}
+          </div>
+        </div>
+        <div class="card__body">
+          <p class="card__meta">
+            <strong>Cutoff:</strong> {station.cutoff}
+          </p>
+          {station.notes && <p>{station.notes}</p>}
+        </div>
+      </>
+    )
+  }
+</article>

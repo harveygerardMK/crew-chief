@@ -1,0 +1,93 @@
+[
+  {
+    "leg": "A",
+    "from": "Loon Lake (87.6)",
+    "to": "Barker Pass (103.1)",
+    "miles": 15.5,
+    "gain_ft": 2712,
+    "estimated_time_of_day": "Saturday late night \u2192 Sunday early morning",
+    "terrain_notes": "Climbing leg. Mostly overnight. Sleep stop at Barker Pass after.",
+    "what_to_bring": [
+      "Full mandatory gear (same as runner)",
+      "Pacer bib (provided at check-in)",
+      "Headlamp + spare batteries",
+      "GPX of course on your own device",
+      "Warm layers \u2014 gets cold at altitude"
+    ]
+  },
+  {
+    "leg": "B",
+    "from": "Barker Pass (103.1)",
+    "to": "Tahoe City (130.0)",
+    "miles": 26.9,
+    "gain_ft": 2843,
+    "estimated_time_of_day": "Sunday morning \u2192 Sunday evening",
+    "terrain_notes": "Combined Barker \u2192 Stephen Jones (7.5 mi) + Stephen Jones \u2192 Tahoe City (19.4 mi). Stephen Jones is a non-crew aid station mid-leg. Long leg \u2014 fresh pacer ideal.",
+    "what_to_bring": [
+      "Full mandatory gear",
+      "Pacer bib",
+      "Sun protection (long daylight section)",
+      "Extra calories for own use",
+      "Water capacity for long stretch"
+    ]
+  },
+  {
+    "leg": "C",
+    "from": "Tahoe City (130.0)",
+    "to": "Brockway Summit (148.6)",
+    "miles": 18.6,
+    "gain_ft": 3476,
+    "estimated_time_of_day": "Sunday evening \u2192 Monday morning",
+    "terrain_notes": "Big climbing leg \u2014 3,476 ft of gain. Night running. Sleep stop at Brockway after.",
+    "what_to_bring": [
+      "Full mandatory gear",
+      "Strong headlamp",
+      "Warm layers",
+      "Patience \u2014 Harvey will be deep in the pain cave by here"
+    ]
+  },
+  {
+    "leg": "D",
+    "from": "Brockway Summit (148.6)",
+    "to": "Village Green (163.6)",
+    "miles": 15.0,
+    "gain_ft": 2164,
+    "estimated_time_of_day": "Monday afternoon / evening",
+    "terrain_notes": "Mostly descent (3,142 ft loss). Day section. Watch for quad fatigue on the downhill.",
+    "what_to_bring": [
+      "Full mandatory gear",
+      "Trekking poles (helpful for descent)",
+      "Calories"
+    ]
+  },
+  {
+    "leg": "E",
+    "from": "Village Green (163.6)",
+    "to": "Spooner Summit (182.3)",
+    "miles": 18.7,
+    "gain_ft": 3716,
+    "estimated_time_of_day": "Monday night \u2192 Tuesday early morning",
+    "terrain_notes": "Longest sustained climb of the back half. Night running. Hardest mental leg.",
+    "what_to_bring": [
+      "Full mandatory gear",
+      "Strong headlamp + backup",
+      "Warm layers",
+      "Caffeine for self",
+      "Motivation playlist"
+    ]
+  },
+  {
+    "leg": "F",
+    "from": "Spooner Summit (182.3)",
+    "to": "Finish (200.4)",
+    "miles": 18.1,
+    "gain_ft": 3294,
+    "estimated_time_of_day": "Tuesday morning \u2192 Tuesday afternoon",
+    "terrain_notes": "Closer leg. 18 miles to the buckle. Strong pacer ideal \u2014 keep the wheels on for the finish.",
+    "what_to_bring": [
+      "Full mandatory gear",
+      "Camera/phone for finish-line photos",
+      "Champagne energy"
+    ]
+  }
+]

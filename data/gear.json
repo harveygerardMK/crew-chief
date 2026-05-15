@@ -1,0 +1,162 @@
+{
+  "mandatory_clothing": [
+    {
+      "item": "Hooded jacket",
+      "spec": "Waterproof or windproof with hood",
+      "notes": "Rab Downpour Light (verified for UTS \u2014 should work for Tahoe)"
+    },
+    {
+      "item": "Gloves",
+      "spec": "Any running gloves",
+      "notes": ""
+    },
+    {
+      "item": "Hat or buff",
+      "spec": "Either works",
+      "notes": ""
+    },
+    {
+      "item": "Pants or tights",
+      "spec": "Must cover entire legs",
+      "notes": "Selection pending UTS choice"
+    },
+    {
+      "item": "Long-sleeve insulating layer",
+      "spec": "Mid-layer warmth",
+      "notes": ""
+    }
+  ],
+  "mandatory_equipment": [
+    {
+      "item": "SPOT tracker",
+      "spec": "Provided by Destination Trail",
+      "notes": "Pick up at start line on race day"
+    },
+    {
+      "item": "Device with GPX of course",
+      "spec": "Watch + phone backup",
+      "notes": "Load 2026 Full Loop from CalTopo m/9G4NM"
+    },
+    {
+      "item": "Cell phone",
+      "spec": "Charged",
+      "notes": ""
+    },
+    {
+      "item": "Emergency blanket",
+      "spec": "Provided by Destination Trail",
+      "notes": "In check-in bag"
+    },
+    {
+      "item": "Headlamp or waist light",
+      "spec": "Primary lighting",
+      "notes": "Plus spare in drop bags"
+    },
+    {
+      "item": "Extra batteries / battery bank",
+      "spec": "For headlamp/light",
+      "notes": ""
+    },
+    {
+      "item": "Whistle",
+      "spec": "Emergency signaling",
+      "notes": ""
+    },
+    {
+      "item": "Wag Bag",
+      "spec": "1 provided at check-in",
+      "notes": "Cleanwaste 12-pack for drop bags"
+    }
+  ],
+  "mandatory_food": [
+    {
+      "item": "500 emergency calories",
+      "spec": "Sealed, for emergency only",
+      "notes": "Do not eat unless emergency"
+    }
+  ],
+  "recommended_carry": [
+    {
+      "item": "Puffy jacket with hood",
+      "notes": "Cold nights at altitude \u2014 strongly recommended"
+    },
+    {
+      "item": "Water filter",
+      "notes": "Up to 20 mi between aid stations"
+    },
+    {
+      "item": "3 L water capacity",
+      "notes": "Soft flasks + bladder"
+    },
+    {
+      "item": "Extra headlamp",
+      "notes": ""
+    },
+    {
+      "item": "Battery pack",
+      "notes": ""
+    },
+    {
+      "item": "Foot care kit",
+      "notes": "Tape, lube, scissors, blister kit"
+    },
+    {
+      "item": "First aid kit",
+      "notes": ""
+    },
+    {
+      "item": "ID + emergency contact card",
+      "notes": ""
+    },
+    {
+      "item": "Sunscreen",
+      "notes": ""
+    },
+    {
+      "item": "Gaiters",
+      "notes": ""
+    }
+  ],
+  "drop_bag_strategy": [
+    {
+      "station": "Wrights Lake (70.7)",
+      "tier": "FULL SLEEP",
+      "contents": "Sleeping bag, full clothing change, foot care, calories, caffeine, poles"
+    },
+    {
+      "station": "Loon Lake (87.6)",
+      "tier": "Light (crew covers)",
+      "contents": "Backup only"
+    },
+    {
+      "station": "Barker Pass (103.1)",
+      "tier": "FULL SLEEP",
+      "contents": "Sleeping bag, dry change, foot care, blister kit, calories, caffeine"
+    },
+    {
+      "station": "Stephen Jones (110.6)",
+      "tier": "Light",
+      "contents": "Calories, socks, batteries"
+    },
+    {
+      "station": "Tahoe City (130.0)",
+      "tier": "Light (crew covers)",
+      "contents": "Backup only"
+    },
+    {
+      "station": "Brockway Summit (148.6)",
+      "tier": "Crew + sleep backup",
+      "contents": "Sleeping bag backup; crew has primary kit"
+    },
+    {
+      "station": "Village Green (163.6)",
+      "tier": "Light (crew covers)",
+      "contents": "Backup only"
+    },
+    {
+      "station": "Spooner Summit (182.3)",
+      "tier": "Medium",
+      "contents": "Final push: calories, caffeine, fresh socks, headlamp + spare, warm layer"
+    }
+  ]
+}

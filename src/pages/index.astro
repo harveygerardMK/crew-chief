@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import StatusBlock from "../components/StatusBlock.astro";
+import { race } from "../lib/data";
+import { formatRaceDates } from "../lib/dates";
+
+const trackingUrl = race.live_tracking_url_placeholder;
+---
+
+<BaseLayout title="Home">
+  <div class="container">
+    <StatusBlock />
+    <h1>{race.name}</h1>
+    <p class="lead">
+      {race.distance_miles} miles · {race.elevation_gain_ft.toLocaleString()} ft gain · {race.course}
+    </p>
+    <p class="hero-meta">
+      <span>{formatRaceDates()}</span>
+      <span>{race.start.location}</span>
+      <span>{race.start.address}</span>
+    </p>
+    <p>
+      <a class="btn btn--primary" href={trackingUrl} target="_blank" rel="noopener noreferrer">
+        Live tracking (opens race week)
+      </a>
+    </p>
+    <section style="margin-top: 2rem">
+      <h2>Quick links</h2>
+      <ul>
+        <li><a href={`${import.meta.env.BASE_URL}crew/`}>Crew logistics</a></li>
+        <li><a href={`${import.meta.env.BASE_URL}pacers/`}>Pacer legs & gear</a></li>
+        <li><a href={`${import.meta.env.BASE_URL}follow/`}>Follow along (family & friends)</a></li>
+        <li><a href={`${import.meta.env.BASE_URL}aid-stations/`}>All aid stations</a></li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

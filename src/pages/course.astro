@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { race, segments } from "../lib/data";
+import { getEntry } from "astro:content";
+
+const overview = await getEntry("pages", "course-overview");
+const { Content } = await overview.render();
+const mapUrl = race.course_map_url;
+---
+
+<BaseLayout title="Course" description="200-mile full loop course map and segments.">
+  <div class="container container--wide">
+    <h1>Course</h1>
+    <p class="lead">
+      {race.distance_miles} mi · {race.elevation_gain_ft.toLocaleString()} ft gain · {race.elevation_loss_ft.toLocaleString()} ft loss
+    </p>
+
+    <div class="map-embed">
+      <iframe title="CalTopo course map" src={mapUrl} loading="lazy"></iframe>
+    </div>
+    <p>
+      <a href={mapUrl} target="_blank" rel="noopener noreferrer">Open full map on CalTopo</a>
+    </p>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <h2>Segments</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Segment</th>
+            <th>Mi</th>
+            <th>Gain</th>
+            <th>Loss</th>
+            <th>Cum. mi</th>
+            <th>Cum. gain</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            segments.map((s) => (
+              <tr>
+                <td>{s.n}</td>
+                <td>{s.name}</td>
+                <td>{s.miles}</td>
+                <td>{s.gain_ft.toLocaleString()}</td>
+                <td>{s.loss_ft.toLocaleString()}</td>
+                <td>{s.cumulative_miles}</td>
+                <td>{s.cumulative_gain_ft.toLocaleString()}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</BaseLayout>

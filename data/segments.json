@@ -1,0 +1,145 @@
+[
+  {
+    "n": 1,
+    "name": "Start \u2192 Heavenly",
+    "miles": 10.0,
+    "gain_ft": 1617,
+    "loss_ft": 1621,
+    "manual_baseline_hours": 4.75,
+    "cumulative_miles": 10.0,
+    "cumulative_gain_ft": 1617,
+    "cumulative_baseline_hours": 4.75
+  },
+  {
+    "n": 2,
+    "name": "Heavenly \u2192 Armstrong Pass",
+    "miles": 16.0,
+    "gain_ft": 2912,
+    "loss_ft": 2101,
+    "manual_baseline_hours": 8.0,
+    "cumulative_miles": 26.0,
+    "cumulative_gain_ft": 4529,
+    "cumulative_baseline_hours": 12.75
+  },
+  {
+    "n": 3,
+    "name": "Armstrong Pass \u2192 Housewife Hill",
+    "miles": 17.2,
+    "gain_ft": 2358,
+    "loss_ft": 4124,
+    "manual_baseline_hours": 9.0,
+    "cumulative_miles": 43.2,
+    "cumulative_gain_ft": 6887,
+    "cumulative_baseline_hours": 21.75
+  },
+  {
+    "n": 4,
+    "name": "Housewife Hill \u2192 Sierra at Tahoe",
+    "miles": 9.0,
+    "gain_ft": 1621,
+    "loss_ft": 825,
+    "manual_baseline_hours": 4.75,
+    "cumulative_miles": 52.2,
+    "cumulative_gain_ft": 8508,
+    "cumulative_baseline_hours": 26.5
+  },
+  {
+    "n": 5,
+    "name": "Sierra at Tahoe \u2192 Wrights Lake",
+    "miles": 18.5,
+    "gain_ft": 3027,
+    "loss_ft": 3365,
+    "manual_baseline_hours": 10.0,
+    "cumulative_miles": 70.7,
+    "cumulative_gain_ft": 11535,
+    "cumulative_baseline_hours": 36.5
+  },
+  {
+    "n": 6,
+    "name": "Wrights Lake \u2192 Loon Lake",
+    "miles": 16.9,
+    "gain_ft": 2353,
+    "loss_ft": 2847,
+    "manual_baseline_hours": 9.0,
+    "cumulative_miles": 87.6,
+    "cumulative_gain_ft": 13888,
+    "cumulative_baseline_hours": 45.5
+  },
+  {
+    "n": 7,
+    "name": "Loon Lake \u2192 Barker Pass",
+    "miles": 15.5,
+    "gain_ft": 2712,
+    "loss_ft": 1474,
+    "manual_baseline_hours": 8.0,
+    "cumulative_miles": 103.1,
+    "cumulative_gain_ft": 16600,
+    "cumulative_baseline_hours": 53.5
+  },
+  {
+    "n": 8,
+    "name": "Barker Pass \u2192 Stephen Jones Memorial",
+    "miles": 7.5,
+    "gain_ft": 106,
+    "loss_ft": 1560,
+    "manual_baseline_hours": 3.5,
+    "cumulative_miles": 110.6,
+    "cumulative_gain_ft": 16706,
+    "cumulative_baseline_hours": 57.0
+  },
+  {
+    "n": 9,
+    "name": "Stephen Jones \u2192 Tahoe City",
+    "miles": 19.4,
+    "gain_ft": 2737,
+    "loss_ft": 2756,
+    "manual_baseline_hours": 10.5,
+    "cumulative_miles": 130.0,
+    "cumulative_gain_ft": 19443,
+    "cumulative_baseline_hours": 67.5
+  },
+  {
+    "n": 10,
+    "name": "Tahoe City \u2192 Brockway Summit",
+    "miles": 18.6,
+    "gain_ft": 3476,
+    "loss_ft": 2473,
+    "manual_baseline_hours": 10.0,
+    "cumulative_miles": 148.6,
+    "cumulative_gain_ft": 22919,
+    "cumulative_baseline_hours": 77.5
+  },
+  {
+    "n": 11,
+    "name": "Brockway Summit \u2192 Village Green",
+    "miles": 15.0,
+    "gain_ft": 2164,
+    "loss_ft": 3142,
+    "manual_baseline_hours": 7.5,
+    "cumulative_miles": 163.6,
+    "cumulative_gain_ft": 25083,
+    "cumulative_baseline_hours": 85.0
+  },
+  {
+    "n": 12,
+    "name": "Village Green \u2192 Spooner Summit",
+    "miles": 18.7,
+    "gain_ft": 3716,
+    "loss_ft": 2825,
+    "manual_baseline_hours": 10.0,
+    "cumulative_miles": 182.3,
+    "cumulative_gain_ft": 28799,
+    "cumulative_baseline_hours": 95.0
+  },
+  {
+    "n": 13,
+    "name": "Spooner Summit \u2192 Finish",
+    "miles": 18.1,
+    "gain_ft": 3294,
+    "loss_ft": 2964,
+    "manual_baseline_hours": 10.0,
+    "cumulative_miles": 200.4,
+    "cumulative_gain_ft": 32093,
+    "cumulative_baseline_hours": 105.0
+  }
+]

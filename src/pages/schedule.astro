@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { raceWeek } from "../lib/data";
+---
+
+<BaseLayout title="Schedule" description="Race week schedule June 7–18, 2026.">
+  <div class="container">
+    <h1>Race week</h1>
+    <p class="lead">June 7–18, 2026 · drive, check-in, race, recovery</p>
+
+    {
+      raceWeek.map((day) => {
+        const highlight =
+          day.activity.includes("RACE") ||
+          day.activity.includes("CHECK-IN") ||
+          day.activity.includes("FINISH");
+        return (
+          <div class:list={["schedule-item", highlight && "schedule-item--highlight"]}>
+            <div class="schedule-item__date">
+              {day.date.slice(5)}
+              <br />
+              {day.day}
+            </div>
+            <div>
+              <strong>{day.activity}</strong>
+              {day.notes && <p class="card__meta">{day.notes}</p>}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</BaseLayout>

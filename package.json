@@ -1,0 +1,14 @@
+{
+  "name": "tahoe200-2026",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Trip site for the 2026 Tahoe 200 Endurance Run — race plan, crew logistics, pacer info, and live tracking.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.7.10"
+  }
+}

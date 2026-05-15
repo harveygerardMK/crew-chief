@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AidStationCard from "../components/AidStationCard.astro";
+import { aidStations } from "../lib/data";
+---
+
+<BaseLayout title="Aid stations" description="All 13 aid stations with cutoffs, crew access, and pacer pickup.">
+  <div class="container">
+    <h1>Aid stations</h1>
+    <p class="lead">13 stops · cutoffs in Pacific time · tap a card for details</p>
+
+    <div class="filter-bar" role="group" aria-label="Filter aid stations">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="crew" aria-pressed="false">Crew access</button>
+      <button type="button" data-filter="pacer" aria-pressed="false">Pacer pickup</button>
+      <button type="button" data-filter="sleep" aria-pressed="false">Sleep</button>
+    </div>
+
+    <div id="aid-list">
+      {aidStations.map((station) => <AidStationCard station={station} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const cards = document.querySelectorAll("[data-aid-card]");
+  const buttons = document.querySelectorAll("[data-filter]");
+  const expandButtons = document.querySelectorAll("[data-expand]");
+
+  expandButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      const body = document.getElementById(btn.getAttribute("aria-controls") ?? "");
+      btn.setAttribute("aria-expanded", String(!expanded));
+      if (body) body.hidden = expanded;
+    });
+  });
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const filter = btn.getAttribute("data-filter");
+      buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      cards.forEach((card) => {
+        const el = card as HTMLElement;
+        let show = true;
+        if (filter === "crew") show = el.dataset.crew === "true";
+        if (filter === "pacer") show = el.dataset.pacer === "true";
+        if (filter === "sleep") show = el.dataset.sleep === "true";
+        el.style.display = show ? "" : "none";
+      });
+    });
+  });
+</script>
