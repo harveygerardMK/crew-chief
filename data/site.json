@@ -1,0 +1,8 @@
+{
+  "name": "Crew Chief",
+  "race": "Leadville 100 Trail Run",
+  "distance_miles": 100,
+  "runner": "Cody",
+  "plan_sheet_url": "https://docs.google.com/spreadsheets/d/1VKq9klLVbZCDoN_xQmgvETcO5nqvnesHAH-d4BFYdpc/edit?usp=sharing",
+  "plan_note": "This site mirrors the Google Sheet plan. Edit the sheet, then ask to re-sync, or edit the JSON files in /data/."
+}

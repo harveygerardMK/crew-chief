@@ -1,0 +1,43 @@
+{
+  "vehicles": {
+    "crew_van": "Crew Van",
+    "fam_van": "Fam Van"
+  },
+  "twin_lakes_shuttles": [
+    {
+      "crew_van": "Shannon",
+      "fam_van": "Mike",
+      "location": "Moache Fishing Site ~ 0.4 miles (GPS Link)"
+    },
+    {
+      "crew_van": "Amanda",
+      "fam_van": "Lamar",
+      "location": "Mt. Elbert Powerplant ~ 2 miles (GPS Link)"
+    },
+    {
+      "crew_van": "Matt",
+      "fam_van": "Jaydyn",
+      "location": "HWY 82 & CR 25 ~ 0.4 miles (GPS Link)"
+    },
+    {
+      "crew_van": "Megan",
+      "fam_van": "Jim",
+      "location": null
+    },
+    {
+      "crew_van": "Harvey (driving)",
+      "fam_van": "Karen",
+      "location": null
+    },
+    {
+      "crew_van": "Cody",
+      "fam_van": "Kim",
+      "location": null
+    },
+    {
+      "crew_van": null,
+      "fam_van": "Rick (driving)",
+      "location": null
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+---
+import type { PlanStation } from "../lib/plan";
+import { isCrewStation, mapsLink } from "../lib/plan";
+import LocationActions from "./LocationActions.astro";
+
+interface Props {
+  station: PlanStation;
+}
+
+const { station } = Astro.props;
+const crew = isCrewStation(station);
+const mapsHref = mapsLink(station.address);
+const id = `plan-${station.name.replace(/\s+/g, "-").toLowerCase()}`;
+---
+
+<article class="card plan-card" id={id} data-plan-card data-crew={crew}>
+  <div class="card__header card__header--static">
+    <div class="card__header-main">
+      <span class="card__mile">Mile {station.mile} · {station.completed_pct}% done</span>
+      <h3 class="card__title">{station.name}</h3>
+    </div>
+    <span class:list={["badge", crew && "badge--crew"]}>{station.who ?? "—"}</span>
+  </div>
+  <div class="card__body">
+    <div class="stat-strip plan-stat-strip">
+      <div>
+        <strong>{station.arrival_25h ?? "—"}</strong>
+        25h plan
+      </div>
+      <div>
+        <strong>{station.arrival_28h ?? "—"}</strong>
+        28h plan
+      </div>
+      <div>
+        <strong>{station.cutoff ?? "—"}</strong>
+        Cutoff
+      </div>
+    </div>
+    <p class="card__meta">
+      <strong>Get there:</strong> {station.how_to_get_there}
+    </p>
+    {station.where_to_park && (
+      <p class="card__meta">
+        <strong>Park:</strong> {station.where_to_park}
+      </p>
+    )}
+    <LocationActions label={station.name} address={station.address ?? undefined} mapsHref={mapsHref} />
+  </div>
+</article>
