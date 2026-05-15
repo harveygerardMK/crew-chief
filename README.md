@@ -2,9 +2,7 @@
 
 Trip site for Harvey Schaefer’s [Tahoe 200 Endurance Run](https://www.destinationtrailrun.com/tahoe) — race plan, crew logistics, pacer info, and a simple follow-along page for family and friends.
 
-**Live site:** after you push to GitHub and enable Pages, the URL will be:
-
-`https://<your-github-username>.github.io/tahoe200-2026/`
+**Live site:** https://harveyschaefer.github.io/tahoe200-2026/
 
 ## What’s here
 
