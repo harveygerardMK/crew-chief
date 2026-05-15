@@ -21,6 +21,8 @@ Trip site for Harvey Schaefer’s [Tahoe 200 Endurance Run](https://www.destinat
 
 All race facts come from `/data/*.json` — edit JSON, rebuild, deploy. No duplicated numbers in the HTML.
 
+Long-form copy lives in `src/content/pages/` (Astro content collections).
+
 ## Local development
 
 ```bash
