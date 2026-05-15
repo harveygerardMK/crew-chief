@@ -2,7 +2,9 @@
 
 Trip site for Harvey Schaefer’s [Tahoe 200 Endurance Run](https://www.destinationtrailrun.com/tahoe) — race plan, crew logistics, pacer info, and a simple follow-along page for family and friends.
 
-**Live site:** https://harveyschaefer.github.io/tahoe200-2026/
+**Live site:** https://harveygerardMK.github.io/crew-chief/
+
+**Repo:** https://github.com/harveygerardMK/crew-chief
 
 ## What’s here
 
@@ -28,7 +30,7 @@ npm install
 npm run dev
 ```
 
-Open the URL printed in the terminal (usually `http://localhost:4321/tahoe200-2026/`).
+Open the URL printed in the terminal (usually `http://localhost:4321/crew-chief/`).
 
 ```bash
 npm run build    # output in dist/
@@ -37,14 +39,9 @@ npm run preview  # serve the production build locally
 
 ## Deploy (GitHub Pages)
 
-1. Create a public repo named `tahoe200-2026` on GitHub.
-2. Push this project to `main`.
-3. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-4. The workflow in `.github/workflows/deploy.yml` runs on every push to `main`.
-
-If your GitHub username is not `harveyschaefer`, update `site` in `astro.config.mjs` to match your Pages URL.
-
-For a site at the root of `username.github.io`, set `base: '/'` in `astro.config.mjs`.
+1. Push this project to `main` on https://github.com/harveygerardMK/crew-chief
+2. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**
+3. The workflow in `.github/workflows/deploy.yml` runs on every push to `main`
 
 ## Updating status during race week
 
