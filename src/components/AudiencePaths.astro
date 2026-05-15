@@ -3,21 +3,27 @@ const base = import.meta.env.BASE_URL;
 
 const paths = [
   {
-    href: `${base}plan/`,
-    title: "Race plan",
-    desc: "All aid stations · 25h / 28h targets · cutoffs",
+    href: `${base}next/`,
+    title: "Next stop",
+    desc: "Leave-by · Maps · mark arrived",
     className: "audience-path--plan",
   },
   {
     href: `${base}crew/`,
-    title: "Crew & video",
-    desc: "Roster · Twin Lakes shuttles · shot list",
+    title: "Crew & playbooks",
+    desc: "7 stops · tap checklists · parking",
     className: "audience-path--crew",
   },
   {
+    href: `${base}board/`,
+    title: "Race board",
+    desc: "Planned vs actual · traffic lights",
+    className: "audience-path--board",
+  },
+  {
     href: `${base}follow/`,
-    title: "Follow",
-    desc: "Tracker · what gaps on the map mean",
+    title: "See Harvey",
+    desc: "Family view · ETAs · tracker",
     className: "audience-path--follow",
   },
 ];

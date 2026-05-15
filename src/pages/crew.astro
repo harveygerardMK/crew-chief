@@ -2,83 +2,136 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AudienceIntro from "../components/AudienceIntro.astro";
 import PageNav from "../components/PageNav.astro";
-import PlanStationCard from "../components/PlanStationCard.astro";
-import { site, planStations, crewRoster, shotList } from "../lib/plan";
+import RememberCallout from "../components/RememberCallout.astro";
+import LocationActions from "../components/LocationActions.astro";
+import playbooks from "../../data/playbooks.json";
+import { crewStops, keyNotes } from "../lib/data";
+import { findAidStationForCrew, parseCoordinates } from "../lib/station-links";
+import { getEntry } from "astro:content";
 
+const rules = await getEntry("pages", "rules-summary");
+const { Content: RulesContent } = await rules.render();
 const base = import.meta.env.BASE_URL;
-const harveyStations = planStations.filter(
-  (s) => s.who?.includes("Crew Van") || s.who?.toLowerCase().includes("harvey"),
-);
+
 const navItems = [
-  { id: "roster", label: "Roster" },
-  { id: "shot-list", label: "Shot list" },
-  { id: "your-stops", label: "Your stops" },
+  { id: "remember", label: "Remember" },
+  { id: "playbooks", label: "Playbooks" },
+  { id: "stops", label: "Stops" },
+  { id: "rules", label: "Rules" },
 ];
+
+function addressForStop(stop: (typeof crewStops)[number]): string | undefined {
+  if (stop.drive_notes.includes("375 Quaking Aspen")) return stop.drive_notes;
+  const coords = parseCoordinates(stop.drive_notes);
+  if (coords) return `${coords.lat}, ${coords.lng}`;
+  return stop.parking;
+}
 ---
 
-<BaseLayout title="Crew" description="Crew roster, video shot list, and Harvey's aid-station stops.">
+<BaseLayout title="Crew" description="Crew-access stops, tap-to-complete playbooks, parking, and ETAs for Tahoe 200.">
   <div class="container">
     <AudienceIntro audience="crew" />
-    <h1>Crew & video</h1>
+    <h1>Crew guide</h1>
     <p class="lead">
-      {site.race} · {site.runner} running · Harvey on crew van / driving ·{" "}
-      <a href={site.plan_sheet_url} target="_blank" rel="noopener noreferrer">full plan in Google Sheets</a>
+      7 crew-access stops · playbooks save on this phone ·{" "}
+      <a href={`${base}next/`}>next stop command center</a>
     </p>
 
     <PageNav items={navItems} />
 
-    <section id="roster">
-      <h2>Crew roster</h2>
-      <p class="card__meta">
-        <strong>{crewRoster.vehicles.crew_van}</strong> vs <strong>{crewRoster.vehicles.fam_van}</strong>
-      </p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Crew van</th>
-              <th>Fam van</th>
-              <th>Twin Lakes shuttle</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              crewRoster.twin_lakes_shuttles.map((row) => (
-                <tr>
-                  <td>{row.crew_van ?? "—"}</td>
-                  <td>{row.fam_van ?? "—"}</td>
-                  <td>{row.location ?? "—"}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
+    <section id="remember">
+      <RememberCallout />
     </section>
 
-    <section id="shot-list">
-      <h2>Video shot list</h2>
-      <p class="card__meta">From the plan sheet — check off as you capture each item.</p>
-      <ul class="list-check shot-list">
-        {shotList.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
+    <div class="note-box">
+      <strong>Rivian R1S:</strong> {keyNotes.crew_vehicle} Roofnest Sparrow on top — plan parking at tight lots.
+    </div>
+
+    <section id="playbooks">
+      <h2>Aid station playbooks</h2>
+      <p class="card__meta">Tap tasks as you complete them — progress stays on this device.</p>
+      {
+        playbooks.map((book) => (
+          <article class="card playbook-card" id={`playbook-${book.crew_stop_n}`}>
+            <div class="card__header card__header--static">
+              <h3 class="card__title">{book.title}</h3>
+              <span class="card__mile">Mile {book.mile}</span>
+            </div>
+            <ul class="playbook-tasks list-check">
+              {book.tasks.map((task) => (
+                <li>
+                  <label class="playbook-task">
+                    <input
+                      type="checkbox"
+                      data-playbook-task={task.id}
+                      data-stop={String(book.crew_stop_n)}
+                    />
+                    <span>{task.label}</span>
+                    {task.category !== "runner" && (
+                      <span class="playbook-task__tag">{task.category}</span>
+                    )}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
     </section>
 
-    <section id="your-stops">
-      <h2>Stops for crew van</h2>
-      <p class="card__meta">
-        Aid stations where the crew van meets {site.runner}. See the{" "}
-        <a href={`${base}plan/`}>full plan</a> for every stop including no-crew sections.
-      </p>
-      {harveyStations.map((station) => (
-        <PlanStationCard station={station} />
-      ))}
-    </section>
+    <h2 id="stops">Stop timeline</h2>
+    <div class="crew-timeline">
+      {
+        crewStops.map((stop) => {
+          const aid = findAidStationForCrew(stop.aid_station);
+          const coords = parseCoordinates(stop.drive_notes);
+          const mapsHref = coords
+            ? `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lng}`
+            : undefined;
+          const address = addressForStop(stop);
+          return (
+            <article class="card crew-stop" id={`stop-${stop.n}`}>
+              <div class="card__header card__header--static">
+                <div class="card__header-main">
+                  <span class="card__mile">Stop {stop.n} · Mile {stop.mile}</span>
+                  <h3 class="card__title">{stop.aid_station}</h3>
+                </div>
+                <span class="badge badge--crew">Cutoff {stop.cutoff}</span>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">
+                  <strong>Planned ETA:</strong> {stop.planned_eta} ·{" "}
+                  <a href={`#playbook-${stop.n}`}>Playbook ↑</a>
+                </p>
+                {
+                  aid && (
+                    <p class="card__meta">
+                      <a href={`${base}aid-stations/#aid-${aid.n}`}>Aid station card →</a>
+                    </p>
+                  )
+                }
+                <p>
+                  <strong>Parking:</strong> {stop.parking}
+                </p>
+                <p>
+                  <strong>Drive:</strong> {stop.drive_notes}
+                </p>
+                <LocationActions label={stop.aid_station} address={address} mapsHref={mapsHref} />
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
 
-    <p class="card__meta" style="margin-top: 2rem">
-      <a href={`${base}plan/`}>← Back to full race plan</a>
-    </p>
+    <h2 id="rules">Rules that matter</h2>
+    <div class="prose">
+      <RulesContent />
+    </div>
   </div>
 </BaseLayout>
+
+<script>
+  import { initPlaybooks } from "../scripts/tahoe-app";
+  initPlaybooks();
+</script>

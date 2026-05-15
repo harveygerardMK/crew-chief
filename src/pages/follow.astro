@@ -2,19 +2,22 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AudienceIntro from "../components/AudienceIntro.astro";
 import StatusBlock from "../components/StatusBlock.astro";
+import familyStops from "../../data/family-stops.json";
 import { race, status } from "../lib/data";
+import { formatPlanTimeShort, plannedArrivalDate } from "../lib/tahoe-plan";
 import { getEntry } from "astro:content";
 
 const about = await getEntry("pages", "about-the-race");
 const { Content: AboutContent } = await about.render();
 const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placeholder;
+const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Follow" description="Follow Harvey at the Tahoe 200 — plain-language guide for family and friends.">
+<BaseLayout title="Follow" description="See Harvey at the Tahoe 200 — family-friendly stops, ETAs, and tracker.">
   <div class="container">
     <AudienceIntro audience="follow" />
-    <h1>Follow along</h1>
-    <p class="lead">What is a 200-miler, where is Harvey, and how to cheer from afar</p>
+    <h1>See Harvey</h1>
+    <p class="lead">Where family can cheer, when to expect him, and how to read the tracker</p>
 
     <StatusBlock />
 
@@ -23,6 +26,33 @@ const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placehold
         Live tracking
       </a>
     </p>
+
+    <section class="family-see" aria-labelledby="family-stops-heading">
+      <h2 id="family-stops-heading">Best places to see Harvey</h2>
+      <p class="card__meta">Crew-access stops with easier spectating. Times are baseline plan — he may be earlier or later.</p>
+      <div class="family-see__grid">
+        {
+          familyStops.map((stop) => {
+            const eta = formatPlanTimeShort(plannedArrivalDate(stop.mile, "baseline"));
+            return (
+              <article class="card family-card">
+                <h3>{stop.name}</h3>
+                <p class="card__meta">
+                  Mile {stop.mile} · Plan ~{eta} · Cutoff {stop.cutoff}
+                </p>
+                <p>{stop.how_to_see}</p>
+                <p class="card__meta">{stop.parking_note}</p>
+              </article>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <div class="note-box">
+      <strong>Reassurance:</strong> Gaps on the map are normal in the backcountry. Crew has the full plan. Sleep stops
+      allow up to 6 hours — a long pause does not mean something is wrong.
+    </div>
 
     <div class="prose">
       <AboutContent />
@@ -34,18 +64,17 @@ const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placehold
         <strong>Green / moving:</strong> Harvey is on course and the SPOT is updating.
       </li>
       <li>
-        <strong>Stopped at an aid station:</strong> Normal — eating, sleeping, or foot care. Sleep stations allow up to 6 hours.
+        <strong>Stopped at an aid station:</strong> Normal — eating, sleeping, or foot care.
       </li>
       <li>
-        <strong>Gaps in updates:</strong> Common in backcountry. Crew has the detailed plan; don’t panic on short gaps.
+        <strong>Gaps in updates:</strong> Common in backcountry. Don’t panic on short gaps.
       </li>
     </ul>
 
     <h2>Sending a message</h2>
     <p>
-      Cell service is limited on course. The best way to reach Harvey is through crew at a crew-access aid station
-      (Heavenly, Sierra at Tahoe, Loon Lake, Tahoe City, Brockway Summit, Village Green, Finish). Ask crew to pass a
-      short note — keep it encouraging and brief.
+      Cell service is limited. The best way to reach Harvey is through crew at a crew-access aid (Heavenly, Sierra at
+      Tahoe, Loon Lake, Tahoe City, Brockway, Village Green, Finish). Ask crew to pass a short encouraging note.
     </p>
 
     <h2>Important links</h2>
@@ -55,6 +84,9 @@ const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placehold
       </li>
       <li>
         <a href={race.course_map_url} target="_blank" rel="noopener noreferrer">Course map (CalTopo)</a>
+      </li>
+      <li>
+        <a href={`${base}board/`}>Crew race board</a> (for family who want more detail)
       </li>
     </ul>
   </div>

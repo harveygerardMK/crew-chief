@@ -1,8 +1,10 @@
 {
-  "name": "Crew Chief",
-  "race": "Leadville 100 Trail Run",
-  "distance_miles": 100,
-  "runner": "Cody",
-  "plan_sheet_url": "https://docs.google.com/spreadsheets/d/1VKq9klLVbZCDoN_xQmgvETcO5nqvnesHAH-d4BFYdpc/edit?usp=sharing",
-  "plan_note": "This site mirrors the Google Sheet plan. Edit the sheet, then ask to re-sync, or edit the JSON files in /data/."
+  "name": "Tahoe 200 Crew Chief",
+  "race": "Tahoe 200 Endurance Run",
+  "year": 2026,
+  "runner": "Harvey Schaefer",
+  "distance_miles": 200.4,
+  "plan_version": "2026-05-15",
+  "official_url": "https://www.destinationtrailrun.com/tahoe",
+  "live_tracking_url": "https://www.destinationtrailrun.com/tahoe"
 }

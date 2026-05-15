@@ -1,0 +1,17 @@
+{
+  "name": "Tahoe 200 Crew Chief",
+  "short_name": "Crew Chief",
+  "description": "Harvey Schaefer — Tahoe 200 crew plan, offline at trailheads",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00d4a4",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

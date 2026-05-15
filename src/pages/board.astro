@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { buildBoardRows, site } from "../lib/tahoe-plan";
+
+const base = import.meta.env.BASE_URL;
+const rows = buildBoardRows();
+const boardRows = rows.map((r) => ({
+  aid_n: r.aid_n,
+  crew_access: r.crew_access,
+}));
+---
+
+<BaseLayout title="Race board" description="Planned vs actual arrivals at every Tahoe 200 aid station.">
+  <div class="container">
+    <p class="page-eyebrow">Live race board</p>
+    <h1>Race board</h1>
+    <p class="lead">
+      Tap to log when Harvey reaches an aid. Green = ahead of optimistic plan, yellow = between optimistic and
+      conservative, red = behind conservative.
+    </p>
+
+    <p>
+      <a class="btn btn--primary" href={`${base}next/`}>Next stop command center</a>
+    </p>
+
+    <div class="board-legend" aria-hidden="true">
+      <span class="board-status board-status--ahead">Ahead</span>
+      <span class="board-status board-status--on-pace">On pace</span>
+      <span class="board-status board-status--behind">Behind</span>
+    </div>
+
+    <div class="table-wrap table-wrap--sticky">
+      <table class="board-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Station</th>
+            <th>Mile</th>
+            <th>Optimistic</th>
+            <th>Baseline</th>
+            <th>Conservative</th>
+            <th>Actual</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody data-board-body>
+          {
+            rows.map((row) => (
+              <tr
+                data-aid={row.aid_n}
+                data-opt={row.optimistic_iso}
+                data-con={row.conservative_iso}
+                class:list={[!row.crew_access && "board-row--no-crew"]}
+              >
+                <td>{row.aid_n}</td>
+                <td>
+                  {row.name}
+                  {row.crew_access && <span class="badge badge--crew">Crew</span>}
+                </td>
+                <td>{row.mile}</td>
+                <td>{row.optimistic}</td>
+                <td>{row.baseline}</td>
+                <td>{row.conservative}</td>
+                <td data-actual>—</td>
+                <td data-status class="board-status board-status--pending">—</td>
+                <td>
+                  <button type="button" class="btn btn--sm btn--secondary" data-board-checkin={row.aid_n}>
+                    Check in
+                  </button>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="card__meta">
+      Cutoffs shown on <a href={`${base}aid-stations/`}>aid station cards</a>. Plan v{site.plan_version} · Saved on this
+      device.
+    </p>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ boardRows, base }}>
+  import { initRaceBoard } from "../scripts/tahoe-app";
+  initRaceBoard(boardRows, base);
+</script>

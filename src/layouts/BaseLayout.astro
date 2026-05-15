@@ -8,21 +8,20 @@ interface Props {
 
 import site from "../../data/site.json";
 
-const { title, description = `${site.name} — crew plan and race logistics.` } = Astro.props;
+const { title, description = `${site.name} — Tahoe 200 crew plan and race logistics.` } = Astro.props;
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 const canonicalPath =
   Astro.url.pathname.replace(basePath, "").replace(/\/$/, "") || "/";
 const pageTitle = title === "Home" ? site.name : `${title} · ${site.name}`;
+const base = import.meta.env.BASE_URL;
 
 const nav = [
   { href: "/", label: "Home" },
-  { href: "/plan/", label: "Plan" },
+  { href: "/next/", label: "Next" },
+  { href: "/board/", label: "Board" },
   { href: "/crew/", label: "Crew" },
   { href: "/aid-stations/", label: "Aid" },
   { href: "/course/", label: "Course" },
-  { href: "/pacers/", label: "Pacers" },
-  { href: "/gear/", label: "Gear" },
-  { href: "/schedule/", label: "Schedule" },
   { href: "/follow/", label: "Follow" },
 ];
 ---
@@ -33,7 +32,9 @@ const nav = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#00d4a4" />
     <title>{pageTitle}</title>
+    <link rel="manifest" href={`${base}manifest.webmanifest`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -44,16 +45,16 @@ const nav = [
       href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
   </head>
   <body>
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="site-logo" href={import.meta.env.BASE_URL}>Tahoe 200</a>
+        <a class="site-logo" href={base}>Tahoe 200</a>
         <nav class="site-nav" aria-label="Main">
           {
             nav.map((item) => {
-              const href = `${import.meta.env.BASE_URL}${item.href === "/" ? "" : item.href.slice(1)}`;
+              const href = `${base}${item.href === "/" ? "" : item.href.slice(1)}`;
               const isCurrent =
                 item.href === "/"
                   ? canonicalPath === "/" || canonicalPath === ""
@@ -66,6 +67,9 @@ const nav = [
             })
           }
         </nav>
+        <button type="button" id="trailhead-toggle" class="btn btn--sm btn--secondary trailhead-toggle">
+          Trailhead mode
+        </button>
       </div>
     </header>
     <main>
@@ -73,8 +77,16 @@ const nav = [
     </main>
     <footer class="site-footer">
       <div class="container">
-        <p>Harvey Schaefer · Tahoe 200 Endurance Run · June 2026</p>
+        <p>
+          {site.runner} · {site.race} · Plan v{site.plan_version}
+        </p>
       </div>
     </footer>
   </body>
 </html>
+
+<script define:vars={{ base }}>
+  import { initTrailheadMode, registerServiceWorker } from "../scripts/tahoe-app";
+  initTrailheadMode();
+  registerServiceWorker(base);
+</script>

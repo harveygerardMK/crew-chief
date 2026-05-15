@@ -1087,3 +1087,232 @@ td {
     grid-template-columns: 1fr;
   }
 }
+
+/* Tahoe feature: command center, board, playbooks, family, trailhead */
+.audience-path--board {
+  border-left-color: var(--hero-dark-from);
+}
+
+.command-center-wrap {
+  background: linear-gradient(165deg, var(--hero-dark-from) 0%, var(--hero-dark-to) 55%, var(--canvas) 100%);
+  color: var(--canvas);
+  padding: 1.5rem 0 2rem;
+  margin-bottom: 1rem;
+}
+
+.command-center-wrap h1,
+.command-center-wrap .lead,
+.command-center-wrap .page-eyebrow {
+  color: var(--canvas);
+}
+
+.command-center-wrap .card__meta a {
+  color: var(--mint-soft);
+}
+
+.command-center-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+}
+
+.command-center-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 10rem;
+}
+
+.input-select,
+.input-number {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--canvas);
+  min-height: 2.75rem;
+}
+
+.command-center {
+  background: var(--canvas);
+  color: var(--charcoal);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+
+.command-center--soon {
+  border: 2px solid #e6a800;
+}
+
+.command-center--late {
+  border: 2px solid #c44;
+}
+
+.command-center__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--mint-deep);
+  margin: 0 0 0.25rem;
+}
+
+.command-center__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+}
+
+.command-center__times {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  font-size: 0.9375rem;
+}
+
+.command-center__times dt {
+  font-weight: 600;
+  color: var(--steel);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.command-center__times dd {
+  margin: 0.15rem 0 0;
+}
+
+.command-center__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.board-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.board-status {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.board-status--ahead {
+  background: rgba(0, 212, 164, 0.2);
+  color: var(--mint-deep);
+}
+
+.board-status--on-pace {
+  background: rgba(230, 168, 0, 0.2);
+  color: #8a6500;
+}
+
+.board-status--behind {
+  background: rgba(204, 68, 68, 0.15);
+  color: #a33;
+}
+
+.board-status--pending {
+  background: var(--surface);
+  color: var(--stone);
+}
+
+.board-row--no-crew td {
+  opacity: 0.75;
+}
+
+.board-table {
+  font-size: 0.8125rem;
+}
+
+.playbook-card {
+  margin-bottom: 1rem;
+}
+
+.playbook-task {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9375rem;
+}
+
+.playbook-task input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.playbook-task__tag {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-left: auto;
+}
+
+.family-see__grid {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.trailhead-toggle {
+  margin-left: auto;
+}
+
+html.trailhead-mode {
+  font-size: 112.5%;
+}
+
+html.trailhead-mode .btn,
+html.trailhead-mode .site-nav a {
+  min-height: 3rem;
+  font-size: 1rem;
+}
+
+html.trailhead-mode .command-center__title {
+  font-size: 1.75rem;
+}
+
+html.trailhead-mode body {
+  background: #0a0a0a;
+  color: #f5f5f5;
+}
+
+html.trailhead-mode .command-center,
+html.trailhead-mode .card,
+html.trailhead-mode .status-block {
+  background: #1c1c1e;
+  color: #f5f5f5;
+  border-color: #333;
+}
+
+html.trailhead-mode h1,
+html.trailhead-mode h2,
+html.trailhead-mode h3 {
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .trailhead-toggle {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .board-table th:nth-child(4),
+  .board-table td:nth-child(4),
+  .board-table th:nth-child(6),
+  .board-table td:nth-child(6) {
+    display: none;
+  }
+}

@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StatusBlock from "../components/StatusBlock.astro";
 import AudiencePaths from "../components/AudiencePaths.astro";
-import { site } from "../lib/plan";
+import site from "../../data/site.json";
 import { race } from "../lib/data";
 
 const base = import.meta.env.BASE_URL;
@@ -15,29 +15,26 @@ const base = import.meta.env.BASE_URL;
       <p class="page-eyebrow">{site.race}</p>
       <h1>{site.name}</h1>
       <p class="lead">
-        Crew plan for {site.runner}'s {site.distance_miles}-mile run — logistics, roster, and video shot list.
+        Crew plan for {site.runner} — {site.distance_miles} miles around Lake Tahoe, June 12–16, 2026.
       </p>
       <p>
-        <a class="btn btn--primary" href={`${base}plan/`}>
-          Open race plan
+        <a class="btn btn--primary" href={`${base}next/`}>
+          Next stop
         </a>
-        <a class="btn btn--secondary" href={site.plan_sheet_url} target="_blank" rel="noopener noreferrer">
-          Google Sheet
+        <a class="btn btn--secondary" href={`${base}board/`}>
+          Race board
         </a>
       </p>
     </div>
-    </div>
+  </div>
   <div class="container">
     <AudiencePaths />
-    <section class="note-box" style="margin-top: 1.5rem">
-      <strong>Tahoe 200 reference:</strong> Harvey's June 2026 Tahoe 200 materials (course, gear, pacers) stay in this
-      site for planning ahead —
-      <a href={`${base}course/`}>course</a>,
-      <a href={`${base}aid-stations/`}>aid stations</a>,
-      <a href={`${base}schedule/`}>schedule</a>.
-    </section>
+    <p class="card__meta" style="margin-top: 1.5rem">
+      Plan v{site.plan_version} · Course, gear, pacers, and schedule in the nav · Offline at trailheads (install from
+      browser menu).
+    </p>
     <p class="card__meta">
-      Live tracking (Tahoe):{" "}
+      Live tracking:{" "}
       <a href={race.live_tracking_url_placeholder} target="_blank" rel="noopener noreferrer">
         destinationtrailrun.com/tahoe
       </a>

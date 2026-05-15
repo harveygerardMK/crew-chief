@@ -1,0 +1,96 @@
+[
+  {
+    "crew_stop_n": 1,
+    "aid_n": 0,
+    "title": "Heavenly (Start)",
+    "mile": 0,
+    "tasks": [
+      { "id": "1a", "label": "Final gear check", "category": "runner" },
+      { "id": "1b", "label": "Hand off SPOT pack to runner", "category": "logistics" },
+      { "id": "1c", "label": "Apply chamois cream, sunscreen", "category": "runner" },
+      { "id": "1d", "label": "Last bathroom, last coffee", "category": "runner" }
+    ]
+  },
+  {
+    "crew_stop_n": 2,
+    "aid_n": 4,
+    "title": "Sierra at Tahoe",
+    "mile": 52.2,
+    "tasks": [
+      { "id": "2a", "label": "First major restock", "category": "logistics" },
+      { "id": "2b", "label": "Hot food + savory calories", "category": "runner" },
+      { "id": "2c", "label": "Foot care + sock change", "category": "runner" },
+      { "id": "2d", "label": "Fresh shirt", "category": "runner" },
+      { "id": "2e", "label": "Top off water", "category": "logistics" },
+      { "id": "2f", "label": "Check feet for hot spots", "category": "crew" }
+    ]
+  },
+  {
+    "crew_stop_n": 3,
+    "aid_n": 6,
+    "title": "Loon Lake",
+    "mile": 87.6,
+    "tasks": [
+      { "id": "3a", "label": "Pacer #1 pickup — confirm bib", "category": "logistics" },
+      { "id": "3b", "label": "Full kit reset", "category": "runner" },
+      { "id": "3c", "label": "Calorie restock for back half", "category": "logistics" },
+      { "id": "3d", "label": "Poles handoff", "category": "logistics" },
+      { "id": "3e", "label": "Headlamp + spare batteries", "category": "logistics" },
+      { "id": "3f", "label": "Warm layer for night", "category": "runner" },
+      { "id": "3g", "label": "Icehouse Rd only — NOT Wrights Lake Rd", "category": "crew" }
+    ]
+  },
+  {
+    "crew_stop_n": 4,
+    "aid_n": 9,
+    "title": "Tahoe City",
+    "mile": 130,
+    "tasks": [
+      { "id": "4a", "label": "Pacer swap option (Pacer #2)", "category": "logistics" },
+      { "id": "4b", "label": "Major fuel restock — final 70 mi", "category": "logistics" },
+      { "id": "4c", "label": "Hot food", "category": "runner" },
+      { "id": "4d", "label": "Foot care round 2", "category": "runner" },
+      { "id": "4e", "label": "Caffeine top-up", "category": "runner" },
+      { "id": "4f", "label": "Park Transit Center, walk 0.2 mi", "category": "crew" }
+    ]
+  },
+  {
+    "crew_stop_n": 5,
+    "aid_n": 10,
+    "title": "Brockway Summit",
+    "mile": 148.6,
+    "tasks": [
+      { "id": "5a", "label": "Sleep stop setup — bag, ear plugs", "category": "runner" },
+      { "id": "5b", "label": "Full dry change of clothes", "category": "runner" },
+      { "id": "5c", "label": "Warm puffy", "category": "runner" },
+      { "id": "5d", "label": "Hot food before sleeping", "category": "runner" },
+      { "id": "5e", "label": "Set alarm — 6-hour sleep cap", "category": "crew" },
+      { "id": "5f", "label": "Walk 0.6 mi from crew parking", "category": "crew" }
+    ]
+  },
+  {
+    "crew_stop_n": 6,
+    "aid_n": 11,
+    "title": "Village Green",
+    "mile": 163.6,
+    "tasks": [
+      { "id": "6a", "label": "Headlamp + fresh batteries", "category": "logistics" },
+      { "id": "6b", "label": "Caffeine reload", "category": "runner" },
+      { "id": "6c", "label": "Warm layers for final night", "category": "runner" },
+      { "id": "6d", "label": "Light fuel — almost there", "category": "logistics" },
+      { "id": "6e", "label": "Green-marked crew parking only", "category": "crew" }
+    ]
+  },
+  {
+    "crew_stop_n": 7,
+    "aid_n": 13,
+    "title": "Finish (Heavenly)",
+    "mile": 200.4,
+    "tasks": [
+      { "id": "7a", "label": "Dry recovery clothes", "category": "runner" },
+      { "id": "7b", "label": "Easy-to-digest food", "category": "runner" },
+      { "id": "7c", "label": "Buckle photo", "category": "crew" },
+      { "id": "7d", "label": "Get Harvey horizontal ASAP", "category": "crew" }
+    ]
+  }
+]

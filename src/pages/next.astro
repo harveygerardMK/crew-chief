@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCrewStopPayload, site } from "../lib/tahoe-plan";
+
+const base = import.meta.env.BASE_URL;
+const crewPayload = getCrewStopPayload();
+---
+
+<BaseLayout
+  title="Next stop"
+  description="Next crew stop — leave-by time, Maps, and quick check-in for Harvey's Tahoe 200."
+>
+  <div class="command-center-wrap">
+    <div class="container">
+      <p class="page-eyebrow">Command center</p>
+      <h1>Next stop</h1>
+      <p class="lead">One screen for where to drive next. Times use segment baselines — adjust pace if Harvey is ahead or behind.</p>
+
+      <div class="command-center-controls">
+        <label>
+          Pace scenario
+          <select id="pace-select" class="input-select">
+            <option value="optimistic">Optimistic (faster)</option>
+            <option value="baseline" selected>Baseline plan</option>
+            <option value="conservative">Conservative (buffer)</option>
+          </select>
+        </label>
+        <label>
+          Drive time (min before arrival)
+          <input id="drive-minutes" type="number" min="15" max="180" value="45" class="input-number" />
+        </label>
+      </div>
+
+      <section id="command-center" class="command-center" aria-live="polite">
+        <div data-cc-hero class="command-center__hero">
+          <p class="command-center__secondary">Loading next stop…</p>
+        </div>
+        <div data-cc-actions class="command-center__actions"></div>
+      </section>
+
+      <p class="card__meta">
+        Plan updated {site.plan_version} · Check-ins saved on this device only ·{" "}
+        <a href={`${base}board/`}>Race board</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ crewPayload, base }}>
+  import { initCommandCenter } from "../scripts/tahoe-app";
+  initCommandCenter(crewPayload, base);
+</script>
