@@ -1,5 +1,6 @@
 ---
 import type { AidStation } from "../lib/data";
+import { findCrewStopForAid, mapsUrl } from "../lib/station-links";
 
 interface Props {
   station: AidStation;
@@ -9,23 +10,29 @@ interface Props {
 const { station, expandable = true } = Astro.props;
 const id = `aid-${station.n}`;
 const isSleep = station.type === "Sleep";
+const crewStop = station.crew_access ? findCrewStopForAid(station.name) : null;
+const base = import.meta.env.BASE_URL;
+const mapsLink = mapsUrl(station.coordinates.lat, station.coordinates.lng);
 ---
 
-<article class="card" data-aid-card data-crew={station.crew_access} data-pacer={station.pacer_access} data-sleep={isSleep}>
+<article id={`aid-${station.n}`} class="card" data-aid-card data-crew={station.crew_access} data-pacer={station.pacer_access} data-sleep={isSleep}>
   {
     expandable ? (
       <>
         <button type="button" class="card__header" aria-expanded="false" aria-controls={`${id}-body`} data-expand>
-          <div>
+          <div class="card__header-main">
             <span class="card__mile">Mile {station.mile}</span>
             <h3 class="card__title">{station.name}</h3>
           </div>
-          <div class="card__badges">
-            <span class="badge">{station.type}</span>
-            {station.crew_access && <span class="badge badge--crew">Crew</span>}
-            {station.pacer_access && <span class="badge badge--pacer">Pacer</span>}
-            {isSleep && <span class="badge badge--sleep">Sleep</span>}
-            {station.drop_bag && <span class="badge badge--drop">Drop bag</span>}
+          <div class="card__header-end">
+            <div class="card__badges">
+              <span class="badge">{station.type}</span>
+              {station.crew_access && <span class="badge badge--crew">Crew</span>}
+              {station.pacer_access && <span class="badge badge--pacer">Pacer</span>}
+              {isSleep && <span class="badge badge--sleep">Sleep</span>}
+              {station.drop_bag && <span class="badge badge--drop">Drop bag</span>}
+            </div>
+            <span class="card__chevron" aria-hidden="true" />
           </div>
         </button>
         <div id={`${id}-body`} class="card__body" hidden>
@@ -33,21 +40,24 @@ const isSleep = station.type === "Sleep";
             <strong>Cutoff:</strong> {station.cutoff}
           </p>
           {station.notes && <p>{station.notes}</p>}
-          <p class="card__meta">
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${station.coordinates.lat},${station.coordinates.lng}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          {
+            crewStop && (
+              <p class="card__meta">
+                <a href={`${base}crew/#stop-${crewStop.n}`}>Crew stop details →</a>
+              </p>
+            )
+          }
+          <div class="location-actions location-actions--inline">
+            <a class="btn btn--primary btn--sm" href={mapsLink} target="_blank" rel="noopener noreferrer">
               Open in Maps
             </a>
-          </p>
+          </div>
         </div>
       </>
     ) : (
       <>
         <div class="card__header card__header--static">
-          <div>
+          <div class="card__header-main">
             <span class="card__mile">Mile {station.mile}</span>
             <h3 class="card__title">{station.name}</h3>
           </div>

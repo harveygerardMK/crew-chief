@@ -1,0 +1,33 @@
+---
+interface Props {
+  audience: "crew" | "pacers" | "follow" | "runner";
+}
+
+const { audience } = Astro.props;
+
+const copy = {
+  crew: {
+    title: "For crew",
+    body: "Parking, ETAs, restock priorities, and crew-access aid stations. Pair with the aid-station list for cutoffs.",
+  },
+  pacers: {
+    title: "For pacers",
+    body: "Six legs from Loon Lake to the finish, mandatory kit, and rules that affect Harvey if you slip up.",
+  },
+  follow: {
+    title: "For family & friends",
+    body: "Plain-language context, live tracking, and what a gap on the map usually means.",
+  },
+  runner: {
+    title: "For Harvey",
+    body: "Single source of truth — course, gear, schedule, and status in one place.",
+  },
+} as const;
+
+const c = copy[audience];
+---
+
+<aside class="audience-intro" aria-label={`This page is ${c.title.toLowerCase()}`}>
+  <p class="audience-intro__label">{c.title}</p>
+  <p class="audience-intro__body">{c.body}</p>
+</aside>

@@ -1,0 +1,26 @@
+---
+export interface NavItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  items: NavItem[];
+  label?: string;
+}
+
+const { items, label = "On this page" } = Astro.props;
+---
+
+<nav class="page-nav" aria-label={label}>
+  <p class="page-nav__label">{label}</p>
+  <ul class="page-nav__list">
+    {
+      items.map((item) => (
+        <li>
+          <a href={`#${item.id}`}>{item.label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -23,6 +23,8 @@ All race facts come from `/data/*.json` — edit JSON, rebuild, deploy. No dupli
 
 Long-form copy lives in `src/content/pages/` (Astro content collections).
 
+Visual system follows [Mintlify](https://getdesign.md/mintlify/design-md) via root `DESIGN.md` (clean docs UI, mint accent `#00d4a4`, Inter + Geist Mono).
+
 ## Local development
 
 ```bash

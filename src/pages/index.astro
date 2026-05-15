@@ -1,37 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StatusBlock from "../components/StatusBlock.astro";
+import StatStrip from "../components/StatStrip.astro";
+import AudiencePaths from "../components/AudiencePaths.astro";
 import { race } from "../lib/data";
 import { formatRaceDates } from "../lib/dates";
 
 const trackingUrl = race.live_tracking_url_placeholder;
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Home">
+  <div class="home-hero">
+    <div class="container">
+      <StatusBlock />
+      <p class="page-eyebrow">2026 · Full loop</p>
+      <h1>{race.name}</h1>
+      <p class="lead">
+        {race.course} · {formatRaceDates()}
+      </p>
+      <StatStrip />
+      <p class="hero-meta">
+        <span>{race.start.location}</span>
+        <span>{race.start.address}</span>
+      </p>
+      <p>
+        <a class="btn btn--primary" href={trackingUrl} target="_blank" rel="noopener noreferrer">
+          Live tracking (opens race week)
+        </a>
+      </p>
+    </div>
+  </div>
   <div class="container">
-    <StatusBlock />
-    <p class="page-eyebrow">2026 · Full loop</p>
-    <h1>{race.name}</h1>
-    <p class="lead">
-      {race.distance_miles} miles · {race.elevation_gain_ft.toLocaleString()} ft gain · {race.course}
-    </p>
-    <p class="hero-meta">
-      <span>{formatRaceDates()}</span>
-      <span>{race.start.location}</span>
-      <span>{race.start.address}</span>
-    </p>
-    <p>
-      <a class="btn btn--primary" href={trackingUrl} target="_blank" rel="noopener noreferrer">
-        Live tracking (opens race week)
-      </a>
-    </p>
-    <section style="margin-top: 2rem">
-      <h2>Quick links</h2>
+    <AudiencePaths />
+    <section style="margin-top: 1.5rem">
+      <h2>More for race week</h2>
       <ul class="quick-links">
-        <li><a href={`${import.meta.env.BASE_URL}crew/`}>Crew logistics</a></li>
-        <li><a href={`${import.meta.env.BASE_URL}pacers/`}>Pacer legs & gear</a></li>
-        <li><a href={`${import.meta.env.BASE_URL}follow/`}>Follow along (family & friends)</a></li>
-        <li><a href={`${import.meta.env.BASE_URL}aid-stations/`}>All aid stations</a></li>
+        <li><a href={`${base}aid-stations/`}>All 13 aid stations</a></li>
+        <li><a href={`${base}course/`}>Course map & segments</a></li>
+        <li><a href={`${base}gear/`}>Gear & drop bags</a></li>
+        <li><a href={`${base}schedule/`}>Race week schedule</a></li>
       </ul>
     </section>
   </div>

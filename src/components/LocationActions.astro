@@ -1,0 +1,48 @@
+---
+interface Props {
+  label: string;
+  address?: string;
+  mapsHref?: string;
+}
+
+const { label, address, mapsHref } = Astro.props;
+const copyText = address ?? label;
+const uid = `loc-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="location-actions" data-location-actions>
+  {address && <p class="location-actions__address">{address}</p>}
+  <div class="location-actions__buttons">
+    <button type="button" class="btn btn--secondary btn--sm" data-copy={copyText} aria-describedby={uid}>
+      Copy address
+    </button>
+    {
+      mapsHref && (
+        <a class="btn btn--primary btn--sm" href={mapsHref} target="_blank" rel="noopener noreferrer">
+          Open Maps
+        </a>
+      )
+    }
+  </div>
+  <span id={uid} class="visually-hidden" role="status" aria-live="polite" data-copy-status></span>
+</div>
+
+<script>
+  document.querySelectorAll("[data-location-actions]").forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>("[data-copy]");
+    const status = root.querySelector("[data-copy-status]");
+    if (!btn || !status) return;
+    btn.addEventListener("click", async () => {
+      const text = btn.getAttribute("data-copy") ?? "";
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = "Copied to clipboard";
+      } catch {
+        status.textContent = "Copy failed — select text manually";
+      }
+      setTimeout(() => {
+        status.textContent = "";
+      }, 2500);
+    });
+  });
+</script>

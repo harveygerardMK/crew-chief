@@ -1,0 +1,26 @@
+---
+import { race, segments } from "../lib/data";
+
+const total = race.distance_miles;
+---
+
+<div class="course-progress" role="img" aria-label={`Course profile: ${total} miles across ${segments.length} segments`}>
+  <div class="course-progress__track">
+    {
+      segments.map((s) => {
+        const widthPct = (s.miles / total) * 100;
+        return (
+          <div
+            class="course-progress__segment"
+            style={`width: ${widthPct}%`}
+            title={`${s.name}: ${s.miles} mi`}
+          />
+        );
+      })
+    }
+  </div>
+  <div class="course-progress__labels">
+    <span>0 mi</span>
+    <span>{total} mi</span>
+  </div>
+</div>

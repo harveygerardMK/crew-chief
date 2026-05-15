@@ -1,0 +1,18 @@
+---
+import { race } from "../lib/data";
+---
+
+<div class="stat-strip stat-strip--hero" role="group" aria-label="Race at a glance">
+  <div class="stat-strip__item">
+    <strong>{race.distance_miles}</strong>
+    <span>miles</span>
+  </div>
+  <div class="stat-strip__item">
+    <strong>{race.elevation_gain_ft.toLocaleString()}</strong>
+    <span>ft gain</span>
+  </div>
+  <div class="stat-strip__item">
+    <strong>{race.cutoff_hours}</strong>
+    <span>hr cutoff</span>
+  </div>
+</div>

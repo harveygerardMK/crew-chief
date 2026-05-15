@@ -1,0 +1,26 @@
+---
+import { keyNotes } from "../lib/data";
+
+const items = [
+  { key: "crew_vehicle", label: "Vehicle" },
+  { key: "cell_service", label: "Comms" },
+  { key: "tahoe_city_parking", label: "Tahoe City" },
+  { key: "brockway_parking", label: "Brockway" },
+  { key: "sleep_limit", label: "Sleep" },
+  { key: "no_muling", label: "Pacers" },
+] as const;
+---
+
+<aside class="remember-callout" aria-labelledby="remember-heading">
+  <h2 id="remember-heading" class="remember-callout__title">Remember</h2>
+  <ul class="remember-callout__list">
+    {
+      items.map(({ key, label }) => (
+        <li>
+          <span class="remember-callout__tag">{label}</span>
+          {keyNotes[key]}
+        </li>
+      ))
+    }
+  </ul>
+</aside>

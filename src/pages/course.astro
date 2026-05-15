@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AudienceIntro from "../components/AudienceIntro.astro";
+import CourseProgress from "../components/CourseProgress.astro";
 import { race, segments } from "../lib/data";
 import { getEntry } from "astro:content";
 
@@ -10,6 +12,7 @@ const mapUrl = race.course_map_url;
 
 <BaseLayout title="Course" description="200-mile full loop course map and segments.">
   <div class="container container--wide">
+    <AudienceIntro audience="runner" />
     <h1>Course</h1>
     <p class="lead">
       {race.distance_miles} mi · {race.elevation_gain_ft.toLocaleString()} ft gain · {race.elevation_loss_ft.toLocaleString()} ft loss
@@ -19,15 +22,50 @@ const mapUrl = race.course_map_url;
       <iframe title="CalTopo course map" src={mapUrl} loading="lazy"></iframe>
     </div>
     <p>
-      <a href={mapUrl} target="_blank" rel="noopener noreferrer">Open full map on CalTopo</a>
+      <a class="btn btn--secondary" href={mapUrl} target="_blank" rel="noopener noreferrer">
+        Open full map on CalTopo
+      </a>
     </p>
 
     <div class="prose">
       <Content />
     </div>
 
+    <h2>Course profile</h2>
+    <CourseProgress />
+
     <h2>Segments</h2>
-    <div class="table-wrap">
+    <div class="segment-cards" aria-label="Segments list">
+      {
+        segments.map((s) => (
+          <article class="segment-card">
+            <p class="segment-card__name">
+              {s.n}. {s.name}
+            </p>
+            <dl class="segment-card__grid">
+              <div>
+                <dt>Mi</dt>
+                <dd>{s.miles}</dd>
+              </div>
+              <div>
+                <dt>Gain</dt>
+                <dd>{s.gain_ft.toLocaleString()} ft</dd>
+              </div>
+              <div>
+                <dt>Loss</dt>
+                <dd>{s.loss_ft.toLocaleString()} ft</dd>
+              </div>
+              <div>
+                <dt>Cum. mi</dt>
+                <dd>{s.cumulative_miles}</dd>
+              </div>
+            </dl>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="table-wrap table-wrap--sticky table-wrap--segments-desktop">
       <table>
         <thead>
           <tr>

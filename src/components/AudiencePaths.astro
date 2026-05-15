@@ -1,0 +1,39 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const paths = [
+  {
+    href: `${base}crew/`,
+    title: "Crew",
+    desc: "7 stops · parking · restock · Rivian R1S",
+    className: "audience-path--crew",
+  },
+  {
+    href: `${base}pacers/`,
+    title: "Pacers",
+    desc: "6 legs from Loon Lake · mandatory gear",
+    className: "audience-path--pacers",
+  },
+  {
+    href: `${base}follow/`,
+    title: "Follow",
+    desc: "Tracker · plain-language race context",
+    className: "audience-path--follow",
+  },
+];
+---
+
+<section class="audience-paths" aria-labelledby="paths-heading">
+  <h2 id="paths-heading">Where do you need to go?</h2>
+  <div class="audience-paths__grid">
+    {
+      paths.map((p) => (
+        <a href={p.href} class:list={["audience-path", p.className]}>
+          <span class="audience-path__title">{p.title}</span>
+          <span class="audience-path__desc">{p.desc}</span>
+          <span class="audience-path__arrow" aria-hidden="true">→</span>
+        </a>
+      ))
+    }
+  </div>
+</section>

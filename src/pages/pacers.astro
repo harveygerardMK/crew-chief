@@ -1,18 +1,32 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AudienceIntro from "../components/AudienceIntro.astro";
+import PageNav from "../components/PageNav.astro";
 import PacerLegCard from "../components/PacerLegCard.astro";
 import { gear, pacerLegs, keyNotes } from "../lib/data";
 import { getEntry } from "astro:content";
 
 const onboarding = await getEntry("pages", "pacer-onboarding");
+const rules = await getEntry("pages", "rules-summary");
 const { Content: OnboardingContent } = await onboarding.render();
+const { Content: RulesContent } = await rules.render();
 const mandatoryGear = [...gear.mandatory_clothing, ...gear.mandatory_equipment, ...gear.mandatory_food];
+
+const navItems = [
+  { id: "legs", label: "Legs" },
+  { id: "gear", label: "Gear" },
+  { id: "onboarding", label: "Onboarding" },
+  { id: "rules", label: "Rules" },
+];
 ---
 
 <BaseLayout title="Pacers" description="Six pacer legs from Loon Lake to the finish.">
   <div class="container">
+    <AudienceIntro audience="pacers" />
     <h1>Pacers</h1>
     <p class="lead">Pickup at Loon Lake (mile 87.6) · six legs to the finish</p>
+
+    <PageNav items={navItems} />
 
     <div class="note-box">
       <strong>Pickup:</strong> {keyNotes.pacer_pickup}
@@ -21,24 +35,31 @@ const mandatoryGear = [...gear.mandatory_clothing, ...gear.mandatory_equipment, 
       <strong>No muling:</strong> {keyNotes.no_muling}
     </div>
 
-    <h2>Legs</h2>
+    <h2 id="legs">Legs</h2>
     {pacerLegs.map((leg) => <PacerLegCard leg={leg} />)}
 
-    <h2>Mandatory pacer gear</h2>
+    <h2 id="gear">Mandatory pacer gear</h2>
     <p class="card__meta">Same mandatory kit as the runner, plus pacer bib at check-in.</p>
     <ul class="list-check">
-      {mandatoryGear.map((item) => (
-        <li>
-          <strong>{item.item}</strong>
-          {item.spec ? ` — ${item.spec}` : ""}
-          {item.notes ? ` (${item.notes})` : ""}
-        </li>
-      ))}
+      {
+        mandatoryGear.map((item) => (
+          <li>
+            <strong>{item.item}</strong>
+            {item.spec ? ` — ${item.spec}` : ""}
+            {item.notes ? ` (${item.notes})` : ""}
+          </li>
+        ))
+      }
     </ul>
 
-    <h2>Onboarding</h2>
+    <h2 id="onboarding">Onboarding</h2>
     <div class="prose">
       <OnboardingContent />
+    </div>
+
+    <h2 id="rules">Rules that matter</h2>
+    <div class="prose">
+      <RulesContent />
     </div>
   </div>
 </BaseLayout>

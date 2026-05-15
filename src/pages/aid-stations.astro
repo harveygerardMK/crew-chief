@@ -1,13 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AudienceIntro from "../components/AudienceIntro.astro";
 import AidStationCard from "../components/AidStationCard.astro";
 import { aidStations } from "../lib/data";
 ---
 
 <BaseLayout title="Aid stations" description="All 13 aid stations with cutoffs, crew access, and pacer pickup.">
   <div class="container">
+    <AudienceIntro audience="crew" />
     <h1>Aid stations</h1>
-    <p class="lead">13 stops · cutoffs in Pacific time · tap a card for details</p>
+    <p class="lead">13 stops · cutoffs in Pacific time · tap a card for details & maps</p>
 
     <div class="filter-bar" role="group" aria-label="Filter aid stations">
       <button type="button" data-filter="all" aria-pressed="true">All</button>

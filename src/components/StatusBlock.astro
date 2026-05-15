@@ -5,6 +5,12 @@ import { getCountdown, getRacePhase } from "../lib/dates";
 const phase = status.phase === "pre-race" && getRacePhase() === "on-course" ? "on-course" : status.phase;
 const countdown = phase === "pre-race" ? getCountdown() : null;
 
+const phaseLabels = {
+  "pre-race": "Pre-race",
+  "on-course": "On course",
+  finished: "Finished",
+} as const;
+
 let primary = "";
 let secondary = status.message;
 
@@ -12,10 +18,10 @@ if (phase === "pre-race") {
   primary = countdown ?? "Race week";
 } else if (phase === "on-course") {
   primary = status.last_seen_station
-    ? `On course — last seen at ${status.last_seen_station}`
-    : "On course";
+    ? `Last seen — ${status.last_seen_station}`
+    : "Harvey is on course";
   secondary = status.last_seen_time
-    ? `Last update: ${status.last_seen_time}`
+    ? `Updated ${status.last_seen_time}. ${status.message}`
     : status.message;
 } else {
   primary = "Race complete";
@@ -23,8 +29,15 @@ if (phase === "pre-race") {
 }
 ---
 
-<section class="status-block" aria-live="polite">
-  <p class="status-block__label">{race.runner}</p>
-  <p class="status-block__primary">{primary}</p>
+<section
+  class:list={["status-block", `status-block--${phase}`]}
+  aria-live="polite"
+  aria-labelledby="status-primary"
+>
+  <div class="status-block__top">
+    <p class="status-block__label">{race.runner}</p>
+    <span class="status-block__phase">{phaseLabels[phase]}</span>
+  </div>
+  <p id="status-primary" class="status-block__primary">{primary}</p>
   {secondary && <p class="status-block__secondary">{secondary}</p>}
 </section>

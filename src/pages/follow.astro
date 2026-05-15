@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AudienceIntro from "../components/AudienceIntro.astro";
 import StatusBlock from "../components/StatusBlock.astro";
 import { race, status } from "../lib/data";
 import { getEntry } from "astro:content";
@@ -11,6 +12,7 @@ const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placehold
 
 <BaseLayout title="Follow" description="Follow Harvey at the Tahoe 200 — plain-language guide for family and friends.">
   <div class="container">
+    <AudienceIntro audience="follow" />
     <h1>Follow along</h1>
     <p class="lead">What is a 200-miler, where is Harvey, and how to cheer from afar</p>
 
@@ -27,7 +29,7 @@ const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placehold
     </div>
 
     <h2>Reading the tracker</h2>
-    <ul>
+    <ul class="list-check">
       <li>
         <strong>Green / moving:</strong> Harvey is on course and the SPOT is updating.
       </li>
@@ -47,7 +49,7 @@ const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placehold
     </p>
 
     <h2>Important links</h2>
-    <ul>
+    <ul class="quick-links">
       <li>
         <a href={race.official_url} target="_blank" rel="noopener noreferrer">Official race site</a>
       </li>

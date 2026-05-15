@@ -1,14 +1,28 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AudienceIntro from "../components/AudienceIntro.astro";
+import PageNav from "../components/PageNav.astro";
 import { gear } from "../lib/data";
+
+const navItems = [
+  { id: "mandatory-clothing", label: "Clothing" },
+  { id: "mandatory-equipment", label: "Equipment" },
+  { id: "mandatory-food", label: "Food" },
+  { id: "recommended", label: "Recommended" },
+  { id: "drop-bags", label: "Drop bags" },
+];
 ---
 
 <BaseLayout title="Gear" description="Mandatory and recommended gear for Tahoe 200 2026.">
   <div class="container">
+    <AudienceIntro audience="runner" />
     <h1>Gear</h1>
+    <p class="lead">Mandatory kit, recommended carry, and drop-bag strategy</p>
 
-    <h2>Mandatory clothing</h2>
-    <ul>
+    <PageNav items={navItems} />
+
+    <h2 id="mandatory-clothing">Mandatory clothing</h2>
+    <ul class="list-check">
       {
         gear.mandatory_clothing.map((item) => (
           <li>
@@ -19,8 +33,8 @@ import { gear } from "../lib/data";
       }
     </ul>
 
-    <h2>Mandatory equipment</h2>
-    <ul>
+    <h2 id="mandatory-equipment">Mandatory equipment</h2>
+    <ul class="list-check">
       {
         gear.mandatory_equipment.map((item) => (
           <li>
@@ -31,8 +45,8 @@ import { gear } from "../lib/data";
       }
     </ul>
 
-    <h2>Mandatory food</h2>
-    <ul>
+    <h2 id="mandatory-food">Mandatory food</h2>
+    <ul class="list-check">
       {
         gear.mandatory_food.map((item) => (
           <li>
@@ -43,12 +57,12 @@ import { gear } from "../lib/data";
       }
     </ul>
 
-    <h2>Recommended carry</h2>
+    <h2 id="recommended">Recommended carry</h2>
     <ul class="list-check">
       {gear.recommended_carry.map((item) => <li>{item.item}{item.notes ? ` — ${item.notes}` : ""}</li>)}
     </ul>
 
-    <h2>Drop bag strategy</h2>
+    <h2 id="drop-bags">Drop bag strategy</h2>
     {
       gear.drop_bag_strategy.map((bag) => (
         <article class="card">
