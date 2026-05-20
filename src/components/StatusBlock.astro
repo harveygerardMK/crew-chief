@@ -2,31 +2,10 @@
 import { race, status } from "../lib/data";
 import { getCountdown, getRacePhase } from "../lib/dates";
 
+const base = import.meta.env.BASE_URL;
 const phase = status.phase === "pre-race" && getRacePhase() === "on-course" ? "on-course" : status.phase;
 const countdown = phase === "pre-race" ? getCountdown() : null;
-
-const phaseLabels = {
-  "pre-race": "Pre-race",
-  "on-course": "On course",
-  finished: "Finished",
-} as const;
-
-let primary = "";
-let secondary = status.message;
-
-if (phase === "pre-race") {
-  primary = countdown ?? `${race.name} · race week`;
-} else if (phase === "on-course") {
-  primary = status.last_seen_station
-    ? `Last seen — ${status.last_seen_station}`
-    : "Harvey is on course";
-  secondary = status.last_seen_time
-    ? `Updated ${status.last_seen_time}. ${status.message}`
-    : status.message;
-} else {
-  primary = "Race complete";
-  secondary = status.message;
-}
+const startLine = `${race.start.date} · ${race.start.time_local} ${race.start.timezone.split("/").pop()?.replace("_", " ") ?? "PDT"}`;
 ---
 
 <section
@@ -34,10 +13,40 @@ if (phase === "pre-race") {
   aria-live="polite"
   aria-labelledby="status-primary"
 >
-  <div class="status-block__top">
-    <p class="status-block__label">{race.runner}</p>
-    <span class="status-block__phase">{phaseLabels[phase]}</span>
-  </div>
-  <p id="status-primary" class="status-block__primary">{primary}</p>
-  {secondary && <p class="status-block__secondary">{secondary}</p>}
+  {
+    phase === "pre-race" ? (
+      <>
+        <p id="status-primary" class="status-block__primary">
+          {(countdown ?? "Race week").toUpperCase()}
+        </p>
+        <p class="status-block__detail">
+          June 12 · 9:00 AM PDT
+        </p>
+        <p class="status-block__detail">{race.start.location}</p>
+        {status.message && <p class="status-block__secondary">{status.message}</p>}
+      </>
+    ) : phase === "on-course" ? (
+      <>
+        <p id="status-primary" class="status-block__primary">
+          <span class="status-block__pulse" aria-hidden="true" />
+          ON COURSE
+        </p>
+        <p class="status-block__detail">
+          {status.last_seen_station
+            ? `Last seen: ${status.last_seen_station}`
+            : "Harvey is on course"}
+        </p>
+        {status.last_seen_time && <p class="status-block__detail">{status.last_seen_time}</p>}
+        {status.message && <p class="status-block__secondary">{status.message}</p>}
+        <p class="status-block__actions">
+          <a class="btn btn--secondary" href={`${base}board/`}>View board →</a>
+        </p>
+      </>
+    ) : (
+      <>
+        <p id="status-primary" class="status-block__primary">RACE COMPLETE</p>
+        {status.message && <p class="status-block__secondary">{status.message}</p>}
+      </>
+    )
+  }
 </section>

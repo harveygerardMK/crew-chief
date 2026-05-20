@@ -2,17 +2,20 @@
 import { race } from "../lib/data";
 ---
 
-<div class="stat-strip stat-strip--hero" role="group" aria-label="Race at a glance">
+<div class="stat-strip" role="group" aria-label="Race at a glance">
   <div class="stat-strip__item">
-    <strong>{race.distance_miles}</strong>
-    <span>miles</span>
+    <span class="stat-strip__label">Distance</span>
+    <span class="stat-strip__value tabular">{race.distance_miles}</span>
+    <span class="stat-strip__unit">mi</span>
   </div>
   <div class="stat-strip__item">
-    <strong>{race.elevation_gain_ft.toLocaleString()}</strong>
-    <span>ft gain</span>
+    <span class="stat-strip__label">Gain</span>
+    <span class="stat-strip__value tabular">{race.elevation_gain_ft.toLocaleString()}</span>
+    <span class="stat-strip__unit">ft</span>
   </div>
   <div class="stat-strip__item">
-    <strong>{race.cutoff_hours}</strong>
-    <span>hr cutoff</span>
+    <span class="stat-strip__label">Cutoff</span>
+    <span class="stat-strip__value tabular">{race.cutoff_hours}</span>
+    <span class="stat-strip__unit">hours</span>
   </div>
 </div>

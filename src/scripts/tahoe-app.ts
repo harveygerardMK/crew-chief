@@ -251,14 +251,15 @@ export function initTrailheadMode() {
   document.documentElement.classList.toggle("trailhead-mode", enabled);
   const btn = document.getElementById("trailhead-toggle");
   if (!btn) return;
+  const label = btn.querySelector("[data-trailhead-label]");
   btn.setAttribute("aria-pressed", enabled ? "true" : "false");
-  btn.textContent = enabled ? "Trailhead mode on" : "Trailhead mode";
+  if (label) label.textContent = enabled ? "Trailhead on" : "Trailhead mode";
   btn.addEventListener("click", () => {
     const next = !document.documentElement.classList.contains("trailhead-mode");
     document.documentElement.classList.toggle("trailhead-mode", next);
     localStorage.setItem(GLOVE_KEY, next ? "1" : "0");
     btn.setAttribute("aria-pressed", next ? "true" : "false");
-    btn.textContent = next ? "Trailhead mode on" : "Trailhead mode";
+    if (label) label.textContent = next ? "Trailhead on" : "Trailhead mode";
   });
 }
 

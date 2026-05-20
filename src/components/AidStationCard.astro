@@ -13,67 +13,52 @@ const isSleep = station.type === "Sleep";
 const crewStop = station.crew_access ? findCrewStopForAid(station.name) : null;
 const base = import.meta.env.BASE_URL;
 const mapsLink = mapsUrl(station.coordinates.lat, station.coordinates.lng);
+
+const eyebrowParts = [
+  `Mile ${station.mile}`,
+  station.type,
+  station.crew_access && "Crew",
+  station.pacer_access && "Pacer",
+  isSleep && "Sleep",
+  station.drop_bag && "Drop bag",
+].filter(Boolean);
 ---
 
-<article id={`aid-${station.n}`} class="card" data-aid-card data-crew={station.crew_access} data-pacer={station.pacer_access} data-sleep={isSleep}>
+<article
+  id={`aid-${station.n}`}
+  class="aid-card"
+  data-aid-card
+  data-crew={station.crew_access}
+  data-pacer={station.pacer_access}
+  data-sleep={isSleep}
+>
+  <p class="aid-card__eyebrow">{eyebrowParts.join(" · ")}</p>
   {
     expandable ? (
       <>
-        <button type="button" class="card__header" aria-expanded="false" aria-controls={`${id}-body`} data-expand>
-          <div class="card__header-main">
-            <span class="card__mile">Mile {station.mile}</span>
-            <h3 class="card__title">{station.name}</h3>
-          </div>
-          <div class="card__header-end">
-            <div class="card__badges">
-              <span class="badge">{station.type}</span>
-              {station.crew_access && <span class="badge badge--crew">Crew</span>}
-              {station.pacer_access && <span class="badge badge--pacer">Pacer</span>}
-              {isSleep && <span class="badge badge--sleep">Sleep</span>}
-              {station.drop_bag && <span class="badge badge--drop">Drop bag</span>}
-            </div>
-            <span class="card__chevron" aria-hidden="true" />
-          </div>
+        <button type="button" class="aid-card__header" aria-expanded="false" aria-controls={`${id}-body`} data-expand>
+          <h3 class="aid-card__title">{station.name}</h3>
+          <span class="aid-card__chevron" aria-hidden="true" />
         </button>
-        <div id={`${id}-body`} class="card__body" hidden>
-          <p class="card__meta">
-            <strong>Cutoff:</strong> {station.cutoff}
-          </p>
-          {station.notes && <p>{station.notes}</p>}
-          {
-            crewStop && (
-              <p class="card__meta">
-                <a href={`${base}crew/#stop-${crewStop.n}`}>Crew stop details →</a>
-              </p>
-            )
-          }
-          <div class="location-actions location-actions--inline">
-            <a class="btn btn--primary btn--sm" href={mapsLink} target="_blank" rel="noopener noreferrer">
-              Open in Maps
-            </a>
+        <div id={`${id}-body`} class="aid-card__body" hidden>
+          <p class="aid-card__cutoff">Cutoff {station.cutoff}</p>
+          {station.notes && <p class="aid-card__notes">{station.notes}</p>}
+          <div class="aid-card__links">
+            {
+              crewStop && (
+                <a href={`${base}crew/#stop-${crewStop.n}`}>Crew stop →</a>
+              )
+            }
+            <a href={mapsLink} target="_blank" rel="noopener noreferrer">Directions →</a>
           </div>
         </div>
       </>
     ) : (
       <>
-        <div class="card__header card__header--static">
-          <div class="card__header-main">
-            <span class="card__mile">Mile {station.mile}</span>
-            <h3 class="card__title">{station.name}</h3>
-          </div>
-          <div class="card__badges">
-            <span class="badge">{station.type}</span>
-            {station.crew_access && <span class="badge badge--crew">Crew</span>}
-            {station.pacer_access && <span class="badge badge--pacer">Pacer</span>}
-            {isSleep && <span class="badge badge--sleep">Sleep</span>}
-            {station.drop_bag && <span class="badge badge--drop">Drop bag</span>}
-          </div>
-        </div>
-        <div class="card__body">
-          <p class="card__meta">
-            <strong>Cutoff:</strong> {station.cutoff}
-          </p>
-          {station.notes && <p>{station.notes}</p>}
+        <h3 class="aid-card__title">{station.name}</h3>
+        <div class="aid-card__body">
+          <p class="aid-card__cutoff">Cutoff {station.cutoff}</p>
+          {station.notes && <p class="aid-card__notes">{station.notes}</p>}
         </div>
       </>
     )

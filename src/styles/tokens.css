@@ -1,0 +1,79 @@
+/* Crew Chief — field manual design tokens (design-spec.md) */
+:root {
+  --surface-base: #f2ede3;
+  --surface-raised: #e8e1d3;
+  --surface-deep: #1b2a2e;
+
+  --ink-primary: #1b2a2e;
+  --ink-secondary: #4a5a5f;
+  --ink-tertiary: #7a8a8f;
+  --ink-divider: #c9c0ae;
+
+  --accent-primary: #b5451f;
+  --accent-warning: #c48b1f;
+  --accent-success: #4a6b3a;
+
+  --link: #1b2a2e;
+  --link-hover: #b5451f;
+  --focus-ring: 0 0 0 2px #b5451f;
+
+  --font-display: "Fraunces", "Source Serif 4", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --text-eyebrow: 0.6875rem;
+  --text-meta: 0.75rem;
+  --text-body-sm: 0.875rem;
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+  --text-h4: 1.25rem;
+  --text-h3: 1.5rem;
+  --text-h2: 2rem;
+  --text-h1: 2.5rem;
+  --text-display: 3.5rem;
+  --text-stat: 3rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  --container-narrow: 36rem;
+  --container-base: 48rem;
+  --container-wide: 64rem;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+  --border-hairline: 1px solid var(--ink-divider);
+
+  /* Legacy aliases used across existing CSS */
+  --canvas: var(--surface-base);
+  --surface: var(--surface-raised);
+  --surface-soft: var(--surface-base);
+  --ink: var(--ink-primary);
+  --charcoal: var(--ink-primary);
+  --slate: var(--ink-secondary);
+  --steel: var(--ink-secondary);
+  --stone: var(--ink-tertiary);
+  --muted: var(--ink-tertiary);
+  --hairline: var(--ink-divider);
+  --hairline-soft: var(--ink-divider);
+  --mint: var(--accent-primary);
+  --mint-deep: #8f3819;
+  --mint-soft: var(--accent-warning);
+  --hero-dark-from: var(--surface-deep);
+  --hero-dark-to: var(--surface-deep);
+  --hero-sky-from: var(--ink-tertiary);
+  --hero-sky-to: var(--ink-divider);
+  --sans: var(--font-body);
+  --mono: var(--font-mono);
+  --shadow-card: none;
+  --shadow-featured: none;
+}

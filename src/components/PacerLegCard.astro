@@ -8,33 +8,20 @@ interface Props {
 const { leg } = Astro.props;
 ---
 
-<article class="card">
-  <div class="card__header card__header--static">
-    <div>
-      <span class="card__mile">Leg {leg.leg}</span>
-      <h3 class="card__title">
-        {leg.from} → {leg.to}
-      </h3>
-    </div>
+<article class="pacer-leg-card">
+  <p class="pacer-leg-card__eyebrow">Leg {leg.leg}</p>
+  <h3 class="pacer-leg-card__title">
+    {leg.from} → {leg.to}
+  </h3>
+  <div class="pacer-leg-card__stats tabular" role="group" aria-label="Leg stats">
+    <span><strong>{leg.miles}</strong> mi</span>
+    <span><strong>{leg.gain_ft.toLocaleString()}</strong> ft gain</span>
+    <span>{leg.estimated_time_of_day}</span>
   </div>
-  <div class="card__body">
-    <div class="stat-strip">
-      <div>
-        <strong>{leg.miles}</strong>
-        miles
-      </div>
-      <div>
-        <strong>{leg.gain_ft.toLocaleString()}</strong>
-        ft gain
-      </div>
-    </div>
-    <p class="card__meta">
-      <strong>When:</strong> {leg.estimated_time_of_day}
-    </p>
-    <p>{leg.terrain_notes}</p>
-    <h4>What to bring</h4>
-    <ul class="list-check">
-      {leg.what_to_bring.map((item) => <li>{item}</li>)}
-    </ul>
-  </div>
+  <hr class="pacer-leg-card__rule" />
+  <p class="pacer-leg-card__notes">{leg.terrain_notes}</p>
+  <h4 class="pacer-leg-card__bring-label">What to bring</h4>
+  <ul class="pacer-leg-card__list">
+    {leg.what_to_bring.map((item) => <li>{item}</li>)}
+  </ul>
 </article>

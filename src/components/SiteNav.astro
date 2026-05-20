@@ -1,11 +1,5 @@
 ---
-import {
-  navEntries,
-  isNavItemActive,
-  isGroupActive,
-  hrefWithBase,
-  type NavItem,
-} from "../lib/nav";
+import { navEntries, isNavItemActive, hrefWithBase } from "../lib/nav";
 
 interface Props {
   canonicalPath: string;
@@ -17,39 +11,29 @@ const { canonicalPath, base } = Astro.props;
 
 <nav class="site-nav" aria-label="Main">
   {
-    navEntries.map((entry) => {
-      if (entry.type === "link") {
-        const href = hrefWithBase(base, entry.item.href);
-        const isCurrent = isNavItemActive(canonicalPath, entry.item.href);
-        return (
-          <a href={href} class="site-nav__link" aria-current={isCurrent ? "page" : undefined}>
+    navEntries.map((entry, index) => (
+      <>
+        {index > 0 && <span class="site-nav__rule" aria-hidden="true" />}
+        {entry.type === "link" ? (
+          <a
+            href={hrefWithBase(base, entry.item.href)}
+            class="site-nav__link"
+            aria-current={isNavItemActive(canonicalPath, entry.item.href) ? "page" : undefined}
+          >
             {entry.item.label}
           </a>
-        );
-      }
-
-      const groupOpen = isGroupActive(canonicalPath, entry.items);
-      return (
-        <details class="site-nav__group" open={groupOpen || undefined}>
-          <summary class="site-nav__summary">{entry.label}</summary>
-          <div class="site-nav__menu" role="list">
-            {entry.items.map((item: NavItem) => {
-              const href = hrefWithBase(base, item.href);
-              const isCurrent = isNavItemActive(canonicalPath, item.href);
-              return (
-                <a
-                  href={href}
-                  class="site-nav__link site-nav__link--sub"
-                  role="listitem"
-                  aria-current={isCurrent ? "page" : undefined}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-          </div>
-        </details>
-      );
-    })
+        ) : (
+          entry.items.map((item) => (
+            <a
+              href={hrefWithBase(base, item.href)}
+              class="site-nav__link"
+              aria-current={isNavItemActive(canonicalPath, item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        )}
+      </>
+    ))
   }
 </nav>

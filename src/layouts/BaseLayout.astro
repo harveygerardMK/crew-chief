@@ -23,17 +23,13 @@ const base = import.meta.env.BASE_URL;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#00d4a4" />
+    <meta name="theme-color" content="#B5451F" />
     <title>{pageTitle}</title>
     <link rel="manifest" href={`${base}manifest.webmanifest`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
@@ -41,11 +37,12 @@ const base = import.meta.env.BASE_URL;
   <body>
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="site-logo" href={base}>Harvey · Tahoe 200</a>
+        <a class="site-logo" href={base}>
+          <span class="site-logo__name">Harvey</span>
+          <span class="site-logo__dot" aria-hidden="true">·</span>
+          <span class="site-logo__race">Tahoe 200</span>
+        </a>
         <SiteNav canonicalPath={canonicalPath} base={base} />
-        <button type="button" id="trailhead-toggle" class="btn btn--sm btn--secondary trailhead-toggle">
-          Trailhead mode
-        </button>
       </div>
     </header>
     <main>
@@ -58,6 +55,10 @@ const base = import.meta.env.BASE_URL;
         </p>
       </div>
     </footer>
+    <button type="button" id="trailhead-toggle" class="trailhead-toggle" aria-pressed="false">
+      <span class="trailhead-toggle__icon" aria-hidden="true">⌖</span>
+      <span data-trailhead-label>Trailhead mode</span>
+    </button>
   </body>
 </html>
 
