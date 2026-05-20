@@ -12,9 +12,9 @@ export const navEntries: NavEntry[] = [
     label: "Crew",
     items: [
       { href: "/next/", label: "Next stop" },
-      { href: "/board/", label: "Board" },
-      { href: "/crew/", label: "Guide" },
-      { href: "/aid-stations/", label: "Aid" },
+      { href: "/board/", label: "Race board" },
+      { href: "/crew/", label: "Crew guide" },
+      { href: "/aid-stations/", label: "Aid stations" },
     ],
   },
   {
@@ -27,7 +27,7 @@ export const navEntries: NavEntry[] = [
     ],
   },
   { type: "link", item: { href: "/pacers/", label: "Pacers" } },
-  { type: "link", item: { href: "/follow/", label: "Follow" } },
+  { type: "link", item: { href: "/follow/", label: "See Harvey" } },
 ];
 
 export function normalizePath(path: string): string {

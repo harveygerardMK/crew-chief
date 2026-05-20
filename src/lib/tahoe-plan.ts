@@ -4,9 +4,21 @@ import aidStations from "../../data/aid-stations.json";
 import crewStops from "../../data/crew-stops.json";
 import site from "../../data/site.json";
 import type { AidStation } from "./data";
-import { findAidStationForCrew, mapsUrl, parseCoordinates } from "./station-links";
+import { aidNForCrewStopN, findAidStationForCrew, mapsUrl, parseCoordinates } from "./station-links";
 
 export const RACE_START_ISO = "2026-06-12T09:00:00-07:00";
+
+/** Harvey's plan: finish Monday June 15 ~6 PM (official cutoff remains Tuesday). */
+export const PLANNED_FINISH_ISO = "2026-06-15T18:00:00-07:00";
+
+const COURSE_BASELINE_HOURS =
+  segments[segments.length - 1]?.cumulative_baseline_hours ?? race.cutoff_hours;
+
+const PLANNED_FINISH_HOURS =
+  (new Date(PLANNED_FINISH_ISO).getTime() - new Date(RACE_START_ISO).getTime()) / 3_600_000;
+
+/** Scale segment splits so baseline pace reaches the finish on Monday, not at 105h. */
+const PLAN_HOURS_SCALE = PLANNED_FINISH_HOURS / COURSE_BASELINE_HOURS;
 
 export type PaceScenario = "optimistic" | "baseline" | "conservative";
 
@@ -28,12 +40,12 @@ export function baselineHoursAtMile(mile: number): number {
       const segLen = seg.miles;
       const fraction = segLen > 0 ? (mile - segStartMiles) / segLen : 1;
       const hoursInSeg = seg.manual_baseline_hours * fraction;
-      return prevCumHours + hoursInSeg;
+      return (prevCumHours + hoursInSeg) * PLAN_HOURS_SCALE;
     }
     prevCumMiles = seg.cumulative_miles;
     prevCumHours = seg.cumulative_baseline_hours;
   }
-  return segments[segments.length - 1]?.cumulative_baseline_hours ?? 105;
+  return COURSE_BASELINE_HOURS * PLAN_HOURS_SCALE;
 }
 
 export function plannedArrivalDate(mile: number, pace: PaceScenario = "baseline"): Date {
@@ -95,12 +107,13 @@ export function getAidByN(n: number): AidStation | undefined {
 
 export function getCrewStopPayload() {
   return crewStops.map((stop) => {
-    const aid = findAidStationForCrew(stop.aid_station);
+    const aidN = aidNForCrewStopN(stop.n);
+    const aid = aidN !== undefined ? aidStations.find((a) => a.n === aidN) : findAidStationForCrew(stop.aid_station);
     const coords = parseCoordinates(stop.drive_notes) ?? aid?.coordinates;
     const mapsHref = coords ? mapsUrl(coords.lat, coords.lng) : undefined;
     return {
       crew_stop_n: stop.n,
-      aid_n: aid?.n ?? stop.n,
+      aid_n: aid?.n ?? aidN ?? stop.n,
       name: stop.aid_station,
       mile: stop.mile,
       cutoff: stop.cutoff,
@@ -111,6 +124,23 @@ export function getCrewStopPayload() {
       maps_href: mapsHref,
     };
   });
+}
+
+/** Next crew stop for status display (server-side; ignores local check-ins). */
+export function getNextPlannedCrewStop(lastSeenStation: string | null) {
+  const stops = getCrewStopPayload();
+  if (!lastSeenStation) return stops[0] ?? null;
+
+  const key = lastSeenStation.toLowerCase();
+  const idx = stops.findIndex(
+    (s) =>
+      key.includes(s.name.toLowerCase().split("(")[0].trim()) ||
+      s.name.toLowerCase().includes(key) ||
+      key.includes(`mile ${s.mile}`),
+  );
+  if (idx >= 0 && idx < stops.length - 1) return stops[idx + 1];
+  if (idx >= 0) return null;
+  return stops[0] ?? null;
 }
 
 export { race, aidStations, crewStops, site };

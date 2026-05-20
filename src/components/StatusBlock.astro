@@ -1,11 +1,18 @@
 ---
 import { race, status } from "../lib/data";
 import { getCountdown, getRacePhase } from "../lib/dates";
+import {
+  formatPlanTimeShort,
+  getNextPlannedCrewStop,
+  plannedArrivalDate,
+} from "../lib/tahoe-plan";
 
 const base = import.meta.env.BASE_URL;
 const phase = status.phase === "pre-race" && getRacePhase() === "on-course" ? "on-course" : status.phase;
 const countdown = phase === "pre-race" ? getCountdown() : null;
-const startLine = `${race.start.date} · ${race.start.time_local} ${race.start.timezone.split("/").pop()?.replace("_", " ") ?? "PDT"}`;
+const nextCrew = phase === "on-course" ? getNextPlannedCrewStop(status.last_seen_station) : null;
+const nextEta =
+  nextCrew ? formatPlanTimeShort(plannedArrivalDate(nextCrew.mile, "baseline")) : null;
 ---
 
 <section
@@ -19,9 +26,7 @@ const startLine = `${race.start.date} · ${race.start.time_local} ${race.start.t
         <p id="status-primary" class="status-block__primary">
           {(countdown ?? "Race week").toUpperCase()}
         </p>
-        <p class="status-block__detail">
-          June 12 · 9:00 AM PDT
-        </p>
+        <p class="status-block__detail">June 12 · 9:00 AM PDT</p>
         <p class="status-block__detail">{race.start.location}</p>
         {status.message && <p class="status-block__secondary">{status.message}</p>}
       </>
@@ -37,8 +42,16 @@ const startLine = `${race.start.date} · ${race.start.time_local} ${race.start.t
             : "Harvey is on course"}
         </p>
         {status.last_seen_time && <p class="status-block__detail">{status.last_seen_time}</p>}
+        {
+          nextCrew && nextEta && (
+            <p class="status-block__detail">
+              Next crew: {nextCrew.name} (mile {nextCrew.mile}) · plan ~{nextEta}
+            </p>
+          )
+        }
         {status.message && <p class="status-block__secondary">{status.message}</p>}
         <p class="status-block__actions">
+          <a class="btn btn--secondary" href={`${base}next/`}>Next stop →</a>
           <a class="btn btn--secondary" href={`${base}board/`}>View board →</a>
         </p>
       </>

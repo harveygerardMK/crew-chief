@@ -4,13 +4,11 @@ import { findCrewStopForAid, mapsUrl } from "../lib/station-links";
 
 interface Props {
   station: AidStation;
-  expandable?: boolean;
 }
 
-const { station, expandable = true } = Astro.props;
-const id = `aid-${station.n}`;
+const { station } = Astro.props;
 const isSleep = station.type === "Sleep";
-const crewStop = station.crew_access ? findCrewStopForAid(station.name) : null;
+const crewStop = station.crew_access ? findCrewStopForAid(station.name, station.n) : null;
 const base = import.meta.env.BASE_URL;
 const mapsLink = mapsUrl(station.coordinates.lat, station.coordinates.lng);
 
@@ -33,34 +31,15 @@ const eyebrowParts = [
   data-sleep={isSleep}
 >
   <p class="aid-card__eyebrow">{eyebrowParts.join(" · ")}</p>
-  {
-    expandable ? (
-      <>
-        <button type="button" class="aid-card__header" aria-expanded="false" aria-controls={`${id}-body`} data-expand>
-          <h3 class="aid-card__title">{station.name}</h3>
-          <span class="aid-card__chevron" aria-hidden="true" />
-        </button>
-        <div id={`${id}-body`} class="aid-card__body" hidden>
-          <p class="aid-card__cutoff">Cutoff {station.cutoff}</p>
-          {station.notes && <p class="aid-card__notes">{station.notes}</p>}
-          <div class="aid-card__links">
-            {
-              crewStop && (
-                <a href={`${base}crew/#stop-${crewStop.n}`}>Crew stop →</a>
-              )
-            }
-            <a href={mapsLink} target="_blank" rel="noopener noreferrer">Directions →</a>
-          </div>
-        </div>
-      </>
-    ) : (
-      <>
-        <h3 class="aid-card__title">{station.name}</h3>
-        <div class="aid-card__body">
-          <p class="aid-card__cutoff">Cutoff {station.cutoff}</p>
-          {station.notes && <p class="aid-card__notes">{station.notes}</p>}
-        </div>
-      </>
-    )
-  }
+  <h3 class="aid-card__title">{station.name}</h3>
+  <p class="aid-card__cutoff">Cutoff {station.cutoff}</p>
+  {station.notes && <p class="aid-card__notes">{station.notes}</p>}
+  <div class="aid-card__links">
+    {
+      crewStop && (
+        <a href={`${base}crew/#stop-${crewStop.n}`}>Crew stop →</a>
+      )
+    }
+    <a href={mapsLink} target="_blank" rel="noopener noreferrer">Directions →</a>
+  </div>
 </article>

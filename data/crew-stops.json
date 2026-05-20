@@ -85,7 +85,7 @@
     "aid_station": "Village Green",
     "mile": 163.6,
     "cutoff": "Mon 10:00 PM",
-    "planned_eta": "Mon evening",
+    "planned_eta": "Mon afternoon (push for Monday finish)",
     "parking": "Park in either of the designated crew parking areas (marked green).",
     "drive_notes": "Coordinates: 39.24127, -119.94491",
     "restock_priorities": [
@@ -100,7 +100,7 @@
     "aid_station": "Finish (Heavenly)",
     "mile": 200.4,
     "cutoff": "Tue 6:00 PM",
-    "planned_eta": "Tue (target before cutoff)",
+    "planned_eta": "Mon evening (plan) · official cutoff Tue 6:00 PM",
     "parking": "Same site as start \u2014 Stagecoach Lodge lower lot.",
     "drive_notes": "375 Quaking Aspen Ln, Stateline, NV 89449",
     "restock_priorities": [

@@ -22,6 +22,12 @@
     "time_local": "18:00",
     "timezone": "America/Los_Angeles"
   },
+  "planned_finish": {
+    "date": "2026-06-15",
+    "time_local": "18:00",
+    "timezone": "America/Los_Angeles",
+    "label": "Monday, June 15 — plan to finish"
+  },
   "check_in": {
     "date": "2026-06-11",
     "time_local_start": "13:00",

@@ -143,21 +143,27 @@ export function initCommandCenter(stops: CrewStopPayload[], base: string) {
     `;
 
     const maps = stop.maps_href
-      ? `<a class="btn btn--primary" href="${stop.maps_href}" target="_blank" rel="noopener noreferrer">Open Maps</a>`
+      ? `<a class="btn btn--secondary" href="${stop.maps_href}" target="_blank" rel="noopener noreferrer">Open Maps</a>`
       : "";
     actions.innerHTML = `
+      <button type="button" class="btn btn--primary" data-checkin-aid="${stop.aid_n}">Mark arrived</button>
       ${maps}
-      <button type="button" class="btn btn--secondary" data-checkin-aid="${stop.aid_n}">Mark arrived</button>
       <a class="btn btn--secondary" href="${base}crew/#playbook-${stop.crew_stop_n}">Open playbook</a>
       <a class="btn btn--secondary" href="${base}board/">Race board</a>
     `;
+  }
 
-    actions.querySelectorAll("[data-checkin-aid]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        setCheckIn(stop.aid_n, new Date().toISOString());
-        render();
-        document.dispatchEvent(new CustomEvent("tahoe-checkin"));
-      });
+  const actionsEl = root.querySelector("[data-cc-actions]");
+  if (actionsEl && !(actionsEl as HTMLElement).dataset.bound) {
+    (actionsEl as HTMLElement).dataset.bound = "1";
+    actionsEl.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest("[data-checkin-aid]");
+      if (!btn) return;
+      const aidN = Number(btn.getAttribute("data-checkin-aid"));
+      if (!Number.isFinite(aidN)) return;
+      setCheckIn(aidN, new Date().toISOString());
+      render();
+      document.dispatchEvent(new CustomEvent("tahoe-checkin"));
     });
   }
 
