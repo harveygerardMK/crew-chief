@@ -196,6 +196,35 @@ iframe {
   flex-shrink: 0;
 }
 
+.section-hub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  margin: 0 0 var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-hairline);
+}
+
+.section-hub__link {
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--ink-primary);
+}
+
+.section-hub__link:hover {
+  color: var(--link-hover);
+}
+
+.section-hub__link--primary {
+  color: var(--accent-primary);
+}
+
+.section-hub-grid {
+  margin-top: var(--space-4);
+}
+
 @media (max-width: 640px) {
   .site-header__inner {
     flex-direction: column;

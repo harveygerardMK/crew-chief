@@ -1,5 +1,5 @@
 ---
-import { navEntries, isNavItemActive, hrefWithBase } from "../lib/nav";
+import { primaryNav, isPrimaryNavActive, hrefWithBase } from "../lib/nav";
 
 interface Props {
   canonicalPath: string;
@@ -11,28 +11,16 @@ const { canonicalPath, base } = Astro.props;
 
 <nav class="site-nav" aria-label="Main">
   {
-    navEntries.map((entry, index) => (
+    primaryNav.map((item, index) => (
       <>
         {index > 0 && <span class="site-nav__rule" aria-hidden="true" />}
-        {entry.type === "link" ? (
-          <a
-            href={hrefWithBase(base, entry.item.href)}
-            class="site-nav__link"
-            aria-current={isNavItemActive(canonicalPath, entry.item.href) ? "page" : undefined}
-          >
-            {entry.item.label}
-          </a>
-        ) : (
-          entry.items.map((item) => (
-            <a
-              href={hrefWithBase(base, item.href)}
-              class="site-nav__link"
-              aria-current={isNavItemActive(canonicalPath, item.href) ? "page" : undefined}
-            >
-              {item.label}
-            </a>
-          ))
-        )}
+        <a
+          href={hrefWithBase(base, item.href)}
+          class="site-nav__link"
+          aria-current={isPrimaryNavActive(canonicalPath, item) ? "page" : undefined}
+        >
+          {item.label}
+        </a>
       </>
     ))
   }

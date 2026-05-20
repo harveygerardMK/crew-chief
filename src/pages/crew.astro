@@ -32,10 +32,13 @@ function addressForStop(stop: (typeof crewStops)[number]): string | undefined {
   <div class="container">
     <AudienceIntro audience="crew" />
     <h1>Harvey's crew guide</h1>
-    <p class="lead">
-      Seven crew-access stops on the Tahoe 200 course · playbooks save on this phone ·{" "}
-      <a href={`${base}next/`}>next stop command center</a>
-    </p>
+    <p class="lead">Seven crew-access stops on the Tahoe 200 course · playbooks save on this phone.</p>
+
+    <nav class="section-hub" aria-label="Crew tools">
+      <a class="section-hub__link section-hub__link--primary" href={`${base}next/`}>Next stop</a>
+      <a class="section-hub__link" href={`${base}board/`}>Race board</a>
+      <a class="section-hub__link" href={`${base}aid-stations/`}>Aid stations</a>
+    </nav>
 
     <PageNav items={navItems} />
 

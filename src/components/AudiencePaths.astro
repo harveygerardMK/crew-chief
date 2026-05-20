@@ -68,19 +68,9 @@ const sections = [
       },
     ],
   },
-  {
-    title: "Follow",
-    desc: "Family and friends",
-    paths: [
-      {
-        href: `${base}follow/`,
-        title: "See Harvey",
-        desc: "Spectator stops · tracker · ETAs",
-        className: "audience-path--follow",
-      },
-    ],
-  },
 ];
+
+const followLink = `${base}follow/`;
 ---
 
 <section class="audience-paths" aria-labelledby="paths-heading">
@@ -104,4 +94,7 @@ const sections = [
       </div>
     ))
   }
+  <p class="card__meta audience-paths__follow">
+    Family & friends: <a href={followLink}>See Harvey</a> · tracker and spectator stops
+  </p>
 </section>

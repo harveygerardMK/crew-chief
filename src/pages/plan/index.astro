@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AudienceIntro from "../../components/AudienceIntro.astro";
+
+const base = import.meta.env.BASE_URL;
+
+const links = [
+  {
+    href: `${base}course/`,
+    title: "Course",
+    desc: "200.4 mi · CalTopo map · segment splits",
+    className: "audience-path--course",
+  },
+  {
+    href: `${base}gear/`,
+    title: "Gear",
+    desc: "Mandatory kit · drop bags · Harvey's pack list",
+    className: "audience-path--gear",
+  },
+  {
+    href: `${base}schedule/`,
+    title: "Schedule",
+    desc: "June 7–18 · drive · check-in · race · recovery",
+    className: "audience-path--schedule",
+  },
+];
+---
+
+<BaseLayout title="Plan" description="Harvey Schaefer's Tahoe 200 plan — course, gear, and race week schedule.">
+  <div class="container">
+    <AudienceIntro audience="runner" />
+    <h1>Harvey's plan</h1>
+    <p class="lead">Course, mandatory gear, and race week calendar — Tahoe 200 only.</p>
+
+    <div class="audience-paths__grid section-hub-grid">
+      {
+        links.map((p) => (
+          <a href={p.href} class:list={["audience-path", p.className]}>
+            <span class="audience-path__title">{p.title}</span>
+            <span class="audience-path__desc">{p.desc}</span>
+            <span class="audience-path__arrow" aria-hidden="true">→</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="card__meta">
+      Family follow-along: <a href={`${base}follow/`}>See Harvey</a>
+    </p>
+  </div>
+</BaseLayout>
