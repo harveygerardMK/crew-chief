@@ -1,45 +1,107 @@
 ---
 const base = import.meta.env.BASE_URL;
 
-const paths = [
+const sections = [
   {
-    href: `${base}next/`,
-    title: "Next stop",
-    desc: "Harvey's next crew meet — leave-by & Maps",
-    className: "audience-path--plan",
+    title: "Crew",
+    desc: "Race week operations — where to meet Harvey",
+    paths: [
+      {
+        href: `${base}next/`,
+        title: "Next stop",
+        desc: "Leave-by · Maps · check in",
+        className: "audience-path--plan",
+      },
+      {
+        href: `${base}board/`,
+        title: "Race board",
+        desc: "Plan vs actual at every aid",
+        className: "audience-path--board",
+      },
+      {
+        href: `${base}crew/`,
+        title: "Crew guide",
+        desc: "Playbooks · parking · timeline",
+        className: "audience-path--crew",
+      },
+      {
+        href: `${base}aid-stations/`,
+        title: "Aid stations",
+        desc: "All 13 stops · cutoffs · filters",
+        className: "audience-path--aid",
+      },
+    ],
   },
   {
-    href: `${base}crew/`,
-    title: "Crew & playbooks",
-    desc: "7 Tahoe aids · checklists · parking",
-    className: "audience-path--crew",
+    title: "Plan",
+    desc: "Harvey's Tahoe 200 — course, kit, and calendar",
+    paths: [
+      {
+        href: `${base}course/`,
+        title: "Course",
+        desc: "200.4 mi · map · segments",
+        className: "audience-path--course",
+      },
+      {
+        href: `${base}gear/`,
+        title: "Gear",
+        desc: "Mandatory kit · drop bags",
+        className: "audience-path--gear",
+      },
+      {
+        href: `${base}schedule/`,
+        title: "Schedule",
+        desc: "June 7–18 race week",
+        className: "audience-path--schedule",
+      },
+    ],
   },
   {
-    href: `${base}board/`,
-    title: "Race board",
-    desc: "Harvey's plan vs actual at every aid",
-    className: "audience-path--board",
+    title: "Pacers",
+    desc: "Six legs from Loon Lake to the finish",
+    paths: [
+      {
+        href: `${base}pacers/`,
+        title: "Pacers",
+        desc: "Legs · gear · rules · onboarding",
+        className: "audience-path--pacers",
+      },
+    ],
   },
   {
-    href: `${base}follow/`,
-    title: "See Harvey",
-    desc: "Family view · ETAs · live tracker",
-    className: "audience-path--follow",
+    title: "Follow",
+    desc: "Family and friends",
+    paths: [
+      {
+        href: `${base}follow/`,
+        title: "See Harvey",
+        desc: "Spectator stops · tracker · ETAs",
+        className: "audience-path--follow",
+      },
+    ],
   },
 ];
 ---
 
 <section class="audience-paths" aria-labelledby="paths-heading">
   <h2 id="paths-heading">Where do you need to go?</h2>
-  <div class="audience-paths__grid">
-    {
-      paths.map((p) => (
-        <a href={p.href} class:list={["audience-path", p.className]}>
-          <span class="audience-path__title">{p.title}</span>
-          <span class="audience-path__desc">{p.desc}</span>
-          <span class="audience-path__arrow" aria-hidden="true">→</span>
-        </a>
-      ))
-    }
-  </div>
+  {
+    sections.map((section) => (
+      <div class="audience-paths__section">
+        <div class="audience-paths__section-head">
+          <h3>{section.title}</h3>
+          <p>{section.desc}</p>
+        </div>
+        <div class="audience-paths__grid">
+          {section.paths.map((p) => (
+            <a href={p.href} class:list={["audience-path", p.className]}>
+              <span class="audience-path__title">{p.title}</span>
+              <span class="audience-path__desc">{p.desc}</span>
+              <span class="audience-path__arrow" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))
+  }
 </section>

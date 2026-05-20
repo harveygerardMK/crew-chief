@@ -1,0 +1,55 @@
+---
+import {
+  navEntries,
+  isNavItemActive,
+  isGroupActive,
+  hrefWithBase,
+  type NavItem,
+} from "../lib/nav";
+
+interface Props {
+  canonicalPath: string;
+  base: string;
+}
+
+const { canonicalPath, base } = Astro.props;
+---
+
+<nav class="site-nav" aria-label="Main">
+  {
+    navEntries.map((entry) => {
+      if (entry.type === "link") {
+        const href = hrefWithBase(base, entry.item.href);
+        const isCurrent = isNavItemActive(canonicalPath, entry.item.href);
+        return (
+          <a href={href} class="site-nav__link" aria-current={isCurrent ? "page" : undefined}>
+            {entry.item.label}
+          </a>
+        );
+      }
+
+      const groupOpen = isGroupActive(canonicalPath, entry.items);
+      return (
+        <details class="site-nav__group" open={groupOpen || undefined}>
+          <summary class="site-nav__summary">{entry.label}</summary>
+          <div class="site-nav__menu" role="list">
+            {entry.items.map((item: NavItem) => {
+              const href = hrefWithBase(base, item.href);
+              const isCurrent = isNavItemActive(canonicalPath, item.href);
+              return (
+                <a
+                  href={href}
+                  class="site-nav__link site-nav__link--sub"
+                  role="listitem"
+                  aria-current={isCurrent ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+          </div>
+        </details>
+      );
+    })
+  }
+</nav>

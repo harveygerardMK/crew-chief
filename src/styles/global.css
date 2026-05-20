@@ -167,25 +167,97 @@ iframe {
 .site-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.15rem;
   font-size: 0.875rem;
 }
 
-.site-nav a {
+.site-nav__link,
+.site-nav__summary {
   color: var(--steel);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.65rem;
   min-height: 2.75rem;
   display: inline-flex;
   align-items: center;
   border-radius: var(--radius-sm);
+  cursor: pointer;
+  list-style: none;
 }
 
-.site-nav a[aria-current="page"] {
+.site-nav__link[aria-current="page"],
+.site-nav__group[open] > .site-nav__summary {
   color: var(--ink);
   font-weight: 500;
   background: var(--surface);
   box-shadow: inset 2px 0 0 var(--mint);
+}
+
+.site-nav__group {
+  position: relative;
+}
+
+.site-nav__summary::-webkit-details-marker {
+  display: none;
+}
+
+.site-nav__summary::after {
+  content: "▾";
+  margin-left: 0.25rem;
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+
+.site-nav__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  min-width: 10.5rem;
+  margin: 0.15rem 0 0;
+  padding: 0.35rem;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.site-nav__link--sub {
+  width: 100%;
+  font-size: 0.8125rem;
+}
+
+.site-nav__group:not([open]) .site-nav__menu {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .site-header__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-nav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .trailhead-toggle {
+    order: 2;
+    align-self: flex-end;
+  }
+
+  .site-nav__menu {
+    position: static;
+    box-shadow: none;
+    border: none;
+    padding: 0 0 0 0.5rem;
+    margin: 0 0 0.25rem;
+  }
 }
 
 main {
@@ -727,9 +799,34 @@ td {
   margin: 0 0 1rem;
 }
 
+.audience-paths__section {
+  margin-bottom: 1.75rem;
+}
+
+.audience-paths__section-head {
+  margin-bottom: 0.75rem;
+}
+
+.audience-paths__section-head h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1.125rem;
+}
+
+.audience-paths__section-head p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--steel);
+}
+
 .audience-paths__grid {
   display: grid;
   gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .audience-paths__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .audience-path {
@@ -787,6 +884,26 @@ td {
 
 .audience-path--follow {
   border-left: 3px solid var(--hero-sky-from);
+}
+
+.audience-path--board {
+  border-left: 3px solid var(--hero-dark-from);
+}
+
+.audience-path--aid {
+  border-left: 3px solid var(--mint-soft);
+}
+
+.audience-path--course {
+  border-left: 3px solid var(--hero-sky-from);
+}
+
+.audience-path--gear {
+  border-left: 3px solid var(--steel);
+}
+
+.audience-path--schedule {
+  border-left: 3px solid var(--hero-dark-to);
 }
 
 /* Page audience intro */
@@ -1089,10 +1206,6 @@ td {
 }
 
 /* Tahoe feature: command center, board, playbooks, family, trailhead */
-.audience-path--board {
-  border-left-color: var(--hero-dark-from);
-}
-
 .command-center-wrap {
   background: linear-gradient(165deg, var(--hero-dark-from) 0%, var(--hero-dark-to) 55%, var(--canvas) 100%);
   color: var(--canvas);

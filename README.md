@@ -8,18 +8,20 @@ Trip site for **Harvey Schaefer** running the [Tahoe 200 Endurance Run](https://
 
 ## What's here
 
-| Page | Who it's for |
-|------|----------------|
-| Home | Countdown + status + quick links |
-| Next stop | Crew — leave-by, Maps, mark Harvey arrived |
-| Race board | Crew — planned vs actual at every aid |
-| Crew | Playbooks, parking, ETAs, restock lists |
-| Aid stations | All 13 Tahoe 200 stops, filterable |
-| Course | Map, narrative, segment table |
-| Pacers | Six legs + mandatory gear |
-| Gear | Mandatory / recommended / drop bags |
-| Schedule | Jun 7–18 race week |
-| Follow | Family — see Harvey, tracker tips |
+**Nav:** Home · **Crew** (Next stop, Board, Guide, Aid) · **Plan** (Course, Gear, Schedule) · **Pacers** · **Follow**
+
+| Page | Category | Who it's for |
+|------|----------|----------------|
+| Home | — | Countdown + status + quick links by category |
+| Next stop | Crew | Leave-by, Maps, mark Harvey arrived |
+| Race board | Crew | Planned vs actual at every aid |
+| Crew guide | Crew | Playbooks, parking, ETAs |
+| Aid stations | Crew | All 13 stops, filterable |
+| Course | Plan | Map, narrative, segments |
+| Gear | Plan | Mandatory / recommended / drop bags |
+| Schedule | Plan | Jun 7–18 race week |
+| Pacers | Pacers | Six legs + mandatory gear |
+| Follow | Follow | Family — see Harvey, tracker tips |
 
 All race facts come from `/data/*.json` — edit JSON, rebuild, deploy. No duplicated numbers in the HTML.
 
