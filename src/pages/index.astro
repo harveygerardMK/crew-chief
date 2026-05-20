@@ -12,14 +12,15 @@ const base = import.meta.env.BASE_URL;
   <div class="home-hero">
     <div class="container">
       <StatusBlock />
-      <p class="page-eyebrow">{site.race}</p>
+      <p class="page-eyebrow">{site.race} · {site.year}</p>
       <h1>{site.name}</h1>
       <p class="lead">
-        Crew plan for {site.runner} — {site.distance_miles} miles around Lake Tahoe, June 12–16, 2026.
+        {site.runner} is running {site.distance_miles} miles around Lake Tahoe, June 12–16, 2026. Crew command
+        center, playbooks, and family follow-along — Tahoe 200 only.
       </p>
       <p>
         <a class="btn btn--primary" href={`${base}next/`}>
-          Next stop
+          Next crew stop
         </a>
         <a class="btn btn--secondary" href={`${base}board/`}>
           Race board
@@ -30,11 +31,10 @@ const base = import.meta.env.BASE_URL;
   <div class="container">
     <AudiencePaths />
     <p class="card__meta" style="margin-top: 1.5rem">
-      Plan v{site.plan_version} · Course, gear, pacers, and schedule in the nav · Offline at trailheads (install from
-      browser menu).
+      {site.tagline} Plan v{site.plan_version}. Offline at trailheads — add to home screen from your browser menu.
     </p>
     <p class="card__meta">
-      Live tracking:{" "}
+      Official Tahoe 200 tracking:{" "}
       <a href={race.live_tracking_url_placeholder} target="_blank" rel="noopener noreferrer">
         destinationtrailrun.com/tahoe
       </a>

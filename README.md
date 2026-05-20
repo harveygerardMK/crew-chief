@@ -1,29 +1,29 @@
-# Tahoe 200 2026
+# Harvey's Tahoe 200 (2026)
 
-Trip site for Harvey Schaefer’s [Tahoe 200 Endurance Run](https://www.destinationtrailrun.com/tahoe) — race plan, crew logistics, pacer info, and a simple follow-along page for family and friends.
+Trip site for **Harvey Schaefer** running the [Tahoe 200 Endurance Run](https://www.destinationtrailrun.com/tahoe) — his race plan, crew command center, pacer info, and a follow-along page for family and friends. **Tahoe 200 only** (not Leadville or other events).
 
 **Live site:** https://harveygerardMK.github.io/crew-chief/
 
 **Repo:** https://github.com/harveygerardMK/crew-chief
 
-## What’s here
+## What's here
 
-| Page | Who it’s for |
+| Page | Who it's for |
 |------|----------------|
 | Home | Countdown + status + quick links |
+| Next stop | Crew — leave-by, Maps, mark Harvey arrived |
+| Race board | Crew — planned vs actual at every aid |
+| Crew | Playbooks, parking, ETAs, restock lists |
+| Aid stations | All 13 Tahoe 200 stops, filterable |
 | Course | Map, narrative, segment table |
-| Aid stations | All 13 stops, filterable |
-| Crew | Parking, ETAs, restock lists |
 | Pacers | Six legs + mandatory gear |
 | Gear | Mandatory / recommended / drop bags |
 | Schedule | Jun 7–18 race week |
-| Follow | Plain-language guide + tracking |
+| Follow | Family — see Harvey, tracker tips |
 
 All race facts come from `/data/*.json` — edit JSON, rebuild, deploy. No duplicated numbers in the HTML.
 
 Long-form copy lives in `src/content/pages/` (Astro content collections).
-
-Visual system follows [Mintlify](https://getdesign.md/mintlify/design-md) via root `DESIGN.md` (clean docs UI, mint accent `#00d4a4`, Inter + Geist Mono).
 
 ## Local development
 
@@ -66,7 +66,7 @@ Before race week, the home page also shows an automatic countdown to the start (
 
 ## Live tracking
 
-The official tracker goes live closer to race day at [destinationtrailrun.com/tahoe](https://www.destinationtrailrun.com/tahoe). Set `live_tracking_url` in `status.json` when the link is active.
+The official Tahoe 200 tracker goes live closer to race day at [destinationtrailrun.com/tahoe](https://www.destinationtrailrun.com/tahoe). Set `live_tracking_url` in `status.json` when the link is active.
 
 ## License
 

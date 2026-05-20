@@ -15,7 +15,7 @@ let primary = "";
 let secondary = status.message;
 
 if (phase === "pre-race") {
-  primary = countdown ?? "Race week";
+  primary = countdown ?? `${race.name} · race week`;
 } else if (phase === "on-course") {
   primary = status.last_seen_station
     ? `Last seen — ${status.last_seen_station}`
