@@ -1,0 +1,67 @@
+{
+  "event": "Bighorn Trail Run 100M",
+  "year": 2025,
+  "date": "2025-06-20",
+  "runner": "Harvey Schaefer",
+  "bib": 274,
+  "start_time_local": "09:00",
+  "timezone": "America/Denver",
+  "finish_gun_time": "31:20:25.10",
+  "finish_elapsed_hours": 31.339,
+  "distance_miles": 100.2,
+  "elevation_gain_ft": 20500,
+  "elevation_loss_ft": 20750,
+  "source": "ITS YOUR RACE — https://bhtr.itsyourrace.com/Results.aspx?id=384",
+  "timing_note": "IYR clock-of-day splits vs 9:00 AM gun. Elapsed hours derived from clock (next-day morning times roll past midnight).",
+  "checkpoints": [
+    {
+      "id": "DFOUTBOUND",
+      "name": "Dry Fork Outbound",
+      "mile": 13.2,
+      "clock": "12:42:00",
+      "elapsed_hours": 3.7,
+      "place": "139/211"
+    },
+    {
+      "id": "FBOUTBOUND",
+      "name": "Foot Bridge Outbound",
+      "mile": 29.2,
+      "clock": "17:01:00",
+      "elapsed_hours": 8.017,
+      "place": "132/213"
+    },
+    {
+      "id": "JAWS",
+      "name": "Jaws turnaround",
+      "mile": 48,
+      "clock": "23:20:00",
+      "elapsed_display": "14:20:00",
+      "elapsed_hours": 14.333,
+      "place": "121/216"
+    },
+    {
+      "id": "FBINBOUND",
+      "name": "Foot Bridge Inbound",
+      "mile": 66.6,
+      "clock": "06:10:00",
+      "elapsed_hours": 21.167,
+      "place": "123/211"
+    },
+    {
+      "id": "DFINBOUND",
+      "name": "Dry Fork Inbound",
+      "mile": 82.8,
+      "clock": "11:24:00",
+      "elapsed_hours": 26.4,
+      "place": "38/212"
+    }
+  ],
+  "tahoe_prep": {
+    "analog_mile_on_tahoe": 52.2,
+    "analog_aid": "Sierra at Tahoe (first crew stop ~50 mi into 200)",
+    "target_arrival": "2026-06-13T00:00:00-07:00",
+    "target_label": "Saturday midnight",
+    "hours_from_tahoe_start": 15,
+    "rationale": "Bighorn Jaws (~48 mi) in 14:20; ~40 min buffer to hit midnight at Sierra (52.2 mi)"
+  }
+}

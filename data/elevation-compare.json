@@ -1,0 +1,27 @@
+{
+  "note": "Course-level totals from race websites / runner manual. Per-mile vert differs; Tahoe front-loads climbing differently than Bighorn.",
+  "races": [
+    {
+      "name": "Bighorn Trail Run 100M",
+      "distance_miles": 100.2,
+      "elevation_gain_ft": 20500,
+      "elevation_loss_ft": 20750,
+      "gain_per_mile_ft": 205,
+      "source": "https://bighorntrailrun.com/home"
+    },
+    {
+      "name": "Tahoe 200 Endurance Run",
+      "distance_miles": 200.4,
+      "elevation_gain_ft": 32093,
+      "elevation_loss_ft": 32077,
+      "gain_per_mile_ft": 160,
+      "source": "Tahoe 200 2026 runner manual / destinationtrailrun.com"
+    }
+  ],
+  "through_50_miles": {
+    "note": "Approximate — use CalTopo for segment-level prep. Tahoe to mile 52 is not the same profile as Bighorn to Jaws.",
+    "bighorn_to_jaws_ft_gain_order": "~10,000–12,000 ft to mile 48 (technical mountain trail)",
+    "tahoe_to_sierra_ft_gain_order": "Check CalTopo; first 52 mi includes Heavenly climbs but spread over longer distance"
+  },
+  "summary": "Tahoe 200 has ~11,600 ft MORE total climbing than Bighorn 100 (~32k vs ~20.5k), but spread over 2× the miles (~160 ft/mi vs ~205 ft/mi). Bighorn is steeper per mile and more remote/technical. Reaching Tahoe mile 52 by midnight is slightly more time than your Bighorn 50 mi split (15 h vs 14:20) — reasonable buffer, not a vert-equivalent guarantee."
+}

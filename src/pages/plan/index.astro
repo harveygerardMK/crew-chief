@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import AudienceIntro from "../../components/AudienceIntro.astro";
+import { elevationCompare, firstHalfPrepNote, planSourceNote, site } from "../../lib/tahoe-plan";
 
 const base = import.meta.env.BASE_URL;
 
@@ -31,6 +32,26 @@ const links = [
     <AudienceIntro audience="runner" />
     <h1>Harvey's plan</h1>
     <p class="lead">Course, mandatory gear, and race week calendar — Tahoe 200 only.</p>
+    <p class="card__meta">{planSourceNote()} Plan v{site.plan_version}.</p>
+    <p class="card__meta">{firstHalfPrepNote()}</p>
+
+    <section class="card" aria-labelledby="vert-heading">
+      <h2 id="vert-heading">Bighorn vs Tahoe vertical</h2>
+      <p>
+        {elevationCompare.summary}
+      </p>
+      <ul>
+        {
+          elevationCompare.races.map((r) => (
+            <li>
+              <strong>{r.name}</strong>: ~{r.elevation_gain_ft.toLocaleString()} ft gain over {r.distance_miles} mi
+              (~{r.gain_per_mile_ft} ft/mi)
+            </li>
+          ))
+        }
+      </ul>
+      <p class="card__meta">{elevationCompare.through_50_miles.note}</p>
+    </section>
 
     <div class="audience-paths__grid section-hub-grid">
       {

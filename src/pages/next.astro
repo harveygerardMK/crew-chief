@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCrewStopPayload, site } from "../lib/tahoe-plan";
+import { getCrewStopPayload, planSourceNote, site } from "../lib/tahoe-plan";
 
 const base = import.meta.env.BASE_URL;
 const crewPayload = getCrewStopPayload();
@@ -15,8 +15,8 @@ const crewPayload = getCrewStopPayload();
       <p class="page-eyebrow">Command center</p>
       <h1>Next stop</h1>
       <p class="lead">
-        One screen for where to meet Harvey next on the Tahoe 200. Times use his segment plan — adjust pace if he's ahead or
-        behind.
+        One screen for where to meet Harvey next on the Tahoe 200. Arrival windows follow his Bighorn 100 splits (2025),
+        stretched to a Monday finish — adjust pace if he's ahead or behind.
       </p>
 
       <div class="command-center-controls">
@@ -42,7 +42,7 @@ const crewPayload = getCrewStopPayload();
       </section>
 
       <p class="card__meta">
-        Plan updated {site.plan_version} · Check-ins saved on this device only ·{" "}
+        {planSourceNote()} Plan v{site.plan_version} · Check-ins saved on this device only ·{" "}
         <a href={`${base}board/`}>Race board</a>
       </p>
     </div>

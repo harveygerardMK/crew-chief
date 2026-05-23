@@ -4,7 +4,7 @@
     "aid_station": "Heavenly (Start)",
     "mile": 0.0,
     "cutoff": "Fri 9:00 AM",
-    "planned_eta": "Fri 7:00 AM (arrive early)",
+    "planned_eta": "Fri 7:00 AM crew arrival · Harvey starts 9:00 AM (Bighorn-paced plan)",
     "parking": "Lower lot at Heavenly Stagecoach Lodge. May park overnight.",
     "drive_notes": "375 Quaking Aspen Ln, Stateline, NV 89449",
     "restock_priorities": [
@@ -19,7 +19,7 @@
     "aid_station": "Sierra at Tahoe",
     "mile": 52.2,
     "cutoff": "Sat 11:30 AM",
-    "planned_eta": "Sat early afternoon (depends on pace)",
+    "planned_eta": "Sat midnight baseline (Bighorn 50 mi → Sierra; Fri 10:30 PM – Sat 1 AM window)",
     "parking": "Standard aid-station parking. Display crew pass.",
     "drive_notes": "Coordinates: 38.80072, -120.08097",
     "restock_priorities": [
@@ -36,7 +36,7 @@
     "aid_station": "Loon Lake",
     "mile": 87.6,
     "cutoff": "Sun 6:30 AM",
-    "planned_eta": "Sat late night / Sun pre-dawn",
+    "planned_eta": "Sat ~6:30 PM baseline (Sat 2 PM – Sun 2 AM window)",
     "parking": "Use Icehouse Rd. DO NOT use Wrights Lake Rd \u2014 no crew access there.",
     "drive_notes": "Coordinates: 38.98226, -120.31479",
     "restock_priorities": [
@@ -53,7 +53,7 @@
     "aid_station": "Tahoe City",
     "mile": 130.0,
     "cutoff": "Mon 4:30 AM",
-    "planned_eta": "Sun evening / Mon early morning",
+    "planned_eta": "Sun ~2:00 PM baseline (Sun 10 AM – Mon 12 AM window)",
     "parking": "Park at the Transit Center and walk 0.2 mi to the aid station.",
     "drive_notes": "Coordinates: 39.16445, -120.14735",
     "restock_priorities": [
@@ -69,7 +69,7 @@
     "aid_station": "Brockway Summit",
     "mile": 148.6,
     "cutoff": "Mon 2:30 PM",
-    "planned_eta": "Mon morning / midday",
+    "planned_eta": "Sun ~10 PM baseline (Sun 6 PM – Mon 4 AM window) · sleep stop",
     "parking": "Park in the designated area and walk 0.6 mi to the aid station.",
     "drive_notes": "Coordinates: 39.25748, -120.08087",
     "restock_priorities": [
@@ -85,7 +85,7 @@
     "aid_station": "Village Green",
     "mile": 163.6,
     "cutoff": "Mon 10:00 PM",
-    "planned_eta": "Mon afternoon (push for Monday finish)",
+    "planned_eta": "Mon ~4:20 AM baseline (Sun 11 PM – Mon 8 AM window)",
     "parking": "Park in either of the designated crew parking areas (marked green).",
     "drive_notes": "Coordinates: 39.24127, -119.94491",
     "restock_priorities": [
@@ -100,7 +100,7 @@
     "aid_station": "Finish (Heavenly)",
     "mile": 200.4,
     "cutoff": "Tue 6:00 PM",
-    "planned_eta": "Mon evening (plan) · official cutoff Tue 6:00 PM",
+    "planned_eta": "Mon ~6:00 PM baseline finish (Bighorn 100 2025 pace profile)",
     "parking": "Same site as start \u2014 Stagecoach Lodge lower lot.",
     "drive_notes": "375 Quaking Aspen Ln, Stateline, NV 89449",
     "restock_priorities": [
