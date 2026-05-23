@@ -3,7 +3,7 @@
     {
       "item": "Hooded jacket",
       "spec": "Waterproof or windproof with hood",
-      "notes": "Rab Downpour Light (verified for UTS \u2014 should work for Tahoe)"
+      "notes": "Rab Downpour Light (verified for UTS — should work for Tahoe)"
     },
     {
       "item": "Gloves",
@@ -13,7 +13,7 @@
     {
       "item": "Hat or buff",
       "spec": "Either works",
-      "notes": ""
+      "notes": "Wet buff also useful for Rubicon dust (medical director)"
     },
     {
       "item": "Pants or tights",
@@ -23,7 +23,7 @@
     {
       "item": "Long-sleeve insulating layer",
       "spec": "Mid-layer warmth",
-      "notes": ""
+      "notes": "Carry extra warm layers beyond minimum — medical director"
     }
   ],
   "mandatory_equipment": [
@@ -35,17 +35,17 @@
     {
       "item": "Device with GPX of course",
       "spec": "Watch + phone backup",
-      "notes": "Load 2026 Full Loop from CalTopo m/9G4NM"
+      "notes": "Load 2026 Full Loop from CalTopo m/9G4NM — stay on trail if lost"
     },
     {
       "item": "Cell phone",
       "spec": "Charged",
-      "notes": ""
+      "notes": "Keep charged; limited cell service on course"
     },
     {
       "item": "Emergency blanket",
       "spec": "Provided by Destination Trail",
-      "notes": "In check-in bag"
+      "notes": "Shelter layer — in check-in bag"
     },
     {
       "item": "Headlamp or waist light",
@@ -54,8 +54,8 @@
     },
     {
       "item": "Extra batteries / battery bank",
-      "spec": "For headlamp/light",
-      "notes": ""
+      "spec": "For headlamp, phone, GPS",
+      "notes": "Conserve battery if lost — stay put and wait"
     },
     {
       "item": "Whistle",
@@ -73,12 +73,47 @@
       "item": "500 emergency calories",
       "spec": "Sealed, for emergency only",
       "notes": "Do not eat unless emergency"
+    },
+    {
+      "item": "Race calories & water",
+      "spec": "Enough to reach next aid",
+      "notes": "Medical director: always carry food, water, layers, shelter, lighting"
+    }
+  ],
+  "on_person_foot_care": [
+    {
+      "item": "Pre-cut Leukotape or KT Tape",
+      "notes": "Medical director — carry on person"
+    },
+    {
+      "item": "Bandages",
+      "notes": ""
+    },
+    {
+      "item": "Alcohol wipes",
+      "notes": ""
+    },
+    {
+      "item": "Small packet of lube or powder",
+      "notes": ""
     }
   ],
   "recommended_carry": [
     {
       "item": "Puffy jacket with hood",
-      "notes": "Cold nights at altitude \u2014 strongly recommended"
+      "notes": "Cold nights at altitude — strongly recommended"
+    },
+    {
+      "item": "Extra warm & waterproof layers",
+      "notes": "Beyond mandatory minimum — conditions swing fast (medical director)"
+    },
+    {
+      "item": "Reusable dust mask",
+      "notes": "Rubicon section — practice before race day"
+    },
+    {
+      "item": "Disposable masks (several)",
+      "notes": "Rubicon fine powder dust"
     },
     {
       "item": "Water filter",
@@ -98,7 +133,7 @@
     },
     {
       "item": "Foot care kit",
-      "notes": "Tape, lube, scissors, blister kit"
+      "notes": "Tape, lube, scissors, blister kit — see on-person list"
     },
     {
       "item": "First aid kit",
@@ -114,29 +149,46 @@
     },
     {
       "item": "Gaiters",
-      "notes": ""
+      "notes": "Essential — extreme fine dust on full loop (medical director)"
+    },
+    {
+      "item": "Salty foods",
+      "notes": "For heat illness recovery"
+    },
+    {
+      "item": "Mucinex or similar (optional)",
+      "notes": "Test before race day if using for ultra cough"
     }
+  ],
+  "drop_bag_foot_care": [
+    "Lube (e.g. Squirrel's Nut Butter)",
+    "Clippers",
+    "Scissors",
+    "Extra tape",
+    "Antiseptics",
+    "Fresh socks",
+    "Backup shoes"
   ],
   "drop_bag_strategy": [
     {
       "station": "Wrights Lake (70.7)",
       "tier": "FULL SLEEP",
-      "contents": "Sleeping bag, full clothing change, foot care, calories, caffeine, poles"
+      "contents": "Sleeping bag, full clothing change, foot care kit + backup shoes, calories, caffeine, poles, dust masks"
     },
     {
       "station": "Loon Lake (87.6)",
       "tier": "Light (crew covers)",
-      "contents": "Backup only"
+      "contents": "Backup only — crew does major restock + pacer pickup"
     },
     {
       "station": "Barker Pass (103.1)",
       "tier": "FULL SLEEP",
-      "contents": "Sleeping bag, dry change, foot care, blister kit, calories, caffeine"
+      "contents": "Sleeping bag, dry change, foot care, blister kit, fresh socks, calories, caffeine, masks"
     },
     {
       "station": "Stephen Jones (110.6)",
       "tier": "Light",
-      "contents": "Calories, socks, batteries"
+      "contents": "Calories, socks, batteries, tape"
     },
     {
       "station": "Tahoe City (130.0)",
@@ -146,7 +198,7 @@
     {
       "station": "Brockway Summit (148.6)",
       "tier": "Crew + sleep backup",
-      "contents": "Sleeping bag backup; crew has primary kit"
+      "contents": "Sleeping bag backup; crew has primary kit + foot care"
     },
     {
       "station": "Village Green (163.6)",
@@ -156,7 +208,7 @@
     {
       "station": "Spooner Summit (182.3)",
       "tier": "Medium",
-      "contents": "Final push: calories, caffeine, fresh socks, headlamp + spare, warm layer"
+      "contents": "Final push: calories, caffeine, fresh socks, headlamp + spare, warm layer, masks"
     }
   ]
 }

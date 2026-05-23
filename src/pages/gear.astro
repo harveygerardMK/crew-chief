@@ -2,12 +2,14 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AudienceIntro from "../components/AudienceIntro.astro";
 import PageNav from "../components/PageNav.astro";
-import { gear } from "../lib/data";
+import { gear, racePrep } from "../lib/data";
 
 const navItems = [
+  { id: "prep", label: "Prep & safety" },
   { id: "mandatory-clothing", label: "Clothing" },
   { id: "mandatory-equipment", label: "Equipment" },
   { id: "mandatory-food", label: "Food" },
+  { id: "foot-care", label: "Foot care" },
   { id: "recommended", label: "Recommended" },
   { id: "drop-bags", label: "Drop bags" },
 ];
@@ -17,9 +19,39 @@ const navItems = [
   <div class="container">
     <AudienceIntro audience="runner" />
     <h1>Harvey's gear</h1>
-    <p class="lead">Tahoe 200 mandatory kit, recommended carry, and drop-bag strategy</p>
+    <p class="lead">
+      Tahoe 200 mandatory kit, medical director prep (May 2026), and drop-bag strategy for the Full Loop.
+    </p>
+
+    <p class="card__meta">
+      <strong>Action:</strong>
+      <a href={racePrep.medical_form_url} target="_blank" rel="noopener noreferrer">Complete mandatory Medical Form</a>
+      ·
+      <a href={racePrep.all_emails_url} target="_blank" rel="noopener noreferrer">Tahoe 2026 all emails</a>
+    </p>
 
     <PageNav items={navItems} />
+
+    <section class="card" id="prep" aria-labelledby="prep-heading">
+      <h2 id="prep-heading">Prep & safety</h2>
+      <p class="card__meta">{racePrep.source}</p>
+      <p>
+        Medical leads: {racePrep.medical_leads.join(", ")}. Sleep target: {racePrep.sleep_guidance.start_by}.{" "}
+        {racePrep.sleep_guidance.nap_benefit}
+      </p>
+      {
+        racePrep.sections.map((section) => (
+          <div class="prep-block">
+            <h3>{section.title}</h3>
+            <ul class="list-check">
+              {section.bullets.map((b) => (
+                <li>{b}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </section>
 
     <h2 id="mandatory-clothing">Mandatory clothing</h2>
     <ul class="list-check">
@@ -45,7 +77,7 @@ const navItems = [
       }
     </ul>
 
-    <h2 id="mandatory-food">Mandatory food</h2>
+    <h2 id="mandatory-food">Mandatory food & fluids</h2>
     <ul class="list-check">
       {
         gear.mandatory_food.map((item) => (
@@ -55,6 +87,23 @@ const navItems = [
           </li>
         ))
       }
+    </ul>
+
+    <h2 id="foot-care">Foot care — on person</h2>
+    <p class="card__meta">Carry these; full kit in drop bags and with crew (see below).</p>
+    <ul class="list-check">
+      {
+        gear.on_person_foot_care.map((item) => (
+          <li>
+            <strong>{item.item}</strong>
+            {item.notes && <em> — {item.notes}</em>}
+          </li>
+        ))
+      }
+    </ul>
+    <h3>Drop bags & crew — foot care stash</h3>
+    <ul class="list-check">
+      {gear.drop_bag_foot_care.map((item) => <li>{item}</li>)}
     </ul>
 
     <h2 id="recommended">Recommended carry</h2>

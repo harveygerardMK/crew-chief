@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import AudienceIntro from "../../components/AudienceIntro.astro";
 import { elevationCompare, firstHalfPrepNote, planSourceNote, site } from "../../lib/tahoe-plan";
+import { racePrep } from "../../lib/data";
 
 const base = import.meta.env.BASE_URL;
 
@@ -34,6 +35,10 @@ const links = [
     <p class="lead">Course, mandatory gear, and race week calendar — Tahoe 200 only.</p>
     <p class="card__meta">{planSourceNote()} Plan v{site.plan_version}.</p>
     <p class="card__meta">{firstHalfPrepNote()}</p>
+    <p class="card__meta">
+      Before race week: <a href={racePrep.medical_form_url}>mandatory Medical Form</a> ·{" "}
+      <a href={`${base}gear/#prep`}>Gear prep & safety</a> (Rubicon dust, sleep, foot care)
+    </p>
 
     <section class="card" aria-labelledby="vert-heading">
       <h2 id="vert-heading">Bighorn vs Tahoe vertical</h2>

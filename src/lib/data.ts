@@ -4,6 +4,7 @@ import aidStations from "../../data/aid-stations.json";
 import crewStops from "../../data/crew-stops.json";
 import pacerLegs from "../../data/pacer-legs.json";
 import gear from "../../data/gear.json";
+import racePrep from "../../data/race-prep.json";
 import raceWeek from "../../data/race-week.json";
 import keyNotes from "../../data/key-notes.json";
 import status from "../../data/status.json";
@@ -15,6 +16,7 @@ export {
   crewStops,
   pacerLegs,
   gear,
+  racePrep,
   raceWeek,
   keyNotes,
   status,

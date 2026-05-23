@@ -1,0 +1,100 @@
+{
+  "source": "Destination Trail medical director email — Tahoe 200 Full Loop (May 2026)",
+  "medical_form_url": "https://docs.google.com/forms/d/e/1FAIpQLSc1VFkplkp-4epj6J8A9bv07wI4u5MJIA2retmUHGF4mAwUNQ/viewform",
+  "all_emails_url": "https://docs.google.com/document/d/1dElkq0S8nhueGrWSorkJ4nYwxnlgItSVlJfLS5Ls30s/edit?usp=sharing",
+  "medical_leads": ["Annette Florczak", "Tasha Swartley", "Julie Burges"],
+  "sleep_guidance": {
+    "start_by": "Night 2 — ideally within 24–40 hours of the start",
+    "nap_benefit": "Even 30–60 minutes can dramatically improve safety and mental function",
+    "pull_risk": "Severe delusion or unsafe function may result in being pulled from the race"
+  },
+  "sections": [
+    {
+      "id": "general",
+      "title": "General safety",
+      "bullets": [
+        "Extreme temperature swings — hot, cold, windy, dusty, and everything in between.",
+        "Fix problems before leaving an aid station.",
+        "Sleep, food, hydration, and dry clothing solve most issues.",
+        "Carry more layers and calories than you think you'll need.",
+        "Be proactive, not reactive."
+      ]
+    },
+    {
+      "id": "fellow-runners",
+      "title": "Helping fellow runners",
+      "bullets": [
+        "If someone asks for help, do what you can.",
+        "If a runner needs assistance or rescue, gather bib number (photo if possible), location, and issue.",
+        "Do not disturb runners sleeping safely off-trail.",
+        "If someone is on or immediately next to the trail, check on them."
+      ]
+    },
+    {
+      "id": "heat",
+      "title": "Heat illness & overheating",
+      "bullets": [
+        "Watch for nausea, confusion, red or dry skin, or lack of sweating.",
+        "Get into shade, cool gradually, wet clothing and skin, sip fluids slowly, eat salty foods.",
+        "If shivering begins while cooling, stop aggressive cooling and warm slightly."
+      ]
+    },
+    {
+      "id": "emergency",
+      "title": "When to call for help",
+      "bullets": [
+        "Unless immediately life-threatening, contact race staff before calling 911 — staff can often reach you faster.",
+        "Most rescues require walking out, even with medical support.",
+        "Helicopter rescues are for extreme, life-threatening emergencies only.",
+        "Rescue wait times may be 4–24 hours; weather and terrain delay response.",
+        "Rescue or medical costs outside Destination Trail operations are the runner's responsibility."
+      ]
+    },
+    {
+      "id": "cold",
+      "title": "Cold weather & hypothermia",
+      "bullets": [
+        "Always carry extra warm and waterproof gear (mandatory kit).",
+        "Conditions change rapidly with elevation and time of day.",
+        "If hypothermic: add layers, eat calories, keep moving if safely possible."
+      ]
+    },
+    {
+      "id": "dust",
+      "title": "Dust & Rubicon cough",
+      "bullets": [
+        "Full loop includes the Rubicon — miles of extremely fine powder-like dust.",
+        "Consider a reusable mask, several disposable masks, and a wet buff.",
+        "Practice face coverings before race day — some feel restrictive when climbing.",
+        "OTC meds like Mucinex may help; test before race day."
+      ]
+    },
+    {
+      "id": "lost",
+      "title": "If you get lost",
+      "bullets": [
+        "Use your GPX track, keep devices charged, stay on trail — no cross-country shortcuts.",
+        "If truly lost: stop moving, stay put, conserve battery, wait for assistance."
+      ]
+    },
+    {
+      "id": "sleep-hallucinations",
+      "title": "Sleep deprivation & hallucinations",
+      "bullets": [
+        "Can cause confusion, poor decisions, hallucinations, and dangerous behavior.",
+        "Begin sleeping no later than Night 2 (ideally within 24–40 hours of start).",
+        "Communicate with staff if struggling mentally or physically."
+      ]
+    },
+    {
+      "id": "foot-care",
+      "title": "Foot care essentials",
+      "bullets": [
+        "You are responsible for your foot care — manage blisters and moisture early.",
+        "Address hot spots immediately; waiting for the next aid is a poor choice over 200 miles.",
+        "Let feet breathe and dry at aids when eating or sleeping — pays off later.",
+        "Wear gaiters — fine dust on course will punish unprotected feet."
+      ]
+    }
+  ]
+}
