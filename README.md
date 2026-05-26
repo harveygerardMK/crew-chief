@@ -47,6 +47,18 @@ npm run preview  # serve the production build locally
 2. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**
 3. The workflow in `.github/workflows/deploy.yml` runs on every push to `main`
 
+## Crew updates for family (race weekend)
+
+Your wife can post **how you’re doing**, **last seen**, a **note**, and **photos** from:
+
+**https://harveygerardmk.github.io/crew-chief/update/**
+
+Homepage and Follow show updates after a normal deploy (~3–5 minutes).
+
+**One-time setup (Harvey):** [docs/superpowers/runbooks/broadcast-worker-setup.md](docs/superpowers/runbooks/broadcast-worker-setup.md)
+
+Harvey can still edit `data/status.json` for phase (`pre-race` / `on-course` / `finished`) and tracker URL.
+
 ## Updating status during race week
 
 Edit `data/status.json`:

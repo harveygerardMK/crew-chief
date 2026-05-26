@@ -24,7 +24,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --ignore-scripts
-      - run: npm run build
+      - name: Build site
+        env:
+          PUBLIC_BROADCAST_API_URL: ${{ vars.PUBLIC_BROADCAST_API_URL }}
+        run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

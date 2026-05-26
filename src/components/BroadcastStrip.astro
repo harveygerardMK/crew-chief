@@ -1,0 +1,33 @@
+---
+import type { RaceBroadcast } from "../lib/broadcast";
+import { hasBroadcast } from "../lib/broadcast";
+
+interface Props {
+  broadcast: RaceBroadcast;
+}
+
+const { broadcast } = Astro.props;
+const show = hasBroadcast(broadcast);
+---
+
+{
+  show && (
+    <>
+      {broadcast.note?.trim() && (
+        <div class="broadcast-note">
+          <p class="broadcast-note__label">From crew</p>
+          <p>{broadcast.note}</p>
+        </div>
+      )}
+      {broadcast.photos.length > 0 && (
+        <div class="broadcast-photos" role="group" aria-label="Race photos">
+          {broadcast.photos.map((photo) => (
+            <a href={photo.url} target="_blank" rel="noopener noreferrer">
+              <img src={photo.url} alt={photo.alt} loading="lazy" width="112" height="112" />
+            </a>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}

@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { aidStations } from "../../lib/data";
+
+const apiUrl = import.meta.env.PUBLIC_BROADCAST_API_URL ?? "";
+const stationNames = aidStations.map((s) => s.name);
+---
+
+<BaseLayout
+  title="Crew update"
+  description="Post race updates for family and friends."
+  noindex
+>
+  <div class="container update-page">
+    <h1>Crew update</h1>
+    <p class="lead">Post how Harvey is doing for the homepage. Saves in a few minutes.</p>
+
+    <p id="status" class="update-status" role="status" aria-live="polite" hidden></p>
+
+    <section id="login" class="update-panel">
+      <h2>Sign in</h2>
+      <label class="update-field">
+        <span class="update-field__label">Family password</span>
+        <input id="password" type="password" autocomplete="current-password" class="update-input" />
+      </label>
+      <button id="login-btn" type="button" class="btn btn--primary">Continue</button>
+    </section>
+
+    <section id="form" class="update-panel" hidden>
+      <h2>Update for family</h2>
+
+      <label class="update-field">
+        <span class="update-field__label">How is Harvey doing?</span>
+        <textarea id="doing" rows="2" maxlength="200" class="update-input" placeholder="Short update for everyone"></textarea>
+      </label>
+
+      <label class="update-field">
+        <span class="update-field__label">Last seen aid station</span>
+        <select id="station" class="update-input">
+          <option value="">— Optional if you only add a mood line —</option>
+          {stationNames.map((name) => <option value={name}>{name}</option>)}
+          <option value="__other__">Other…</option>
+        </select>
+      </label>
+
+      <label class="update-field">
+        <span class="update-field__label">Other station name</span>
+        <input id="station_other" type="text" class="update-input" hidden maxlength="80" />
+      </label>
+
+      <label class="update-field">
+        <span class="update-field__label">Time last seen</span>
+        <input id="time_seen" type="datetime-local" class="update-input" />
+      </label>
+
+      <label class="update-field">
+        <span class="update-field__label">Note for family (optional)</span>
+        <textarea id="note" rows="4" maxlength="500" class="update-input" placeholder="Sleep plans, where to meet, etc."></textarea>
+      </label>
+
+      <label class="update-field">
+        <span class="update-field__label">Photo 1 (optional)</span>
+        <input name="photo0" type="file" accept="image/jpeg,image/png,image/webp" class="update-input" />
+      </label>
+
+      <label class="update-field">
+        <span class="update-field__label">Photo 2 (optional)</span>
+        <input name="photo1" type="file" accept="image/jpeg,image/png,image/webp" class="update-input" />
+      </label>
+
+      <button id="save-btn" type="button" class="btn btn--primary">Save update</button>
+    </section>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ apiUrl }}>
+  import { initBroadcastAdmin } from "../../scripts/broadcast-admin.ts";
+  initBroadcastAdmin(apiUrl);
+</script>
