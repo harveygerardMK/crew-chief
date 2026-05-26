@@ -4,6 +4,7 @@ import AudienceIntro from "../components/AudienceIntro.astro";
 import PageNav from "../components/PageNav.astro";
 import PacerLegCard from "../components/PacerLegCard.astro";
 import { gear, pacerLegs, keyNotes } from "../lib/data";
+import { formatPlanTimeShort, firstHalfPrepNote, plannedArrivalDate, planSourceNote } from "../lib/tahoe-plan";
 import { getEntry } from "astro:content";
 
 const onboarding = await getEntry("pages", "pacer-onboarding");
@@ -11,6 +12,11 @@ const rules = await getEntry("pages", "rules-summary");
 const { Content: OnboardingContent } = await onboarding.render();
 const { Content: RulesContent } = await rules.render();
 const mandatoryGear = [...gear.mandatory_clothing, ...gear.mandatory_equipment, ...gear.mandatory_food];
+
+const legsWithPlan = pacerLegs.map((leg) => ({
+  ...leg,
+  estimated_time_of_day: `${formatPlanTimeShort(plannedArrivalDate(leg.from_mile))} → ${formatPlanTimeShort(plannedArrivalDate(leg.to_mile))}`,
+}));
 
 const navItems = [
   { id: "legs", label: "Legs" },
@@ -24,10 +30,13 @@ const navItems = [
   <div class="container">
     <AudienceIntro audience="pacers" />
     <h1>Harvey's pacers</h1>
-    <p class="lead">Tahoe 200 · pickup at Loon Lake (mile 87.6) · six legs to the finish</p>
+    <p class="lead">Tahoe 200 · pickup at Loon Lake (mile 87.6) · six legs to the finish · Monday ~6 PM finish plan</p>
 
     <PageNav items={navItems} />
 
+    <div class="note-box">
+      <strong>Race plan:</strong> {firstHalfPrepNote()} {planSourceNote()}
+    </div>
     <div class="note-box">
       <strong>Pickup:</strong> {keyNotes.pacer_pickup}
     </div>
@@ -36,7 +45,7 @@ const navItems = [
     </div>
 
     <h2 id="legs">Legs</h2>
-    {pacerLegs.map((leg) => <PacerLegCard leg={leg} />)}
+    {legsWithPlan.map((leg) => <PacerLegCard leg={leg} />)}
 
     <h2 id="gear">Mandatory pacer gear</h2>
     <p class="card__meta">Same mandatory kit as the runner, plus pacer bib at check-in.</p>
