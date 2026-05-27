@@ -1,77 +1,54 @@
-/** Crew update form — posts to the broadcast Worker (no password for now). */
+/** Crew update form — POSTs to the broadcast Worker. Works with or without JS (native form fallback). */
 export function initBroadcastAdmin(apiUrl?: string): void {
-  const formEl = document.querySelector<HTMLElement>("#form");
+  void clearStaleServiceWorkers();
+
+  const form = document.querySelector<HTMLFormElement>("#broadcast-form");
   const statusEl = document.querySelector<HTMLElement>("#status");
   const saveBtn = document.querySelector<HTMLButtonElement>("#save-btn");
   const timeInput = document.querySelector<HTMLInputElement>("#time_seen");
+  const timeLabelInput = document.querySelector<HTMLInputElement>("#time_label");
   const stationSelect = document.querySelector<HTMLSelectElement>("#station");
   const stationOther = document.querySelector<HTMLInputElement>("#station_other");
 
-  if (!formEl || !statusEl || !saveBtn) {
+  if (!form || !statusEl || !saveBtn) {
     console.error("[crew update] Missing required DOM elements; form not initialized.");
     return;
   }
 
   const root = document.getElementById("update-app");
-  const baseUrl = (apiUrl ?? root?.dataset.apiUrl ?? "").replace(/\/$/, "");
+  const baseUrl = (apiUrl ?? root?.dataset.apiUrl ?? form.action ?? "").replace(/\/$/, "");
 
   function setStatus(message: string, kind: "info" | "error" | "success") {
     statusEl.textContent = message;
     statusEl.dataset.kind = kind;
     statusEl.hidden = !message;
-    statusEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    try {
+      statusEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    } catch {
+      /* ignore scroll errors on older browsers */
+    }
   }
 
-  // Wire Save first so a later init step cannot leave the button dead.
-  saveBtn.addEventListener("click", async () => {
-    if (!baseUrl) {
-      setStatus(
-        "Update server is not configured on this build. Use the direct update link below, or ask Harvey to redeploy the site.",
-        "error",
-      );
-      return;
+  function syncTimeLabel(): void {
+    if (timeLabelInput) {
+      timeLabelInput.value = formatTimeLabel(timeInput?.value ?? "");
     }
-    setStatus("Saving…", "info");
-    saveBtn.disabled = true;
-    try {
-      const station = resolveStation(stationSelect, stationOther);
-      const formData = new FormData();
-      formData.set("doing", getValue("doing"));
-      formData.set("station", station);
-      formData.set("time_label", formatTimeLabel(timeInput?.value ?? ""));
-      formData.set("note", getValue("note"));
+  }
 
-      const photos = document.querySelectorAll<HTMLInputElement>('input[type="file"][name^="photo"]');
-      photos.forEach((input, index) => {
-        const file = input.files?.[0];
-        if (file) formData.set(`photo${index}`, file);
-      });
-
-      const res = await fetchWithTimeout(
-        `${baseUrl}/broadcast`,
-        { method: "POST", body: formData, mode: "cors" },
-        45_000,
-      );
-      const data = await readJson<{ ok?: boolean; message?: string }>(res);
-      if (!res.ok || !data.ok) {
-        setStatus(data.message ?? `Save failed (${res.status}). Try again.`, "error");
-        return;
-      }
-      setStatus("Saved — should show on the homepage in a few minutes.", "success");
-      photos.forEach((input) => {
-        input.value = "";
-      });
-    } catch (err) {
-      setStatus(networkErrorMessage(err, baseUrl), "error");
-    } finally {
-      saveBtn.disabled = false;
+  function syncStationField(): void {
+    if (!stationSelect || stationSelect.name !== "station") return;
+    if (stationSelect.value === "__other__" && stationOther?.value.trim()) {
+      stationSelect.name = "";
+      stationOther.name = "station";
+    } else {
+      stationSelect.name = "station";
+      if (stationOther) stationOther.name = "";
     }
-  });
+  }
 
   try {
-    if (timeInput) {
-      timeInput.value = defaultDatetimeLocal();
-    }
+    if (timeInput) timeInput.value = defaultDatetimeLocal();
+    syncTimeLabel();
   } catch (err) {
     console.warn("[crew update] Could not set default time:", err);
   }
@@ -81,30 +58,65 @@ export function initBroadcastAdmin(apiUrl?: string): void {
     const show = stationSelect.value === "__other__";
     stationOther.hidden = !show;
     stationOther.required = show;
+    syncStationField();
+  });
+
+  timeInput?.addEventListener("change", syncTimeLabel);
+
+  form.addEventListener("submit", async (event) => {
+    if (!baseUrl) {
+      event.preventDefault();
+      setStatus(
+        "Update server is not configured. Use the direct update link below.",
+        "error",
+      );
+      return;
+    }
+
+    event.preventDefault();
+    syncTimeLabel();
+    syncStationField();
+
+    setStatus("Saving…", "info");
+    saveBtn.disabled = true;
+
+    try {
+      const res = await fetchWithTimeout(
+        `${baseUrl}/broadcast`,
+        { method: "POST", body: new FormData(form), mode: "cors" },
+        45_000,
+      );
+      const data = await readJson<{ ok?: boolean; message?: string }>(res);
+      if (!res.ok || !data.ok) {
+        setStatus(data.message ?? `Save failed (${res.status}). Try again.`, "error");
+        return;
+      }
+      setStatus("Saved — should show on the homepage in a few minutes.", "success");
+      form.reset();
+      if (timeInput) timeInput.value = defaultDatetimeLocal();
+      syncTimeLabel();
+      if (stationOther) stationOther.hidden = true;
+    } catch (err) {
+      setStatus(networkErrorMessage(err, baseUrl), "error");
+    } finally {
+      saveBtn.disabled = false;
+    }
   });
 
   if (baseUrl) {
     void probeServer(baseUrl, setStatus);
   } else {
-    setStatus(
-      "Update server URL missing on this page. Use the direct update link below after Harvey redeploys.",
-      "error",
-    );
+    setStatus("Update server URL missing. Use the direct update link below.", "error");
   }
+}
 
-  function getValue(id: string): string {
-    const el = document.querySelector<HTMLInputElement | HTMLTextAreaElement>(`#${id}`);
-    return el?.value?.trim() ?? "";
-  }
-
-  function resolveStation(
-    select: HTMLSelectElement | null,
-    other: HTMLInputElement | null,
-  ): string {
-    if (!select) return "";
-    if (select.value === "__other__") return other?.value?.trim() ?? "";
-    if (select.value === "") return "";
-    return select.value;
+async function clearStaleServiceWorkers(): Promise<void> {
+  if (!("serviceWorker" in navigator)) return;
+  try {
+    const regs = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(regs.map((reg) => reg.unregister()));
+  } catch {
+    /* ignore */
   }
 }
 

@@ -51,15 +51,15 @@ export const UPDATE_PAGE_HTML = `<!DOCTYPE html>
   <p class="lead">Short note for family on the homepage. Takes a few minutes to show up after you save.</p>
   <p id="status" role="status" aria-live="polite" hidden></p>
 
-  <section id="form" class="panel">
+  <form id="broadcast-form" class="panel" method="post" action="/broadcast" enctype="multipart/form-data">
     <h2>Update for family</h2>
     <label>
       <span class="label">How's Harvey doing?</span>
-      <textarea id="doing" rows="2" maxlength="200" placeholder="e.g. Tired but moving — just left Sierra"></textarea>
+      <textarea id="doing" name="doing" rows="2" maxlength="200" placeholder="e.g. Tired but moving — just left Sierra"></textarea>
     </label>
     <label>
       <span class="label">Last seen aid station</span>
-      <select id="station">
+      <select id="station" name="station">
         <option value="">— Skip if you're only posting a quick line —</option>
         ${stationOptions}
         <option value="__other__">Other…</option>
@@ -73,9 +73,10 @@ export const UPDATE_PAGE_HTML = `<!DOCTYPE html>
       <span class="label">Time last seen</span>
       <input id="time_seen" type="datetime-local" />
     </label>
+    <input type="hidden" name="time_label" id="time_label" value="" />
     <label>
       <span class="label">Note for family (optional)</span>
-      <textarea id="note" rows="4" maxlength="500" placeholder="Sleeping at Wrights — see you at Tahoe City Monday AM"></textarea>
+      <textarea id="note" name="note" rows="4" maxlength="500" placeholder="Sleeping at Wrights — see you at Tahoe City Monday AM"></textarea>
     </label>
     <label>
       <span class="label">Photo 1 (optional)</span>
@@ -85,8 +86,8 @@ export const UPDATE_PAGE_HTML = `<!DOCTYPE html>
       <span class="label">Photo 2 (optional)</span>
       <input name="photo1" type="file" accept="image/jpeg,image/png,image/webp" />
     </label>
-    <button id="save-btn" type="button">Save update</button>
-  </section>
+    <button id="save-btn" type="submit">Save update</button>
+  </form>
 
   <p class="home"><a href="https://harveygerardmk.github.io/crew-chief/">← Back to race site</a></p>
 
@@ -100,55 +101,44 @@ function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 }
 
-/** Inline script — no modules; runs same-origin on the Worker. */
 const UPDATE_PAGE_SCRIPT = `
 (function () {
+  var form = document.getElementById("broadcast-form");
   var statusEl = document.getElementById("status");
   var saveBtn = document.getElementById("save-btn");
   var timeInput = document.getElementById("time_seen");
+  var timeLabelInput = document.getElementById("time_label");
   var stationSelect = document.getElementById("station");
   var stationOther = document.getElementById("station_other");
 
-  if (!statusEl || !saveBtn) {
-    console.error("[crew update] Form elements missing");
-    return;
+  if (!form || !statusEl || !saveBtn) return;
+
+  function setStatus(message, kind) {
+    statusEl.textContent = message;
+    statusEl.dataset.kind = kind;
+    statusEl.hidden = !message;
+    try { statusEl.scrollIntoView({ block: "nearest" }); } catch (e) {}
   }
 
-  saveBtn.addEventListener("click", function () {
-    setStatus("Saving…", "info");
-    saveBtn.disabled = true;
-    var station = resolveStation();
-    var formData = new FormData();
-    formData.set("doing", getValue("doing"));
-    formData.set("station", station);
-    formData.set("time_label", formatTimeLabel(timeInput ? timeInput.value : ""));
-    formData.set("note", getValue("note"));
-    document.querySelectorAll('input[type="file"][name^="photo"]').forEach(function (input, index) {
-      if (input.files && input.files[0]) formData.set("photo" + index, input.files[0]);
-    });
-    fetchWithTimeout("/broadcast", {
-      method: "POST",
-      credentials: "same-origin",
-      body: formData
-    }, 45000).then(function (res) {
-      return readJson(res).then(function (data) {
-        if (!res.ok || !data.ok) {
-          setStatus(data.message || "Save failed. Try again.", "error");
-          return;
-        }
-        setStatus("Saved — should show on the homepage in a few minutes.", "success");
-        document.querySelectorAll('input[type="file"][name^="photo"]').forEach(function (input) {
-          input.value = "";
-        });
-      });
-    }).catch(function (err) {
-      setStatus(networkErrorMessage(err), "error");
-    }).finally(function () { saveBtn.disabled = false; });
-  });
+  function syncTimeLabel() {
+    if (timeLabelInput) timeLabelInput.value = formatTimeLabel(timeInput ? timeInput.value : "");
+  }
+
+  function syncStationField() {
+    if (!stationSelect) return;
+    if (stationSelect.value === "__other__" && stationOther && stationOther.value.trim()) {
+      stationSelect.removeAttribute("name");
+      stationOther.setAttribute("name", "station");
+    } else {
+      stationSelect.setAttribute("name", "station");
+      if (stationOther) stationOther.removeAttribute("name");
+    }
+  }
 
   try {
     if (timeInput) timeInput.value = defaultDatetimeLocal();
-  } catch (e) { console.warn("[crew update] default time:", e); }
+    syncTimeLabel();
+  } catch (e) {}
 
   if (stationSelect) {
     stationSelect.addEventListener("change", function () {
@@ -156,45 +146,42 @@ const UPDATE_PAGE_SCRIPT = `
       var show = stationSelect.value === "__other__";
       stationOther.hidden = !show;
       stationOther.required = show;
+      syncStationField();
     });
   }
+  if (timeInput) timeInput.addEventListener("change", syncTimeLabel);
 
-  function setStatus(message, kind) {
-    statusEl.textContent = message;
-    statusEl.dataset.kind = kind;
-    statusEl.hidden = !message;
-    statusEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
-  }
-  function getValue(id) {
-    var el = document.getElementById(id);
-    return (el && el.value ? el.value.trim() : "");
-  }
-  function resolveStation() {
-    if (!stationSelect) return "";
-    if (stationSelect.value === "__other__") return stationOther ? stationOther.value.trim() : "";
-    if (!stationSelect.value) return "";
-    return stationSelect.value;
-  }
-  function networkErrorMessage(err) {
-    if (err && err.name === "AbortError") return "Timed out. Try again on Wi‑Fi or with a shorter note.";
-    return "Could not reach the server. Check signal and try again.";
-  }
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    syncTimeLabel();
+    syncStationField();
+    setStatus("Saving…", "info");
+    saveBtn.disabled = true;
+    fetch("/broadcast", { method: "POST", body: new FormData(form) })
+      .then(function (res) {
+        return readJson(res).then(function (data) {
+          if (!res.ok || !data.ok) {
+            setStatus(data.message || "Save failed. Try again.", "error");
+            return;
+          }
+          setStatus("Saved — should show on the homepage in a few minutes.", "success");
+          form.reset();
+          if (timeInput) timeInput.value = defaultDatetimeLocal();
+          syncTimeLabel();
+          if (stationOther) stationOther.hidden = true;
+        });
+      })
+      .catch(function () {
+        setStatus("Could not reach the server. Check signal and try again.", "error");
+      })
+      .finally(function () { saveBtn.disabled = false; });
+  });
+
   function readJson(res) {
     return res.text().then(function (text) {
       if (!text) return {};
-      try { return JSON.parse(text); } catch (e) {
-        throw new Error("Server returned " + res.status);
-      }
+      try { return JSON.parse(text); } catch (e) { throw new Error("bad json"); }
     });
-  }
-  function fetchWithTimeout(url, init, ms) {
-    if (typeof AbortSignal !== "undefined" && AbortSignal.timeout) {
-      return fetch(url, Object.assign({}, init, { signal: AbortSignal.timeout(ms) }));
-    }
-    var controller = new AbortController();
-    var id = setTimeout(function () { controller.abort(); }, ms);
-    return fetch(url, Object.assign({}, init, { signal: controller.signal }))
-      .finally(function () { clearTimeout(id); });
   }
   function defaultDatetimeLocal() {
     var parts = new Intl.DateTimeFormat("en-CA", {
