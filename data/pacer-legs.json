@@ -7,13 +7,13 @@
     "to_mile": 103.1,
     "miles": 15.5,
     "gain_ft": 2712,
-    "terrain_notes": "First pacer leg. Climbing, mostly daylight into evening. Sleep stop at Barker Pass after. Plan assumes Sierra (~52 mi) by midnight at end of Friday (Sat 12:00 AM) and first pacer pickup here ~Sat afternoon.",
+    "terrain_notes": "First pacer leg — climbing, mostly daylight into evening. I may nap at Barker after. Plan has me at Sierra (~52 mi) by Saturday midnight and picking you up here Saturday afternoon-ish.",
     "what_to_bring": [
       "Full mandatory gear (same as runner)",
       "Pacer bib (provided at check-in)",
       "Headlamp + spare batteries",
       "GPX of course on your own device",
-      "Warm layers — gets cold at altitude"
+      "Warm layers — gets cold up high"
     ]
   },
   {
@@ -24,13 +24,13 @@
     "to_mile": 130.0,
     "miles": 26.9,
     "gain_ft": 2843,
-    "terrain_notes": "Combined Barker → Stephen Jones (7.5 mi) + Stephen Jones → Tahoe City (19.4 mi). Stephen Jones is a non-crew aid station mid-leg. Long leg — fresh pacer ideal. Overnight into Sunday.",
+    "terrain_notes": "Barker → Stephen Jones (7.5 mi, no crew) → Tahoe City (19.4 mi). Long leg — fresh pacer helps. Overnight into Sunday.",
     "what_to_bring": [
       "Full mandatory gear",
       "Pacer bib",
-      "Sun protection (long daylight section)",
-      "Extra calories for own use",
-      "Water capacity for long stretch"
+      "Sun protection",
+      "Extra calories for you",
+      "Water for a long stretch"
     ]
   },
   {
@@ -41,12 +41,12 @@
     "to_mile": 148.6,
     "miles": 18.6,
     "gain_ft": 3476,
-    "terrain_notes": "Big climbing leg — 3,476 ft of gain. Sunday afternoon into evening. Sleep stop at Brockway after.",
+    "terrain_notes": "Big climb — 3,476 ft up. Sunday afternoon into evening. Sleep stop at Brockway after.",
     "what_to_bring": [
       "Full mandatory gear",
       "Strong headlamp",
       "Warm layers",
-      "Patience — Harvey will be deep in the pain cave by here"
+      "Patience — I'll be deep in the pain cave"
     ]
   },
   {
@@ -57,10 +57,10 @@
     "to_mile": 163.6,
     "miles": 15.0,
     "gain_ft": 2164,
-    "terrain_notes": "Mostly descent (3,142 ft loss). Sunday night into Monday morning. Watch for quad fatigue on the downhill.",
+    "terrain_notes": "Mostly down (~3,142 ft loss). Sunday night into Monday morning. Quads may be angry.",
     "what_to_bring": [
       "Full mandatory gear",
-      "Trekking poles (helpful for descent)",
+      "Trekking poles if you use them",
       "Calories",
       "Headlamp"
     ]
@@ -73,12 +73,12 @@
     "to_mile": 182.3,
     "miles": 18.7,
     "gain_ft": 3716,
-    "terrain_notes": "Longest sustained climb of the back half. Monday morning. Hardest mental leg on the plan.",
+    "terrain_notes": "Longest climb on the back half. Monday morning. Probably the hardest mental leg.",
     "what_to_bring": [
       "Full mandatory gear",
       "Warm layers",
-      "Caffeine for self",
-      "Motivation playlist"
+      "Caffeine for you",
+      "Whatever gets you through a long grind"
     ]
   },
   {
@@ -89,11 +89,11 @@
     "to_mile": 200.4,
     "miles": 18.1,
     "gain_ft": 3294,
-    "terrain_notes": "Closer leg. ~18 miles to the buckle. Monday late morning into evening finish (plan ~6 PM). Strong pacer ideal — keep the wheels on.",
+    "terrain_notes": "Last ~18 miles to the buckle. Monday late morning into evening (plan ~6 PM finish). Good pacer here — keep the wheels on.",
     "what_to_bring": [
       "Full mandatory gear",
-      "Camera/phone for finish-line photos",
-      "Champagne energy"
+      "Phone for finish photos",
+      "Whatever energy you have left"
     ]
   }
 ]

@@ -7,27 +7,27 @@ const { audience } = Astro.props;
 
 const copy = {
   crew: {
-    title: "For Harvey's crew",
-    body: "Where to meet Harvey at crew-access aids — parking, ETAs, playbooks, and cutoffs for Tahoe 200.",
+    title: "For crew",
+    body: "Where to meet me at crew aids — parking, ETAs, playbooks, cutoffs.",
   },
   pacers: {
-    title: "For Harvey's pacers",
-    body: "Six legs from Loon Lake to the finish, mandatory kit, and rules that affect Harvey if you slip up.",
+    title: "For pacers",
+    body: "Six legs from Loon Lake to the finish, mandatory kit, and rules that DQ me if we get them wrong.",
   },
   follow: {
     title: "For family & friends",
-    body: "Follow Harvey at the Tahoe 200 — when to expect him at spectator stops, tracker tips, and reassurance.",
+    body: "Where you can actually see me, rough ETAs, and how to read the tracker without panicking.",
   },
   runner: {
-    title: "For Harvey",
-    body: "Your Tahoe 200 plan — course, gear, schedule, and status in one place.",
+    title: "My plan",
+    body: "Course, gear, schedule, and status — Tahoe 200 only.",
   },
 } as const;
 
 const c = copy[audience];
 ---
 
-<aside class="audience-intro" aria-label={`This page is ${c.title.toLowerCase()}`}>
+<aside class="audience-intro" aria-label={c.title}>
   <p class="audience-intro__label">{c.title}</p>
   <p class="audience-intro__body">{c.body}</p>
 </aside>

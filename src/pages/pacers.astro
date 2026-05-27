@@ -26,11 +26,11 @@ const navItems = [
 ];
 ---
 
-<BaseLayout title="Pacers" description="Pacers for Harvey Schaefer at the Tahoe 200 — six legs from Loon Lake to the finish.">
+<BaseLayout title="Pacers" description="Six pacer legs from Loon Lake to the Tahoe 200 finish.">
   <div class="container">
     <AudienceIntro audience="pacers" />
-    <h1>Harvey's pacers</h1>
-    <p class="lead">Tahoe 200 · pickup at Loon Lake (mile 87.6) · six legs to the finish · Monday ~6 PM finish plan</p>
+    <h1>Pacers</h1>
+    <p class="lead">Pickup at Loon Lake (mile 87.6) · six legs to the finish · I'm planning on Monday ~6 PM at Heavenly</p>
 
     <PageNav items={navItems} />
 
@@ -48,7 +48,7 @@ const navItems = [
     {legsWithPlan.map((leg) => <PacerLegCard leg={leg} />)}
 
     <h2 id="gear">Mandatory pacer gear</h2>
-    <p class="card__meta">Same mandatory kit as the runner, plus pacer bib at check-in.</p>
+    <p class="card__meta">Same mandatory kit I carry, plus your pacer bib at check-in.</p>
     <ul class="list-check">
       {
         mandatoryGear.map((item) => (

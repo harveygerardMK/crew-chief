@@ -113,7 +113,7 @@ export function initCommandCenter(stops: CrewStopPayload[], base: string) {
     if (!hero || !actions) return;
 
     if (!stop) {
-      hero.innerHTML = `<p class="command-center__primary">All crew stops checked in</p><p class="command-center__secondary">Head to finish or update the race board if Harvey is still on course.</p>`;
+      hero.innerHTML = `<p class="command-center__primary">All crew stops checked in</p><p class="command-center__secondary">Head to the finish, or open the race board if I'm still out there.</p>`;
       actions.innerHTML = `<a class="btn btn--primary" href="${base}board/">Open race board</a>`;
       return;
     }

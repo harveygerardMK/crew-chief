@@ -13,11 +13,11 @@ const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placehold
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="Follow" description="Follow Harvey Schaefer at the Tahoe 200 Endurance Run — family stops, ETAs, tracker.">
+<BaseLayout title="Follow" description="Follow Harvey at the Tahoe 200 — where to watch, rough ETAs, tracker tips.">
   <div class="container">
     <AudienceIntro audience="follow" />
-    <h1>Follow Harvey at Tahoe 200</h1>
-    <p class="lead">Where to see him on course, when to expect him, and how to read the live tracker</p>
+    <h1>Follow along</h1>
+    <p class="lead">Where you can see me, when I'm roughly due, and how to read the dot on the map</p>
 
     <StatusBlock />
 
@@ -28,8 +28,8 @@ const base = import.meta.env.BASE_URL;
     </p>
 
     <section class="family-see" aria-labelledby="family-stops-heading">
-      <h2 id="family-stops-heading">Best places to see Harvey</h2>
-      <p class="card__meta">Crew-access stops with easier spectating. Times are baseline plan — he may be earlier or later.</p>
+      <h2 id="family-stops-heading">Good places to see me</h2>
+      <p class="card__meta">Crew aids where spectating is easier. Times are the baseline plan — I might be early or late.</p>
       <div class="family-see__grid">
         {
           familyStops.map((stop) => {
@@ -50,8 +50,9 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <div class="note-box">
-      <strong>Reassurance:</strong> Gaps on the map are normal in the backcountry. Crew has the full plan. Sleep stops
-      allow up to 6 hours — a long pause does not mean something is wrong.
+      <strong>Don't panic if the dot disappears.</strong> Gaps on the tracker are normal in the backcountry. Crew has the
+      full plan. I can sleep up to 6 hours at a sleep station — a long pause usually just means I'm in a tent, not that
+      something's wrong.
     </div>
 
     <div class="prose">
@@ -61,20 +62,20 @@ const base = import.meta.env.BASE_URL;
     <h2>Reading the tracker</h2>
     <ul class="list-check">
       <li>
-        <strong>Green / moving:</strong> Harvey is on course and the SPOT is updating.
+        <strong>Moving / updating:</strong> I'm on course and the SPOT is pinging.
       </li>
       <li>
-        <strong>Stopped at an aid station:</strong> Normal — eating, sleeping, or foot care.
+        <strong>Stopped at an aid:</strong> Normal — food, sleep, feet, bathroom.
       </li>
       <li>
-        <strong>Gaps in updates:</strong> Common in backcountry. Don’t panic on short gaps.
+        <strong>No updates for a while:</strong> Happens in the backcountry. Short gaps are normal.
       </li>
     </ul>
 
-    <h2>Sending a message</h2>
+    <h2>Getting a note to me</h2>
     <p>
-      Cell service is limited. The best way to reach Harvey is through crew at a crew-access aid (Heavenly, Sierra at
-      Tahoe, Loon Lake, Tahoe City, Brockway, Village Green, Finish). Ask crew to pass a short encouraging note.
+      Cell service is spotty. Best path is crew at a crew aid (Heavenly, Sierra at Tahoe, Loon Lake, Tahoe City,
+      Brockway, Village Green, Finish). Ask them to pass something short — I'll see it when I roll in.
     </p>
 
     <h2>Important links</h2>
@@ -86,7 +87,7 @@ const base = import.meta.env.BASE_URL;
         <a href={race.course_map_url} target="_blank" rel="noopener noreferrer">Course map (CalTopo)</a>
       </li>
       <li>
-        <a href={`${base}board/`}>Crew race board</a> (for family who want more detail)
+        <a href={`${base}board/`}>Race board</a> (more detail if you want it)
       </li>
     </ul>
   </div>

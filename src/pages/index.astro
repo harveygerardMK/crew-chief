@@ -19,8 +19,9 @@ const base = import.meta.env.BASE_URL;
         <p class="page-eyebrow">{site.race} · {site.year}</p>
         <h1>{site.name}</h1>
         <p class="lead">
-        {site.runner} is running {site.distance_miles} miles around Lake Tahoe, starting June 12, 2026. Plan to finish
-        Monday June 15 (official cutoff Tuesday 6 PM). Crew command center, playbooks, and family follow-along.
+          I'm running {site.distance_miles} miles around Lake Tahoe, starting Friday June 12, 2026. Plan is to finish
+          Monday the 15th (hard cutoff Tuesday at 6 PM). Crew: playbooks and where to meet me next. Family: when and
+          where to watch, plus the tracker.
         </p>
         <p class="home-hero__actions">
           <a class="btn btn--primary" href={`${base}next/`}>
@@ -42,7 +43,7 @@ const base = import.meta.env.BASE_URL;
     <hr class="section-rule section-rule--contour" />
     <AudiencePaths />
     <p class="card__meta site-meta">
-      {site.tagline} Plan v{site.plan_version}. Offline at trailheads — add to home screen from your browser menu.
+      {site.tagline} Plan v{site.plan_version}. Spotty cell at trailheads — add this site to your home screen if you want it offline.
     </p>
     <p class="card__meta site-meta">
       Official Tahoe 200 tracking:{" "}

@@ -1,7 +1,7 @@
 {
   "name": "Harvey's Tahoe 200",
   "short_name": "Tahoe 200",
-  "description": "Harvey Schaefer — Tahoe 200 Endurance Run 2026. Crew tools and follow-along, offline at trailheads.",
+  "description": "Harvey's Tahoe 200 — crew, pacers, family. Works offline at trailheads.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

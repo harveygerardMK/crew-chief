@@ -4,11 +4,11 @@ import AudienceIntro from "../components/AudienceIntro.astro";
 import { raceWeek } from "../lib/data";
 ---
 
-<BaseLayout title="Schedule" description="Harvey Schaefer's Tahoe 200 race week — June 7–18, 2026.">
+<BaseLayout title="Schedule" description="Race week calendar — June 7–18, 2026.">
   <div class="container">
     <AudienceIntro audience="runner" />
-    <h1>Harvey's race week</h1>
-    <p class="lead">Tahoe 200 · June 7–18, 2026 · drive, check-in, race, recovery</p>
+    <h1>Race week</h1>
+    <p class="lead">June 7–18, 2026 — drive out, check-in, the run, drive home</p>
 
     {
       raceWeek.map((day) => {

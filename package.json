@@ -2,7 +2,7 @@
   "name": "tahoe200-2026",
   "type": "module",
   "version": "1.0.0",
-  "description": "Harvey Schaefer's Tahoe 200 2026 — race plan, crew tools, pacer info, and follow-along.",
+  "description": "Harvey's Tahoe 200 2026 — crew, pacers, family follow-along.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

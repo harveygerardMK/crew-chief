@@ -28,11 +28,11 @@ function addressForStop(stop: (typeof crewStops)[number]): string | undefined {
 }
 ---
 
-<BaseLayout title="Crew" description="Harvey Schaefer's Tahoe 200 crew stops — playbooks, parking, and ETAs.">
+<BaseLayout title="Crew" description="Crew playbooks, parking, and stop times for Harvey's Tahoe 200.">
   <div class="container">
     <AudienceIntro audience="crew" />
-    <h1>Harvey's crew guide</h1>
-    <p class="lead">Seven crew-access stops on the Tahoe 200 course · playbooks save on this phone.</p>
+    <h1>Crew guide</h1>
+    <p class="lead">Seven crew-access aids on the Tahoe 200. Playbooks and checklists stick on this phone once you tap them.</p>
 
     <nav class="section-hub" aria-label="Crew tools">
       <a class="section-hub__link section-hub__link--primary" href={`${base}next/`}>Next stop</a>
@@ -47,12 +47,12 @@ function addressForStop(stop: (typeof crewStops)[number]): string | undefined {
     </section>
 
     <div class="note-box">
-      <strong>Rivian R1S:</strong> {keyNotes.crew_vehicle} Roofnest Sparrow on top — plan parking at tight lots.
+      <strong>Vehicle:</strong> {keyNotes.crew_vehicle} We're in an R1S with a Roofnest Sparrow on top — plan for tight lots.
     </div>
 
     <section id="playbooks">
       <h2>Aid station playbooks</h2>
-      <p class="card__meta">Tap tasks as you complete them — progress stays on this device.</p>
+      <p class="card__meta">Check tasks off as you go — only this phone remembers.</p>
       {
         playbooks.map((book) => (
           <article class="card playbook-card" id={`playbook-${book.crew_stop_n}`}>

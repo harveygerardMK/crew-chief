@@ -5,95 +5,95 @@
   "medical_leads": ["Annette Florczak", "Tasha Swartley", "Julie Burges"],
   "sleep_guidance": {
     "start_by": "Night 2 — ideally within 24–40 hours of the start",
-    "nap_benefit": "Even 30–60 minutes can dramatically improve safety and mental function",
-    "pull_risk": "Severe delusion or unsafe function may result in being pulled from the race"
+    "nap_benefit": "Even 30–60 minutes helps a lot for safety and your head",
+    "pull_risk": "Bad delusion or unsafe decisions can mean a pull — talk to staff if you're struggling"
   },
   "sections": [
     {
       "id": "general",
       "title": "General safety",
       "bullets": [
-        "Extreme temperature swings — hot, cold, windy, dusty, and everything in between.",
-        "Fix problems before leaving an aid station.",
-        "Sleep, food, hydration, and dry clothing solve most issues.",
-        "Carry more layers and calories than you think you'll need.",
-        "Be proactive, not reactive."
+        "Temperature swings are real — hot, cold, wind, dust, all of it.",
+        "Fix problems at an aid before you leave.",
+        "Sleep, food, water, and dry clothes solve most problems.",
+        "Carry more layers and calories than you think you need.",
+        "Fix things early; don't wait until you're desperate."
       ]
     },
     {
       "id": "fellow-runners",
-      "title": "Helping fellow runners",
+      "title": "Helping other runners",
       "bullets": [
-        "If someone asks for help, do what you can.",
-        "If a runner needs assistance or rescue, gather bib number (photo if possible), location, and issue.",
-        "Do not disturb runners sleeping safely off-trail.",
-        "If someone is on or immediately next to the trail, check on them."
+        "If someone asks for help, help if you can.",
+        "For a rescue: get bib number (photo helps), location, and what's wrong.",
+        "Don't wake runners sleeping safely off-trail.",
+        "If someone is on or right next to the trail, check on them."
       ]
     },
     {
       "id": "heat",
-      "title": "Heat illness & overheating",
+      "title": "Heat",
       "bullets": [
-        "Watch for nausea, confusion, red or dry skin, or lack of sweating.",
-        "Get into shade, cool gradually, wet clothing and skin, sip fluids slowly, eat salty foods.",
-        "If shivering begins while cooling, stop aggressive cooling and warm slightly."
+        "Watch for nausea, confusion, red/dry skin, or not sweating.",
+        "Shade, cool slowly, wet clothes and skin, sip fluids, salty food.",
+        "If you start shivering while cooling, ease off cooling and warm up a bit."
       ]
     },
     {
       "id": "emergency",
       "title": "When to call for help",
       "bullets": [
-        "Unless immediately life-threatening, contact race staff before calling 911 — staff can often reach you faster.",
-        "Most rescues require walking out, even with medical support.",
-        "Helicopter rescues are for extreme, life-threatening emergencies only.",
-        "Rescue wait times may be 4–24 hours; weather and terrain delay response.",
-        "Rescue or medical costs outside Destination Trail operations are the runner's responsibility."
+        "Unless it's immediately life-threatening, contact race staff before 911 — they often reach you faster.",
+        "Most rescues mean walking out, even with med support.",
+        "Helicopters are for extreme, life-threatening cases only.",
+        "Wait times can be 4–24 hours; weather and terrain slow everything.",
+        "Costs outside what Destination Trail runs are on the runner."
       ]
     },
     {
       "id": "cold",
-      "title": "Cold weather & hypothermia",
+      "title": "Cold and hypothermia",
       "bullets": [
-        "Always carry extra warm and waterproof gear (mandatory kit).",
-        "Conditions change rapidly with elevation and time of day.",
-        "If hypothermic: add layers, eat calories, keep moving if safely possible."
+        "Carry the mandatory warm/waterproof kit — you'll need it.",
+        "Conditions flip fast with elevation and time of day.",
+        "If you're hypothermic: layers on, calories in, keep moving if it's safe."
       ]
     },
     {
       "id": "dust",
-      "title": "Dust & Rubicon cough",
+      "title": "Dust and Rubicon cough",
       "bullets": [
-        "Full loop includes the Rubicon — miles of extremely fine powder-like dust.",
-        "Consider a reusable mask, several disposable masks, and a wet buff.",
-        "Practice face coverings before race day — some feel restrictive when climbing.",
-        "OTC meds like Mucinex may help; test before race day."
+        "Full loop goes through the Rubicon — miles of fine powder dust.",
+        "Bring a reusable mask, disposables, and a wet buff.",
+        "Try face coverings on training runs; some feel awful on climbs.",
+        "Mucinex and similar can help — test before race day."
       ]
     },
     {
       "id": "lost",
-      "title": "If you get lost",
+      "title": "If you're lost",
       "bullets": [
-        "Use your GPX track, keep devices charged, stay on trail — no cross-country shortcuts.",
-        "If truly lost: stop moving, stay put, conserve battery, wait for assistance."
+        "GPX on a charged device, stay on trail — no shortcuts.",
+        "If you're really lost: stop, stay put, save battery, wait for help."
       ]
     },
     {
       "id": "sleep-hallucinations",
-      "title": "Sleep deprivation & hallucinations",
+      "title": "Sleep and hallucinations",
       "bullets": [
-        "Can cause confusion, poor decisions, hallucinations, and dangerous behavior.",
-        "Begin sleeping no later than Night 2 (ideally within 24–40 hours of start).",
-        "Communicate with staff if struggling mentally or physically."
+        "Sleep debt causes bad decisions, hallucinations, and unsafe behavior.",
+        "Start sleeping by Night 2 (ideally within 24–40 hours of start).",
+        "Tell staff if your head or body isn't right."
       ]
     },
     {
       "id": "foot-care",
-      "title": "Foot care essentials",
+      "title": "Feet",
       "bullets": [
-        "You are responsible for your foot care — manage blisters and moisture early.",
-        "Address hot spots immediately; waiting for the next aid is a poor choice over 200 miles.",
-        "Let feet breathe and dry at aids when eating or sleeping — pays off later.",
-        "Wear gaiters — fine dust on course will punish unprotected feet."
+        "Foot care is on me — blisters and wet feet early, not at mile 180.",
+        "Hot spots now; waiting for the next aid is a bad bet over 200 miles.",
+        "Let feet dry when I'm eating or sleeping at aids — it pays off later.",
+        "Gaiters — the dust on this course is brutal without them."
       ]
     }
   ]

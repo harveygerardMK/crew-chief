@@ -10,13 +10,13 @@ const links = [
   {
     href: `${base}course/`,
     title: "Course",
-    desc: "200.4 mi · CalTopo map · segment splits",
+    desc: "Map · narrative · splits",
     className: "audience-path--course",
   },
   {
     href: `${base}gear/`,
     title: "Gear",
-    desc: "Mandatory kit · drop bags · Harvey's pack list",
+    desc: "Mandatory kit · drop bags",
     className: "audience-path--gear",
   },
   {
@@ -28,11 +28,11 @@ const links = [
 ];
 ---
 
-<BaseLayout title="Plan" description="Harvey Schaefer's Tahoe 200 plan — course, gear, and race week schedule.">
+<BaseLayout title="Plan" description="Course, gear, and race week for Harvey's Tahoe 200.">
   <div class="container">
     <AudienceIntro audience="runner" />
-    <h1>Harvey's plan</h1>
-    <p class="lead">Course, mandatory gear, and race week calendar — Tahoe 200 only.</p>
+    <h1>Plan</h1>
+    <p class="lead">Course, gear, and the June calendar. Tahoe 200 only — not Leadville or anything else.</p>
     <p class="card__meta">{planSourceNote()} Plan v{site.plan_version}.</p>
     <p class="card__meta">{firstHalfPrepNote()}</p>
     <p class="card__meta">
@@ -71,7 +71,7 @@ const links = [
     </div>
 
     <p class="card__meta">
-      Family follow-along: <a href={`${base}follow/`}>See Harvey</a>
+      Family: <a href={`${base}follow/`}>Follow along</a>
     </p>
   </div>
 </BaseLayout>

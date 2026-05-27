@@ -8,15 +8,15 @@ const crewPayload = getCrewStopPayload();
 
 <BaseLayout
   title="Next stop"
-  description="Harvey Schaefer's Tahoe 200 — next crew stop, leave-by time, Maps, and check-in."
+  description="Next crew stop — leave-by time, Maps, check-in."
 >
   <div class="command-center-wrap">
     <div class="container">
-      <p class="page-eyebrow">Command center</p>
+      <p class="page-eyebrow">Crew</p>
       <h1>Next stop</h1>
       <p class="lead">
-        One screen for where to meet Harvey next on the Tahoe 200. Arrival windows follow his Bighorn 100 splits (2025),
-        stretched to a Monday finish — adjust pace if he's ahead or behind.
+        Where to meet me next, when to leave, and a button to mark when I've arrived. Times come from my Bighorn 100
+        splits (2025), stretched to a Monday finish — change the pace dropdown if I'm ahead or behind.
       </p>
 
       <div class="command-center-controls">
@@ -42,7 +42,7 @@ const crewPayload = getCrewStopPayload();
       </section>
 
       <p class="card__meta">
-        {planSourceNote()} Plan v{site.plan_version} · Check-ins saved on this device only ·{" "}
+        {planSourceNote()} Plan v{site.plan_version} · Check-ins live on this phone only ·{" "}
         <a href={`${base}board/`}>Race board</a>
       </p>
     </div>

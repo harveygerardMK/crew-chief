@@ -8,12 +8,12 @@ const stationNames = aidStations.map((s) => s.name);
 
 <BaseLayout
   title="Crew update"
-  description="Post race updates for family and friends."
+  description="Post a race update for the homepage."
   noindex
 >
   <div id="update-app" class="container update-page" data-api-url={apiUrl}>
     <h1>Crew update</h1>
-    <p class="lead">Post how Harvey is doing for the homepage. Saves in a few minutes.</p>
+    <p class="lead">Short note for family on the homepage. Takes a few minutes to show up after you save.</p>
 
     <p id="status" class="update-status" role="status" aria-live="polite" hidden></p>
 
@@ -30,14 +30,14 @@ const stationNames = aidStations.map((s) => s.name);
       <h2>Update for family</h2>
 
       <label class="update-field">
-        <span class="update-field__label">How is Harvey doing?</span>
-        <textarea id="doing" rows="2" maxlength="200" class="update-input" placeholder="Short update for everyone"></textarea>
+        <span class="update-field__label">How's Harvey doing?</span>
+        <textarea id="doing" rows="2" maxlength="200" class="update-input" placeholder="e.g. Tired but moving — just left Sierra"></textarea>
       </label>
 
       <label class="update-field">
         <span class="update-field__label">Last seen aid station</span>
         <select id="station" class="update-input">
-          <option value="">— Optional if you only add a mood line —</option>
+          <option value="">— Skip if you're only posting a quick line —</option>
           {stationNames.map((name) => <option value={name}>{name}</option>)}
           <option value="__other__">Other…</option>
         </select>
@@ -55,7 +55,7 @@ const stationNames = aidStations.map((s) => s.name);
 
       <label class="update-field">
         <span class="update-field__label">Note for family (optional)</span>
-        <textarea id="note" rows="4" maxlength="500" class="update-input" placeholder="Sleep plans, where to meet, etc."></textarea>
+        <textarea id="note" rows="4" maxlength="500" class="update-input" placeholder="Sleeping at Wrights — see you at Tahoe City Monday AM"></textarea>
       </label>
 
       <label class="update-field">

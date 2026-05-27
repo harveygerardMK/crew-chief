@@ -4,55 +4,55 @@
     "name": "Start / Finish (Heavenly Stagecoach)",
     "mile": 0,
     "cutoff": "Fri 9:00 AM",
-    "how_to_see": "Lower parking lot at Stagecoach Lodge — start line and finish celebration.",
-    "parking_note": "Crew may park overnight. Same site at the end."
+    "how_to_see": "Lower lot at Stagecoach Lodge — that's the start line, and where I'll finish if things go to plan.",
+    "parking_note": "Crew can park overnight here. Same spot at the end."
   },
   {
     "aid_n": 1,
     "name": "Heavenly",
     "mile": 10,
     "cutoff": "No cutoff",
-    "how_to_see": "Same venue as start — quick stop early in the race.",
-    "parking_note": "Same as start/finish area."
+    "how_to_see": "Same place as the start — I'm through fast this early.",
+    "parking_note": "Same as start/finish."
   },
   {
     "aid_n": 4,
     "name": "Sierra at Tahoe",
     "mile": 52.2,
     "cutoff": "Sat 11:30 AM",
-    "how_to_see": "First major crew stop — good place to see Harvey mid-morning Saturday.",
-    "parking_note": "Display crew pass. Standard aid parking."
+    "how_to_see": "First real crew stop — decent chance to see me Saturday mid-morning if the plan holds.",
+    "parking_note": "Show the crew pass in the windshield. Normal aid parking."
   },
   {
     "aid_n": 9,
     "name": "Tahoe City",
     "mile": 130,
     "cutoff": "Mon 4:30 AM",
-    "how_to_see": "Walk 0.2 mi from Transit Center parking — iconic lakefront stop.",
-    "parking_note": "Park at Transit Center, walk to aid."
+    "how_to_see": "Park at the Transit Center and walk about 0.2 mi to the aid — lakefront, hard to miss.",
+    "parking_note": "Transit Center parking, then walk in."
   },
   {
     "aid_n": 10,
     "name": "Brockway Summit",
     "mile": 148.6,
     "cutoff": "Mon 2:30 PM",
-    "how_to_see": "Crew parks and walks 0.6 mi — sleep stop for many runners.",
-    "parking_note": "Designated crew parking, then walk in."
+    "how_to_see": "Crew parks in the designated lot and walks 0.6 mi in. A lot of runners nap here.",
+    "parking_note": "Crew lot, then walk to the aid."
   },
   {
     "aid_n": 11,
     "name": "Village Green",
     "mile": 163.6,
     "cutoff": "Mon 10:00 PM",
-    "how_to_see": "Designated green-marked crew parking — late-race crew access.",
-    "parking_note": "Use marked crew areas only."
+    "how_to_see": "Use the green-marked crew parking only — late race, crew access.",
+    "parking_note": "Marked crew areas only."
   },
   {
     "aid_n": 13,
     "name": "Finish (Heavenly Stagecoach)",
     "mile": 200.4,
     "cutoff": "Tue 6:00 PM",
-    "how_to_see": "Back where it started — plan to see Harvey finish Monday; be at Stagecoach for the buckle.",
-    "parking_note": "Lower lot. Plan: Monday finish. Official cutoff Tue 6:00 PM."
+    "how_to_see": "Back at Stagecoach. I'm hoping for Monday; cutoff is Tuesday 6 PM if you want to plan travel.",
+    "parking_note": "Lower lot. Monday finish is the plan."
   }
 ]

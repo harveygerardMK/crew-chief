@@ -10,26 +10,25 @@ const boardRows = rows.map((r) => ({
 }));
 ---
 
-<BaseLayout title="Race board" description="Harvey Schaefer's Tahoe 200 — planned vs actual at every aid station.">
+<BaseLayout title="Race board" description="Planned vs actual at every Tahoe 200 aid.">
   <div class="container">
-    <p class="page-eyebrow">Harvey · Tahoe 200</p>
+    <p class="page-eyebrow">Crew</p>
     <h1>Race board</h1>
     <p class="lead">
-      Tap when Harvey reaches an aid on the Tahoe 200 course. Green = ahead of optimistic plan, yellow = between
-      optimistic and conservative, red = behind conservative.
+      Tap when I hit an aid. Green = ahead of the fast plan, yellow = in the window, red = behind the slow plan.
     </p>
     <p class="card__meta">{planSourceNote()}</p>
     <p class="card__meta">{firstHalfPrepNote()}</p>
 
     <p>
-      <a class="btn btn--primary" href={`${base}next/`}>Next stop command center</a>
+      <a class="btn btn--primary" href={`${base}next/`}>Next stop</a>
     </p>
 
     <p class="board-legend" id="board-legend">
       <span class="board-status board-status--ahead">Ahead</span>
       <span class="board-status board-status--on-pace">On pace</span>
       <span class="board-status board-status--behind">Behind</span>
-      <span class="board-legend__hint">— vs plan at each aid</span>
+      <span class="board-legend__hint">— vs plan at each aid (this phone only)</span>
     </p>
 
     <div class="table-wrap table-wrap--sticky">

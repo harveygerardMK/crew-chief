@@ -1,6 +1,6 @@
 # Harvey's Tahoe 200 (2026)
 
-Trip site for **Harvey Schaefer** running the [Tahoe 200 Endurance Run](https://www.destinationtrailrun.com/tahoe) — his race plan, crew command center, pacer info, and a follow-along page for family and friends. **Tahoe 200 only** (not Leadville or other events).
+Trip site for **Harvey Schaefer** running the [Tahoe 200 Endurance Run](https://www.destinationtrailrun.com/tahoe) — race plan, crew playbooks, pacer info, and a page for family. **Tahoe 200 only** (not Leadville or other events).
 
 **Live site:** https://harveygerardMK.github.io/crew-chief/
 

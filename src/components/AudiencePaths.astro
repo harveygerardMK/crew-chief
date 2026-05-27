@@ -4,18 +4,18 @@ const base = import.meta.env.BASE_URL;
 const sections = [
   {
     title: "Crew",
-    desc: "Race week operations — where to meet Harvey",
+    desc: "Race week — where to meet me",
     paths: [
       {
         href: `${base}next/`,
         title: "Next stop",
-        desc: "Leave-by · Maps · check in",
+        desc: "Leave-by time · Maps · check in",
         className: "audience-path--plan",
       },
       {
         href: `${base}board/`,
         title: "Race board",
-        desc: "Plan vs actual at every aid",
+        desc: "Plan vs when I actually showed up",
         className: "audience-path--board",
       },
       {
@@ -27,14 +27,14 @@ const sections = [
       {
         href: `${base}aid-stations/`,
         title: "Aid stations",
-        desc: "All 13 stops · cutoffs · filters",
+        desc: "All 13 stops · cutoffs",
         className: "audience-path--aid",
       },
     ],
   },
   {
     title: "Plan",
-    desc: "Harvey's Tahoe 200 — course, kit, and calendar",
+    desc: "Course, kit, race week",
     paths: [
       {
         href: `${base}course/`,
@@ -45,25 +45,25 @@ const sections = [
       {
         href: `${base}gear/`,
         title: "Gear",
-        desc: "Mandatory kit · drop bags",
+        desc: "Mandatory list · drop bags",
         className: "audience-path--gear",
       },
       {
         href: `${base}schedule/`,
         title: "Schedule",
-        desc: "June 7–18 race week",
+        desc: "June 7–18",
         className: "audience-path--schedule",
       },
     ],
   },
   {
     title: "Pacers",
-    desc: "Six legs from Loon Lake to the finish",
+    desc: "Loon Lake to the finish",
     paths: [
       {
         href: `${base}pacers/`,
         title: "Pacers",
-        desc: "Legs · gear · rules · onboarding",
+        desc: "Legs · gear · rules",
         className: "audience-path--pacers",
       },
     ],
@@ -74,7 +74,7 @@ const followLink = `${base}follow/`;
 ---
 
 <section class="audience-paths" aria-labelledby="paths-heading">
-  <h2 id="paths-heading">Where do you need to go?</h2>
+  <h2 id="paths-heading">Start here</h2>
   {
     sections.map((section) => (
       <div class="audience-paths__section">
@@ -95,6 +95,6 @@ const followLink = `${base}follow/`;
     ))
   }
   <p class="card__meta audience-paths__follow">
-    Family & friends: <a href={followLink}>See Harvey</a> · tracker and spectator stops
+    Family & friends: <a href={followLink}>Follow along</a> — spectator stops and the tracker
   </p>
 </section>
