@@ -1,11 +1,16 @@
 {
-  "updated_at": "2026-05-27T21:03:28.338Z",
+  "updated_at": "2026-05-27T21:04:12.715Z",
   "updated_by": "crew",
-  "doing": "Testing auto time",
+  "doing": "He's somehow gotten shorter?",
   "last_seen": {
-    "station": "Sierra at Tahoe",
-    "time_label": "Wed, 2:03 PM PDT"
+    "station": "Brockway Summit",
+    "time_label": "Wed, 2:04 PM PDT"
   },
   "note": null,
-  "photos": []
+  "photos": [
+    {
+      "url": "/crew-chief/race-updates/2026-05-27T21-04-11-480Z-brockway-summit-1.jpg",
+      "alt": "Harvey at Brockway Summit"
+    }
+  ]
 }
