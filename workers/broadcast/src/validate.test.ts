@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateBroadcastFields } from "./validate";
+import { prepareBroadcastFields, validateBroadcastFields } from "./validate";
 
 describe("validateBroadcastFields", () => {
   it("rejects empty doing and station", () => {
@@ -15,6 +15,28 @@ describe("validateBroadcastFields", () => {
       note: "",
     });
     expect(r.ok).toBe(true);
+  });
+
+  it("fills time when station set but time missing", () => {
+    const prepared = prepareBroadcastFields({
+      doing: "",
+      station: "Sierra at Tahoe",
+      timeLabel: "",
+      note: "",
+    });
+    expect(prepared.timeLabel.length).toBeGreaterThan(0);
+    expect(validateBroadcastFields(prepared).ok).toBe(true);
+  });
+
+  it("ignores __other__ without a custom station name", () => {
+    const prepared = prepareBroadcastFields({
+      doing: "On the move",
+      station: "__other__",
+      timeLabel: "",
+      note: "",
+    });
+    expect(prepared.station).toBe("");
+    expect(validateBroadcastFields(prepared).ok).toBe(true);
   });
 
   it("rejects doing over 200 chars", () => {

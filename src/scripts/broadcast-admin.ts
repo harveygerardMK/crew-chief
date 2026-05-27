@@ -59,6 +59,9 @@ export function initBroadcastAdmin(apiUrl?: string): void {
     stationOther.hidden = !show;
     stationOther.required = show;
     syncStationField();
+    if (stationSelect.value && stationSelect.value !== "__other__") {
+      syncTimeLabel();
+    }
   });
 
   timeInput?.addEventListener("change", syncTimeLabel);

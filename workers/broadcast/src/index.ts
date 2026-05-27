@@ -1,5 +1,5 @@
 import { getFileSha, putFile, toBase64, type GitHubEnv } from "./github";
-import { MAX_PHOTO_BYTES, MAX_PHOTOS, validateBroadcastFields } from "./validate";
+import { MAX_PHOTO_BYTES, MAX_PHOTOS, prepareBroadcastFields, validateBroadcastFields } from "./validate";
 import { UPDATE_PAGE_HTML } from "./update-page";
 
 export interface Env extends GitHubEnv {}
@@ -122,15 +122,19 @@ async function handleBroadcastInner(
   }
 
   const form = await request.formData();
-  const doing = String(form.get("doing") ?? "");
-  const station = String(form.get("station") ?? "");
-  const timeLabel = String(form.get("time_label") ?? "");
-  const note = String(form.get("note") ?? "");
+  const fields = prepareBroadcastFields({
+    doing: String(form.get("doing") ?? ""),
+    station: String(form.get("station") ?? ""),
+    timeLabel: String(form.get("time_label") ?? ""),
+    note: String(form.get("note") ?? ""),
+  });
 
-  const validation = validateBroadcastFields({ doing, station, timeLabel, note });
+  const validation = validateBroadcastFields(fields);
   if (!validation.ok) {
     return respond({ ok: false, message: validation.message }, 400, cors, htmlNav);
   }
+
+  const { doing, station, timeLabel, note } = fields;
 
   const photos: { url: string; alt: string }[] = [];
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");

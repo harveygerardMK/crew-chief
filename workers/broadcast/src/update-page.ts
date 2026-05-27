@@ -147,9 +147,13 @@ const UPDATE_PAGE_SCRIPT = `
       stationOther.hidden = !show;
       stationOther.required = show;
       syncStationField();
+      if (stationSelect.value && stationSelect.value !== "__other__") syncTimeLabel();
     });
   }
-  if (timeInput) timeInput.addEventListener("change", syncTimeLabel);
+  if (timeInput) {
+    timeInput.addEventListener("change", syncTimeLabel);
+    timeInput.addEventListener("input", syncTimeLabel);
+  }
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();

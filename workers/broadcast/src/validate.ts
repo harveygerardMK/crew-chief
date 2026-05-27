@@ -1,7 +1,7 @@
 const MAX_DOING = 200;
 const MAX_NOTE = 500;
 const MAX_STATION = 80;
-const MAX_TIME = 60;
+const MAX_TIME = 80;
 export const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 export const MAX_PHOTOS = 2;
 
@@ -12,13 +12,31 @@ export type BroadcastFields = {
   note: string;
 };
 
+/** Normalize form values before validation and save. */
+export function prepareBroadcastFields(raw: BroadcastFields): BroadcastFields {
+  let station = raw.station.trim();
+  if (station === "__other__") station = "";
+
+  let timeLabel = raw.timeLabel.trim();
+  if (station && !timeLabel) {
+    timeLabel = pacificNowLabel();
+  }
+
+  return {
+    doing: raw.doing.trim(),
+    station,
+    timeLabel,
+    note: raw.note.trim(),
+  };
+}
+
 export function validateBroadcastFields(
   fields: BroadcastFields,
 ): { ok: true } | { ok: false; message: string } {
-  const doing = fields.doing.trim();
-  const station = fields.station.trim();
-  const timeLabel = fields.timeLabel.trim();
-  const note = fields.note.trim();
+  const doing = fields.doing;
+  const station = fields.station;
+  const timeLabel = fields.timeLabel;
+  const note = fields.note;
 
   if (!doing && !station) {
     return { ok: false, message: "Add how Harvey is doing or pick a last-seen station." };
@@ -39,4 +57,14 @@ export function validateBroadcastFields(
     return { ok: false, message: "Add a time for last seen." };
   }
   return { ok: true };
+}
+
+function pacificNowLabel(): string {
+  return new Date().toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
+    weekday: "short",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
 }
