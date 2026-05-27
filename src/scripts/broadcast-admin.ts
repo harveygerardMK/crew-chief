@@ -44,9 +44,9 @@ export function initBroadcastAdmin(apiUrl: string): void {
     try {
       const res = await fetch(`${baseUrl}/auth`, {
         method: "POST",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: passwordInput.value }),
+        signal: AbortSignal.timeout(15_000),
       });
       const data = await readJson<{ ok?: boolean; message?: string; token?: string }>(res);
       if (!res.ok || !data.ok) {
@@ -86,9 +86,9 @@ export function initBroadcastAdmin(apiUrl: string): void {
 
       const res = await fetch(`${baseUrl}/broadcast`, {
         method: "POST",
-        credentials: "include",
         headers: authHeaders(),
         body: formData,
+        signal: AbortSignal.timeout(30_000),
       });
       const data = await readJson<{ ok?: boolean; message?: string }>(res);
       if (!res.ok || !data.ok) {
@@ -131,6 +131,19 @@ export function initBroadcastAdmin(apiUrl: string): void {
     if (select.value === "") return "";
     return select.value;
   }
+}
+
+function networkErrorMessage(err: unknown): string {
+  if (err instanceof Error) {
+    if (err.name === "TimeoutError" || err.message.includes("timed out")) {
+      return "Save timed out. Try again on Wi‑Fi or with a shorter note.";
+    }
+    if (err.message.includes("Failed to fetch")) {
+      return "Could not reach the server. Check signal and try again.";
+    }
+    if (err.message) return err.message;
+  }
+  return "Could not reach the server. Check signal and try again.";
 }
 
 async function readJson<T>(res: Response): Promise<T> {

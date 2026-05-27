@@ -43,11 +43,13 @@ export default {
         return json({ ok: true }, 200, cors);
       }
 
-      if (request.method === "POST" && url.pathname === "/auth") {
+      const path = url.pathname.replace(/\/$/, "") || "/";
+
+      if (request.method === "POST" && path === "/auth") {
         return handleAuth(request, env, cors);
       }
 
-      if (request.method === "POST" && url.pathname === "/broadcast") {
+      if (request.method === "POST" && path === "/broadcast") {
         return handleBroadcast(request, env, cors);
       }
 
@@ -55,9 +57,11 @@ export default {
     } catch (err) {
       console.error(err);
       const detail = err instanceof Error ? err.message : "unknown error";
-      const message = detail.includes("GitHub")
-        ? "Could not save to the site repo. Harvey may need to check the GitHub token."
-        : "Something went wrong. Try again in a moment.";
+      const message = detail.includes("timeout") || detail.includes("Timeout")
+        ? "Save timed out. Try again on Wi‑Fi or with a shorter note."
+        : detail.includes("GitHub")
+          ? "Could not save to the site repo. Harvey may need to check the GitHub token."
+          : "Something went wrong. Try again in a moment.";
       return json({ ok: false, message }, 500, cors);
     }
   },

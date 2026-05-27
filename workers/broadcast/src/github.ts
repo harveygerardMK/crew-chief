@@ -5,14 +5,22 @@ export type GitHubEnv = {
   GITHUB_BRANCH: string;
 };
 
+const GITHUB_HEADERS = {
+  Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2022-11-28",
+  "User-Agent": "crew-chief-broadcast-worker",
+};
+
+const GITHUB_TIMEOUT_MS = 20_000;
+
 export async function getFileSha(env: GitHubEnv, path: string): Promise<string | null> {
   const url = `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}?ref=${env.GITHUB_BRANCH}`;
   const res = await fetch(url, {
     headers: {
+      ...GITHUB_HEADERS,
       Authorization: `Bearer ${env.GITHUB_TOKEN}`,
-      Accept: "application/vnd.github+json",
-      "User-Agent": "crew-chief-broadcast-worker",
     },
+    signal: AbortSignal.timeout(GITHUB_TIMEOUT_MS),
   });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`GitHub get ${path}: ${res.status}`);
@@ -37,12 +45,12 @@ export async function putFile(
   const res = await fetch(url, {
     method: "PUT",
     headers: {
+      ...GITHUB_HEADERS,
       Authorization: `Bearer ${env.GITHUB_TOKEN}`,
-      Accept: "application/vnd.github+json",
       "Content-Type": "application/json",
-      "User-Agent": "crew-chief-broadcast-worker",
     },
     body: JSON.stringify(body),
+    signal: AbortSignal.timeout(GITHUB_TIMEOUT_MS),
   });
   if (!res.ok) {
     const text = await res.text();
