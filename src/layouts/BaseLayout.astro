@@ -40,7 +40,7 @@ const base = import.meta.env.BASE_URL;
     />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
   </head>
-  <body>
+  <body data-base={base}>
     <header class="site-header">
       <div class="site-header__inner">
         <a class="site-logo" href={base}>
@@ -68,8 +68,9 @@ const base = import.meta.env.BASE_URL;
   </body>
 </html>
 
-<script define:vars={{ base }}>
+<script>
   import { initTrailheadMode, registerServiceWorker } from "../scripts/tahoe-app";
+  const base = document.body.dataset.base ?? "/";
   initTrailheadMode();
   registerServiceWorker(base);
 </script>

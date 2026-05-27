@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { aidStations } from "../../lib/data";
 
 const apiUrl = import.meta.env.PUBLIC_BROADCAST_API_URL ?? "";
+const directUpdateUrl = apiUrl ? `${apiUrl.replace(/\/$/, "")}/update` : "";
 const stationNames = aidStations.map((s) => s.name);
 ---
 
@@ -14,6 +15,13 @@ const stationNames = aidStations.map((s) => s.name);
   <div id="update-app" class="container update-page" data-api-url={apiUrl}>
     <h1>Crew update</h1>
     <p class="lead">Short note for family on the homepage. Takes a few minutes to show up after you save.</p>
+
+    {directUpdateUrl && (
+      <p class="update-direct">
+        If sign-in fails on hotel or work Wi‑Fi, use the{" "}
+        <a href={directUpdateUrl}>direct update link</a> (bookmark it).
+      </p>
+    )}
 
     <p id="status" class="update-status" role="status" aria-live="polite" hidden></p>
 
@@ -74,7 +82,6 @@ const stationNames = aidStations.map((s) => s.name);
 
   <script>
     import { initBroadcastAdmin } from "../../scripts/broadcast-admin.ts";
-    const root = document.getElementById("update-app");
-    initBroadcastAdmin(root?.dataset.apiUrl ?? "");
+    initBroadcastAdmin();
   </script>
 </BaseLayout>

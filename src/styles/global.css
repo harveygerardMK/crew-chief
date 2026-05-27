@@ -1739,6 +1739,16 @@ textarea.update-input {
   min-height: 4.5rem;
 }
 
+.update-direct {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-body-sm);
+  color: var(--ink-muted);
+}
+
+.update-direct a {
+  font-weight: 600;
+}
+
 .update-status {
   margin: var(--space-4) 0;
   padding: var(--space-3) var(--space-4);

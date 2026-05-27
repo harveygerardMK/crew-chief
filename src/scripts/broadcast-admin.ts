@@ -1,6 +1,7 @@
 const SESSION_KEY = "cc_broadcast_token";
 
-export function initBroadcastAdmin(apiUrl: string): void {
+/** Reads API URL from argument or `#update-app` data attribute. Always wires up buttons. */
+export function initBroadcastAdmin(apiUrl?: string): void {
   const loginEl = document.querySelector<HTMLElement>("#login");
   const formEl = document.querySelector<HTMLElement>("#form");
   const statusEl = document.querySelector<HTMLElement>("#status");
@@ -11,18 +12,27 @@ export function initBroadcastAdmin(apiUrl: string): void {
   const stationSelect = document.querySelector<HTMLSelectElement>("#station");
   const stationOther = document.querySelector<HTMLInputElement>("#station_other");
 
-  if (!loginEl || !formEl || !statusEl || !loginBtn || !passwordInput || !saveBtn || !timeInput) {
+  if (!loginEl || !formEl || !statusEl || !loginBtn || !passwordInput || !saveBtn) {
+    console.error("[crew update] Missing required DOM elements; form not initialized.");
     return;
   }
 
-  const baseUrl = apiUrl.replace(/\/$/, "");
+  const root = document.getElementById("update-app");
+  const baseUrl = (apiUrl ?? root?.dataset.apiUrl ?? "").replace(/\/$/, "");
 
-  if (!baseUrl) {
-    setStatus("Not hooked up yet — I still need to finish setup (see the runbook).", "error");
-    return;
+  function setStatus(message: string, kind: "info" | "error" | "success") {
+    statusEl.textContent = message;
+    statusEl.dataset.kind = kind;
+    statusEl.hidden = !message;
   }
 
-  timeInput.value = defaultDatetimeLocal();
+  if (timeInput) {
+    timeInput.value = defaultDatetimeLocal();
+  }
+
+  if (baseUrl) {
+    void probeServer(baseUrl, setStatus);
+  }
 
   stationSelect?.addEventListener("change", () => {
     if (!stationOther) return;
@@ -39,15 +49,25 @@ export function initBroadcastAdmin(apiUrl: string): void {
   });
 
   loginBtn.addEventListener("click", async () => {
+    if (!baseUrl) {
+      setStatus(
+        "Update server is not configured on this build. Use the direct update link below, or ask Harvey to redeploy the site.",
+        "error",
+      );
+      return;
+    }
     setStatus("Checking password…", "info");
     loginBtn.disabled = true;
     try {
-      const res = await fetch(`${baseUrl}/auth`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: passwordInput.value }),
-        signal: AbortSignal.timeout(15_000),
-      });
+      const res = await fetchWithTimeout(
+        `${baseUrl}/auth`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: passwordInput.value }),
+        },
+        15_000,
+      );
       const data = await readJson<{ ok?: boolean; message?: string; token?: string }>(res);
       if (!res.ok || !data.ok) {
         setStatus(data.message ?? "That password didn't work.", "error");
@@ -61,13 +81,17 @@ export function initBroadcastAdmin(apiUrl: string): void {
       setStatus("", "info");
       passwordInput.value = "";
     } catch (err) {
-      setStatus(networkErrorMessage(err), "error");
+      setStatus(networkErrorMessage(err, baseUrl), "error");
     } finally {
       loginBtn.disabled = false;
     }
   });
 
   saveBtn.addEventListener("click", async () => {
+    if (!baseUrl) {
+      setStatus("Update server is not configured. Use the direct update link below.", "error");
+      return;
+    }
     setStatus("Saving…", "info");
     saveBtn.disabled = true;
     try {
@@ -75,7 +99,7 @@ export function initBroadcastAdmin(apiUrl: string): void {
       const formData = new FormData();
       formData.set("doing", getValue("doing"));
       formData.set("station", station);
-      formData.set("time_label", formatTimeLabel(timeInput.value));
+      formData.set("time_label", formatTimeLabel(timeInput?.value ?? ""));
       formData.set("note", getValue("note"));
 
       const photos = document.querySelectorAll<HTMLInputElement>('input[type="file"][name^="photo"]');
@@ -84,12 +108,15 @@ export function initBroadcastAdmin(apiUrl: string): void {
         if (file) formData.set(`photo${index}`, file);
       });
 
-      const res = await fetch(`${baseUrl}/broadcast`, {
-        method: "POST",
-        headers: authHeaders(),
-        body: formData,
-        signal: AbortSignal.timeout(30_000),
-      });
+      const res = await fetchWithTimeout(
+        `${baseUrl}/broadcast`,
+        {
+          method: "POST",
+          headers: authHeaders(),
+          body: formData,
+        },
+        45_000,
+      );
       const data = await readJson<{ ok?: boolean; message?: string }>(res);
       if (!res.ok || !data.ok) {
         setStatus(data.message ?? "Save failed. Try again.", "error");
@@ -100,7 +127,7 @@ export function initBroadcastAdmin(apiUrl: string): void {
         input.value = "";
       });
     } catch (err) {
-      setStatus(networkErrorMessage(err), "error");
+      setStatus(networkErrorMessage(err, baseUrl), "error");
     } finally {
       saveBtn.disabled = false;
     }
@@ -109,12 +136,6 @@ export function initBroadcastAdmin(apiUrl: string): void {
   function authHeaders(): HeadersInit {
     const token = sessionStorage.getItem(SESSION_KEY);
     return token ? { Authorization: `Bearer ${token}` } : {};
-  }
-
-  function setStatus(message: string, kind: "info" | "error" | "success") {
-    statusEl.textContent = message;
-    statusEl.dataset.kind = kind;
-    statusEl.hidden = !message;
   }
 
   function getValue(id: string): string {
@@ -133,17 +154,51 @@ export function initBroadcastAdmin(apiUrl: string): void {
   }
 }
 
-function networkErrorMessage(err: unknown): string {
+async function probeServer(
+  baseUrl: string,
+  setStatus: (message: string, kind: "info" | "error" | "success") => void,
+): Promise<void> {
+  try {
+    const res = await fetchWithTimeout(`${baseUrl}/health`, {}, 8_000);
+    if (!res.ok) throw new Error("unhealthy");
+  } catch {
+    setStatus(
+      `Having trouble reaching the server from this network. Try the direct link: ${baseUrl}/update`,
+      "error",
+    );
+  }
+}
+
+function fetchWithTimeout(url: string, init: RequestInit, ms: number): Promise<Response> {
+  if (typeof AbortSignal !== "undefined" && "timeout" in AbortSignal) {
+    return fetch(url, { ...init, signal: AbortSignal.timeout(ms) });
+  }
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { ...init, signal: controller.signal }).finally(() => clearTimeout(id));
+}
+
+function networkErrorMessage(err: unknown, baseUrl: string): string {
+  const direct = baseUrl ? `${baseUrl}/update` : "";
   if (err instanceof Error) {
-    if (err.name === "TimeoutError" || err.message.includes("timed out")) {
-      return "Save timed out. Try again on Wi‑Fi or with a shorter note.";
+    if (err.name === "TimeoutError" || err.name === "AbortError" || err.message.includes("timed out")) {
+      return "Timed out. Try again on Wi‑Fi or with a shorter note.";
     }
-    if (err.message.includes("Failed to fetch")) {
-      return "Could not reach the server. Check signal and try again.";
+    if (err.message.includes("Failed to fetch") || err.message.includes("Load failed")) {
+      return direct
+        ? `Could not reach the server. Open the direct link: ${direct}`
+        : "Could not reach the server. Check signal and try again.";
+    }
+    if (err.message.includes("AbortSignal")) {
+      return direct
+        ? `This browser needs the direct update link: ${direct}`
+        : "Your browser could not start the request. Try updating Safari or use Chrome.";
     }
     if (err.message) return err.message;
   }
-  return "Could not reach the server. Check signal and try again.";
+  return direct
+    ? `Could not reach the server. Open the direct link: ${direct}`
+    : "Could not reach the server. Check signal and try again.";
 }
 
 async function readJson<T>(res: Response): Promise<T> {

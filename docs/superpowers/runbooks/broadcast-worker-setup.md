@@ -110,7 +110,15 @@ Delete or overwrite the test message before race weekend if you like.
 
 ## 7. Wife’s phone
 
-1. Open **`/crew-chief/update/`** in Safari/Chrome  
+**Bookmark the direct update link** (works on hotel/work Wi‑Fi that blocks the main site):
+
+`https://crew-chief-broadcast.harvey-schaefer.workers.dev/update`
+
+(Replace with your Worker URL + `/update` if different.)
+
+You can also use **`/crew-chief/update/`** on the public site when home Wi‑Fi works.
+
+1. Open the direct link (or `/crew-chief/update/`) in Safari/Chrome  
 2. **Share** → **Add to Home Screen** (optional but helpful)  
 3. Tell her the **password** (voice or text — not in the public site)  
 
@@ -145,6 +153,7 @@ Open `http://localhost:4321/crew-chief/update/`
 
 | Problem | Fix |
 |--------|-----|
+| “Could not reach the server” on GitHub Pages update | Use the **direct link** (`…workers.dev/update`) — same form, no cross-site blocking |
 | “Not connected yet” on update page | Set `PUBLIC_BROADCAST_API_URL` in GitHub Actions variables and redeploy |
 | Wrong password | Re-run `wrangler secret put FAMILY_PASSWORD` |
 | Save fails with GitHub error | Check PAT has **Contents: write** on this repo only |

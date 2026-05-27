@@ -1,4 +1,4 @@
-const CACHE = "tahoe-crew-v1";
+const CACHE = "tahoe-crew-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -22,6 +22,12 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  // Never cache the crew update page — always fetch fresh HTML/JS
+  if (url.pathname.includes("/update")) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cached) => {

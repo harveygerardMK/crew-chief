@@ -7,6 +7,7 @@ import {
   verifySession,
 } from "./session";
 import { MAX_PHOTO_BYTES, MAX_PHOTOS, validateBroadcastFields } from "./validate";
+import { UPDATE_PAGE_HTML } from "./update-page";
 
 export interface Env extends GitHubEnv {
   FAMILY_PASSWORD: string;
@@ -44,6 +45,19 @@ export default {
       }
 
       const path = url.pathname.replace(/\/$/, "") || "/";
+
+      if (request.method === "GET" && path === "/") {
+        return Response.redirect(`${url.origin}/update`, 302);
+      }
+
+      if (request.method === "GET" && path === "/update") {
+        return new Response(UPDATE_PAGE_HTML, {
+          headers: {
+            "Content-Type": "text/html; charset=utf-8",
+            "Cache-Control": "no-store",
+          },
+        });
+      }
 
       if (request.method === "POST" && path === "/auth") {
         return handleAuth(request, env, cors);
