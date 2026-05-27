@@ -1,16 +1,20 @@
 {
-  "updated_at": "2026-05-27T21:09:05.785Z",
-  "updated_by": "crew",
-  "doing": "He's somehow gotten EVEN shorter?",
-  "last_seen": {
-    "station": "Tahoe City",
-    "time_label": "Wed, 2:08 PM PDT"
-  },
-  "note": null,
-  "photos": [
+  "updates": [
     {
-      "url": "/crew-chief/race-updates/2026-05-27T21-08-57-484Z-tahoe-city-1.jpg",
-      "alt": "Harvey at Tahoe City"
+      "updated_at": "2026-05-27T21:09:05.785Z",
+      "updated_by": "crew",
+      "doing": "He's somehow gotten EVEN shorter?",
+      "last_seen": {
+        "station": "Tahoe City",
+        "time_label": "Wed, 2:08 PM PDT"
+      },
+      "note": null,
+      "photos": [
+        {
+          "url": "/crew-chief/race-updates/2026-05-27T21-08-57-484Z-tahoe-city-1.jpg",
+          "alt": "Harvey at Tahoe City"
+        }
+      ]
     }
   ]
 }

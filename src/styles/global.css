@@ -1690,6 +1690,103 @@ html.trailhead-mode .status-block__actions .btn--secondary {
   color: var(--ink-secondary);
 }
 
+.live-updates__list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.live-update-item {
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--canvas);
+  overflow: hidden;
+}
+
+.live-update-item__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-4);
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--text-body);
+}
+
+.live-update-item__summary::-webkit-details-marker {
+  display: none;
+}
+
+.live-update-item__summary::before {
+  content: "";
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: var(--space-2);
+  border-right: 2px solid var(--ink-secondary);
+  border-bottom: 2px solid var(--ink-secondary);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.live-update-item[open] > .live-update-item__summary::before {
+  transform: rotate(45deg);
+  margin-top: 0.15rem;
+}
+
+.live-update-item__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: 600;
+  color: var(--ink-primary);
+  flex-shrink: 0;
+}
+
+.live-update-item__preview {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-size: var(--text-body-sm);
+  color: var(--ink-secondary);
+  text-align: right;
+}
+
+.live-update-item__when {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--text-caption);
+  color: var(--ink-tertiary);
+}
+
+.live-update-item__panel {
+  padding: 0 var(--space-4) var(--space-4);
+  border-top: var(--border-hairline);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.live-update-field {
+  margin: 0;
+}
+
+.live-update-field__value {
+  margin: 0;
+  padding: var(--space-3);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  color: var(--ink-primary);
+  background: var(--surface-raised);
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  white-space: pre-wrap;
+}
+
+.live-update-field__value--note {
+  min-height: 4.5rem;
+}
+
 .live-updates__body {
   display: grid;
   gap: var(--space-4);

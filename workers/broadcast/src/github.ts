@@ -13,6 +13,28 @@ const GITHUB_HEADERS = {
 
 const GITHUB_TIMEOUT_MS = 20_000;
 
+export async function getFileJson(
+  env: GitHubEnv,
+  path: string,
+): Promise<{ sha: string | null; content: unknown | null }> {
+  const url = `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}?ref=${env.GITHUB_BRANCH}`;
+  const res = await fetch(url, {
+    headers: {
+      ...GITHUB_HEADERS,
+      Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+    },
+    signal: AbortSignal.timeout(GITHUB_TIMEOUT_MS),
+  });
+  if (res.status === 404) return { sha: null, content: null };
+  if (!res.ok) throw new Error(`GitHub get ${path}: ${res.status}`);
+  const data = (await res.json()) as { sha: string; content: string };
+  const binary = atob(data.content.replace(/\n/g, ""));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  const text = new TextDecoder().decode(bytes);
+  return { sha: data.sha, content: JSON.parse(text) as unknown };
+}
+
 export async function getFileSha(env: GitHubEnv, path: string): Promise<string | null> {
   const url = `https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/contents/${path}?ref=${env.GITHUB_BRANCH}`;
   const res = await fetch(url, {

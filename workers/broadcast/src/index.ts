@@ -1,4 +1,5 @@
-import { getFileSha, putFile, toBase64, type GitHubEnv } from "./github";
+import { appendBroadcastUpdate, type RaceBroadcastEntry } from "./broadcast-store";
+import { getFileJson, getFileSha, putFile, toBase64, type GitHubEnv } from "./github";
 import { MAX_PHOTO_BYTES, MAX_PHOTOS, prepareBroadcastFields, validateBroadcastFields } from "./validate";
 import { UPDATE_PAGE_HTML } from "./update-page";
 
@@ -11,15 +12,6 @@ const HOMEPAGE_URL = "https://harveygerardmk.github.io/crew-chief/";
 const UPDATE_PAGE_URL = "https://crew-chief-broadcast.harvey-schaefer.workers.dev/update";
 const RATE_LIMIT_MS = 30_000;
 const lastPostByIp = new Map<string, number>();
-
-type RaceBroadcastPayload = {
-  updated_at: string;
-  updated_by: string;
-  doing: string | null;
-  last_seen: { station: string; time_label: string } | null;
-  note: string | null;
-  photos: { url: string; alt: string }[];
-};
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -161,7 +153,7 @@ async function handleBroadcastInner(
     });
   }
 
-  const payload: RaceBroadcastPayload = {
+  const newEntry: RaceBroadcastEntry = {
     updated_at: new Date().toISOString(),
     updated_by: "crew",
     doing: doing.trim() || null,
@@ -173,8 +165,9 @@ async function handleBroadcastInner(
   };
 
   const jsonPath = "data/race-broadcast.json";
-  const jsonBytes = new TextEncoder().encode(`${JSON.stringify(payload, null, 2)}\n`);
-  const jsonSha = await getFileSha(env, jsonPath);
+  const { sha: jsonSha, content: existing } = await getFileJson(env, jsonPath);
+  const file = appendBroadcastUpdate(existing, newEntry);
+  const jsonBytes = new TextEncoder().encode(`${JSON.stringify(file, null, 2)}\n`);
   await putFile(
     env,
     jsonPath,
