@@ -1,0 +1,8 @@
+name = "crew-chief-broadcast"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+
+[vars]
+GITHUB_OWNER = "harveygerardMK"
+GITHUB_REPO = "crew-chief"
+GITHUB_BRANCH = "main"

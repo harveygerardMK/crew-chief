@@ -4,12 +4,17 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
 }
 
 import site from "../../data/site.json";
 import SiteNav from "../components/SiteNav.astro";
 
-const { title, description = `${site.runner}'s Tahoe 200 ${site.year} — race plan, crew tools, and follow-along.` } = Astro.props;
+const {
+  title,
+  description = `${site.runner}'s Tahoe 200 ${site.year} — race plan, crew tools, and follow-along.`,
+  noindex = false,
+} = Astro.props;
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 const canonicalPath =
   Astro.url.pathname.replace(basePath, "").replace(/\/$/, "") || "/";
@@ -23,6 +28,7 @@ const base = import.meta.env.BASE_URL;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#B5451F" />
     <title>{pageTitle}</title>
     <link rel="manifest" href={`${base}manifest.webmanifest`} />

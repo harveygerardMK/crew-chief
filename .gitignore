@@ -1,4 +1,5 @@
 node_modules/
+workers/broadcast/.wrangler/
 dist/
 .astro/
 .DS_Store

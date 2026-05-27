@@ -8,6 +8,7 @@ import racePrep from "../../data/race-prep.json";
 import raceWeek from "../../data/race-week.json";
 import keyNotes from "../../data/key-notes.json";
 import status from "../../data/status.json";
+import raceBroadcast from "../../data/race-broadcast.json";
 
 export {
   race,
@@ -20,7 +21,10 @@ export {
   raceWeek,
   keyNotes,
   status,
+  raceBroadcast,
 };
+
+export type { RaceBroadcast, RaceBroadcastPhoto } from "./broadcast";
 
 export type AidStation = (typeof aidStations)[number];
 export type CrewStop = (typeof crewStops)[number];
