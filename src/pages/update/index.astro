@@ -87,6 +87,24 @@ const formAction = apiUrl ? `${apiUrl.replace(/\/$/, "")}/broadcast` : "";
     </form>
   </div>
 
+  <script is:inline>
+    (function () {
+      function blockNativeSubmit() {
+        var form = document.getElementById("broadcast-form");
+        if (!form || form.dataset.bound === "1") return;
+        form.dataset.bound = "1";
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+        });
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", blockNativeSubmit);
+      } else {
+        blockNativeSubmit();
+      }
+    })();
+  </script>
+
   <script>
     import { initBroadcastAdmin } from "../../scripts/broadcast-admin.ts";
     if (document.readyState === "loading") {
