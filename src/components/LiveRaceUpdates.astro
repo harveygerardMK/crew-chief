@@ -15,17 +15,6 @@ function formatUpdatedAt(iso: string): string {
     timeZoneName: "short",
   });
 }
-
-function previewDoing(doing: string | null): string {
-  const text = doing?.trim();
-  if (!text) return "Update posted";
-  return text.length > 72 ? `${text.slice(0, 72)}…` : text;
-}
-
-function displayValue(value: string | null | undefined): string {
-  const text = value?.trim();
-  return text || "—";
-}
 ---
 
 <section class="live-updates" aria-labelledby="live-updates-heading">
@@ -50,46 +39,60 @@ function displayValue(value: string | null | undefined): string {
           updates.map((entry, index) => {
             const number = index + 1;
             const openDefault = index === 0;
+            const doing = entry.doing?.trim();
+            const station = entry.last_seen?.station?.trim();
+            const timeLabel = entry.last_seen?.time_label?.trim();
+            const note = entry.note?.trim();
+
             return (
               <details class="live-update-item" open={openDefault}>
                 <summary class="live-update-item__summary">
                   <span class="live-update-item__title">Update #{number}</span>
-                  <span class="live-update-item__preview">
-                    {previewDoing(entry.doing)}
-                    {entry.updated_at && (
-                      <span class="live-update-item__when">
-                        {formatUpdatedAt(entry.updated_at)}
-                      </span>
-                    )}
-                  </span>
+                  {entry.updated_at && (
+                    <span class="live-update-item__when">
+                      {formatUpdatedAt(entry.updated_at)}
+                    </span>
+                  )}
                 </summary>
 
                 <div class="live-update-item__panel">
-                  <div class="live-update-field">
-                    <p class="update-field__label">How's Harvey doing?</p>
-                    <div class="live-update-field__value">{displayValue(entry.doing)}</div>
-                  </div>
+                  {
+                    doing && (
+                      <div class="live-update-field">
+                        <p class="update-field__label">How's Harvey doing?</p>
+                        <div class="live-update-field__value">{doing}</div>
+                      </div>
+                    )
+                  }
 
-                  <div class="live-update-field">
-                    <p class="update-field__label">Last seen aid station</p>
-                    <div class="live-update-field__value">
-                      {displayValue(entry.last_seen?.station ?? null)}
-                    </div>
-                  </div>
+                  {
+                    station && (
+                      <div class="live-update-field">
+                        <p class="update-field__label">Last seen aid station</p>
+                        <div class="live-update-field__value">{station}</div>
+                      </div>
+                    )
+                  }
 
-                  <div class="live-update-field">
-                    <p class="update-field__label">Time last seen</p>
-                    <div class="live-update-field__value">
-                      {displayValue(entry.last_seen?.time_label ?? null)}
-                    </div>
-                  </div>
+                  {
+                    timeLabel && (
+                      <div class="live-update-field">
+                        <p class="update-field__label">Time last seen</p>
+                        <div class="live-update-field__value">{timeLabel}</div>
+                      </div>
+                    )
+                  }
 
-                  <div class="live-update-field">
-                    <p class="update-field__label">Note for family (optional)</p>
-                    <div class="live-update-field__value live-update-field__value--note">
-                      {displayValue(entry.note)}
-                    </div>
-                  </div>
+                  {
+                    note && (
+                      <div class="live-update-field">
+                        <p class="update-field__label">Note for family (optional)</p>
+                        <div class="live-update-field__value live-update-field__value--note">
+                          {note}
+                        </div>
+                      </div>
+                    )
+                  }
 
                   {
                     entry.photos.length > 0 && (

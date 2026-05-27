@@ -1745,19 +1745,12 @@ html.trailhead-mode .status-block__actions .btn--secondary {
   flex-shrink: 0;
 }
 
-.live-update-item__preview {
-  flex: 1 1 12rem;
+.live-update-item__when {
+  flex: 1 1 auto;
   min-width: 0;
   font-size: var(--text-body-sm);
   color: var(--ink-secondary);
   text-align: right;
-}
-
-.live-update-item__when {
-  display: block;
-  margin-top: var(--space-1);
-  font-size: var(--text-caption);
-  color: var(--ink-tertiary);
 }
 
 .live-update-item__panel {
