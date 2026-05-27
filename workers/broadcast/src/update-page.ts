@@ -27,66 +27,188 @@ export const UPDATE_PAGE_HTML = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex" />
   <title>Crew update · Tahoe 200</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
   <style>
-    :root { font-family: system-ui, sans-serif; line-height: 1.5; color: #1a1a1a; background: #f6f3ee; }
-    body { max-width: 32rem; margin: 0 auto; padding: 1.25rem; }
-    h1 { font-family: Georgia, serif; font-size: 1.75rem; margin: 0 0 0.5rem; }
-    .lead { color: #555; margin: 0 0 1rem; font-size: 0.95rem; }
-    .panel { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
-    label { display: block; margin-bottom: 0.75rem; }
-    .label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.25rem; }
-    input, select, textarea { width: 100%; box-sizing: border-box; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; }
-    button { width: 100%; padding: 0.75rem; font-size: 1rem; font-weight: 600; background: #1e4d6b; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-    button:disabled { opacity: 0.6; cursor: wait; }
-    #status { padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem; }
-    #status[data-kind="error"] { background: #f5e6e0; border: 1px solid #c45a28; }
-    #status[data-kind="success"] { background: #e8f0e6; border: 1px solid #3d6b40; }
-    #status[data-kind="info"] { background: #eef3f7; border: 1px solid #1e4d6b; }
-    a { color: #1e4d6b; }
-    .home { font-size: 0.85rem; margin-top: 1.5rem; }
+    :root {
+      --surface-base: #f2ede3;
+      --surface-raised: #e8e1d3;
+      --ink-primary: #1b2a2e;
+      --ink-secondary: #4a5a5f;
+      --ink-divider: #c9c0ae;
+      --accent-primary: #b5451f;
+      --accent-success: #4a6b3a;
+      --mint-deep: #8f3819;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "IBM Plex Sans", system-ui, sans-serif;
+      --text-body-sm: 0.875rem;
+      --text-body: 1rem;
+      --text-lead: 1.125rem;
+      --text-h4: 1.25rem;
+      --text-h1: 2.5rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.5rem;
+      --radius-sm: 2px;
+      --border-hairline: 1px solid var(--ink-divider);
+      --canvas: var(--surface-base);
+      --focus-ring: 0 0 0 2px var(--accent-primary);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0 auto;
+      max-width: 28rem;
+      padding: var(--space-5) var(--space-4);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      line-height: 1.55;
+      color: var(--ink-primary);
+      background: var(--surface-base);
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+      font-weight: 600;
+      line-height: 1.1;
+      margin: 0 0 var(--space-3);
+    }
+    .lead {
+      font-size: var(--text-lead);
+      line-height: 1.55;
+      color: var(--ink-secondary);
+      margin: 0 0 var(--space-4);
+    }
+    .update-panel {
+      margin: var(--space-5) 0;
+      padding: var(--space-5);
+      background: var(--surface-raised);
+      border: var(--border-hairline);
+      border-radius: var(--radius-sm);
+    }
+    .update-panel h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      margin: 0 0 var(--space-4);
+    }
+    .update-field {
+      display: block;
+      margin-bottom: var(--space-4);
+    }
+    .update-field__label {
+      display: block;
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+    }
+    .update-input {
+      display: block;
+      width: 100%;
+      font: inherit;
+      font-size: var(--text-body);
+      padding: var(--space-3);
+      border: var(--border-hairline);
+      border-radius: var(--radius-sm);
+      background: var(--canvas);
+      min-height: 2.75rem;
+    }
+    textarea.update-input {
+      resize: vertical;
+      min-height: 4.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 2.75rem;
+      padding: var(--space-3) var(--space-5);
+      font: inherit;
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+    .btn--primary {
+      background: var(--accent-primary);
+      color: var(--surface-base);
+    }
+    .btn--primary:hover { background: var(--mint-deep); }
+    .btn:disabled { opacity: 0.6; cursor: wait; }
+    .btn:focus-visible, .update-input:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    .update-status {
+      margin: var(--space-4) 0;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-body-sm);
+    }
+    .update-status[data-kind="error"] {
+      background: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+      border: 1px solid var(--accent-primary);
+    }
+    .update-status[data-kind="success"] {
+      background: color-mix(in srgb, var(--accent-success) 15%, transparent);
+      border: 1px solid var(--accent-success);
+    }
+    .update-status[data-kind="info"] {
+      background: var(--surface-raised);
+      border: var(--border-hairline);
+    }
+    a { color: var(--ink-primary); }
+    a:hover { color: var(--accent-primary); }
+    .home { font-size: var(--text-body-sm); margin-top: var(--space-5); color: var(--ink-secondary); }
   </style>
 </head>
 <body>
   <h1>Crew update</h1>
   <p class="lead">Short note for family on the homepage. Takes a few minutes to show up after you save.</p>
-  <p id="status" role="status" aria-live="polite" hidden></p>
+  <p id="status" class="update-status" role="status" aria-live="polite" hidden></p>
 
-  <form id="broadcast-form" class="panel" method="post" action="/broadcast" enctype="multipart/form-data">
+  <form id="broadcast-form" class="update-panel" method="post" action="/broadcast" enctype="multipart/form-data">
     <h2>Update for family</h2>
-    <label>
-      <span class="label">How's Harvey doing?</span>
-      <textarea id="doing" name="doing" rows="2" maxlength="200" placeholder="e.g. Tired but moving — just left Sierra"></textarea>
+    <label class="update-field">
+      <span class="update-field__label">How's Harvey doing?</span>
+      <textarea id="doing" name="doing" class="update-input" rows="2" maxlength="200" placeholder="e.g. Tired but moving — just left Sierra"></textarea>
     </label>
-    <label>
-      <span class="label">Last seen aid station</span>
-      <select id="station" name="station">
+    <label class="update-field">
+      <span class="update-field__label">Last seen aid station</span>
+      <select id="station" name="station" class="update-input">
         <option value="">— Skip if you're only posting a quick line —</option>
         ${stationOptions}
         <option value="__other__">Other…</option>
       </select>
     </label>
-    <label>
-      <span class="label">Other station name</span>
-      <input id="station_other" type="text" hidden maxlength="80" />
+    <label class="update-field">
+      <span class="update-field__label">Other station name</span>
+      <input id="station_other" type="text" class="update-input" hidden maxlength="80" />
     </label>
-    <label>
-      <span class="label">Time last seen</span>
-      <input id="time_seen" type="datetime-local" />
+    <label class="update-field">
+      <span class="update-field__label">Time last seen</span>
+      <input id="time_seen" type="datetime-local" class="update-input" />
     </label>
     <input type="hidden" name="time_label" id="time_label" value="" />
-    <label>
-      <span class="label">Note for family (optional)</span>
-      <textarea id="note" name="note" rows="4" maxlength="500" placeholder="Sleeping at Wrights — see you at Tahoe City Monday AM"></textarea>
+    <label class="update-field">
+      <span class="update-field__label">Note for family (optional)</span>
+      <textarea id="note" name="note" class="update-input" rows="4" maxlength="500" placeholder="Sleeping at Wrights — see you at Tahoe City Monday AM"></textarea>
     </label>
-    <label>
-      <span class="label">Photo 1 (optional)</span>
-      <input name="photo0" type="file" accept="image/jpeg,image/png,image/webp" />
+    <label class="update-field">
+      <span class="update-field__label">Photo 1 (optional)</span>
+      <input name="photo0" type="file" accept="image/jpeg,image/png,image/webp" class="update-input" />
     </label>
-    <label>
-      <span class="label">Photo 2 (optional)</span>
-      <input name="photo1" type="file" accept="image/jpeg,image/png,image/webp" />
+    <label class="update-field">
+      <span class="update-field__label">Photo 2 (optional)</span>
+      <input name="photo1" type="file" accept="image/jpeg,image/png,image/webp" class="update-input" />
     </label>
-    <button id="save-btn" type="submit">Save update</button>
+    <button id="save-btn" type="submit" class="btn btn--primary">Save update</button>
   </form>
 
   <p class="home"><a href="https://harveygerardmk.github.io/crew-chief/">← Back to race site</a></p>

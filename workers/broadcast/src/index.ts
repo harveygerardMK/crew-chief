@@ -203,9 +203,10 @@ function htmlSuccessPage(): Response {
   <meta http-equiv="refresh" content="8;url=${HOMEPAGE_URL}" />
   <title>Saved · Tahoe 200</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 28rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
-    h1 { font-family: Georgia, serif; color: #3d6b40; }
-    a { color: #1e4d6b; font-weight: 600; }
+    body { font-family: "IBM Plex Sans", system-ui, sans-serif; max-width: 28rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.55; color: #1b2a2e; background: #f2ede3; }
+    h1 { font-family: Fraunces, Georgia, serif; color: #4a6b3a; }
+    a { color: #1b2a2e; font-weight: 600; }
+    a:hover { color: #b5451f; }
   </style>
 </head>
 <body>
@@ -228,9 +229,10 @@ function htmlErrorPage(message: string, status: number): Response {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Could not save</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 28rem; margin: 2rem auto; padding: 0 1rem; }
-    h1 { color: #b5451f; }
-    a { color: #1e4d6b; }
+    body { font-family: "IBM Plex Sans", system-ui, sans-serif; max-width: 28rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.55; color: #1b2a2e; background: #f2ede3; }
+    h1 { font-family: Fraunces, Georgia, serif; color: #b5451f; }
+    a { color: #1b2a2e; font-weight: 600; }
+    a:hover { color: #b5451f; }
   </style>
 </head>
 <body>
