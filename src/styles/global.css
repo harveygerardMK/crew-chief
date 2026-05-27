@@ -1661,7 +1661,108 @@ html.trailhead-mode .status-block__actions .btn--secondary {
   }
 }
 
-/* Crew broadcast on status block */
+/* Live race updates (homepage) */
+.live-updates {
+  margin: var(--space-6) 0 var(--space-7);
+  padding: var(--space-6);
+  background: var(--surface-raised);
+  border: var(--border-hairline);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: var(--radius-sm);
+}
+
+.live-updates__header {
+  margin-bottom: var(--space-4);
+}
+
+.live-updates__title {
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-h3), 4vw, var(--text-h2));
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 var(--space-2);
+  color: var(--ink-primary);
+}
+
+.live-updates__meta {
+  margin: 0;
+  font-size: var(--text-body-sm);
+  color: var(--ink-secondary);
+}
+
+.live-updates__body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.live-updates__doing {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lead);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink-primary);
+}
+
+.live-updates__detail {
+  margin: 0;
+  font-size: var(--text-body);
+  color: var(--ink-secondary);
+}
+
+.live-updates__detail strong {
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+
+.live-updates__note {
+  padding: var(--space-4);
+  background: var(--canvas);
+  border-radius: var(--radius-sm);
+  border: var(--border-hairline);
+}
+
+.live-updates__note p {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: 1.55;
+  color: var(--ink-primary);
+}
+
+.live-updates__photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.live-updates__photo-link {
+  display: block;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: var(--border-hairline);
+  line-height: 0;
+}
+
+.live-updates__photo-link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.live-updates__photos img {
+  width: 7.5rem;
+  height: 7.5rem;
+  object-fit: cover;
+  display: block;
+}
+
+.live-updates__empty {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+
+/* Crew broadcast on status block (legacy; follow page) */
 .broadcast-note {
   margin-top: var(--space-4);
   padding-top: var(--space-4);

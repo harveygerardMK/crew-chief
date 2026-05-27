@@ -1,0 +1,89 @@
+---
+import { raceBroadcast } from "../lib/data";
+import { hasBroadcast } from "../lib/broadcast";
+
+const broadcast = hasBroadcast(raceBroadcast) ? raceBroadcast : null;
+
+function formatUpdatedAt(iso: string): string {
+  return new Date(iso).toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+}
+---
+
+<section class="live-updates" aria-labelledby="live-updates-heading">
+  <header class="live-updates__header">
+    <h2 id="live-updates-heading" class="live-updates__title">
+      Live Race Updates from Harvey's Cuter Half
+    </h2>
+    {
+      broadcast?.updated_at && (
+        <p class="live-updates__meta">Last updated {formatUpdatedAt(broadcast.updated_at)}</p>
+      )
+    }
+  </header>
+
+  {
+    broadcast ? (
+      <div class="live-updates__body">
+        {
+          broadcast.doing?.trim() && (
+            <p class="live-updates__doing">{broadcast.doing}</p>
+          )
+        }
+        {
+          broadcast.last_seen?.station?.trim() && (
+            <p class="live-updates__detail">
+              Last seen: <strong>{broadcast.last_seen.station}</strong>
+              {broadcast.last_seen.time_label?.trim() && (
+                <> · {broadcast.last_seen.time_label}</>
+              )}
+            </p>
+          )
+        }
+        {
+          broadcast.note?.trim() && (
+            <div class="live-updates__note">
+              <p>{broadcast.note}</p>
+            </div>
+          )
+        }
+        {
+          broadcast.photos.length > 0 && (
+            <div class="live-updates__photos" role="group" aria-label="Photos from crew">
+              {
+                broadcast.photos.map((photo) => (
+                  <a
+                    class="live-updates__photo-link"
+                    href={photo.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src={photo.url}
+                      alt={photo.alt}
+                      loading="lazy"
+                      width="160"
+                      height="160"
+                    />
+                  </a>
+                ))
+              }
+            </div>
+          )
+        }
+      </div>
+    ) : (
+      <p class="live-updates__empty">
+        Updates will show up here during race weekend when Karen posts from the trail.
+        Check back after the start on Friday morning.
+      </p>
+    )
+  }
+</section>

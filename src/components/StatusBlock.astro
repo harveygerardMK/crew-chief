@@ -1,13 +1,11 @@
 ---
-import { race, raceBroadcast, status } from "../lib/data";
-import { hasBroadcast } from "../lib/broadcast";
+import { race, status } from "../lib/data";
 import { getCountdown, getRacePhase } from "../lib/dates";
 import {
   formatPlanTimeShort,
   getNextPlannedCrewStop,
   plannedArrivalDate,
 } from "../lib/tahoe-plan";
-import BroadcastStrip from "./BroadcastStrip.astro";
 
 const base = import.meta.env.BASE_URL;
 const phase = status.phase === "pre-race" && getRacePhase() === "on-course" ? "on-course" : status.phase;
@@ -15,15 +13,6 @@ const countdown = phase === "pre-race" ? getCountdown() : null;
 const nextCrew = phase === "on-course" ? getNextPlannedCrewStop(status.last_seen_station) : null;
 const nextEta =
   nextCrew ? formatPlanTimeShort(plannedArrivalDate(nextCrew.mile, "baseline")) : null;
-
-const broadcast = hasBroadcast(raceBroadcast) ? raceBroadcast : null;
-const lastSeenStation =
-  broadcast?.last_seen?.station?.trim() || status.last_seen_station || null;
-const lastSeenTime =
-  broadcast?.last_seen?.time_label?.trim() || status.last_seen_time || null;
-const doingLine = broadcast?.doing?.trim() || null;
-const statusMessage =
-  phase === "on-course" && doingLine ? doingLine : status.message;
 ---
 
 <section
@@ -40,7 +29,6 @@ const statusMessage =
         <p class="status-block__detail">June 12 · 9:00 AM PDT</p>
         <p class="status-block__detail">{race.start.location}</p>
         {status.message && <p class="status-block__secondary">{status.message}</p>}
-        {broadcast && <BroadcastStrip broadcast={broadcast} />}
       </>
     ) : phase === "on-course" ? (
       <>
@@ -49,9 +37,9 @@ const statusMessage =
           ON COURSE
         </p>
         <p class="status-block__detail">
-          {lastSeenStation ? `Last seen: ${lastSeenStation}` : "On course"}
+          {status.last_seen_station ? `Last seen: ${status.last_seen_station}` : "On course"}
         </p>
-        {lastSeenTime && <p class="status-block__detail">{lastSeenTime}</p>}
+        {status.last_seen_time && <p class="status-block__detail">{status.last_seen_time}</p>}
         {
           nextCrew && nextEta && (
             <p class="status-block__detail">
@@ -59,18 +47,16 @@ const statusMessage =
             </p>
           )
         }
-        {statusMessage && <p class="status-block__secondary">{statusMessage}</p>}
+        {status.message && <p class="status-block__secondary">{status.message}</p>}
         <p class="status-block__actions">
           <a class="btn btn--secondary" href={`${base}next/`}>Next stop →</a>
           <a class="btn btn--secondary" href={`${base}board/`}>View board →</a>
         </p>
-        {broadcast && <BroadcastStrip broadcast={broadcast} />}
       </>
     ) : (
       <>
         <p id="status-primary" class="status-block__primary">RACE COMPLETE</p>
         {status.message && <p class="status-block__secondary">{status.message}</p>}
-        {broadcast && <BroadcastStrip broadcast={broadcast} />}
       </>
     )
   }
