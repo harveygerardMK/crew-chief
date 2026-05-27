@@ -692,14 +692,6 @@ td {
   background: var(--surface-soft);
 }
 
-.lead {
-  font-size: 1.125rem;
-  font-weight: 400;
-  color: var(--steel);
-  margin: 0 0 1.25rem;
-  line-height: 1.5;
-}
-
 .note-box {
   background: var(--canvas);
   border: 1px solid var(--hairline);
@@ -1237,12 +1229,6 @@ td {
   }
 }
 
-@media (min-width: 480px) {
-  .audience-paths__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* Tahoe feature: command center, board, playbooks, family, trailhead */
 .command-center-wrap {
   background: var(--surface-deep);
@@ -1753,6 +1739,17 @@ html.trailhead-mode .status-block__actions .btn--secondary {
   text-align: right;
 }
 
+@media (max-width: 480px) {
+  .live-update-item__summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .live-update-item__when {
+    text-align: left;
+  }
+}
+
 .live-update-item__panel {
   padding: 0 var(--space-4) var(--space-4);
   border-top: var(--border-hairline);
@@ -1762,6 +1759,13 @@ html.trailhead-mode .status-block__actions .btn--secondary {
 
 .live-update-field {
   margin: 0;
+}
+
+.live-update-field__label {
+  display: block;
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
 }
 
 .live-update-field__value {

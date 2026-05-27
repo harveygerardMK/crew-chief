@@ -10,9 +10,10 @@ permissions:
   pages: write
   id-token: write
 
+# Worker saves can push twice in quick succession; do not cancel the newer build.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -28,6 +29,14 @@ jobs:
         env:
           PUBLIC_BROADCAST_API_URL: ${{ vars.PUBLIC_BROADCAST_API_URL }}
         run: npm run build
+      - name: Verify live updates rendered
+        run: |
+          JSON_COUNT=$(node -e "const d=require('./data/race-broadcast.json'); console.log(Array.isArray(d.updates)?d.updates.length:0)")
+          HTML_COUNT=$(grep -o 'class="live-update-item"' dist/index.html | wc -l | tr -d ' ')
+          if [ "$JSON_COUNT" != "$HTML_COUNT" ]; then
+            echo "Live update count mismatch: race-broadcast.json has $JSON_COUNT, index.html has $HTML_COUNT"
+            exit 1
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
