@@ -114,17 +114,6 @@ const UPDATE_PAGE_SCRIPT = `
     return;
   }
 
-  if (timeInput) timeInput.value = defaultDatetimeLocal();
-
-  if (stationSelect) {
-    stationSelect.addEventListener("change", function () {
-      if (!stationOther) return;
-      var show = stationSelect.value === "__other__";
-      stationOther.hidden = !show;
-      stationOther.required = show;
-    });
-  }
-
   saveBtn.addEventListener("click", function () {
     setStatus("Saving…", "info");
     saveBtn.disabled = true;
@@ -157,10 +146,24 @@ const UPDATE_PAGE_SCRIPT = `
     }).finally(function () { saveBtn.disabled = false; });
   });
 
+  try {
+    if (timeInput) timeInput.value = defaultDatetimeLocal();
+  } catch (e) { console.warn("[crew update] default time:", e); }
+
+  if (stationSelect) {
+    stationSelect.addEventListener("change", function () {
+      if (!stationOther) return;
+      var show = stationSelect.value === "__other__";
+      stationOther.hidden = !show;
+      stationOther.required = show;
+    });
+  }
+
   function setStatus(message, kind) {
     statusEl.textContent = message;
     statusEl.dataset.kind = kind;
     statusEl.hidden = !message;
+    statusEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
   function getValue(id) {
     var el = document.getElementById(id);

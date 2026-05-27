@@ -50,7 +50,7 @@ export default {
       }
 
       if (request.method === "POST" && path === "/broadcast") {
-        return handleBroadcast(request, env, cors);
+        return await handleBroadcast(request, env, cors);
       }
 
       return json({ ok: false, message: "Not found." }, 404, cors);
@@ -85,6 +85,27 @@ function json(body: unknown, status: number, cors: HeadersInit): Response {
 }
 
 async function handleBroadcast(request: Request, env: Env, cors: HeadersInit): Promise<Response> {
+  try {
+    return await handleBroadcastInner(request, env, cors);
+  } catch (err) {
+    console.error(err);
+    const detail = err instanceof Error ? err.message : "unknown error";
+    const message = detail.includes("401")
+      ? "Could not save — GitHub token expired or wrong. Harvey needs to update GITHUB_TOKEN on the Worker."
+      : detail.includes("timeout") || detail.includes("Timeout")
+        ? "Save timed out. Try again on Wi‑Fi or with a shorter note."
+        : detail.includes("GitHub")
+          ? "Could not save to the site repo. Harvey may need to check the GitHub token."
+          : "Something went wrong. Try again in a moment.";
+    return json({ ok: false, message }, 500, cors);
+  }
+}
+
+async function handleBroadcastInner(
+  request: Request,
+  env: Env,
+  cors: HeadersInit,
+): Promise<Response> {
   const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
   const last = lastPostByIp.get(ip) ?? 0;
   if (Date.now() - last < RATE_LIMIT_MS) {

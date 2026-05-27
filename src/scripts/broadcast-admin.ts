@@ -19,23 +19,10 @@ export function initBroadcastAdmin(apiUrl?: string): void {
     statusEl.textContent = message;
     statusEl.dataset.kind = kind;
     statusEl.hidden = !message;
+    statusEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
-  if (timeInput) {
-    timeInput.value = defaultDatetimeLocal();
-  }
-
-  if (baseUrl) {
-    void probeServer(baseUrl, setStatus);
-  }
-
-  stationSelect?.addEventListener("change", () => {
-    if (!stationOther) return;
-    const show = stationSelect.value === "__other__";
-    stationOther.hidden = !show;
-    stationOther.required = show;
-  });
-
+  // Wire Save first so a later init step cannot leave the button dead.
   saveBtn.addEventListener("click", async () => {
     if (!baseUrl) {
       setStatus(
@@ -62,12 +49,12 @@ export function initBroadcastAdmin(apiUrl?: string): void {
 
       const res = await fetchWithTimeout(
         `${baseUrl}/broadcast`,
-        { method: "POST", body: formData },
+        { method: "POST", body: formData, mode: "cors" },
         45_000,
       );
       const data = await readJson<{ ok?: boolean; message?: string }>(res);
       if (!res.ok || !data.ok) {
-        setStatus(data.message ?? "Save failed. Try again.", "error");
+        setStatus(data.message ?? `Save failed (${res.status}). Try again.`, "error");
         return;
       }
       setStatus("Saved — should show on the homepage in a few minutes.", "success");
@@ -80,6 +67,30 @@ export function initBroadcastAdmin(apiUrl?: string): void {
       saveBtn.disabled = false;
     }
   });
+
+  try {
+    if (timeInput) {
+      timeInput.value = defaultDatetimeLocal();
+    }
+  } catch (err) {
+    console.warn("[crew update] Could not set default time:", err);
+  }
+
+  stationSelect?.addEventListener("change", () => {
+    if (!stationOther) return;
+    const show = stationSelect.value === "__other__";
+    stationOther.hidden = !show;
+    stationOther.required = show;
+  });
+
+  if (baseUrl) {
+    void probeServer(baseUrl, setStatus);
+  } else {
+    setStatus(
+      "Update server URL missing on this page. Use the direct update link below after Harvey redeploys.",
+      "error",
+    );
+  }
 
   function getValue(id: string): string {
     const el = document.querySelector<HTMLInputElement | HTMLTextAreaElement>(`#${id}`);
@@ -102,11 +113,11 @@ async function probeServer(
   setStatus: (message: string, kind: "info" | "error" | "success") => void,
 ): Promise<void> {
   try {
-    const res = await fetchWithTimeout(`${baseUrl}/health`, {}, 8_000);
+    const res = await fetchWithTimeout(`${baseUrl}/health`, { mode: "cors" }, 8_000);
     if (!res.ok) throw new Error("unhealthy");
   } catch {
     setStatus(
-      `Having trouble reaching the server from this network. Try the direct link: ${baseUrl}/update`,
+      `Cannot reach the update server from this network. Use the direct link: ${baseUrl}/update`,
       "error",
     );
   }

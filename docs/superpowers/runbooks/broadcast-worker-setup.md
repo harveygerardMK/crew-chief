@@ -153,10 +153,10 @@ Open `http://localhost:4321/crew-chief/update/`
 
 | Problem | Fix |
 |--------|-----|
+| Save does nothing or no message | Hard-refresh `/update/`; try the **direct link**; fix `GITHUB_TOKEN` (row below) |
+| “GitHub token expired or wrong” on save | New fine-grained PAT with **Contents: Read and write** on this repo → `npx wrangler secret put GITHUB_TOKEN` in `workers/broadcast` |
 | “Could not reach the server” on GitHub Pages update | Use the **direct link** (`…workers.dev/update`) — same form, no cross-site blocking |
 | “Not connected yet” on update page | Set `PUBLIC_BROADCAST_API_URL` in GitHub Actions variables and redeploy |
-| Wrong password | Re-run `wrangler secret put FAMILY_PASSWORD` |
-| Save fails with GitHub error | Check PAT has **Contents: write** on this repo only |
 | Homepage unchanged after save | Wait for green check on **Actions** → Deploy to GitHub Pages |
 
 ---
