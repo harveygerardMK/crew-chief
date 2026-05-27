@@ -27,6 +27,13 @@ export function initBroadcastAdmin(apiUrl: string): void {
     stationOther.required = show;
   });
 
+  passwordInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      loginBtn.click();
+    }
+  });
+
   loginBtn.addEventListener("click", async () => {
     setStatus("Checking password…", "info");
     loginBtn.disabled = true;

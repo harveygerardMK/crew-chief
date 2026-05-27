@@ -11,7 +11,7 @@ const stationNames = aidStations.map((s) => s.name);
   description="Post race updates for family and friends."
   noindex
 >
-  <div class="container update-page">
+  <div id="update-app" class="container update-page" data-api-url={apiUrl}>
     <h1>Crew update</h1>
     <p class="lead">Post how Harvey is doing for the homepage. Saves in a few minutes.</p>
 
@@ -71,9 +71,10 @@ const stationNames = aidStations.map((s) => s.name);
       <button id="save-btn" type="button" class="btn btn--primary">Save update</button>
     </section>
   </div>
-</BaseLayout>
 
-<script define:vars={{ apiUrl }}>
-  import { initBroadcastAdmin } from "../../scripts/broadcast-admin.ts";
-  initBroadcastAdmin(apiUrl);
-</script>
+  <script>
+    import { initBroadcastAdmin } from "../../scripts/broadcast-admin.ts";
+    const root = document.getElementById("update-app");
+    initBroadcastAdmin(root?.dataset.apiUrl ?? "");
+  </script>
+</BaseLayout>
