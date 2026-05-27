@@ -19,7 +19,7 @@ Trip site for **Harvey Schaefer** running the [Tahoe 200 Endurance Run](https://
 | Aid stations | Crew | All 13 stops, filterable |
 | Course | Plan | Map, narrative, segments |
 | Gear | Plan | Mandatory / recommended / drop bags |
-| Schedule | Plan | Jun 7–18 race week |
+| Schedule | Plan | Jun 11–17 check-in through bag pickup |
 | Pacers | Pacers | Six legs + mandatory gear |
 | Follow | Follow | Family — see Harvey, tracker tips |
 

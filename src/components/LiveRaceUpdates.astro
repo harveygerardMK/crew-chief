@@ -2,6 +2,7 @@
 import { raceBroadcastUpdates } from "../lib/data";
 import { hasBroadcastUpdates } from "../lib/broadcast";
 
+/** Newest first (sorted in data layer); highest Update # at the top. */
 const updates = hasBroadcastUpdates(raceBroadcastUpdates) ? raceBroadcastUpdates : [];
 
 function formatUpdatedAt(iso: string): string {
@@ -37,7 +38,7 @@ function formatUpdatedAt(iso: string): string {
       <div class="live-updates__list">
         {
           updates.map((entry, index) => {
-            const number = index + 1;
+            const number = updates.length - index;
             const openDefault = index === 0;
             const doing = entry.doing?.trim();
             const station = entry.last_seen?.station?.trim();

@@ -44,6 +44,12 @@ export function hasBroadcastUpdates(updates: RaceBroadcastEntry[]): boolean {
 }
 
 export function getBroadcastUpdates(raw: unknown): RaceBroadcastEntry[] {
+  if (Array.isArray(raw)) {
+    return raw
+      .filter(isEntry)
+      .filter(entryHasContent)
+      .sort(sortNewestFirst);
+  }
   return parseBroadcastFile(raw);
 }
 
