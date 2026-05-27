@@ -51,16 +51,7 @@ export const UPDATE_PAGE_HTML = `<!DOCTYPE html>
   <p class="lead">Short note for family on the homepage. Takes a few minutes to show up after you save.</p>
   <p id="status" role="status" aria-live="polite" hidden></p>
 
-  <section id="login" class="panel">
-    <h2>Sign in</h2>
-    <label>
-      <span class="label">Family password</span>
-      <input id="password" type="password" autocomplete="current-password" />
-    </label>
-    <button id="login-btn" type="button">Continue</button>
-  </section>
-
-  <section id="form" class="panel" hidden>
+  <section id="form" class="panel">
     <h2>Update for family</h2>
     <label>
       <span class="label">How's Harvey doing?</span>
@@ -112,17 +103,13 @@ function escapeHtml(s: string): string {
 /** Inline script — no modules; runs same-origin on the Worker. */
 const UPDATE_PAGE_SCRIPT = `
 (function () {
-  var loginEl = document.getElementById("login");
-  var formEl = document.getElementById("form");
   var statusEl = document.getElementById("status");
-  var loginBtn = document.getElementById("login-btn");
-  var passwordInput = document.getElementById("password");
   var saveBtn = document.getElementById("save-btn");
   var timeInput = document.getElementById("time_seen");
   var stationSelect = document.getElementById("station");
   var stationOther = document.getElementById("station_other");
 
-  if (!loginEl || !formEl || !statusEl || !loginBtn || !passwordInput || !saveBtn) {
+  if (!statusEl || !saveBtn) {
     console.error("[crew update] Form elements missing");
     return;
   }
@@ -137,34 +124,6 @@ const UPDATE_PAGE_SCRIPT = `
       stationOther.required = show;
     });
   }
-
-  passwordInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") { e.preventDefault(); loginBtn.click(); }
-  });
-
-  loginBtn.addEventListener("click", function () {
-    setStatus("Checking password…", "info");
-    loginBtn.disabled = true;
-    fetchWithTimeout("/auth", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password: passwordInput.value })
-    }, 15000).then(function (res) {
-      return readJson(res).then(function (data) {
-        if (!res.ok || !data.ok) {
-          setStatus(data.message || "That password didn't work.", "error");
-          return;
-        }
-        loginEl.hidden = true;
-        formEl.hidden = false;
-        setStatus("", "info");
-        passwordInput.value = "";
-      });
-    }).catch(function (err) {
-      setStatus(networkErrorMessage(err), "error");
-    }).finally(function () { loginBtn.disabled = false; });
-  });
 
   saveBtn.addEventListener("click", function () {
     setStatus("Saving…", "info");
@@ -208,7 +167,8 @@ const UPDATE_PAGE_SCRIPT = `
     return (el && el.value ? el.value.trim() : "");
   }
   function resolveStation() {
-    if (stationSelect.value === "__other__") return stationOther.value.trim();
+    if (!stationSelect) return "";
+    if (stationSelect.value === "__other__") return stationOther ? stationOther.value.trim() : "";
     if (!stationSelect.value) return "";
     return stationSelect.value;
   }

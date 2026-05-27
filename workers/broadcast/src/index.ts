@@ -1,18 +1,8 @@
 import { getFileSha, putFile, toBase64, type GitHubEnv } from "./github";
-import {
-  SESSION_MAX_AGE,
-  sessionCookieHeader,
-  sessionCookieName,
-  signSession,
-  verifySession,
-} from "./session";
 import { MAX_PHOTO_BYTES, MAX_PHOTOS, validateBroadcastFields } from "./validate";
 import { UPDATE_PAGE_HTML } from "./update-page";
 
-export interface Env extends GitHubEnv {
-  FAMILY_PASSWORD: string;
-  SESSION_SIGNING_KEY: string;
-}
+export interface Env extends GitHubEnv {}
 
 const ALLOWED_ORIGINS = ["https://harveygerardmk.github.io", "http://localhost:4321"];
 
@@ -59,10 +49,6 @@ export default {
         });
       }
 
-      if (request.method === "POST" && path === "/auth") {
-        return handleAuth(request, env, cors);
-      }
-
       if (request.method === "POST" && path === "/broadcast") {
         return handleBroadcast(request, env, cors);
       }
@@ -98,25 +84,7 @@ function json(body: unknown, status: number, cors: HeadersInit): Response {
   });
 }
 
-async function handleAuth(request: Request, env: Env, cors: HeadersInit): Promise<Response> {
-  const { password } = (await request.json()) as { password?: string };
-  if (!password || password !== env.FAMILY_PASSWORD) {
-    return json({ ok: false, message: "That password didn't work." }, 401, cors);
-  }
-
-  const token = await signSession(env.SESSION_SIGNING_KEY, SESSION_MAX_AGE);
-  const headers = new Headers(cors);
-  headers.set("Content-Type", "application/json");
-  headers.append("Set-Cookie", sessionCookieHeader(token, SESSION_MAX_AGE));
-  return new Response(JSON.stringify({ ok: true, token }), { status: 200, headers });
-}
-
 async function handleBroadcast(request: Request, env: Env, cors: HeadersInit): Promise<Response> {
-  const token = getSessionToken(request);
-  if (!(await verifySession(env.SESSION_SIGNING_KEY, token))) {
-    return json({ ok: false, message: "Please sign in again." }, 401, cors);
-  }
-
   const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
   const last = lastPostByIp.get(ip) ?? 0;
   if (Date.now() - last < RATE_LIMIT_MS) {
@@ -183,24 +151,6 @@ async function handleBroadcast(request: Request, env: Env, cors: HeadersInit): P
 
   lastPostByIp.set(ip, Date.now());
   return json({ ok: true }, 200, cors);
-}
-
-function getSessionToken(request: Request): string | null {
-  const auth = request.headers.get("Authorization");
-  if (auth?.startsWith("Bearer ")) {
-    return auth.slice("Bearer ".length).trim();
-  }
-  return getCookie(request, sessionCookieName());
-}
-
-function getCookie(request: Request, name: string): string | null {
-  const header = request.headers.get("Cookie");
-  if (!header) return null;
-  for (const part of header.split(";")) {
-    const [key, ...rest] = part.trim().split("=");
-    if (key === name) return decodeURIComponent(rest.join("="));
-  }
-  return null;
 }
 
 function slugify(value: string): string {

@@ -18,23 +18,14 @@ const stationNames = aidStations.map((s) => s.name);
 
     {directUpdateUrl && (
       <p class="update-direct">
-        If sign-in fails on hotel or work Wi‑Fi, use the{" "}
+        On hotel or work Wi‑Fi, use the{" "}
         <a href={directUpdateUrl}>direct update link</a> (bookmark it).
       </p>
     )}
 
     <p id="status" class="update-status" role="status" aria-live="polite" hidden></p>
 
-    <section id="login" class="update-panel">
-      <h2>Sign in</h2>
-      <label class="update-field">
-        <span class="update-field__label">Family password</span>
-        <input id="password" type="password" autocomplete="current-password" class="update-input" />
-      </label>
-      <button id="login-btn" type="button" class="btn btn--primary">Continue</button>
-    </section>
-
-    <section id="form" class="update-panel" hidden>
+    <section id="form" class="update-panel">
       <h2>Update for family</h2>
 
       <label class="update-field">
