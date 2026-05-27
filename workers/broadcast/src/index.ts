@@ -54,7 +54,11 @@ export default {
       return json({ ok: false, message: "Not found." }, 404, cors);
     } catch (err) {
       console.error(err);
-      return json({ ok: false, message: "Something went wrong. Try again in a moment." }, 500, cors);
+      const detail = err instanceof Error ? err.message : "unknown error";
+      const message = detail.includes("GitHub")
+        ? "Could not save to the site repo. Harvey may need to check the GitHub token."
+        : "Something went wrong. Try again in a moment.";
+      return json({ ok: false, message }, 500, cors);
     }
   },
 };
@@ -65,7 +69,7 @@ function corsHeaders(origin: string | null): HeadersInit {
     "Access-Control-Allow-Origin": allowed,
     "Access-Control-Allow-Credentials": "true",
     "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
   };
 }
 
@@ -86,11 +90,11 @@ async function handleAuth(request: Request, env: Env, cors: HeadersInit): Promis
   const headers = new Headers(cors);
   headers.set("Content-Type", "application/json");
   headers.append("Set-Cookie", sessionCookieHeader(token, SESSION_MAX_AGE));
-  return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
+  return new Response(JSON.stringify({ ok: true, token }), { status: 200, headers });
 }
 
 async function handleBroadcast(request: Request, env: Env, cors: HeadersInit): Promise<Response> {
-  const token = getCookie(request, sessionCookieName());
+  const token = getSessionToken(request);
   if (!(await verifySession(env.SESSION_SIGNING_KEY, token))) {
     return json({ ok: false, message: "Please sign in again." }, 401, cors);
   }
@@ -118,7 +122,7 @@ async function handleBroadcast(request: Request, env: Env, cors: HeadersInit): P
 
   for (let i = 0; i < MAX_PHOTOS; i++) {
     const file = form.get(`photo${i}`);
-    if (!file || !(file instanceof File) || file.size === 0) continue;
+    if (!file || typeof file === "string" || file.size === 0) continue;
     if (file.size > MAX_PHOTO_BYTES) {
       return json({ ok: false, message: "Photo is too large (max 5 MB)." }, 413, cors);
     }
@@ -161,6 +165,14 @@ async function handleBroadcast(request: Request, env: Env, cors: HeadersInit): P
 
   lastPostByIp.set(ip, Date.now());
   return json({ ok: true }, 200, cors);
+}
+
+function getSessionToken(request: Request): string | null {
+  const auth = request.headers.get("Authorization");
+  if (auth?.startsWith("Bearer ")) {
+    return auth.slice("Bearer ".length).trim();
+  }
+  return getCookie(request, sessionCookieName());
 }
 
 function getCookie(request: Request, name: string): string | null {

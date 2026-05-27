@@ -1,3 +1,5 @@
+const SESSION_KEY = "cc_broadcast_token";
+
 export function initBroadcastAdmin(apiUrl: string): void {
   const loginEl = document.querySelector<HTMLElement>("#login");
   const formEl = document.querySelector<HTMLElement>("#form");
@@ -13,8 +15,10 @@ export function initBroadcastAdmin(apiUrl: string): void {
     return;
   }
 
-  if (!apiUrl) {
-    setStatus("This page is not connected yet. Harvey needs to finish setup (see the runbook).", "error");
+  const baseUrl = apiUrl.replace(/\/$/, "");
+
+  if (!baseUrl) {
+    setStatus("Not hooked up yet — I still need to finish setup (see the runbook).", "error");
     return;
   }
 
@@ -38,23 +42,26 @@ export function initBroadcastAdmin(apiUrl: string): void {
     setStatus("Checking password…", "info");
     loginBtn.disabled = true;
     try {
-      const res = await fetch(`${apiUrl}/auth`, {
+      const res = await fetch(`${baseUrl}/auth`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: passwordInput.value }),
       });
-      const data = (await res.json()) as { ok?: boolean; message?: string };
+      const data = await readJson<{ ok?: boolean; message?: string; token?: string }>(res);
       if (!res.ok || !data.ok) {
         setStatus(data.message ?? "That password didn't work.", "error");
         return;
+      }
+      if (data.token) {
+        sessionStorage.setItem(SESSION_KEY, data.token);
       }
       loginEl.hidden = true;
       formEl.hidden = false;
       setStatus("", "info");
       passwordInput.value = "";
-    } catch {
-      setStatus("Could not reach the server. Check signal and try again.", "error");
+    } catch (err) {
+      setStatus(networkErrorMessage(err), "error");
     } finally {
       loginBtn.disabled = false;
     }
@@ -77,26 +84,32 @@ export function initBroadcastAdmin(apiUrl: string): void {
         if (file) formData.set(`photo${index}`, file);
       });
 
-      const res = await fetch(`${apiUrl}/broadcast`, {
+      const res = await fetch(`${baseUrl}/broadcast`, {
         method: "POST",
         credentials: "include",
+        headers: authHeaders(),
         body: formData,
       });
-      const data = (await res.json()) as { ok?: boolean; message?: string };
+      const data = await readJson<{ ok?: boolean; message?: string }>(res);
       if (!res.ok || !data.ok) {
         setStatus(data.message ?? "Save failed. Try again.", "error");
         return;
       }
-      setStatus("Saved! The homepage updates in a few minutes.", "success");
+      setStatus("Saved — should show on the homepage in a few minutes.", "success");
       photos.forEach((input) => {
         input.value = "";
       });
-    } catch {
-      setStatus("Could not reach the server. Check signal and try again.", "error");
+    } catch (err) {
+      setStatus(networkErrorMessage(err), "error");
     } finally {
       saveBtn.disabled = false;
     }
   });
+
+  function authHeaders(): HeadersInit {
+    const token = sessionStorage.getItem(SESSION_KEY);
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
 
   function setStatus(message: string, kind: "info" | "error" | "success") {
     statusEl.textContent = message;
@@ -117,6 +130,16 @@ export function initBroadcastAdmin(apiUrl: string): void {
     if (select.value === "__other__") return other?.value?.trim() ?? "";
     if (select.value === "") return "";
     return select.value;
+  }
+}
+
+async function readJson<T>(res: Response): Promise<T> {
+  const text = await res.text();
+  if (!text) return {} as T;
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new Error(`Server returned ${res.status} (not JSON).`);
   }
 }
 
