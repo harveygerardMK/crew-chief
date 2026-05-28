@@ -21,15 +21,23 @@ export function heroRunnerDisplayPercent(milePercent: number): number {
   return HERO_RUNNER_MIN_PERCENT + (clamped / 100) * span;
 }
 
-/** Front-path valley (x≈900 / 1200) — deep dip ~¾ across the hero profile. */
-export const HERO_RUNNER_PREVIEW_LEFT_PERCENT = 75;
-export const HERO_RUNNER_PREVIEW_BOTTOM_PERCENT = 14;
+/** ~10% of route — early profile dip (SVG x≈122 / 1200), inset enough to stay visible. */
+export const HERO_RUNNER_PREVIEW_MILE = 20;
+export const HERO_RUNNER_PREVIEW_BOTTOM_PERCENT = 22;
+
+/** Same horizontal scale as `.elevation-hero__marker` (mile / race distance). */
+export function heroMarkerLeftPercent(mile: number): number {
+  const raw = (mile / race.distance_miles) * 100;
+  if (raw <= 0) return HERO_RUNNER_MIN_PERCENT;
+  if (raw >= 100) return HERO_RUNNER_MAX_PERCENT;
+  return raw;
+}
 
 export function heroRunnerLeftPercent(progress: HeroProgressState): number {
   if (progress.stationName == null) {
-    return HERO_RUNNER_PREVIEW_LEFT_PERCENT;
+    return heroMarkerLeftPercent(HERO_RUNNER_PREVIEW_MILE);
   }
-  return heroRunnerDisplayPercent(progress.percent);
+  return heroMarkerLeftPercent(progress.mile);
 }
 
 export function heroRunnerUsesPreview(progress: HeroProgressState): boolean {

@@ -2860,8 +2860,8 @@ body {
 
 .elevation-hero__runner {
   position: absolute;
-  left: 75%;
-  bottom: 14%;
+  left: 10%;
+  bottom: 20%;
   transform: translateX(-50%);
   z-index: 4;
   display: flex;
@@ -2871,19 +2871,19 @@ body {
 }
 
 .elevation-hero__runner-icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.5625rem;
+  height: 1.5625rem;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   font-weight: 800;
   color: var(--ink-primary);
   background: var(--paper-warm);
   border: 2px solid var(--ink-primary);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-success) 45%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--hero-runner-hunter) 50%, transparent);
 }
 
 .elevation-hero__runner-label {
@@ -2907,10 +2907,12 @@ body {
 @keyframes hero-runner-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-success) 45%, transparent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--hero-runner-hunter) 45%, transparent);
   }
   50% {
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-success) 68%, transparent);
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--hero-runner-hunter) 75%, transparent),
+      0 0 12px color-mix(in srgb, var(--hero-runner-hunter) 55%, transparent);
   }
 }
 
@@ -2924,9 +2926,9 @@ body {
   }
 
   .elevation-hero__runner-icon {
-    width: 1rem;
-    height: 1rem;
-    font-size: 0.62rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.775rem;
   }
 }
 
