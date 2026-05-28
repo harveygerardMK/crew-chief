@@ -1,4 +1,4 @@
-# What you're signing up for
+## What you're signing up for
 
 Thanks for thinking about pacing me at the Tahoe 200. Here's the straight story before you say yes.
 

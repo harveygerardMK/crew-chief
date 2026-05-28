@@ -50,6 +50,18 @@
   --space-8: 4rem;
   --space-9: 6rem;
 
+  /* Vertical rhythm by page zone */
+  --zone-hero-pad: var(--space-6);
+  --zone-signal-gap: var(--space-4);
+  --zone-content-gap: var(--space-5);
+  --zone-section-gap: var(--space-7);
+
+  /* Critical-now emphasis (crew move, cutoff risk) */
+  --critical-bg: color-mix(in srgb, var(--accent-primary) 18%, var(--surface-raised));
+  --critical-border: color-mix(in srgb, var(--accent-primary) 72%, var(--ink-primary));
+  --critical-ink: var(--ink-primary);
+  --critical-accent: #c88700;
+
   --container-narrow: 36rem;
   --container-base: 56rem;
   --container-wide: 72rem;

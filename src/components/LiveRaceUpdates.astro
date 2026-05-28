@@ -19,13 +19,14 @@ function formatUpdatedAt(iso: string): string {
 ---
 
 <section class="live-updates" aria-labelledby="live-updates-heading">
-  <header class="live-updates__header">
-    <h2 id="live-updates-heading" class="live-updates__title">
+  <header class="live-updates__header card-surface__header">
+    <p class="card-surface__eyebrow">Family feed</p>
+    <h2 id="live-updates-heading" class="live-updates__title card-surface__title">
       Live Race Updates from Harvey's Cuter Half
     </h2>
     {
       updates.length > 0 && updates[0]?.updated_at && (
-        <p class="live-updates__meta">
+        <p class="live-updates__meta card-surface__meta">
           Latest {formatUpdatedAt(updates[0].updated_at)}
           {updates.length > 1 && ` · ${updates.length} updates`}
         </p>

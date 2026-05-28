@@ -27,16 +27,21 @@ const actions = [
 ---
 
 <section class="signal-panel crew-ops" aria-labelledby="crew-ops-heading">
-  <div class="signal-panel__header">
-    <p class="signal-panel__eyebrow">Crew ops</p>
-    <h2 id="crew-ops-heading">Race-week decisions, reduced to the essentials.</h2>
-  </div>
+  <header class="signal-panel__header card-surface__header">
+    <p class="card-surface__eyebrow signal-panel__eyebrow">Crew ops</p>
+    <h2 id="crew-ops-heading" class="card-surface__title">
+      Race-week decisions, reduced to the essentials.
+    </h2>
+  </header>
   <div class="crew-ops__grid">
     {
       actions.map((action) => (
         <a
           href={action.href}
-          class:list={["crew-ops__action", action.primary && "crew-ops__action--primary"]}
+          class:list={[
+            "crew-ops__action",
+            action.primary && "crew-ops__action--primary critical-now-action",
+          ]}
         >
           <span class="crew-ops__label">{action.label}</span>
           <span class="crew-ops__desc">{action.desc}</span>

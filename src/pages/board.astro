@@ -72,18 +72,22 @@ const heroAidStations = aidStations
     </ul>
   </section>
 
-  <div class="container page-stack">
-    <p class="card__meta">{planSourceNote()} {firstHalfPrepNote()}</p>
-    <p class="priority-action">
-      <a class="btn btn--primary" href={`${base}next/`}>Next stop</a>
-    </p>
+  <section class="signal-band signal-band--command" aria-label="Board actions">
+    <div class="container container--wide signal-band__inner">
+      <p class="priority-action">
+        <a class="btn btn--critical" href={`${base}next/`}>Next stop</a>
+      </p>
+      <p class="board-legend board-legend--compact" id="board-legend">
+        <span class="board-status board-status--ahead">Ahead</span>
+        <span class="board-status board-status--on-pace">On pace</span>
+        <span class="board-status board-status--behind">Behind</span>
+        <span class="board-legend__hint">— vs plan at each aid (this phone only)</span>
+      </p>
+    </div>
+  </section>
 
-    <p class="board-legend" id="board-legend">
-      <span class="board-status board-status--ahead">Ahead</span>
-      <span class="board-status board-status--on-pace">On pace</span>
-      <span class="board-status board-status--behind">Behind</span>
-      <span class="board-legend__hint">— vs plan at each aid (this phone only)</span>
-    </p>
+  <div class="container page-stack zone-content">
+    <p class="card__meta card-surface__meta">{planSourceNote()} {firstHalfPrepNote()}</p>
 
     <div class="table-wrap table-wrap--sticky">
       <table class="board-table" aria-describedby="board-legend">

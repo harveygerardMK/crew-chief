@@ -33,14 +33,8 @@ const heroAidStations = aidStations
       <div>
         <h1>Tahoe 200 alpine race logistics</h1>
         <p class="home-hero__actions">
-          <a class="btn btn--primary" href={`${base}next/`}>
+          <a class="btn btn--critical" href={`${base}next/`}>
             Next stop now
-          </a>
-          <a class="btn btn--secondary" href={`${base}board/`}>
-            Race board
-          </a>
-          <a class="btn btn--secondary" href={`${base}crew/`}>
-            Crew guide
           </a>
         </p>
       </div>
@@ -79,8 +73,13 @@ const heroAidStations = aidStations
     </ul>
   </section>
 
-  <div class="container container--wide page-stack">
-    <StatusBlock />
+  <section class="signal-band" aria-label="Current race status">
+    <div class="container container--wide signal-band__inner">
+      <StatusBlock />
+    </div>
+  </section>
+
+  <div class="container container--wide page-stack page-stack--home zone-content">
     <RaceDataBand />
     <div class="home-mission__grid">
       <LiveRaceUpdates />

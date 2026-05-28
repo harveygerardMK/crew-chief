@@ -71,7 +71,8 @@ const heroAidStations = aidStations
     </ul>
   </section>
 
-  <div class="container page-stack">
+  <section class="signal-band signal-band--command" aria-label="Next crew move">
+    <div class="container container--wide signal-band__inner">
     <div class="command-center-wrap signal-surface">
       <div class="command-center-controls">
         <label>
@@ -100,7 +101,8 @@ const heroAidStations = aidStations
         <a href={`${base}board/`}>Race board</a>
       </p>
     </div>
-  </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <script id="crew-payload" type="application/json" set:html={crewPayloadJson}></script>

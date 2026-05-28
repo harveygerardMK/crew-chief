@@ -1,4 +1,4 @@
-# Rules that actually matter
+## Rules that actually matter
 
 Full rules are in the runner manual. These are the ones that get me disqualified if crew or pacers slip — please read them.
 

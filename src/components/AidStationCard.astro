@@ -30,11 +30,13 @@ const eyebrowParts = [
   data-pacer={station.pacer_access}
   data-sleep={isSleep}
 >
-  <p class="aid-card__eyebrow">{eyebrowParts.join(" · ")}</p>
-  <h3 class="aid-card__title">{station.name}</h3>
-  <p class="aid-card__cutoff">Cutoff {station.cutoff}</p>
+  <header class="card-surface__header aid-card__header">
+    <p class="card-surface__eyebrow aid-card__eyebrow">{eyebrowParts.join(" · ")}</p>
+    <h3 class="aid-card__title card-surface__title">{station.name}</h3>
+    <p class="aid-card__cutoff card-surface__meta">Cutoff {station.cutoff}</p>
+  </header>
   {station.notes && <p class="aid-card__notes">{station.notes}</p>}
-  <div class="aid-card__links">
+  <div class="aid-card__links card-surface__actions">
     {
       crewStop && (
         <a href={`${base}crew/#stop-${crewStop.n}`}>Crew stop →</a>

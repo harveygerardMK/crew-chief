@@ -2068,19 +2068,19 @@ td {
 
 .board-status--ahead {
   background: color-mix(in srgb, var(--accent-success) 18%, transparent);
-  color: #cce2c2;
+  color: var(--ink-primary);
   border-color: color-mix(in srgb, var(--accent-success) 55%, transparent);
 }
 
 .board-status--on-pace {
   background: color-mix(in srgb, var(--accent-warning) 18%, transparent);
-  color: #f1d99b;
+  color: var(--ink-primary);
   border-color: color-mix(in srgb, var(--accent-warning) 55%, transparent);
 }
 
 .board-status--behind {
   background: color-mix(in srgb, var(--accent-primary) 18%, transparent);
-  color: #ffc29d;
+  color: var(--ink-primary);
   border-color: color-mix(in srgb, var(--accent-primary) 55%, transparent);
 }
 
@@ -2746,7 +2746,7 @@ body {
 
 .elevation-hero {
   position: relative;
-  min-height: 32rem;
+  min-height: clamp(18rem, 40vh, 28rem);
   overflow: visible;
   border-top: var(--border-hairline);
   border-bottom: var(--border-hairline);
@@ -2865,7 +2865,7 @@ body {
 }
 
 .elevation-hero--compact {
-  min-height: 24rem;
+  min-height: clamp(14rem, 28vh, 20rem);
 }
 
 .elevation-hero--compact .elevation-hero__mountain {
@@ -2874,10 +2874,13 @@ body {
 
 .page-stack .home-mission__grid {
   grid-template-columns: 1fr;
+  align-items: stretch;
 }
 
 .page-stack .home-mission__grid > * {
   min-width: 0;
+  margin: 0;
+  height: 100%;
 }
 
 @media (min-width: 960px) {
@@ -2897,13 +2900,241 @@ body {
   }
 
   .elevation-hero--compact {
-    min-height: 20rem;
+    min-height: clamp(12rem, 26vh, 18rem);
   }
 }
 
-.command-center-wrap,
-.signal-surface::after,
-.signal-surface::before,
-.command-center {
+/* UX clarity system: zones, card anatomy, critical-now, mobile density */
+.signal-band {
+  border-bottom: var(--border-hairline);
+  background: color-mix(in srgb, var(--surface-raised) 88%, var(--paper-warm));
+  padding-block: var(--zone-signal-gap);
+}
+
+.signal-band__inner {
+  display: grid;
+  gap: var(--zone-signal-gap);
+}
+
+.signal-band--command .signal-band__inner {
+  gap: var(--space-3);
+}
+
+.zone-content {
+  padding-block: var(--zone-content-gap);
+}
+
+.page-stack--home {
+  gap: var(--zone-content-gap);
+}
+
+.page-stack.zone-content {
+  gap: var(--zone-content-gap);
+}
+
+.card-surface__header {
+  margin-bottom: var(--space-3);
+}
+
+.card-surface__eyebrow {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.card-surface__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-h4), 3.5vw, var(--text-h2));
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink-primary);
+}
+
+.card-surface__meta {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-body-sm);
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+
+.card-surface__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.btn--critical {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--critical-ink);
+  background: var(--critical-bg);
+  border: 2px solid var(--critical-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.btn--critical:hover {
+  background: color-mix(in srgb, var(--accent-primary) 30%, var(--surface-raised));
+  color: var(--critical-ink);
+  border-color: var(--critical-accent);
+}
+
+.btn--critical:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.critical-now {
+  border: 2px solid var(--critical-border);
+  background: var(--critical-bg);
+}
+
+.critical-now-action {
+  background: var(--critical-bg);
+  border: 2px solid var(--critical-border);
+  color: var(--critical-ink);
+}
+
+.command-center--soon,
+.command-center--late {
+  border-width: 2px;
+  border-color: var(--critical-border);
+  background: var(--critical-bg);
+}
+
+.command-center--late {
+  border-color: color-mix(in srgb, var(--accent-primary) 85%, var(--surface-deep));
+}
+
+.command-center--soon .command-center__hint,
+.command-center--late .command-center__hint {
+  background: var(--critical-border);
+  color: var(--critical-ink);
+  font-weight: 800;
+}
+
+.priority-action {
+  margin: 0;
+}
+
+.priority-action .btn--critical {
+  width: 100%;
+  max-width: 22rem;
+}
+
+.signal-band .status-block,
+.signal-band .command-center {
+  background: color-mix(in srgb, var(--surface-base) 78%, white 22%);
+  margin: 0;
+}
+
+.signal-band .command-center-wrap {
+  padding: 0;
+  margin: 0;
   background: transparent;
 }
+
+.signal-band .status-block {
+  border-left: 4px solid var(--accent-success);
+  padding: var(--space-5);
+}
+
+.signal-band .status-block .card-surface__header {
+  margin-bottom: var(--space-2);
+}
+
+.page-stack--home .race-data-band {
+  margin: 0;
+}
+
+.page-stack--home .race-data-band__item {
+  background: color-mix(in srgb, var(--surface-raised) 92%, var(--paper-warm));
+}
+
+.page-stack--home .race-data-band__value {
+  color: var(--ink-primary);
+}
+
+.page-stack--home .signal-panel,
+.page-stack--home .live-updates {
+  margin: 0;
+}
+
+.page-stack--home .signal-panel {
+  background: color-mix(in srgb, var(--surface-raised) 88%, var(--paper-warm));
+}
+
+.page-stack--home .signal-panel::before,
+.page-stack--home .signal-panel::after {
+  opacity: 0.28;
+}
+
+.page-stack--home .live-updates {
+  border-left: 2px solid color-mix(in srgb, var(--accent-success) 65%, transparent);
+}
+
+.live-updates__title.card-surface__title {
+  max-width: 20ch;
+}
+
+.aid-card__header {
+  margin-bottom: var(--space-3);
+}
+
+@media (max-width: 720px) {
+  .elevation-hero__label {
+    display: none;
+  }
+
+  .elevation-hero__marker-mile {
+    display: none;
+  }
+
+  .board-legend__hint {
+    display: none;
+  }
+
+  .board-table .badge,
+  .board-card .badge {
+    display: none;
+  }
+
+  .signal-panel::after {
+    display: none;
+  }
+
+  .crew-ops__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero__actions .btn--critical {
+    width: 100%;
+  }
+
+  .card-surface__actions .btn {
+    flex: 1 1 calc(50% - var(--space-2));
+    min-width: 9rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .elevation-hero--compact .elevation-hero__marker:nth-child(n + 4) {
+    display: none;
+  }
+}
+

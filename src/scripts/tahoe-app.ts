@@ -129,10 +129,10 @@ export function initCommandCenter(stops: CrewStopPayload[], base: string) {
           ? "command-center--soon"
           : "";
 
-    root.className = `command-center ${urgency}`.trim();
+    root.className = `command-center critical-now ${urgency}`.trim();
     hero.innerHTML = `
-      <p class="command-center__eyebrow">Crew move / Stop ${stop.crew_stop_n}</p>
-      <h2 class="command-center__title">${stop.name}</h2>
+      <p class="command-center__eyebrow card-surface__eyebrow">Crew move / Stop ${stop.crew_stop_n}</p>
+      <h2 class="command-center__title card-surface__title">${stop.name}</h2>
       <p class="command-center__mile">Mile ${stop.mile} / Cutoff ${stop.cutoff}</p>
       <dl class="command-center__times">
         <div><dt>Arrival window (${pace})</dt><dd>${formatWhen(plannedIso(stop, pace))}</dd></div>
@@ -146,7 +146,7 @@ export function initCommandCenter(stops: CrewStopPayload[], base: string) {
       ? `<a class="btn btn--secondary" href="${stop.maps_href}" target="_blank" rel="noopener noreferrer">Open Maps</a>`
       : "";
     actions.innerHTML = `
-      <button type="button" class="btn btn--primary" data-checkin-aid="${stop.aid_n}">Mark arrived</button>
+      <button type="button" class="btn btn--critical" data-checkin-aid="${stop.aid_n}">Mark arrived</button>
       ${maps}
       <a class="btn btn--secondary" href="${base}crew/#playbook-${stop.crew_stop_n}">Open playbook</a>
       <a class="btn btn--secondary" href="${base}board/">Race board</a>

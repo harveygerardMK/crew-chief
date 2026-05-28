@@ -1,4 +1,4 @@
-# About the Tahoe 200
+## About the Tahoe 200
 
 200.4 miles, one loop around Lake Tahoe, mostly on the Tahoe Rim Trail. Aspen meadows, alpine lakes, exposed ridges — the usual.
 

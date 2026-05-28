@@ -1,4 +1,4 @@
-# The course
+## The course
 
 2026 is the full loop: 200.4 miles around Lake Tahoe, roughly 64,000 feet of up and down combined (gain plus loss).
 

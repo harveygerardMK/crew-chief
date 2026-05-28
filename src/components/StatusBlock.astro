@@ -16,46 +16,54 @@ const nextEta =
 ---
 
 <section
-  class:list={["status-block", `status-block--${phase}`]}
+  class:list={[
+    "status-block",
+    "card-surface",
+    `status-block--${phase}`,
+    phase === "on-course" && "critical-now",
+  ]}
   aria-live="polite"
   aria-labelledby="status-primary"
 >
+  <header class="card-surface__header">
+    <p class="card-surface__eyebrow">Race status</p>
+  </header>
   {
     phase === "pre-race" ? (
       <>
-        <p id="status-primary" class="status-block__primary">
+        <p id="status-primary" class="status-block__primary card-surface__title">
           {(countdown ?? "Race week").toUpperCase()}
         </p>
-        <p class="status-block__detail">June 12 · 9:00 AM PDT</p>
-        <p class="status-block__detail">{race.start.location}</p>
+        <p class="status-block__detail card-surface__meta">June 12 · 9:00 AM PDT</p>
+        <p class="status-block__detail card-surface__meta">{race.start.location}</p>
         {status.message && <p class="status-block__secondary">{status.message}</p>}
       </>
     ) : phase === "on-course" ? (
       <>
-        <p id="status-primary" class="status-block__primary">
+        <p id="status-primary" class="status-block__primary card-surface__title">
           <span class="status-block__pulse" aria-hidden="true" />
           ON COURSE
         </p>
-        <p class="status-block__detail">
+        <p class="status-block__detail card-surface__meta">
           {status.last_seen_station ? `Last seen: ${status.last_seen_station}` : "On course"}
         </p>
-        {status.last_seen_time && <p class="status-block__detail">{status.last_seen_time}</p>}
+        {status.last_seen_time && <p class="status-block__detail card-surface__meta">{status.last_seen_time}</p>}
         {
           nextCrew && nextEta && (
-            <p class="status-block__detail">
+            <p class="status-block__detail card-surface__meta">
               Next crew: {nextCrew.name} (mile {nextCrew.mile}) · plan ~{nextEta}
             </p>
           )
         }
         {status.message && <p class="status-block__secondary">{status.message}</p>}
-        <p class="status-block__actions">
-          <a class="btn btn--secondary" href={`${base}next/`}>Next stop</a>
+        <div class="card-surface__actions status-block__actions">
+          <a class="btn btn--critical" href={`${base}next/`}>Next stop</a>
           <a class="btn btn--secondary" href={`${base}board/`}>Race board</a>
-        </p>
+        </div>
       </>
     ) : (
       <>
-        <p id="status-primary" class="status-block__primary">RACE COMPLETE</p>
+        <p id="status-primary" class="status-block__primary card-surface__title">RACE COMPLETE</p>
         {status.message && <p class="status-block__secondary">{status.message}</p>}
       </>
     )
