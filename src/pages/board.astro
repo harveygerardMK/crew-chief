@@ -94,10 +94,12 @@ const boardPayloadJson = JSON.stringify({ boardRows, base }).replace(/</g, "\\u0
             data-con={row.conservative_iso}
           >
             <div class="board-card__header">
-              <span class="card__mile">Aid {row.aid_n} / Mile {row.mile}</span>
+              <span class="board-card__station-id">{String(row.aid_n).padStart(2, "0")}</span>
               <span data-status class="board-status board-status--pending">Pending</span>
             </div>
+            <span class="board-card__barcode" aria-hidden="true"></span>
             <h2 class="board-card__title">{row.name}</h2>
+            <p class="card__mile">Aid {row.aid_n} / Mile {row.mile}</p>
             <dl class="board-card__grid">
               <div>
                 <dt>Baseline</dt>

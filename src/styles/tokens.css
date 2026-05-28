@@ -13,6 +13,11 @@
   --accent-primary: #d3743a;
   --accent-warning: #d8a84d;
   --accent-success: #7fa36d;
+  --accent-lime: #c9ff00;
+  --accent-peach: #e9ae96;
+  --accent-blue: #657492;
+  --paper-warm: #e8e8df;
+  --stone-warm: #aaa69b;
 
   --link: #edf1ea;
   --link-hover: #f19a5f;
@@ -54,8 +59,10 @@
   --radius-full: 9999px;
   --border-hairline: 1px solid var(--ink-divider);
 
-  --signal-gradient: linear-gradient(130deg, #213936 0%, #405f54 46%, #d3743a 100%);
-  --signal-gradient-soft: linear-gradient(135deg, rgba(33, 57, 54, 0.86), rgba(211, 116, 58, 0.22));
+  --signal-gradient: linear-gradient(130deg, #213936 0%, #657492 42%, #d3743a 74%, #c9ff00 100%);
+  --signal-gradient-soft: linear-gradient(135deg, rgba(33, 57, 54, 0.86), rgba(233, 174, 150, 0.26));
+  --entry-strip: linear-gradient(90deg, var(--accent-blue) 0 22%, var(--accent-primary) 22% 46%, #050505 46% 72%, var(--accent-lime) 72% 100%);
+  --barcode-texture: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px, currentColor 7px 10px, transparent 10px 14px);
   --route-texture: repeating-linear-gradient(145deg, transparent 0 13px, rgba(237, 241, 234, 0.08) 14px 15px);
 
   /* Legacy aliases used across existing CSS */
