@@ -2197,9 +2197,23 @@ td {
   margin-bottom: 1rem;
 }
 
+.playbook-tasks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.playbook-tasks > li {
+  margin: 0;
+}
+
 .playbook-task {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
   gap: 0.5rem;
   cursor: pointer;
   font-size: 0.9375rem;
@@ -2215,8 +2229,11 @@ td {
 .playbook-task__tag {
   font-size: 0.6875rem;
   text-transform: uppercase;
-  color: var(--steel);
-  margin-left: auto;
+  color: var(--ink-secondary);
+  border: 1px solid var(--ink-divider);
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  line-height: 1.2;
 }
 
 .family-see__grid {
@@ -2686,6 +2703,31 @@ body {
 .board-card,
 .more-panel {
   background: rgba(255, 255, 255, 0.45);
+}
+
+.aid-card,
+.pacer-leg-card {
+  background: color-mix(in srgb, var(--surface-raised) 84%, var(--paper-warm) 16%);
+  color: var(--ink-primary);
+  border: var(--border-hairline);
+}
+
+.aid-card__title,
+.aid-card__notes,
+.aid-card__cutoff,
+.aid-card__eyebrow,
+.pacer-leg-card__title,
+.pacer-leg-card__notes,
+.pacer-leg-card__eyebrow,
+.pacer-leg-card__stats,
+.pacer-leg-card__bring-label,
+.pacer-leg-card__list,
+.pacer-leg-card__stats strong {
+  color: var(--ink-primary);
+}
+
+.aid-card__links a {
+  color: var(--link);
 }
 
 .page-stack {
