@@ -131,15 +131,15 @@ export function initCommandCenter(stops: CrewStopPayload[], base: string) {
 
     root.className = `command-center ${urgency}`.trim();
     hero.innerHTML = `
-      <p class="command-center__eyebrow">Next crew stop · Stop ${stop.crew_stop_n}</p>
+      <p class="command-center__eyebrow">Crew move / Stop ${stop.crew_stop_n}</p>
       <h2 class="command-center__title">${stop.name}</h2>
-      <p class="command-center__mile">Mile ${stop.mile} · Cutoff ${stop.cutoff}</p>
+      <p class="command-center__mile">Mile ${stop.mile} / Cutoff ${stop.cutoff}</p>
       <dl class="command-center__times">
-        <div><dt>Plan arrival (${pace})</dt><dd>${formatWhen(plannedIso(stop, pace))}</dd></div>
+        <div><dt>Arrival window (${pace})</dt><dd>${formatWhen(plannedIso(stop, pace))}</dd></div>
         <div><dt>Leave by</dt><dd>${formatWhen(leaveBy.toISOString())}</dd></div>
         <div><dt>Drive buffer</dt><dd>${driveMin} min before arrival</dd></div>
       </dl>
-      <p class="command-center__hint">${minsToLeave < 0 ? "Leave window passed — go now if not already there." : minsToLeave <= 30 ? `~${minsToLeave} min until leave-by` : `~${Math.floor(minsToLeave / 60)}h ${minsToLeave % 60}m until leave-by`}</p>
+      <p class="command-center__hint">${minsToLeave < 0 ? "Move now if not already there." : minsToLeave <= 30 ? `Crew move in ~${minsToLeave} min` : `Crew move in ~${Math.floor(minsToLeave / 60)}h ${minsToLeave % 60}m`}</p>
     `;
 
     const maps = stop.maps_href
