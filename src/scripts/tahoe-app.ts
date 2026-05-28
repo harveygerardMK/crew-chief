@@ -219,7 +219,8 @@ export function initRaceBoard(rows: { aid_n: number; crew_access: boolean }[], b
       const aidN = Number(btn.getAttribute("data-board-checkin"));
       if (!Number.isFinite(aidN)) return;
       const existing = getCheckIns().stations[String(aidN)];
-      if (existing && !confirm("Clear check-in for this station?")) {
+      if (existing) {
+        if (!confirm("Clear check-in for this station?")) return;
         setCheckIn(aidN);
       } else {
         setCheckIn(aidN, new Date().toISOString());

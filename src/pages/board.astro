@@ -8,6 +8,7 @@ const boardRows = rows.map((r) => ({
   aid_n: r.aid_n,
   crew_access: r.crew_access,
 }));
+const boardPayloadJson = JSON.stringify({ boardRows, base }).replace(/</g, "\\u003c");
 ---
 
 <BaseLayout title="Race board" description="Planned vs actual at every Tahoe 200 aid.">
@@ -121,7 +122,11 @@ const boardRows = rows.map((r) => ({
   </div>
 </BaseLayout>
 
-<script define:vars={{ boardRows, base }}>
+<script id="board-payload" type="application/json" set:html={boardPayloadJson}></script>
+
+<script>
   import { initRaceBoard } from "../scripts/tahoe-app";
-  initRaceBoard(boardRows, base);
+
+  const payload = JSON.parse(document.getElementById("board-payload")?.textContent ?? "{}");
+  initRaceBoard(payload.boardRows ?? [], payload.base ?? "/");
 </script>
