@@ -1839,6 +1839,64 @@ td {
   font-size: 0.8125rem;
 }
 
+.board-cards-mobile {
+  display: none;
+  margin: var(--space-4) 0;
+}
+
+.board-card {
+  background:
+    linear-gradient(135deg, rgba(23, 37, 41, 0.94), rgba(8, 16, 18, 0.94)),
+    var(--route-texture);
+  border: var(--border-hairline);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.board-card--no-crew {
+  opacity: 0.72;
+}
+
+.board-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.board-card__title {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-h3);
+}
+
+.board-card__grid {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+}
+
+.board-card__grid div {
+  border: 1px solid var(--hairline-soft);
+  padding: var(--space-3);
+  background: rgba(237, 241, 234, 0.04);
+}
+
+.board-card__grid dt {
+  color: var(--ink-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.board-card__grid dd {
+  margin: var(--space-1) 0 0;
+  color: var(--ink-primary);
+  font-family: var(--font-mono);
+}
+
 .playbook-card {
   margin-bottom: 1rem;
 }

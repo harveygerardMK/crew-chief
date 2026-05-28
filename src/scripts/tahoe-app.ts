@@ -197,7 +197,7 @@ export function initRaceBoard(rows: { aid_n: number; crew_access: boolean }[], b
 
   function render() {
     const checkins = getCheckIns();
-    tbody.querySelectorAll("tr[data-aid]").forEach((row) => {
+    document.querySelectorAll<HTMLElement>("[data-board-item][data-aid]").forEach((row) => {
       const aidN = Number(row.getAttribute("data-aid"));
       const actualCell = row.querySelector("[data-actual]");
       const statusCell = row.querySelector("[data-status]");

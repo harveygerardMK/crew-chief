@@ -18,7 +18,7 @@ const boardRows = rows.map((r) => ({
       Check in aid arrivals and compare actual movement against the plan.
     </p>
     <p class="card__meta">{planSourceNote()} {firstHalfPrepNote()}</p>
-    <p>
+    <p class="priority-action">
       <a class="btn btn--primary" href={`${base}next/`}>Next stop</a>
     </p>
 
@@ -48,6 +48,7 @@ const boardRows = rows.map((r) => ({
           {
             rows.map((row) => (
               <tr
+                data-board-item
                 data-aid={row.aid_n}
                 data-opt={row.optimistic_iso}
                 data-con={row.conservative_iso}
@@ -80,6 +81,43 @@ const boardRows = rows.map((r) => ({
       Cutoffs shown on <a href={`${base}aid-stations/`}>aid station cards</a>. Plan v{site.plan_version} · Saved on this
       device.
     </p>
+
+    <div class="board-cards-mobile" aria-label="Race board mobile cards">
+      {
+        rows.map((row) => (
+          <article
+            class:list={["board-card", !row.crew_access && "board-card--no-crew"]}
+            data-board-item
+            data-aid={row.aid_n}
+            data-opt={row.optimistic_iso}
+            data-con={row.conservative_iso}
+          >
+            <div class="board-card__header">
+              <span class="card__mile">Aid {row.aid_n} / Mile {row.mile}</span>
+              <span data-status class="board-status board-status--pending">Pending</span>
+            </div>
+            <h2 class="board-card__title">{row.name}</h2>
+            <dl class="board-card__grid">
+              <div>
+                <dt>Baseline</dt>
+                <dd>{row.baseline}</dd>
+              </div>
+              <div>
+                <dt>Actual</dt>
+                <dd data-actual>-</dd>
+              </div>
+              <div>
+                <dt>Window</dt>
+                <dd>{row.optimistic} / {row.conservative}</dd>
+              </div>
+            </dl>
+            <button type="button" class="btn btn--sm btn--secondary" data-board-checkin={row.aid_n}>
+              Check in
+            </button>
+          </article>
+        ))
+      }
+    </div>
   </div>
 </BaseLayout>
 
