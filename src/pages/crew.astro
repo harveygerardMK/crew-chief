@@ -124,10 +124,12 @@ function addressForStop(stop: (typeof crewStops)[number]): string | undefined {
       }
     </div>
 
-    <h2 id="rules">Rules that matter</h2>
-    <div class="prose">
-      <RulesContent />
-    </div>
+    <details id="rules" class="more-panel">
+      <summary>Rules that matter</summary>
+      <div class="prose">
+        <RulesContent />
+      </div>
+    </details>
   </div>
 </BaseLayout>
 

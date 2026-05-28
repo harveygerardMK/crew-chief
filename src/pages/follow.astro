@@ -49,46 +49,49 @@ const base = import.meta.env.BASE_URL;
       </div>
     </section>
 
-    <div class="note-box">
-      <strong>Don't panic if the dot disappears.</strong> Gaps on the tracker are normal in the backcountry. Crew has the
-      full plan. I can sleep up to 6 hours at a sleep station — a long pause usually just means I'm in a tent, not that
-      something's wrong.
-    </div>
+    <details class="more-panel">
+      <summary>Tracker notes and race background</summary>
+      <div class="note-box">
+        <strong>Don't panic if the dot disappears.</strong> Gaps on the tracker are normal in the backcountry. Crew has the
+        full plan. I can sleep up to 6 hours at a sleep station — a long pause usually just means I'm in a tent, not that
+        something's wrong.
+      </div>
 
-    <div class="prose">
-      <AboutContent />
-    </div>
+      <div class="prose">
+        <AboutContent />
+      </div>
 
-    <h2>Tracker signals</h2>
-    <ul class="list-check">
-      <li>
-        <strong>Moving / updating:</strong> I'm on course and the SPOT is pinging.
-      </li>
-      <li>
-        <strong>Stopped at an aid:</strong> Normal — food, sleep, feet, bathroom.
-      </li>
-      <li>
-        <strong>No updates for a while:</strong> Happens in the backcountry. Short gaps are normal.
-      </li>
-    </ul>
+      <h2>Tracker signals</h2>
+      <ul class="list-check">
+        <li>
+          <strong>Moving / updating:</strong> I'm on course and the SPOT is pinging.
+        </li>
+        <li>
+          <strong>Stopped at an aid:</strong> Normal — food, sleep, feet, bathroom.
+        </li>
+        <li>
+          <strong>No updates for a while:</strong> Happens in the backcountry. Short gaps are normal.
+        </li>
+      </ul>
 
-    <h2>Send a short note</h2>
-    <p>
-      Cell service is spotty. Best path is crew at a crew aid (Heavenly, Sierra at Tahoe, Loon Lake, Tahoe City,
-      Brockway, Village Green, Finish). Ask them to pass something short — I'll see it when I roll in.
-    </p>
+      <h2>Send a short note</h2>
+      <p>
+        Cell service is spotty. Best path is crew at a crew aid (Heavenly, Sierra at Tahoe, Loon Lake, Tahoe City,
+        Brockway, Village Green, Finish). Ask them to pass something short — I'll see it when I roll in.
+      </p>
 
-    <h2>Important links</h2>
-    <ul class="quick-links">
-      <li>
-        <a href={race.official_url} target="_blank" rel="noopener noreferrer">Official race site</a>
-      </li>
-      <li>
-        <a href={race.course_map_url} target="_blank" rel="noopener noreferrer">Course map (CalTopo)</a>
-      </li>
-      <li>
-        <a href={`${base}board/`}>Race board</a> (more detail if you want it)
-      </li>
-    </ul>
+      <h2>Important links</h2>
+      <ul class="quick-links">
+        <li>
+          <a href={race.official_url} target="_blank" rel="noopener noreferrer">Official race site</a>
+        </li>
+        <li>
+          <a href={race.course_map_url} target="_blank" rel="noopener noreferrer">Course map (CalTopo)</a>
+        </li>
+        <li>
+          <a href={`${base}board/`}>Race board</a> (more detail if you want it)
+        </li>
+      </ul>
+    </details>
   </div>
 </BaseLayout>

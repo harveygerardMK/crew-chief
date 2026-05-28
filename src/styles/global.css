@@ -1053,6 +1053,37 @@ td {
   letter-spacing: -0.03em;
 }
 
+.more-panel {
+  margin: var(--space-5) 0;
+  border: var(--border-hairline);
+  background: rgba(23, 37, 41, 0.7);
+  padding: 0;
+}
+
+.more-panel summary {
+  min-height: 3rem;
+  padding: var(--space-4);
+  cursor: pointer;
+  color: var(--ink-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.more-panel summary::marker {
+  color: var(--accent-primary);
+}
+
+.more-panel > :not(summary) {
+  margin-inline: var(--space-4);
+}
+
+.more-panel > :last-child {
+  margin-bottom: var(--space-4);
+}
+
 /* Audience path cards */
 .audience-paths {
   --path-accent-width: 3px;
