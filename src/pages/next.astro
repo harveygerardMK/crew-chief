@@ -1,10 +1,27 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCrewStopPayload, planSourceNote, site } from "../lib/tahoe-plan";
+import { aidStations, race } from "../lib/data";
 
 const base = import.meta.env.BASE_URL;
 const crewPayload = getCrewStopPayload();
 const crewPayloadJson = JSON.stringify({ crewPayload, base }).replace(/</g, "\\u003c");
+const heroAidStations = aidStations
+  .filter(
+    (station) =>
+      station.crew_access &&
+      station.mile > 0 &&
+      station.mile < race.distance_miles &&
+      station.name !== "Heavenly",
+  )
+  .map((station) => ({
+    ...station,
+    short:
+      station.name
+        .replace(/ Summit$/, "")
+        .replace(/\s*\(.*\)/, "")
+        .trim(),
+  }));
 ---
 
 <BaseLayout
@@ -36,6 +53,22 @@ const crewPayloadJson = JSON.stringify({ crewPayload, base }).replace(/</g, "\\u
         <path fill="url(#nextFront)" d="M0 320V188L36 148L70 198L110 142L140 206L194 118L242 224L292 156L338 220L394 146L444 232L496 134L550 222L602 146L660 224L710 130L756 212L814 150L864 232L916 166L970 232L1026 154L1078 224L1130 158L1184 214L1200 198V320Z"></path>
       </svg>
     </div>
+    <ul class="elevation-hero__markers" aria-label="Crew-access aid stations">
+      {
+        heroAidStations.map((station) => (
+          <li
+            class="elevation-hero__marker"
+            style={`left: ${(station.mile / race.distance_miles) * 100}%`}
+          >
+            <span class="elevation-hero__marker-dot" aria-hidden="true"></span>
+            <span class="elevation-hero__marker-label">
+              <span class="elevation-hero__marker-mile">mi {station.mile}</span>
+              <span class="elevation-hero__marker-name">{station.short}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <div class="container page-stack">

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { buildBoardRows, firstHalfPrepNote, planSourceNote, site } from "../lib/tahoe-plan";
+import { aidStations, race } from "../lib/data";
 
 const base = import.meta.env.BASE_URL;
 const rows = buildBoardRows();
@@ -9,6 +10,22 @@ const boardRows = rows.map((r) => ({
   crew_access: r.crew_access,
 }));
 const boardPayloadJson = JSON.stringify({ boardRows, base }).replace(/</g, "\\u003c");
+const heroAidStations = aidStations
+  .filter(
+    (station) =>
+      station.crew_access &&
+      station.mile > 0 &&
+      station.mile < race.distance_miles &&
+      station.name !== "Heavenly",
+  )
+  .map((station) => ({
+    ...station,
+    short:
+      station.name
+        .replace(/ Summit$/, "")
+        .replace(/\s*\(.*\)/, "")
+        .trim(),
+  }));
 ---
 
 <BaseLayout title="Race board" description="Planned vs actual at every Tahoe 200 aid.">
@@ -37,6 +54,22 @@ const boardPayloadJson = JSON.stringify({ boardRows, base }).replace(/</g, "\\u0
         <path fill="url(#boardFront)" d="M0 320V196L40 160L88 222L140 148L186 238L242 156L296 228L352 154L410 236L468 164L526 244L582 156L642 236L698 150L748 220L804 160L860 244L916 174L970 228L1024 150L1080 224L1138 166L1200 212V320Z"></path>
       </svg>
     </div>
+    <ul class="elevation-hero__markers" aria-label="Crew-access aid stations">
+      {
+        heroAidStations.map((station) => (
+          <li
+            class="elevation-hero__marker"
+            style={`left: ${(station.mile / race.distance_miles) * 100}%`}
+          >
+            <span class="elevation-hero__marker-dot" aria-hidden="true"></span>
+            <span class="elevation-hero__marker-label">
+              <span class="elevation-hero__marker-mile">mi {station.mile}</span>
+              <span class="elevation-hero__marker-name">{station.short}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <div class="container page-stack">
