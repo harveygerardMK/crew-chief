@@ -1,28 +1,28 @@
-/* Crew Chief - Sierra signal room design tokens */
+/* Crew Chief - Park elevation theme tokens */
 :root {
-  --surface-base: #111113;
-  --surface-raised: #1d1e21;
-  --surface-deep: #07080a;
+  --surface-base: #ffffff;
+  --surface-raised: #dfffde;
+  --surface-deep: #012b3a;
 
-  --ink-primary: #edf1ea;
-  --ink-secondary: #b8c5bf;
-  --ink-tertiary: #8ea19f;
-  --ink-muted: #718581;
-  --ink-divider: #333438;
+  --ink-primary: #012b3a;
+  --ink-secondary: #004963;
+  --ink-tertiary: #007978;
+  --ink-muted: #00a68a;
+  --ink-divider: rgba(1, 43, 58, 0.24);
 
-  --accent-primary: #d3743a;
-  --accent-warning: #d8a84d;
-  --accent-success: #7fa36d;
-  --accent-lime: #c9ff00;
-  --accent-peach: #e9ae96;
-  --accent-blue: #657492;
-  --accent-orange: #ff6031;
-  --paper-warm: #e8e8df;
-  --stone-warm: #aaa69b;
+  --accent-primary: #ff4c46;
+  --accent-warning: #87f8ae;
+  --accent-success: #42d49c;
+  --accent-lime: #87f8ae;
+  --accent-peach: #b2ffc6;
+  --accent-blue: #004963;
+  --accent-orange: #ff4c46;
+  --paper-warm: #ffffff;
+  --stone-warm: #b2ffc6;
 
-  --link: #edf1ea;
-  --link-hover: #f19a5f;
-  --focus-ring: 0 0 0 2px #f19a5f, 0 0 0 5px rgba(211, 116, 58, 0.24);
+  --link: #012b3a;
+  --link-hover: #00a68a;
+  --focus-ring: 0 0 0 2px #004963, 0 0 0 5px rgba(0, 73, 99, 0.24);
 
   --font-display: "Barlow Condensed", "IBM Plex Sans Condensed", "Arial Narrow", var(--font-body);
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
@@ -60,16 +60,16 @@
   --radius-full: 9999px;
   --border-hairline: 1px solid var(--ink-divider);
 
-  --signal-gradient: linear-gradient(130deg, #1d1e21 0%, #657492 42%, #e9ae96 72%, #c9ff00 100%);
-  --signal-gradient-soft: linear-gradient(135deg, rgba(101, 116, 146, 0.42), rgba(233, 174, 150, 0.26));
-  --entry-strip: linear-gradient(90deg, var(--accent-blue) 0 22%, var(--accent-orange) 22% 46%, #050505 46% 72%, var(--accent-lime) 72% 100%);
+  --signal-gradient: linear-gradient(140deg, #004963 0%, #00a68a 54%, #87f8ae 100%);
+  --signal-gradient-soft: linear-gradient(135deg, rgba(0, 73, 99, 0.2), rgba(66, 212, 156, 0.26));
+  --entry-strip: linear-gradient(90deg, #012b3a 0 34%, #004963 34% 62%, #87f8ae 62% 100%);
   --barcode-texture: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px, currentColor 7px 10px, transparent 10px 14px);
-  --route-texture: repeating-linear-gradient(145deg, transparent 0 13px, rgba(237, 241, 234, 0.08) 14px 15px);
+  --route-texture: repeating-linear-gradient(145deg, transparent 0 13px, rgba(1, 43, 58, 0.06) 14px 15px);
 
   /* Legacy aliases used across existing CSS */
   --canvas: var(--surface-base);
   --surface: var(--surface-raised);
-  --surface-soft: #161719;
+  --surface-soft: #f4fff2;
   --ink: var(--ink-primary);
   --charcoal: var(--ink-primary);
   --slate: var(--ink-secondary);
@@ -77,7 +77,7 @@
   --stone: var(--ink-tertiary);
   --muted: var(--ink-tertiary);
   --hairline: var(--ink-divider);
-  --hairline-soft: rgba(232, 232, 223, 0.2);
+  --hairline-soft: rgba(1, 43, 58, 0.12);
   --mint: var(--accent-lime);
   --mint-deep: var(--accent-peach);
   --mint-soft: var(--accent-blue);

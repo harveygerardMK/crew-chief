@@ -12,12 +12,35 @@ const boardPayloadJson = JSON.stringify({ boardRows, base }).replace(/</g, "\\u0
 ---
 
 <BaseLayout title="Race board" description="Planned vs actual at every Tahoe 200 aid.">
-  <div class="container">
+  <section class="elevation-hero elevation-hero--compact" aria-label="Race board hero">
+    <div class="container container--wide elevation-hero__copy">
+      <div>
+        <p class="page-eyebrow">Crew</p>
+        <h1>Race board</h1>
+        <p class="lead">Check in aid arrivals and compare actual movement against the plan.</p>
+      </div>
+      <div class="elevation-hero__label">Aid<br />Timeline</div>
+    </div>
+    <div class="elevation-hero__mountain" aria-hidden="true">
+      <svg viewBox="0 0 1200 320">
+        <defs>
+          <linearGradient id="boardBack" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(30,72,143,.56)"></stop>
+            <stop offset="100%" stop-color="rgba(30,72,143,.3)"></stop>
+          </linearGradient>
+          <linearGradient id="boardFront" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(0,128,76,.82)"></stop>
+            <stop offset="100%" stop-color="rgba(0,128,76,.62)"></stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#boardBack)" d="M0 320V168L52 124L104 200L160 116L210 218L264 130L318 214L372 116L430 220L486 136L542 226L598 132L654 222L708 124L760 206L812 138L870 228L922 146L980 214L1032 120L1094 206L1152 138L1200 184V320Z"></path>
+        <path fill="url(#boardFront)" d="M0 320V196L40 160L88 222L140 148L186 238L242 156L296 228L352 154L410 236L468 164L526 244L582 156L642 236L698 150L748 220L804 160L860 244L916 174L970 228L1024 150L1080 224L1138 166L1200 212V320Z"></path>
+      </svg>
+    </div>
+  </section>
+
+  <div class="container page-stack">
     <p class="page-eyebrow">Crew</p>
-    <h1>Race board</h1>
-    <p class="lead">
-      Check in aid arrivals and compare actual movement against the plan.
-    </p>
     <p class="card__meta">{planSourceNote()} {firstHalfPrepNote()}</p>
     <p class="priority-action">
       <a class="btn btn--primary" href={`${base}next/`}>Next stop</a>

@@ -19,8 +19,8 @@ body {
   line-height: 1.55;
   color: var(--ink-primary);
   background:
-    radial-gradient(circle at 12% 0%, rgba(101, 116, 146, 0.25), transparent 34rem),
-    radial-gradient(circle at 88% 6rem, rgba(233, 174, 150, 0.16), transparent 30rem),
+    radial-gradient(circle at 12% 0%, rgba(0, 73, 99, 0.17), transparent 34rem),
+    radial-gradient(circle at 88% 6rem, rgba(66, 212, 156, 0.14), transparent 30rem),
     var(--surface-base);
   -webkit-font-smoothing: antialiased;
 }
@@ -155,7 +155,7 @@ iframe {
 
 .site-header {
   border-bottom: var(--border-hairline);
-  background: rgba(11, 12, 14, 0.92);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(18px);
   position: sticky;
   top: 0;
@@ -2644,4 +2644,203 @@ textarea.update-input {
 .update-status[data-kind="info"] {
   background: var(--surface-raised);
   border: var(--border-hairline);
+}
+
+/* Park elevation theme overrides */
+body {
+  color: var(--ink);
+  background: var(--paper-warm);
+}
+
+.site-header {
+  background: rgba(246, 247, 237, 0.92);
+}
+
+.site-nav__link,
+.site-logo__race {
+  color: var(--ink-secondary);
+}
+
+.btn--primary {
+  background: var(--ink-primary);
+  color: var(--paper-warm);
+}
+
+.btn--primary:hover {
+  background: var(--accent-success);
+  color: var(--paper-warm);
+}
+
+.btn--secondary {
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--ink-primary);
+  border-color: var(--ink-divider);
+}
+
+.card,
+.panel,
+.signal-panel,
+.live-updates,
+.status-block,
+.command-center,
+.board-card,
+.more-panel {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.page-stack {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.page-stack > h1 {
+  margin: 0;
+}
+
+.page-stack > .lead {
+  margin: 0;
+  max-width: 38rem;
+}
+
+.elevation-hero {
+  position: relative;
+  min-height: 32rem;
+  overflow: visible;
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline);
+  background:
+    linear-gradient(to right, rgba(0, 31, 63, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 31, 63, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.14));
+  background-size: 10rem 10rem, 10rem 10rem, auto;
+}
+
+.elevation-hero__copy {
+  position: relative;
+  z-index: 3;
+  padding: var(--space-6) var(--space-5) 0;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.elevation-hero__copy h1 {
+  margin: 0;
+  max-width: 10.5ch;
+  color: var(--ink-primary);
+}
+
+.elevation-hero__label {
+  text-align: right;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: 0.95;
+  color: var(--ink-secondary);
+}
+
+.elevation-hero__mountain {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: none;
+  bottom: 0;
+  height: 58%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.elevation-hero__mountain svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.elevation-hero--compact {
+  min-height: 24rem;
+}
+
+.elevation-hero--compact .elevation-hero__mountain {
+  height: 52%;
+}
+
+.page-meta-band {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.4rem;
+  padding: 0.72rem var(--space-5) 0.88rem;
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline);
+  background: var(--paper-warm);
+}
+
+.page-meta-band > div {
+  border-top: 2px solid rgba(0, 31, 63, 0.3);
+  padding-top: 0.4rem;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.page-priority-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  padding: 0.78rem var(--space-5);
+  border-bottom: var(--border-hairline);
+}
+
+.page-priority-card {
+  border: var(--border-hairline);
+  background: rgba(255, 255, 255, 0.36);
+  padding: var(--space-3);
+}
+
+.page-priority-card__k {
+  margin: 0 0 0.2rem;
+  font-size: 0.54rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.page-priority-card__v {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.page-priority-card--critical {
+  border-color: rgba(219, 230, 76, 0.78);
+  background: rgba(219, 230, 76, 0.2);
+}
+
+@media (max-width: 900px) {
+  .elevation-hero__copy {
+    flex-direction: column;
+  }
+
+  .elevation-hero__label {
+    text-align: left;
+    font-size: var(--text-h4);
+  }
+
+  .elevation-hero--compact {
+    min-height: 20rem;
+  }
+
+  .page-meta-band,
+  .page-priority-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.command-center-wrap,
+.signal-surface::after,
+.signal-surface::before,
+.command-center {
+  background: transparent;
 }

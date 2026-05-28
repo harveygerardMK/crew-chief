@@ -11,13 +11,36 @@ const crewPayloadJson = JSON.stringify({ crewPayload, base }).replace(/</g, "\\u
   title="Next stop"
   description="Next crew stop — leave-by time, Maps, check-in."
 >
-  <div class="command-center-wrap signal-surface">
-    <div class="container">
+  <section class="elevation-hero elevation-hero--compact" aria-label="Next stop hero">
+    <div class="container container--wide elevation-hero__copy">
+      <div>
+        <p class="page-eyebrow">Crew</p>
+        <h1>Next stop</h1>
+        <p class="lead">The next crew move: station, arrival window, leave-by time, and check-in.</p>
+      </div>
+      <div class="elevation-hero__label">Command<br />Center</div>
+    </div>
+    <div class="elevation-hero__mountain" aria-hidden="true">
+      <svg viewBox="0 0 1200 320">
+        <defs>
+          <linearGradient id="nextBack" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(30,72,143,.56)"></stop>
+            <stop offset="100%" stop-color="rgba(30,72,143,.3)"></stop>
+          </linearGradient>
+          <linearGradient id="nextFront" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(0,128,76,.82)"></stop>
+            <stop offset="100%" stop-color="rgba(0,128,76,.62)"></stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#nextBack)" d="M0 320V158L46 112L74 172L118 126L150 186L208 98L262 208L318 132L368 204L430 122L486 214L542 108L598 198L652 120L716 206L770 98L820 190L880 122L932 212L986 142L1042 212L1098 126L1150 198L1200 138V320Z"></path>
+        <path fill="url(#nextFront)" d="M0 320V188L36 148L70 198L110 142L140 206L194 118L242 224L292 156L338 220L394 146L444 232L496 134L550 222L602 146L660 224L710 130L756 212L814 150L864 232L916 166L970 232L1026 154L1078 224L1130 158L1184 214L1200 198V320Z"></path>
+      </svg>
+    </div>
+  </section>
+
+  <div class="container page-stack">
+    <div class="command-center-wrap signal-surface">
       <p class="page-eyebrow">Crew</p>
-      <h1>Next stop</h1>
-      <p class="lead">
-        The next crew move: station, arrival window, leave-by time, and check-in.
-      </p>
 
       <div class="command-center-controls">
         <label>
