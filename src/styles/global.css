@@ -1173,7 +1173,7 @@ td {
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--accent-peach);
+  color: var(--ink-secondary);
 }
 
 .signal-panel h2 {
@@ -1475,7 +1475,7 @@ td {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--mint-deep);
+  color: var(--ink-secondary);
   margin: 0 0 0.25rem;
 }
 
@@ -2858,9 +2858,75 @@ body {
   font-weight: 600;
 }
 
+.elevation-hero__runner {
+  position: absolute;
+  left: 0%;
+  bottom: 20%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  pointer-events: none;
+}
+
+.elevation-hero__runner-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--ink-primary);
+  background: var(--paper-warm);
+  border: 2px solid var(--ink-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-success) 45%, transparent);
+}
+
+.elevation-hero__runner-label {
+  padding: 0.18rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  background: color-mix(in srgb, var(--paper-warm) 82%, white 18%);
+  border: 1px solid var(--ink-divider);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .elevation-hero__runner-icon {
+    animation: hero-runner-pulse 1.8s ease-in-out infinite;
+  }
+}
+
+@keyframes hero-runner-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-success) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-success) 68%, transparent);
+  }
+}
+
 @media (max-width: 720px) {
   .elevation-hero__marker-label {
     display: none;
+  }
+
+  .elevation-hero__runner-label {
+    display: none;
+  }
+
+  .elevation-hero__runner-icon {
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.62rem;
   }
 }
 

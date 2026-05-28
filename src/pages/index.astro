@@ -32,11 +32,6 @@ const heroAidStations = aidStations
     <div class="container container--wide elevation-hero__copy">
       <div>
         <h1>Tahoe 200 alpine race logistics</h1>
-        <p class="home-hero__actions">
-          <a class="btn btn--critical" href={`${base}next/`}>
-            Next stop now
-          </a>
-        </p>
       </div>
     </div>
     <div class="elevation-hero__mountain" aria-hidden="true">
@@ -71,6 +66,10 @@ const heroAidStations = aidStations
         ))
       }
     </ul>
+    <div class="elevation-hero__runner" data-hero-progress role="img" aria-label="Runner progress at mile 0">
+      <span class="elevation-hero__runner-icon" aria-hidden="true">H</span>
+      <span class="elevation-hero__runner-label" data-hero-progress-label>Start · mi 0</span>
+    </div>
   </section>
 
   <section class="signal-band" aria-label="Current race status">
