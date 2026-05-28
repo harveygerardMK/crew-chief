@@ -149,6 +149,10 @@ iframe {
   width: min(100% - var(--space-6), var(--container-wide));
 }
 
+.container--dashboard {
+  width: min(100% - var(--space-6), 78rem);
+}
+
 .site-header {
   border-bottom: var(--border-hairline);
   background: rgba(8, 16, 18, 0.92);
@@ -887,16 +891,16 @@ td {
 
 @media (min-width: 640px) {
   .home-hero__inner {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1.12fr) minmax(15rem, 0.58fr);
   }
 }
 
 .home-hero__main {
-  max-width: 45rem;
+  max-width: 54rem;
 }
 
 .home-hero__main .lead {
-  max-width: 42rem;
+  max-width: 48rem;
 }
 
 .home-hero__aside {
@@ -906,7 +910,8 @@ td {
   color: var(--surface-deep);
   border: 1px solid var(--stone-warm);
   padding: var(--space-4);
-  min-width: 14rem;
+  min-width: 16rem;
+  max-width: 23rem;
   clip-path: polygon(0 0, 100% 0, calc(100% - 1rem) 100%, 0 100%);
 }
 
@@ -960,6 +965,36 @@ td {
   flex-wrap: wrap;
   gap: var(--space-4);
   margin: var(--space-4) 0 0;
+}
+
+.home-dashboard {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+  margin-top: var(--space-6);
+}
+
+@media (min-width: 960px) {
+  .home-dashboard {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .home-dashboard > .live-updates {
+    grid-column: 1 / span 7;
+  }
+
+  .home-dashboard > .crew-ops {
+    grid-column: 8 / -1;
+  }
+
+  .home-dashboard > .race-data-band,
+  .home-dashboard > .site-meta {
+    grid-column: 1 / -1;
+  }
+
+  .home-dashboard .crew-ops__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .section-rule {
@@ -2246,11 +2281,11 @@ html.trailhead-mode .status-block__actions .btn--secondary {
 
 /* Live race updates (homepage) */
 .live-updates {
-  margin: var(--space-6) 0 var(--space-7);
+  margin: 0;
   padding: var(--space-6);
   background: var(--surface-raised);
   border: var(--border-hairline);
-  border-left: 3px solid var(--accent-primary);
+  border-left: 3px solid var(--accent-peach);
   border-radius: var(--radius-sm);
 }
 

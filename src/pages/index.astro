@@ -12,7 +12,7 @@ const base = import.meta.env.BASE_URL;
 
 <BaseLayout title="Home">
   <div class="home-hero">
-    <div class="container home-hero__inner">
+    <div class="container container--dashboard home-hero__inner">
       <div class="home-hero__main">
         <StatusBlock />
         <p class="page-eyebrow">Crew Chief / {site.race} / {site.year}</p>
@@ -41,7 +41,7 @@ const base = import.meta.env.BASE_URL;
       </div>
     </div>
   </div>
-  <div class="container">
+  <div class="container container--dashboard home-dashboard">
     <LiveRaceUpdates />
     <CrewOps />
     <RaceDataBand />
