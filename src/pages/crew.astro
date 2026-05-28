@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AudienceIntro from "../components/AudienceIntro.astro";
+import CrewOps from "../components/CrewOps.astro";
 import PageNav from "../components/PageNav.astro";
 import RememberCallout from "../components/RememberCallout.astro";
 import LocationActions from "../components/LocationActions.astro";
@@ -32,13 +33,9 @@ function addressForStop(stop: (typeof crewStops)[number]): string | undefined {
   <div class="container">
     <AudienceIntro audience="crew" />
     <h1>Crew guide</h1>
-    <p class="lead">Seven crew-access aids on the Tahoe 200. Playbooks and checklists stick on this phone once you tap them.</p>
+    <p class="lead">Playbooks, parking, and stop timing for the seven crew-access aids.</p>
 
-    <nav class="section-hub" aria-label="Crew tools">
-      <a class="section-hub__link section-hub__link--primary" href={`${base}next/`}>Next stop</a>
-      <a class="section-hub__link" href={`${base}board/`}>Race board</a>
-      <a class="section-hub__link" href={`${base}aid-stations/`}>Aid stations</a>
-    </nav>
+    <CrewOps />
 
     <PageNav items={navItems} />
 
