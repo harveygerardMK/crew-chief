@@ -96,6 +96,12 @@ button:focus-visible,
   box-shadow: var(--focus-ring);
 }
 
+.btn--primary:focus-visible {
+  outline: 2px solid var(--mint-deep);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -1527,8 +1533,13 @@ td {
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.12);
-  color: var(--canvas);
+  color: var(--ink-primary);
   min-height: 2.75rem;
+}
+
+.input-select option {
+  color: var(--ink-primary);
+  background: var(--surface-deep);
 }
 
 .command-center {
@@ -1726,7 +1737,7 @@ td {
   font-size: var(--text-body-sm);
   font-weight: 600;
   font-family: var(--font-body);
-  color: var(--surface-base);
+  color: var(--ink-primary);
   background: var(--surface-deep);
   border: var(--border-hairline);
   border-radius: var(--radius-sm);
@@ -1736,6 +1747,7 @@ td {
 .trailhead-toggle[aria-pressed="true"] {
   background: var(--accent-primary);
   border-color: var(--accent-primary);
+  color: var(--surface-deep);
 }
 
 .trailhead-toggle__icon {
@@ -1749,7 +1761,7 @@ html.trailhead-mode {
 
 html.trailhead-mode body {
   background: var(--surface-deep);
-  color: var(--surface-base);
+  color: var(--ink-primary);
 }
 
 html.trailhead-mode * {
@@ -1769,7 +1781,7 @@ html.trailhead-mode .pacer-leg-card,
 html.trailhead-mode .status-block,
 html.trailhead-mode .command-center {
   background: var(--surface-deep);
-  color: var(--surface-base);
+  color: var(--ink-primary);
 }
 
 html.trailhead-mode h1,
@@ -1777,7 +1789,7 @@ html.trailhead-mode h2,
 html.trailhead-mode h3,
 html.trailhead-mode .aid-card__title,
 html.trailhead-mode .pacer-leg-card__title {
-  color: var(--surface-base);
+  color: var(--ink-primary);
 }
 
 html.trailhead-mode .site-header {
@@ -1791,7 +1803,7 @@ html.trailhead-mode .section-rule {
 
 html.trailhead-mode .command-center-wrap .btn--secondary,
 html.trailhead-mode .status-block__actions .btn--secondary {
-  color: var(--surface-base);
+  color: var(--ink-primary);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2024,6 +2036,7 @@ html.trailhead-mode .status-block__actions .btn--secondary {
   border: var(--border-hairline);
   border-radius: var(--radius-sm);
   background: var(--canvas);
+  color: var(--ink-primary);
   min-height: 2.75rem;
 }
 
@@ -2035,7 +2048,7 @@ textarea.update-input {
 .update-direct {
   margin: 0 0 var(--space-4);
   font-size: var(--text-body-sm);
-  color: var(--ink-muted);
+  color: var(--ink-secondary);
 }
 
 .update-direct a {
