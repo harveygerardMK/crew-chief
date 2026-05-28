@@ -2,6 +2,18 @@
 import site from "../../data/site.json";
 import { race } from "../lib/data";
 
+const startDate = new Date(`${race.start.date}T${race.start.time_local}:00`);
+const startMonthDay = startDate.toLocaleDateString("en-US", {
+  timeZone: race.start.timezone,
+  month: "short",
+  day: "numeric",
+});
+const startTime = startDate.toLocaleTimeString("en-US", {
+  timeZone: race.start.timezone,
+  hour: "numeric",
+  minute: "2-digit",
+}).replace(":00", "");
+
 const facts = [
   {
     label: "Distance",
@@ -20,8 +32,8 @@ const facts = [
   },
   {
     label: "Start",
-    value: "Jun 12",
-    unit: "9 AM",
+    value: startMonthDay,
+    unit: startTime,
   },
   {
     label: "Plan",

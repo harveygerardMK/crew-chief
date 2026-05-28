@@ -18,6 +18,9 @@ const boardRows = rows.map((r) => ({
       Check in aid arrivals and compare actual movement against the plan.
     </p>
     <p class="card__meta">{planSourceNote()} {firstHalfPrepNote()}</p>
+    <p>
+      <a class="btn btn--primary" href={`${base}next/`}>Next stop</a>
+    </p>
 
     <p class="board-legend" id="board-legend">
       <span class="board-status board-status--ahead">Ahead</span>
