@@ -2742,7 +2742,7 @@ body {
 .elevation-hero__mountain {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  margin-left: -50vw;
   width: 100vw;
   max-width: none;
   bottom: 0;
@@ -2757,12 +2757,46 @@ body {
   display: block;
 }
 
+.elevation-hero__markers line {
+  stroke: rgba(0, 31, 63, 0.55);
+  stroke-width: 1;
+}
+
+.elevation-hero__markers circle {
+  fill: var(--paper-warm);
+  stroke: rgba(0, 31, 63, 0.72);
+  stroke-width: 1.25;
+}
+
+.elevation-hero__markers text {
+  fill: rgba(0, 31, 63, 0.78);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-anchor: middle;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .elevation-hero--compact {
   min-height: 24rem;
 }
 
 .elevation-hero--compact .elevation-hero__mountain {
   height: 52%;
+}
+
+.page-stack .home-mission__grid {
+  grid-template-columns: 1fr;
+}
+
+.page-stack .home-mission__grid > * {
+  min-width: 0;
+}
+
+@media (min-width: 960px) {
+  .page-stack .home-mission__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .page-meta-band {
@@ -2835,6 +2869,10 @@ body {
   .page-meta-band,
   .page-priority-row {
     grid-template-columns: 1fr;
+  }
+
+  .elevation-hero__markers text {
+    display: none;
   }
 }
 

@@ -5,9 +5,15 @@ import LiveRaceUpdates from "../components/LiveRaceUpdates.astro";
 import CrewOps from "../components/CrewOps.astro";
 import RaceDataBand from "../components/RaceDataBand.astro";
 import site from "../../data/site.json";
-import { race } from "../lib/data";
+import { aidStations, race } from "../lib/data";
 
 const base = import.meta.env.BASE_URL;
+const heroAidStations = aidStations
+  .filter((station) => station.crew_access && station.mile > 0 && station.mile < race.distance_miles)
+  .map((station) => ({
+    ...station,
+    x: (station.mile / race.distance_miles) * 1200,
+  }));
 ---
 
 <BaseLayout title="Home">
@@ -42,6 +48,17 @@ const base = import.meta.env.BASE_URL;
         </defs>
         <path fill="url(#homeBack)" d="M0 320V138L18 98L30 126L42 88L54 160L74 210L110 226L138 116L156 90L174 184L198 244L224 256L248 170L270 176L292 126L316 216L336 148L360 90L378 102L396 60L416 66L438 148L462 112L484 80L510 210L538 190L566 192L592 120L614 72L638 86L666 162L688 58L710 126L736 96L760 52L786 194L812 162L834 48L856 66L886 140L912 208L940 224L962 172L982 158L1004 182L1028 106L1052 82L1074 200L1098 256L1120 208L1140 72L1164 98L1182 158L1200 110V320Z"></path>
         <path fill="url(#homeFront)" d="M0 320V170L24 126L48 164L72 94L98 198L122 228L152 240L178 128L198 100L222 200L246 254L272 264L296 186L316 190L344 138L370 224L390 168L418 114L438 126L464 80L492 88L514 166L542 126L564 92L590 218L616 202L642 204L668 132L694 84L718 100L744 176L768 72L792 136L818 108L842 62L870 200L896 166L920 56L946 74L978 148L1004 212L1030 232L1054 180L1078 166L1102 190L1128 114L1152 88L1176 208L1200 234V320Z"></path>
+        <g class="elevation-hero__markers">
+          {
+            heroAidStations.map((station) => (
+              <g transform={`translate(${station.x}, 118)`}>
+                <line x1="0" y1="0" x2="0" y2="16"></line>
+                <circle cx="0" cy="0" r="3"></circle>
+                <text x="0" y="-8">{station.name}</text>
+              </g>
+            ))
+          }
+        </g>
       </svg>
     </div>
   </section>
