@@ -3,7 +3,7 @@ export const PACE_KEY = "tahoe200-pace";
 export const DRIVE_KEY = "tahoe200-drive-min";
 export const PLAYBOOK_KEY = "tahoe200-playbook";
 export const GLOVE_KEY = "tahoe200-trailhead";
-import { readHeroProgressFromStorage } from "../lib/hero-progress";
+import { heroRunnerDisplayPercent, readHeroProgressFromStorage } from "../lib/hero-progress";
 
 export type PaceScenario = "optimistic" | "baseline" | "conservative";
 
@@ -288,7 +288,7 @@ export function initHeroProgress() {
 
   function render() {
     const progress = readHeroProgressFromStorage();
-    const safePercent = Math.min(99.5, Math.max(0.5, progress.percent));
+    const safePercent = heroRunnerDisplayPercent(progress.percent);
     const label = labelFor(progress.mile, progress.stationName);
 
     nodes.forEach((node) => {

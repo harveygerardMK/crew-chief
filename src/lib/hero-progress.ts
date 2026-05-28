@@ -11,6 +11,16 @@ export interface HeroProgressState {
   stationName: string | null;
 }
 
+/** Horizontal inset so the beacon (centered with translateX(-50%)) is not clipped at mile 0. */
+export const HERO_RUNNER_MIN_PERCENT = 3;
+export const HERO_RUNNER_MAX_PERCENT = 97;
+
+export function heroRunnerDisplayPercent(milePercent: number): number {
+  const clamped = clamp(milePercent, 0, 100);
+  const span = HERO_RUNNER_MAX_PERCENT - HERO_RUNNER_MIN_PERCENT;
+  return HERO_RUNNER_MIN_PERCENT + (clamped / 100) * span;
+}
+
 const aidMilesById = new Map<number, { mile: number; name: string }>(
   aidStations.map((station) => [station.n, { mile: station.mile, name: station.name }]),
 );
