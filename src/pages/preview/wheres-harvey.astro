@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WheresHarvey from "../../components/WheresHarvey.astro";
+
+const base = import.meta.env.BASE_URL;
+const mode = Astro.url.searchParams.get("mode") ?? "demo";
+
+/** Demo: sample stats without TrackLeaders. Live: poll the broadcast Worker /tracker. */
+const useMock = mode !== "live";
+
+/** ~32h into a 200-miler so song + elapsed-time logic has something to work with. */
+const previewRaceStart = new Date(Date.now() - 32 * 3_600_000).toISOString();
+const pageUrl = `${base}preview/wheres-harvey/`;
+---
+
+<BaseLayout
+  title="Where's Harvey preview"
+  description="Unlisted preview of the on-course Where's Harvey panel."
+  noindex
+>
+  <div class="container container--wide page-stack">
+    <header class="preview-page-head">
+      <h1>Where's Harvey? — preview</h1>
+      <p class="lead">
+        This page is not linked from the site. Bookmark it to check layout and behavior before race day.
+      </p>
+      <p class="card__meta preview-page-modes">
+        Data source:
+        <a href={`${pageUrl}?mode=demo`} aria-current={useMock ? "page" : undefined}>Demo stats</a>
+        ·
+        <a href={`${pageUrl}?mode=live`} aria-current={!useMock ? "page" : undefined}>Live worker</a>
+        ·
+        <a href={base}>Back to home</a>
+      </p>
+      {
+        useMock ? (
+          <p class="note-box note-box--compact">
+            <strong>Demo stats</strong> — sample mile, elevation, and beacon time. No TrackLeaders setup required.
+          </p>
+        ) : (
+          <p class="note-box note-box--compact">
+            <strong>Live worker</strong> — polls <code>/tracker</code>. Requires Worker secrets{" "}
+            <code>TRACKLEADERS_EVENT_SLUG</code> and <code>TRACKLEADERS_RUNNER_NAME</code> (see README). Until
+            then you may see “Tracker not configured.”
+          </p>
+        )
+      }
+    </header>
+
+    <section class="signal-band" aria-label="Where's Harvey preview">
+      <div class="container container--wide signal-band__inner">
+        <WheresHarvey preview mock={useMock} raceStartOverride={previewRaceStart} />
+      </div>
+    </section>
+  </div>
+</BaseLayout>

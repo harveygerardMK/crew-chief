@@ -4,11 +4,22 @@ export const DRIVE_KEY = "tahoe200-drive-min";
 export const PLAYBOOK_KEY = "tahoe200-playbook";
 export const GLOVE_KEY = "tahoe200-trailhead";
 import {
-  heroRunnerLeftPercent,
-  heroRunnerUsesPreview,
-  HERO_RUNNER_PREVIEW_BOTTOM_PERCENT,
+  hasHeroRunnerCheckIn,
+  heroMarkerLeftPercent,
   readHeroProgressFromStorage,
 } from "../lib/hero-progress";
+import { fetchTrackerSnapshot, formatRelativeAge, type TrackerSnapshot } from "../lib/tracker-client";
+import {
+  aidStationNearMile,
+  elevationAtMile,
+  formatPaceBucket,
+  getNextAidStation,
+  guessHeadSong,
+  milesRemaining,
+  weatherBucketFromCode,
+  weatherBucketFromTemp,
+  type WeatherBucket,
+} from "../lib/wheres-harvey";
 
 export type PaceScenario = "optimistic" | "baseline" | "conservative";
 
@@ -293,14 +304,19 @@ export function initHeroProgress() {
 
   function render() {
     const progress = readHeroProgressFromStorage();
-    const safePercent = heroRunnerLeftPercent(progress);
+    const checkedIn = hasHeroRunnerCheckIn(progress);
     const label = labelFor(progress.mile, progress.stationName);
 
     nodes.forEach((node) => {
-      node.style.left = `${safePercent}%`;
-      node.style.bottom = heroRunnerUsesPreview(progress)
-        ? `${HERO_RUNNER_PREVIEW_BOTTOM_PERCENT}%`
-        : "";
+      if (checkedIn) {
+        node.removeAttribute("data-hero-preview");
+        node.style.left = `${heroMarkerLeftPercent(progress.mile)}%`;
+        node.style.bottom = "20%";
+      } else {
+        node.setAttribute("data-hero-preview", "");
+        node.style.left = "";
+        node.style.bottom = "";
+      }
       node.setAttribute("aria-label", `Runner progress at ${label}`);
       const labelNode = node.querySelector<HTMLElement>("[data-hero-progress-label]");
       if (labelNode) labelNode.textContent = label;
@@ -309,4 +325,214 @@ export function initHeroProgress() {
 
   document.addEventListener("tahoe-checkin", render);
   render();
+}
+
+interface WeatherState {
+  bucket: WeatherBucket;
+  tempF: number | null;
+}
+
+let cachedWeather: WeatherState = { bucket: "unknown", tempF: null };
+let lastWeatherMile: number | null = null;
+let lastSongKey = "";
+
+export function initWheresHarvey() {
+  const root = document.querySelector<HTMLElement>("[data-wheres-harvey]");
+  if (!root) return;
+
+  const apiUrl = root.dataset.trackerApi;
+  const pollSeconds = Number(root.dataset.pollSeconds) || 60;
+  const raceStartIso = root.dataset.raceStart;
+  const useMock = root.dataset.whMock === "1";
+  if (!raceStartIso) return;
+  if (!useMock && !apiUrl) return;
+
+  const els = {
+    status: root.querySelector<HTMLElement>("[data-wh-status]"),
+    notice: root.querySelector<HTMLElement>("[data-wh-notice]"),
+    warn: root.querySelector<HTMLElement>("[data-wh-warn]"),
+    beacon: root.querySelector<HTMLElement>("[data-wh-beacon]"),
+    milesRun: root.querySelector<HTMLElement>("[data-wh-miles-run]"),
+    milesLeft: root.querySelector<HTMLElement>("[data-wh-miles-left]"),
+    nextAid: root.querySelector<HTMLElement>("[data-wh-next-aid]"),
+    elevation: root.querySelector<HTMLElement>("[data-wh-elevation]"),
+    song: root.querySelector<HTMLElement>("[data-wh-song]"),
+  };
+
+  let lastSnapshot: TrackerSnapshot | null = null;
+
+  function setHidden(el: HTMLElement | null, hidden: boolean) {
+    if (!el) return;
+    if (hidden) el.setAttribute("hidden", "");
+    else el.removeAttribute("hidden");
+  }
+
+  function formatMile(n: number): string {
+    return n.toFixed(1);
+  }
+
+  async function fetchWeather(mile: number) {
+    const mileBucket = Math.floor(mile / 10);
+    if (lastWeatherMile === mileBucket) return cachedWeather;
+
+    const coords = aidStationNearMile(mile);
+    if (!coords) return cachedWeather;
+
+    try {
+      const url = new URL("https://api.open-meteo.com/v1/forecast");
+      url.searchParams.set("latitude", String(coords.lat));
+      url.searchParams.set("longitude", String(coords.lng));
+      url.searchParams.set("current", "temperature_2m,weather_code");
+      url.searchParams.set("temperature_unit", "fahrenheit");
+      url.searchParams.set("timezone", "America/Los_Angeles");
+      url.searchParams.set("forecast_days", "1");
+
+      const res = await fetch(url.toString());
+      if (!res.ok) return cachedWeather;
+      const data = (await res.json()) as {
+        current?: { temperature_2m?: number; weather_code?: number };
+      };
+      const tempF = data.current?.temperature_2m ?? null;
+      const codeBucket = weatherBucketFromCode(data.current?.weather_code);
+      const tempBucket = weatherBucketFromTemp(tempF);
+      cachedWeather = {
+        bucket: tempBucket ?? codeBucket,
+        tempF,
+      };
+      lastWeatherMile = mileBucket;
+    } catch {
+      /* keep last weather */
+    }
+    return cachedWeather;
+  }
+
+  function syncHeroFromTracker(mile: number) {
+    const progress = readHeroProgressFromStorage();
+    if (hasHeroRunnerCheckIn(progress) && progress.mile > mile) return;
+
+    const nodes = [...document.querySelectorAll<HTMLElement>("[data-hero-progress]")];
+    const left = heroMarkerLeftPercent(mile);
+    const label = mile > 0.5 ? `Tracker · mi ${mile.toFixed(1)}` : `Start · mi 0`;
+
+    nodes.forEach((node) => {
+      node.removeAttribute("data-hero-preview");
+      node.style.left = `${left}%`;
+      node.style.bottom = "20%";
+      node.setAttribute("aria-label", `Runner progress at ${label}`);
+      const labelNode = node.querySelector<HTMLElement>("[data-hero-progress-label]");
+      if (labelNode) labelNode.textContent = label;
+    });
+  }
+
+  async function renderFromSnapshot(snapshot: TrackerSnapshot | null) {
+    const now = Date.now();
+    const raceStart = new Date(raceStartIso).getTime();
+    const elapsedHours = Number.isFinite(raceStart)
+      ? Math.max(0, (now - raceStart) / 3_600_000)
+      : 0;
+    const hour = new Date().getHours();
+
+    if (!snapshot?.enabled) {
+      setHidden(els.notice, false);
+      if (els.notice) els.notice.textContent = "Tracker not configured yet — check the full tracker link.";
+      if (snapshot?.error && els.warn) {
+        setHidden(els.warn, false);
+        els.warn.textContent = snapshot.error;
+      }
+      return;
+    }
+
+    const mile = snapshot.route_mile;
+    if (mile == null) {
+      setHidden(els.notice, false);
+      return;
+    }
+
+    setHidden(els.notice, true);
+
+    if (snapshot.stale) {
+      root.classList.add("wheres-harvey--stale");
+      setHidden(els.warn, false);
+      if (els.warn) {
+        els.warn.textContent =
+          "Beacon is quiet — gaps are normal in the backcountry. Don't panic; keep checking.";
+      }
+    } else {
+      root.classList.remove("wheres-harvey--stale");
+      setHidden(els.warn, true);
+    }
+
+    if (els.status) {
+      els.status.textContent =
+        snapshot.race_status === "finished" ? "FINISHED" : snapshot.stale ? "ON COURSE · STALE" : "ON COURSE";
+    }
+
+    const age = formatRelativeAge(snapshot.last_update_at, now);
+    if (els.beacon) {
+      els.beacon.textContent = age
+        ? `${age}${snapshot.last_update_label ? ` · ${snapshot.last_update_label}` : ""}`
+        : snapshot.last_update_label ?? "—";
+    }
+    if (els.milesRun) els.milesRun.textContent = formatMile(mile);
+    if (els.milesLeft) els.milesLeft.textContent = formatMile(milesRemaining(mile));
+
+    const nextAid = getNextAidStation(mile);
+    if (els.nextAid) {
+      els.nextAid.textContent = nextAid ? `${nextAid.name} · mi ${nextAid.mile}` : "Finish line";
+    }
+
+    const elev = snapshot.elevation_gain_ft ?? elevationAtMile(mile);
+    if (els.elevation) els.elevation.textContent = `${elev.toLocaleString()} ft`;
+
+    const weather = await fetchWeather(mile);
+    const paceBucket = formatPaceBucket(snapshot.current_speed_mph);
+    const songKey = `${Math.floor(mile / 5)}|${Math.floor(hour)}|${paceBucket}|${weather.bucket}`;
+    if (songKey !== lastSongKey && els.song) {
+      const song = guessHeadSong({
+        hour,
+        elapsedHours,
+        weather: weather.bucket,
+        paceBucket,
+        mile,
+      });
+      els.song.textContent = `"${song.title}" — ${song.artist}. ${song.rationale}`;
+      lastSongKey = songKey;
+    }
+
+    syncHeroFromTracker(mile);
+  }
+
+  function mockSnapshot(): TrackerSnapshot {
+    const now = Date.now();
+    const lastPing = new Date(now - 12 * 60_000);
+    return {
+      enabled: true,
+      fetched_at: new Date().toISOString(),
+      race_status: "active",
+      last_update_at: lastPing.toISOString(),
+      last_update_label: "12 min ago · Demo beacon",
+      route_mile: 62.4,
+      elevation_gain_ft: 18_420,
+      current_speed_mph: 4.2,
+      stale: false,
+      source_url: "",
+    };
+  }
+
+  async function poll() {
+    const snapshot = useMock ? mockSnapshot() : apiUrl ? await fetchTrackerSnapshot(apiUrl) : null;
+    if (snapshot) {
+      lastSnapshot = snapshot;
+      await renderFromSnapshot(snapshot);
+    } else if (lastSnapshot) {
+      setHidden(els.warn, false);
+      if (els.warn) els.warn.textContent = "Tracker unreachable — check the full tracker link.";
+      await renderFromSnapshot(lastSnapshot);
+    } else {
+      setHidden(els.notice, false);
+    }
+  }
+
+  poll();
+  window.setInterval(poll, pollSeconds * 1000);
 }

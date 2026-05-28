@@ -1,0 +1,105 @@
+---
+import { race, status } from "../lib/data";
+import { RACE_START_ISO } from "../lib/tahoe-plan";
+
+interface Props {
+  /** Preview page only — shows setup banner, hides status.message */
+  preview?: boolean;
+  /** Use demo tracker stats (no Worker / TrackLeaders required) */
+  mock?: boolean;
+  /** Override race start for elapsed-time / song (preview) */
+  raceStartOverride?: string;
+}
+
+const { preview = false, mock = false, raceStartOverride } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const trackingUrl = status.live_tracking_url ?? race.live_tracking_url_placeholder;
+const trackerApiUrl =
+  import.meta.env.PUBLIC_TRACKER_API_URL ??
+  "https://crew-chief-broadcast.harvey-schaefer.workers.dev/tracker";
+const pollSeconds = race.tracking?.poll_interval_seconds ?? 60;
+const raceStart = raceStartOverride ?? RACE_START_ISO;
+---
+
+<section
+  class="status-block wheres-harvey card-surface status-block--on-course critical-now"
+  data-wheres-harvey
+  data-tracker-api={trackerApiUrl}
+  data-poll-seconds={String(pollSeconds)}
+  data-race-start={raceStart}
+  data-race-timezone={race.start.timezone}
+  data-distance-miles={String(race.distance_miles)}
+  data-wh-mock={mock ? "1" : undefined}
+  aria-live="polite"
+  aria-labelledby="wheres-harvey-title"
+>
+  {
+    preview && (
+      <p class="wheres-harvey-preview-banner" role="note">
+        Unlisted preview — not in the site menu. On race day, set <code>status.json</code> phase to{" "}
+        <code>on-course</code>; this panel replaces T-minus on Home and Follow.
+      </p>
+    )
+  }
+
+  <header class="card-surface__header">
+    <p class="card-surface__eyebrow">Where's Harvey?</p>
+  </header>
+
+  <p id="wheres-harvey-title" class="status-block__primary card-surface__title">
+    <span class="status-block__pulse" aria-hidden="true"></span>
+    <span data-wh-status>ON COURSE</span>
+  </p>
+
+  <p class="wheres-harvey__notice card-surface__meta" data-wh-notice>
+    Waiting for first beacon…
+  </p>
+  <p class="wheres-harvey__notice card-surface__meta wheres-harvey__notice--warn" data-wh-warn hidden></p>
+
+  <dl class="wheres-harvey__grid">
+    <div class="wheres-harvey__stat">
+      <dt>Last beacon ping</dt>
+      <dd class="wheres-harvey__stat-value" data-wh-beacon>—</dd>
+    </div>
+    <div class="wheres-harvey__stat">
+      <dt>Miles run</dt>
+      <dd class="wheres-harvey__stat-value" data-wh-miles-run>—</dd>
+    </div>
+    <div class="wheres-harvey__stat">
+      <dt>Miles remaining</dt>
+      <dd class="wheres-harvey__stat-value" data-wh-miles-left>—</dd>
+    </div>
+    <div class="wheres-harvey__stat">
+      <dt>Next aid station</dt>
+      <dd class="wheres-harvey__stat-value" data-wh-next-aid>—</dd>
+    </div>
+    <div class="wheres-harvey__stat">
+      <dt>Elevation climbed</dt>
+      <dd class="wheres-harvey__stat-value" data-wh-elevation>—</dd>
+    </div>
+    <div class="wheres-harvey__stat wheres-harvey__stat--song">
+      <dt>Song in my head</dt>
+      <dd class="wheres-harvey__song" data-wh-song>Checking the mental playlist…</dd>
+    </div>
+  </dl>
+
+  {status.message && !preview && <p class="status-block__secondary">{status.message}</p>}
+
+  <div class="card-surface__actions status-block__actions">
+    <a class="btn btn--critical" href={`${base}next/`}>Next stop</a>
+    <a class="btn btn--secondary" href={`${base}board/`}>Race board</a>
+    {
+      trackingUrl && (
+        <a class="btn btn--secondary" href={trackingUrl} target="_blank" rel="noopener noreferrer">
+          Full tracker
+        </a>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  import { initWheresHarvey } from "../scripts/tahoe-app";
+  initWheresHarvey();
+</script>

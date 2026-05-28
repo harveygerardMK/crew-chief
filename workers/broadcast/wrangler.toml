@@ -6,3 +6,6 @@ compatibility_date = "2025-04-01"
 GITHUB_OWNER = "harveygerardMK"
 GITHUB_REPO = "crew-chief"
 GITHUB_BRANCH = "main"
+# Set at deploy when TrackLeaders goes live (race week):
+# TRACKLEADERS_EVENT_SLUG = "tahoe20026"
+# TRACKLEADERS_RUNNER_NAME = "Harvey_Schaefer"

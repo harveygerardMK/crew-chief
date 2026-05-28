@@ -2,9 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCrewStopPayload, planSourceNote, site } from "../lib/tahoe-plan";
 import { aidStations, race } from "../lib/data";
-import { heroMarkerLeftPercent, HERO_RUNNER_PREVIEW_MILE } from "../lib/hero-progress";
-
-const heroRunnerPreviewLeft = heroMarkerLeftPercent(HERO_RUNNER_PREVIEW_MILE);
 
 const base = import.meta.env.BASE_URL;
 const crewPayload = getCrewStopPayload();
@@ -75,9 +72,9 @@ const heroAidStations = aidStations
     <div
       class="elevation-hero__runner"
       data-hero-progress
+      data-hero-preview
       role="img"
       aria-label="Runner progress at mile 0"
-      style={`left: ${heroRunnerPreviewLeft}%`}
     >
       <span class="elevation-hero__runner-icon" aria-hidden="true">H</span>
       <span class="elevation-hero__runner-label" data-hero-progress-label>Start · mi 0</span>

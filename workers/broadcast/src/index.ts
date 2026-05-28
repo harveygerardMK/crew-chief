@@ -2,8 +2,9 @@ import { appendBroadcastUpdate, type RaceBroadcastEntry } from "./broadcast-stor
 import { getFileJson, getFileSha, putFile, toBase64, type GitHubEnv } from "./github";
 import { MAX_PHOTO_BYTES, MAX_PHOTOS, prepareBroadcastFields, validateBroadcastFields } from "./validate";
 import { UPDATE_PAGE_HTML } from "./update-page";
+import { getTrackerSnapshot, type TrackLeadersEnv } from "./trackleaders";
 
-export interface Env extends GitHubEnv {}
+export interface Env extends GitHubEnv, TrackLeadersEnv {}
 
 const ALLOWED_ORIGINS = ["https://harveygerardmk.github.io", "http://localhost:4321"];
 
@@ -45,6 +46,14 @@ export default {
 
       if (request.method === "POST" && path === "/broadcast") {
         return await handleBroadcast(request, env, cors);
+      }
+
+      if (request.method === "GET" && path === "/tracker") {
+        const snapshot = await getTrackerSnapshot(env);
+        return json(snapshot, 200, {
+          ...cors,
+          "Cache-Control": "public, max-age=30",
+        });
       }
 
       return json({ ok: false, message: "Not found." }, 404, cors);

@@ -1,71 +1,42 @@
 ---
 import { race, status } from "../lib/data";
 import { getCountdown, getRacePhase } from "../lib/dates";
-import {
-  formatPlanTimeShort,
-  getNextPlannedCrewStop,
-  plannedArrivalDate,
-} from "../lib/tahoe-plan";
+import WheresHarvey from "./WheresHarvey.astro";
 
-const base = import.meta.env.BASE_URL;
 const phase = status.phase === "pre-race" && getRacePhase() === "on-course" ? "on-course" : status.phase;
 const countdown = phase === "pre-race" ? getCountdown() : null;
-const nextCrew = phase === "on-course" ? getNextPlannedCrewStop(status.last_seen_station) : null;
-const nextEta =
-  nextCrew ? formatPlanTimeShort(plannedArrivalDate(nextCrew.mile, "baseline")) : null;
 ---
 
-<section
-  class:list={[
-    "status-block",
-    "card-surface",
-    `status-block--${phase}`,
-    phase === "on-course" && "critical-now",
-  ]}
-  aria-live="polite"
-  aria-labelledby="status-primary"
->
-  <header class="card-surface__header">
-    <p class="card-surface__eyebrow">Race status</p>
-  </header>
-  {
-    phase === "pre-race" ? (
-      <>
-        <p id="status-primary" class="status-block__primary card-surface__title">
-          {(countdown ?? "Race week").toUpperCase()}
-        </p>
-        <p class="status-block__detail card-surface__meta">June 12 · 9:00 AM PDT</p>
-        <p class="status-block__detail card-surface__meta">{race.start.location}</p>
-        {status.message && <p class="status-block__secondary">{status.message}</p>}
-      </>
-    ) : phase === "on-course" ? (
-      <>
-        <p id="status-primary" class="status-block__primary card-surface__title">
-          <span class="status-block__pulse" aria-hidden="true" />
-          ON COURSE
-        </p>
-        <p class="status-block__detail card-surface__meta">
-          {status.last_seen_station ? `Last seen: ${status.last_seen_station}` : "On course"}
-        </p>
-        {status.last_seen_time && <p class="status-block__detail card-surface__meta">{status.last_seen_time}</p>}
-        {
-          nextCrew && nextEta && (
-            <p class="status-block__detail card-surface__meta">
-              Next crew: {nextCrew.name} (mile {nextCrew.mile}) · plan ~{nextEta}
-            </p>
-          )
-        }
-        {status.message && <p class="status-block__secondary">{status.message}</p>}
-        <div class="card-surface__actions status-block__actions">
-          <a class="btn btn--critical" href={`${base}next/`}>Next stop</a>
-          <a class="btn btn--secondary" href={`${base}board/`}>Race board</a>
-        </div>
-      </>
-    ) : (
-      <>
-        <p id="status-primary" class="status-block__primary card-surface__title">RACE COMPLETE</p>
-        {status.message && <p class="status-block__secondary">{status.message}</p>}
-      </>
-    )
-  }
-</section>
+{
+  phase === "pre-race" ? (
+    <section
+      class:list={["status-block", "card-surface", "status-block--pre-race"]}
+      aria-live="polite"
+      aria-labelledby="status-primary"
+    >
+      <header class="card-surface__header">
+        <p class="card-surface__eyebrow">Race status</p>
+      </header>
+      <p id="status-primary" class="status-block__primary card-surface__title">
+        {(countdown ?? "Race week").toUpperCase()}
+      </p>
+      <p class="status-block__detail card-surface__meta">June 12 · 9:00 AM PDT</p>
+      <p class="status-block__detail card-surface__meta">{race.start.location}</p>
+      {status.message && <p class="status-block__secondary">{status.message}</p>}
+    </section>
+  ) : phase === "on-course" ? (
+    <WheresHarvey />
+  ) : (
+    <section
+      class:list={["status-block", "card-surface", "status-block--finished"]}
+      aria-live="polite"
+      aria-labelledby="status-primary"
+    >
+      <header class="card-surface__header">
+        <p class="card-surface__eyebrow">Race status</p>
+      </header>
+      <p id="status-primary" class="status-block__primary card-surface__title">RACE COMPLETE</p>
+      {status.message && <p class="status-block__secondary">{status.message}</p>}
+    </section>
+  )
+}

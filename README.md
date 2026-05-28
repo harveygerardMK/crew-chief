@@ -82,6 +82,32 @@ Before race week, the home page also shows an automatic countdown to the start (
 
 The official Tahoe 200 tracker goes live closer to race day at [destinationtrailrun.com/tahoe](https://www.destinationtrailrun.com/tahoe). Set `live_tracking_url` in `status.json` when the link is active.
 
+### Where's Harvey? (on-course module)
+
+When the race is on-course, the home page and Follow page show a **Where's Harvey?** panel instead of the T-minus countdown. It polls TrackLeaders every ~60 seconds via the broadcast Worker and shows:
+
+- Last beacon ping, miles run / remaining, next aid station, elevation climbed
+- A whimsical "song in my head" guess (time, weather, pace — no API)
+
+**Race-week setup:**
+
+1. Find Harvey's TrackLeaders event slug and SPOT display name on the live map sidebar (same system as [Cocodona tracking](https://trackleaders.com/cocodona26f.php)).
+2. Set Worker vars and redeploy:
+   ```bash
+   cd workers/broadcast
+   npx wrangler secret put TRACKLEADERS_EVENT_SLUG   # e.g. tahoe20026
+   npx wrangler secret put TRACKLEADERS_RUNNER_NAME  # exact sidebar name, spaces → underscores in URL
+   npx wrangler deploy
+   ```
+3. Verify: `curl https://crew-chief-broadcast.harvey-schaefer.workers.dev/tracker`
+4. Set `status.json` → `"phase": "on-course"` and `live_tracking_url` to the public map URL.
+
+Optional site env var `PUBLIC_TRACKER_API_URL` overrides the default Worker `/tracker` URL (for local dev).
+
+**Preview (unlisted):** [Where's Harvey preview](https://harveygerardMK.github.io/crew-chief/preview/wheres-harvey/) — `noindex`, not in nav. Default **Demo stats** needs no TrackLeaders setup; switch to **Live worker** to test `/tracker` before race day.
+
+To test the parser before Tahoe goes live, point the Worker at a known event (e.g. `copper26` / `Trailbreaker_1`).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

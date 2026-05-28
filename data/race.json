@@ -38,6 +38,12 @@
   },
   "runner": "Harvey Schaefer",
   "live_tracking_url_placeholder": "https://www.destinationtrailrun.com/tahoe",
+  "tracking": {
+    "provider": "trackleaders",
+    "event_slug": null,
+    "runner_name": "Harvey Schaefer",
+    "poll_interval_seconds": 60
+  },
   "course_map_url": "https://caltopo.com/m/9G4NM",
   "official_url": "https://www.destinationtrailrun.com/tahoe",
   "source": "Tahoe 200 2026 Runner Manual"

@@ -15,15 +15,9 @@ export interface HeroProgressState {
 export const HERO_RUNNER_MIN_PERCENT = 3;
 export const HERO_RUNNER_MAX_PERCENT = 97;
 
-export function heroRunnerDisplayPercent(milePercent: number): number {
-  const clamped = clamp(milePercent, 0, 100);
-  const span = HERO_RUNNER_MAX_PERCENT - HERO_RUNNER_MIN_PERCENT;
-  return HERO_RUNNER_MIN_PERCENT + (clamped / 100) * span;
-}
-
-/** ~10% of route — early profile dip (SVG x≈122 / 1200), inset enough to stay visible. */
-export const HERO_RUNNER_PREVIEW_MILE = 20;
-export const HERO_RUNNER_PREVIEW_BOTTOM_PERCENT = 22;
+/** Start preview: early topo dip ~10% across the profile (SVG x≈120 / 1200). */
+export const HERO_RUNNER_PREVIEW_LEFT_PERCENT = 10;
+export const HERO_RUNNER_PREVIEW_BOTTOM_PERCENT = 17;
 
 /** Same horizontal scale as `.elevation-hero__marker` (mile / race distance). */
 export function heroMarkerLeftPercent(mile: number): number {
@@ -33,15 +27,8 @@ export function heroMarkerLeftPercent(mile: number): number {
   return raw;
 }
 
-export function heroRunnerLeftPercent(progress: HeroProgressState): number {
-  if (progress.stationName == null) {
-    return heroMarkerLeftPercent(HERO_RUNNER_PREVIEW_MILE);
-  }
-  return heroMarkerLeftPercent(progress.mile);
-}
-
-export function heroRunnerUsesPreview(progress: HeroProgressState): boolean {
-  return progress.stationName == null;
+export function hasHeroRunnerCheckIn(progress: HeroProgressState): boolean {
+  return progress.stationName != null && progress.mile > 0;
 }
 
 const aidMilesById = new Map<number, { mile: number; name: string }>(
@@ -76,7 +63,6 @@ export function resolveHeroProgress(checkIns: CheckInsLike): HeroProgressState {
     }
   }
 
-  // Guardrail: if aid id is unknown/malformed, clamp to start.
   if (latestAidId == null || !aidMilesById.has(latestAidId)) {
     return { mile: 0, percent: 0, stationName: null };
   }
