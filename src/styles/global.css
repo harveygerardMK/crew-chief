@@ -737,6 +737,11 @@ td {
   background: var(--surface-deep);
 }
 
+.site-meta--compact {
+  max-width: 62rem;
+  margin: var(--space-4) 0 var(--space-6);
+}
+
 .note-box {
   background: var(--canvas);
   border: 1px solid var(--hairline);
