@@ -1,7 +1,7 @@
 /* Crew Chief - Alpine paper palette tokens */
 :root {
-  --surface-base: #fefed0; /* Rayon */
-  --surface-raised: #fff9e8;
+  --surface-base: #f3f5f7;
+  --surface-raised: #fafbfc;
   --surface-deep: #232830; /* Roche */
 
   --ink-primary: #232830; /* Roche */
@@ -14,10 +14,10 @@
   --accent-warning: #ffb133;
   --accent-success: #a3d9e2; /* Ciel */
   --accent-lime: #a3d9e2;
-  --accent-peach: #fefed0; /* Rayon */
+  --accent-peach: #f3f5f7;
   --accent-blue: #485978; /* Sommet */
   --accent-orange: #ffb133;
-  --paper-warm: #fefed0;
+  --paper-warm: #f3f5f7;
   --stone-warm: #a3d9e2;
 
   --link: #485978;
@@ -74,7 +74,7 @@
   /* Legacy aliases used across existing CSS */
   --canvas: var(--surface-base);
   --surface: var(--surface-raised);
-  --surface-soft: #f6f6dc;
+  --surface-soft: #eef2f5;
   --ink: var(--ink-primary);
   --charcoal: var(--ink-primary);
   --slate: var(--ink-secondary);
