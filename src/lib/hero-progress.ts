@@ -21,6 +21,16 @@ export function heroRunnerDisplayPercent(milePercent: number): number {
   return HERO_RUNNER_MIN_PERCENT + (clamped / 100) * span;
 }
 
+/** Hero SVG front-path valley on the right (~78% across profile) when no check-ins yet. */
+export const HERO_RUNNER_PREVIEW_LEFT_PERCENT = 78;
+
+export function heroRunnerLeftPercent(progress: HeroProgressState): number {
+  if (progress.stationName == null && progress.mile === 0) {
+    return HERO_RUNNER_PREVIEW_LEFT_PERCENT;
+  }
+  return heroRunnerDisplayPercent(progress.percent);
+}
+
 const aidMilesById = new Map<number, { mile: number; name: string }>(
   aidStations.map((station) => [station.n, { mile: station.mile, name: station.name }]),
 );
