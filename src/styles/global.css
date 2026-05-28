@@ -88,6 +88,27 @@ a:hover {
   box-shadow: var(--focus-ring);
 }
 
+.skip-link {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent-primary);
+  color: var(--surface-deep);
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--space-4)));
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+main:focus {
+  outline: none;
+}
+
 button:focus-visible,
 .btn:focus-visible,
 .filter-bar button:focus-visible,
@@ -740,6 +761,14 @@ td {
 .site-meta--compact {
   max-width: 62rem;
   margin: var(--space-4) 0 var(--space-6);
+}
+
+.priority-action {
+  display: inline-flex;
+  margin: var(--space-3) 0 var(--space-4);
+  padding: var(--space-2);
+  background: rgba(211, 116, 58, 0.12);
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 55%, transparent);
 }
 
 .note-box {
@@ -2053,6 +2082,75 @@ html.trailhead-mode .status-block__actions .btn--secondary {
 }
 
 @media (max-width: 640px) {
+  .site-header__inner {
+    align-items: flex-start;
+  }
+
+  .site-nav {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-1);
+  }
+
+  .site-nav__rule {
+    display: none;
+  }
+
+  .site-nav__link {
+    justify-content: center;
+    min-height: 3rem;
+    padding-inline: var(--space-1);
+    border: 1px solid var(--hairline-soft);
+    font-size: var(--text-meta);
+  }
+
+  .container {
+    width: min(100% - var(--space-4), var(--container-base));
+    padding-inline: 0;
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 16vw, 4.25rem);
+  }
+
+  .home-hero {
+    margin-inline: calc(-1 * var(--space-2));
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .home-hero::before {
+    right: -12rem;
+    width: 26rem;
+    height: 16rem;
+  }
+
+  .home-hero__aside {
+    text-align: left;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    min-height: 3rem;
+  }
+
+  .priority-action {
+    width: 100%;
+    display: flex;
+  }
+
+  .crew-ops__action {
+    min-height: 5.25rem;
+  }
+
+  .table-wrap--sticky {
+    display: none;
+  }
+
+  .board-cards-mobile {
+    display: block;
+  }
 
   .board-table th:nth-child(4),
   .board-table td:nth-child(4),
