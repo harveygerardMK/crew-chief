@@ -1,24 +1,24 @@
-/* Crew Chief — field manual design tokens (design-spec.md) */
+/* Crew Chief - Sierra signal room design tokens */
 :root {
-  --surface-base: #f2ede3;
-  --surface-raised: #e8e1d3;
-  --surface-deep: #1b2a2e;
+  --surface-base: #0f1719;
+  --surface-raised: #172529;
+  --surface-deep: #081012;
 
-  --ink-primary: #1b2a2e;
-  --ink-secondary: #4a5a5f;
-  --ink-tertiary: #7a8a8f;
-  --ink-muted: #7a8a8f;
-  --ink-divider: #c9c0ae;
+  --ink-primary: #edf1ea;
+  --ink-secondary: #b8c5bf;
+  --ink-tertiary: #8ea19f;
+  --ink-muted: #718581;
+  --ink-divider: #31494e;
 
-  --accent-primary: #b5451f;
-  --accent-warning: #c48b1f;
-  --accent-success: #4a6b3a;
+  --accent-primary: #d3743a;
+  --accent-warning: #d8a84d;
+  --accent-success: #7fa36d;
 
-  --link: #1b2a2e;
-  --link-hover: #b5451f;
-  --focus-ring: 0 0 0 2px #b5451f;
+  --link: #edf1ea;
+  --link-hover: #f19a5f;
+  --focus-ring: 0 0 0 2px #f19a5f, 0 0 0 5px rgba(211, 116, 58, 0.24);
 
-  --font-display: "Fraunces", "Source Serif 4", Georgia, serif;
+  --font-display: "Barlow Condensed", "IBM Plex Sans Condensed", "Arial Narrow", var(--font-body);
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 
@@ -31,7 +31,7 @@
   --text-h3: 1.5rem;
   --text-h2: 2rem;
   --text-h1: 2.5rem;
-  --text-display: 3.5rem;
+  --text-display: 3.75rem;
   --text-stat: 3rem;
 
   --space-1: 0.25rem;
@@ -48,16 +48,20 @@
   --container-base: 48rem;
   --container-wide: 64rem;
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
   --radius-full: 9999px;
   --border-hairline: 1px solid var(--ink-divider);
+
+  --signal-gradient: linear-gradient(130deg, #213936 0%, #405f54 46%, #d3743a 100%);
+  --signal-gradient-soft: linear-gradient(135deg, rgba(33, 57, 54, 0.86), rgba(211, 116, 58, 0.22));
+  --route-texture: repeating-linear-gradient(145deg, transparent 0 13px, rgba(237, 241, 234, 0.08) 14px 15px);
 
   /* Legacy aliases used across existing CSS */
   --canvas: var(--surface-base);
   --surface: var(--surface-raised);
-  --surface-soft: var(--surface-base);
+  --surface-soft: #121d20;
   --ink: var(--ink-primary);
   --charcoal: var(--ink-primary);
   --slate: var(--ink-secondary);
@@ -65,14 +69,14 @@
   --stone: var(--ink-tertiary);
   --muted: var(--ink-tertiary);
   --hairline: var(--ink-divider);
-  --hairline-soft: var(--ink-divider);
+  --hairline-soft: rgba(142, 161, 159, 0.28);
   --mint: var(--accent-primary);
-  --mint-deep: #8f3819;
+  --mint-deep: #f19a5f;
   --mint-soft: var(--accent-warning);
   --hero-dark-from: var(--surface-deep);
-  --hero-dark-to: var(--surface-deep);
-  --hero-sky-from: var(--ink-tertiary);
-  --hero-sky-to: var(--ink-divider);
+  --hero-dark-to: var(--surface-raised);
+  --hero-sky-from: #405f54;
+  --hero-sky-to: var(--accent-primary);
   --sans: var(--font-body);
   --mono: var(--font-mono);
   --shadow-card: none;
