@@ -1,28 +1,28 @@
-/* Crew Chief - Park elevation theme tokens */
+/* Crew Chief - Alpine paper palette tokens */
 :root {
-  --surface-base: #ffffff;
-  --surface-raised: #dfffde;
-  --surface-deep: #012b3a;
+  --surface-base: #fefed0; /* Rayon */
+  --surface-raised: #fff9e8;
+  --surface-deep: #232830; /* Roche */
 
-  --ink-primary: #012b3a;
-  --ink-secondary: #004963;
-  --ink-tertiary: #007978;
-  --ink-muted: #00a68a;
-  --ink-divider: rgba(1, 43, 58, 0.24);
+  --ink-primary: #232830; /* Roche */
+  --ink-secondary: #485978; /* Sommet */
+  --ink-tertiary: #5f7190;
+  --ink-muted: #6f7f99;
+  --ink-divider: rgba(35, 40, 48, 0.22);
 
-  --accent-primary: #ff4c46;
-  --accent-warning: #87f8ae;
-  --accent-success: #42d49c;
-  --accent-lime: #87f8ae;
-  --accent-peach: #b2ffc6;
-  --accent-blue: #004963;
-  --accent-orange: #ff4c46;
-  --paper-warm: #ffffff;
-  --stone-warm: #b2ffc6;
+  --accent-primary: #ffb133; /* Chemin */
+  --accent-warning: #ffb133;
+  --accent-success: #a3d9e2; /* Ciel */
+  --accent-lime: #a3d9e2;
+  --accent-peach: #fefed0; /* Rayon */
+  --accent-blue: #485978; /* Sommet */
+  --accent-orange: #ffb133;
+  --paper-warm: #fefed0;
+  --stone-warm: #a3d9e2;
 
-  --link: #012b3a;
-  --link-hover: #00a68a;
-  --focus-ring: 0 0 0 2px #004963, 0 0 0 5px rgba(0, 73, 99, 0.24);
+  --link: #485978;
+  --link-hover: #ffb133;
+  --focus-ring: 0 0 0 2px #485978, 0 0 0 5px rgba(72, 89, 120, 0.26);
 
   --font-display: "Barlow Condensed", "IBM Plex Sans Condensed", "Arial Narrow", var(--font-body);
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
@@ -60,16 +60,21 @@
   --radius-full: 9999px;
   --border-hairline: 1px solid var(--ink-divider);
 
-  --signal-gradient: linear-gradient(140deg, #004963 0%, #00a68a 54%, #87f8ae 100%);
-  --signal-gradient-soft: linear-gradient(135deg, rgba(0, 73, 99, 0.2), rgba(66, 212, 156, 0.26));
-  --entry-strip: linear-gradient(90deg, #012b3a 0 34%, #004963 34% 62%, #87f8ae 62% 100%);
+  --signal-gradient: linear-gradient(140deg, #a3d9e2 0%, #485978 56%, #232830 100%);
+  --signal-gradient-soft: linear-gradient(135deg, rgba(163, 217, 226, 0.26), rgba(72, 89, 120, 0.24));
+  --entry-strip: linear-gradient(90deg, #232830 0 34%, #485978 34% 62%, #ffb133 62% 100%);
   --barcode-texture: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px, currentColor 7px 10px, transparent 10px 14px);
-  --route-texture: repeating-linear-gradient(145deg, transparent 0 13px, rgba(1, 43, 58, 0.06) 14px 15px);
+  --route-texture: repeating-linear-gradient(145deg, transparent 0 13px, rgba(35, 40, 48, 0.07) 14px 15px);
+
+  --mountain-back-top: color-mix(in srgb, var(--accent-blue) 72%, white 28%);
+  --mountain-back-bottom: color-mix(in srgb, var(--accent-blue) 88%, var(--surface-deep) 12%);
+  --mountain-front-top: color-mix(in srgb, var(--accent-success) 55%, var(--accent-blue) 45%);
+  --mountain-front-bottom: color-mix(in srgb, var(--accent-blue) 70%, var(--surface-deep) 30%);
 
   /* Legacy aliases used across existing CSS */
   --canvas: var(--surface-base);
   --surface: var(--surface-raised);
-  --surface-soft: #f4fff2;
+  --surface-soft: #f6f6dc;
   --ink: var(--ink-primary);
   --charcoal: var(--ink-primary);
   --slate: var(--ink-secondary);
@@ -77,7 +82,7 @@
   --stone: var(--ink-tertiary);
   --muted: var(--ink-tertiary);
   --hairline: var(--ink-divider);
-  --hairline-soft: rgba(1, 43, 58, 0.12);
+  --hairline-soft: rgba(35, 40, 48, 0.12);
   --mint: var(--accent-lime);
   --mint-deep: var(--accent-peach);
   --mint-soft: var(--accent-blue);

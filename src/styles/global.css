@@ -2670,7 +2670,7 @@ body {
 }
 
 .site-header {
-  background: rgba(246, 247, 237, 0.92);
+  background: color-mix(in srgb, var(--paper-warm) 92%, white 8%);
 }
 
 .site-nav__link,
@@ -2689,7 +2689,7 @@ body {
 }
 
 .btn--secondary {
-  background: rgba(255, 255, 255, 0.6);
+  background: color-mix(in srgb, var(--surface-base) 82%, white 18%);
   color: var(--ink-primary);
   border-color: var(--ink-divider);
 }
@@ -2702,7 +2702,7 @@ body {
 .command-center,
 .board-card,
 .more-panel {
-  background: rgba(255, 255, 255, 0.45);
+  background: color-mix(in srgb, var(--surface-base) 72%, white 28%);
 }
 
 .aid-card,
@@ -2751,9 +2751,13 @@ body {
   border-top: var(--border-hairline);
   border-bottom: var(--border-hairline);
   background:
-    linear-gradient(to right, rgba(0, 31, 63, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 31, 63, 0.06) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.14));
+    linear-gradient(to right, color-mix(in srgb, var(--ink-primary) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink-primary) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--paper-warm) 76%, white 24%),
+      color-mix(in srgb, var(--paper-warm) 60%, var(--surface-base) 40%)
+    );
   background-size: 10rem 10rem, 10rem 10rem, auto;
 }
 
@@ -2835,7 +2839,7 @@ body {
   align-items: center;
   gap: 0.05rem;
   padding: 0.25rem 0.45rem;
-  background: rgba(255, 255, 255, 0.78);
+  background: color-mix(in srgb, var(--paper-warm) 84%, white 16%);
   border: 1px solid var(--ink-divider);
   font-family: var(--font-mono);
   font-size: 0.62rem;
