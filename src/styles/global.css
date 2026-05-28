@@ -21,7 +21,6 @@ body {
   background:
     radial-gradient(circle at 12% 0%, rgba(101, 116, 146, 0.25), transparent 34rem),
     radial-gradient(circle at 88% 6rem, rgba(233, 174, 150, 0.16), transparent 30rem),
-    var(--route-texture),
     var(--surface-base);
   -webkit-font-smoothing: antialiased;
 }
@@ -189,7 +188,7 @@ iframe {
 }
 
 .site-logo__dot {
-  color: var(--accent-primary);
+  color: var(--accent-lime);
 }
 
 .site-logo__race {
@@ -223,7 +222,7 @@ iframe {
   color: var(--ink-primary);
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: var(--accent-primary);
+  text-decoration-color: var(--accent-lime);
   text-decoration-thickness: 2px;
   text-underline-offset: var(--space-2);
 }
@@ -315,8 +314,7 @@ main {
 
 .status-block {
   background:
-    linear-gradient(135deg, rgba(23, 37, 41, 0.94), rgba(8, 16, 18, 0.96)),
-    var(--route-texture);
+    linear-gradient(135deg, rgba(29, 30, 33, 0.96), rgba(7, 8, 10, 0.98));
   color: var(--ink-primary);
   border-radius: var(--radius-sm);
   padding: var(--space-5);
@@ -327,11 +325,11 @@ main {
 }
 
 .status-block--pre-race {
-  border-left: 4px solid var(--accent-primary);
+  border-left: 4px solid var(--accent-blue);
 }
 
 .status-block--on-course {
-  border-left: 4px solid var(--accent-primary);
+  border-left: 4px solid var(--accent-lime);
 }
 
 .status-block--finished {
@@ -355,7 +353,7 @@ main {
   width: 0.55rem;
   height: 0.55rem;
   border-radius: var(--radius-full);
-  background: var(--accent-primary);
+  background: var(--accent-lime);
   flex-shrink: 0;
   animation: status-pulse 2s ease-in-out infinite;
 }
@@ -464,8 +462,8 @@ main {
 
 .btn--secondary:hover {
   color: var(--link-hover);
-  border-color: var(--accent-primary);
-  background: rgba(211, 116, 58, 0.08);
+  border-color: var(--accent-peach);
+  background: rgba(233, 174, 150, 0.08);
 }
 
 .card {
@@ -698,7 +696,7 @@ td {
   font-size: var(--text-stat);
   font-weight: 800;
   line-height: 0.95;
-  color: var(--accent-primary);
+  color: var(--paper-warm);
   letter-spacing: -0.035em;
 }
 
@@ -774,7 +772,7 @@ td {
 .note-box {
   background: var(--canvas);
   border: 1px solid var(--hairline);
-  border-left: 3px solid var(--mint);
+  border-left: 3px solid var(--accent-peach);
   border-radius: var(--radius-md);
   padding: 0.85rem 1rem;
   margin: 1rem 0;
@@ -825,7 +823,7 @@ td {
 
 .quick-links a::after {
   content: "→";
-  color: var(--accent-primary);
+  color: var(--accent-lime);
   font-size: 0.85em;
 }
 
@@ -839,7 +837,7 @@ td {
   background:
     radial-gradient(circle at 14% 18%, rgba(101, 116, 146, 0.34), transparent 28rem),
     radial-gradient(circle at 78% 20%, rgba(233, 174, 150, 0.16), transparent 24rem),
-    linear-gradient(180deg, rgba(8, 16, 18, 0.92), rgba(15, 23, 25, 0.98));
+    linear-gradient(180deg, rgba(7, 8, 10, 0.96), rgba(17, 17, 19, 0.98));
 }
 
 .home-hero::before,
@@ -861,8 +859,11 @@ td {
 
 .home-hero::after {
   inset: 0;
-  background: var(--route-texture);
-  opacity: 0.72;
+  background:
+    linear-gradient(90deg, rgba(232, 232, 223, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(232, 232, 223, 0.035) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  opacity: 0.45;
 }
 
 .contour-backdrop {
@@ -974,8 +975,7 @@ td {
 /* Signal panels and compact command blocks */
 .signal-panel {
   background:
-    linear-gradient(135deg, rgba(23, 37, 41, 0.94), rgba(8, 16, 18, 0.94)),
-    var(--route-texture);
+    linear-gradient(135deg, rgba(29, 30, 33, 0.96), rgba(7, 8, 10, 0.96));
   border: var(--border-hairline);
   padding: var(--space-5);
   margin: var(--space-5) 0;

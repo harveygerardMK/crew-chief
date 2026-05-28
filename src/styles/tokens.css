@@ -1,14 +1,14 @@
 /* Crew Chief - Sierra signal room design tokens */
 :root {
-  --surface-base: #0f1719;
-  --surface-raised: #172529;
-  --surface-deep: #081012;
+  --surface-base: #111113;
+  --surface-raised: #1d1e21;
+  --surface-deep: #07080a;
 
   --ink-primary: #edf1ea;
   --ink-secondary: #b8c5bf;
   --ink-tertiary: #8ea19f;
   --ink-muted: #718581;
-  --ink-divider: #31494e;
+  --ink-divider: #333438;
 
   --accent-primary: #d3743a;
   --accent-warning: #d8a84d;
@@ -16,6 +16,7 @@
   --accent-lime: #c9ff00;
   --accent-peach: #e9ae96;
   --accent-blue: #657492;
+  --accent-orange: #ff6031;
   --paper-warm: #e8e8df;
   --stone-warm: #aaa69b;
 
@@ -59,16 +60,16 @@
   --radius-full: 9999px;
   --border-hairline: 1px solid var(--ink-divider);
 
-  --signal-gradient: linear-gradient(130deg, #213936 0%, #657492 42%, #d3743a 74%, #c9ff00 100%);
-  --signal-gradient-soft: linear-gradient(135deg, rgba(33, 57, 54, 0.86), rgba(233, 174, 150, 0.26));
-  --entry-strip: linear-gradient(90deg, var(--accent-blue) 0 22%, var(--accent-primary) 22% 46%, #050505 46% 72%, var(--accent-lime) 72% 100%);
+  --signal-gradient: linear-gradient(130deg, #1d1e21 0%, #657492 42%, #e9ae96 72%, #c9ff00 100%);
+  --signal-gradient-soft: linear-gradient(135deg, rgba(101, 116, 146, 0.42), rgba(233, 174, 150, 0.26));
+  --entry-strip: linear-gradient(90deg, var(--accent-blue) 0 22%, var(--accent-orange) 22% 46%, #050505 46% 72%, var(--accent-lime) 72% 100%);
   --barcode-texture: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px, currentColor 7px 10px, transparent 10px 14px);
   --route-texture: repeating-linear-gradient(145deg, transparent 0 13px, rgba(237, 241, 234, 0.08) 14px 15px);
 
   /* Legacy aliases used across existing CSS */
   --canvas: var(--surface-base);
   --surface: var(--surface-raised);
-  --surface-soft: #121d20;
+  --surface-soft: #161719;
   --ink: var(--ink-primary);
   --charcoal: var(--ink-primary);
   --slate: var(--ink-secondary);
@@ -76,14 +77,14 @@
   --stone: var(--ink-tertiary);
   --muted: var(--ink-tertiary);
   --hairline: var(--ink-divider);
-  --hairline-soft: rgba(142, 161, 159, 0.28);
-  --mint: var(--accent-primary);
-  --mint-deep: #f19a5f;
-  --mint-soft: var(--accent-warning);
+  --hairline-soft: rgba(232, 232, 223, 0.2);
+  --mint: var(--accent-lime);
+  --mint-deep: var(--accent-peach);
+  --mint-soft: var(--accent-blue);
   --hero-dark-from: var(--surface-deep);
   --hero-dark-to: var(--surface-raised);
-  --hero-sky-from: #405f54;
-  --hero-sky-to: var(--accent-primary);
+  --hero-sky-from: var(--accent-blue);
+  --hero-sky-to: var(--accent-peach);
   --sans: var(--font-body);
   --mono: var(--font-mono);
   --shadow-card: none;

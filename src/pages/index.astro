@@ -4,7 +4,6 @@ import StatusBlock from "../components/StatusBlock.astro";
 import LiveRaceUpdates from "../components/LiveRaceUpdates.astro";
 import CrewOps from "../components/CrewOps.astro";
 import RaceDataBand from "../components/RaceDataBand.astro";
-import ContourBackdrop from "../components/ContourBackdrop.astro";
 import site from "../../data/site.json";
 import { race } from "../lib/data";
 
@@ -13,7 +12,6 @@ const base = import.meta.env.BASE_URL;
 
 <BaseLayout title="Home">
   <div class="home-hero">
-    <ContourBackdrop />
     <div class="container home-hero__inner">
       <div class="home-hero__main">
         <StatusBlock />
