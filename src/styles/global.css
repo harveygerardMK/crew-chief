@@ -974,6 +974,101 @@ td {
   margin-top: var(--space-7);
 }
 
+.home-mission {
+  padding: var(--space-7) 0 var(--space-8);
+  background:
+    radial-gradient(circle at 16% 8%, rgba(101, 116, 146, 0.22), transparent 30rem),
+    radial-gradient(circle at 82% 4%, rgba(233, 174, 150, 0.18), transparent 28rem),
+    linear-gradient(180deg, rgba(7, 8, 10, 0.98), rgba(17, 17, 19, 1));
+}
+
+.home-mission__board {
+  position: relative;
+  padding: var(--space-4);
+  border: 10px solid #07080a;
+  background: rgba(11, 12, 14, 0.94);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.home-mission__board::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(232, 232, 223, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(232, 232, 223, 0.025) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  pointer-events: none;
+}
+
+.home-mission__board > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-mission__grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.home-mission__intro {
+  min-height: 22rem;
+  padding: var(--space-5);
+  border: var(--border-hairline);
+  background: linear-gradient(135deg, rgba(29, 30, 33, 0.94), rgba(7, 8, 10, 0.94));
+}
+
+.home-mission__intro .status-block {
+  max-width: 33rem;
+}
+
+.home-mission__intro h1 {
+  max-width: 11ch;
+}
+
+.home-mission .race-data-band {
+  margin: 0 0 var(--space-4);
+}
+
+.home-mission .home-hero__aside,
+.home-mission .live-updates,
+.home-mission .crew-ops {
+  height: 100%;
+  margin: 0;
+}
+
+.home-mission .home-hero__aside {
+  max-width: none;
+  min-height: 22rem;
+}
+
+@media (min-width: 960px) {
+  .home-mission__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .home-mission__intro {
+    grid-column: 1 / span 7;
+  }
+
+  .home-mission .home-hero__aside {
+    grid-column: 8 / -1;
+  }
+
+  .home-mission .live-updates {
+    grid-column: 1 / span 7;
+  }
+
+  .home-mission .crew-ops {
+    grid-column: 8 / -1;
+  }
+
+  .home-mission .crew-ops__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 960px) {
   .home-dashboard {
     grid-template-columns: repeat(12, minmax(0, 1fr));

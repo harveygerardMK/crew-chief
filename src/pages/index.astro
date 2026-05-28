@@ -11,47 +11,49 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Home">
-  <div class="home-hero">
-    <div class="container container--dashboard home-hero__inner">
-      <div class="home-hero__main">
-        <StatusBlock />
-        <p class="page-eyebrow">Crew Chief / {site.race} / {site.year}</p>
-        <h1>Make the next crew call.</h1>
-        <p class="lead">
-          Live course intel, crew timing, and trail logistics for Harvey's {site.distance_miles}-mile loop around Lake Tahoe.
+  <div class="home-mission">
+    <div class="container container--dashboard">
+      <div class="home-mission__board">
+        <RaceDataBand />
+        <div class="home-mission__grid">
+          <section class="home-mission__intro">
+            <StatusBlock />
+            <p class="page-eyebrow">Crew Chief / {site.race} / {site.year}</p>
+            <h1>Make the next crew call.</h1>
+            <p class="lead">
+              Live course intel, crew timing, and trail logistics for Harvey's {site.distance_miles}-mile loop around Lake Tahoe.
+            </p>
+            <p class="home-hero__actions">
+              <a class="btn btn--primary" href={`${base}next/`}>
+                Next stop
+              </a>
+              <a class="btn btn--secondary" href={`${base}board/`}>
+                Race board
+              </a>
+              <a class="btn btn--secondary" href={`${base}crew/`}>
+                Crew guide
+              </a>
+            </p>
+          </section>
+          <div class="home-hero__aside home-entry-card" aria-hidden="true">
+            <span class="home-entry-card__label">Entrance / group</span>
+            <span class="home-entry-card__barcode"></span>
+            <span class="home-entry-card__group">[ H ]</span>
+            <span class="home-hero__mile tabular">{race.distance_miles}</span>
+            <span class="home-hero__mile-unit">mi / full loop</span>
+          </div>
+          <LiveRaceUpdates />
+          <CrewOps />
+        </div>
+        <p class="card__meta site-meta site-meta--compact">
+          Family: <a href={`${base}follow/`}>Follow along</a> /{" "}
+          Tracker:{" "}
+          <a href={race.live_tracking_url_placeholder} target="_blank" rel="noopener noreferrer">
+            destinationtrailrun.com/tahoe
+          </a>{" "}
+          / Plan v{site.plan_version} / Add this site to your home screen for spotty trailhead service.
         </p>
-        <p class="home-hero__actions">
-          <a class="btn btn--primary" href={`${base}next/`}>
-            Next stop
-          </a>
-          <a class="btn btn--secondary" href={`${base}board/`}>
-            Race board
-          </a>
-          <a class="btn btn--secondary" href={`${base}crew/`}>
-            Crew guide
-          </a>
-        </p>
-      </div>
-      <div class="home-hero__aside home-entry-card" aria-hidden="true">
-        <span class="home-entry-card__label">Entrance / group</span>
-        <span class="home-entry-card__barcode"></span>
-        <span class="home-entry-card__group">[ H ]</span>
-        <span class="home-hero__mile tabular">{race.distance_miles}</span>
-        <span class="home-hero__mile-unit">mi / full loop</span>
       </div>
     </div>
-  </div>
-  <div class="container container--dashboard home-dashboard">
-    <LiveRaceUpdates />
-    <CrewOps />
-    <RaceDataBand />
-    <p class="card__meta site-meta site-meta--compact">
-      Family: <a href={`${base}follow/`}>Follow along</a> /{" "}
-      Tracker:{" "}
-      <a href={race.live_tracking_url_placeholder} target="_blank" rel="noopener noreferrer">
-        destinationtrailrun.com/tahoe
-      </a>{" "}
-      / Plan v{site.plan_version} / Add this site to your home screen for spotty trailhead service.
-    </p>
   </div>
 </BaseLayout>
