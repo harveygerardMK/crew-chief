@@ -1,0 +1,44 @@
+---
+import site from "../../data/site.json";
+import { race } from "../lib/data";
+
+const facts = [
+  {
+    label: "Distance",
+    value: String(race.distance_miles),
+    unit: "mi",
+  },
+  {
+    label: "Gain",
+    value: race.elevation_gain_ft.toLocaleString(),
+    unit: "ft",
+  },
+  {
+    label: "Cutoff",
+    value: String(race.cutoff_hours),
+    unit: "hr",
+  },
+  {
+    label: "Start",
+    value: "Jun 12",
+    unit: "9 AM",
+  },
+  {
+    label: "Plan",
+    value: `v${site.plan_version}`,
+    unit: "current",
+  },
+];
+---
+
+<section class="race-data-band" aria-label="Race facts">
+  {
+    facts.map((fact) => (
+      <div class="race-data-band__item">
+        <span class="race-data-band__label">{fact.label}</span>
+        <span class="race-data-band__value tabular">{fact.value}</span>
+        <span class="race-data-band__unit">{fact.unit}</span>
+      </div>
+    ))
+  }
+</section>

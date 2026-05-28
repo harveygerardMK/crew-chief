@@ -1,0 +1,47 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const actions = [
+  {
+    href: `${base}next/`,
+    label: "Next stop",
+    desc: "Leave-by time and crew move",
+    primary: true,
+  },
+  {
+    href: `${base}board/`,
+    label: "Race board",
+    desc: "Plan vs actual at each aid",
+  },
+  {
+    href: `${base}crew/`,
+    label: "Crew guide",
+    desc: "Playbooks, parking, timeline",
+  },
+  {
+    href: `${base}aid-stations/`,
+    label: "Aid stations",
+    desc: "Cutoffs, maps, crew access",
+  },
+];
+---
+
+<section class="signal-panel crew-ops" aria-labelledby="crew-ops-heading">
+  <div class="signal-panel__header">
+    <p class="signal-panel__eyebrow">Crew ops</p>
+    <h2 id="crew-ops-heading">One block for race-week decisions.</h2>
+  </div>
+  <div class="crew-ops__grid">
+    {
+      actions.map((action) => (
+        <a
+          href={action.href}
+          class:list={["crew-ops__action", action.primary && "crew-ops__action--primary"]}
+        >
+          <span class="crew-ops__label">{action.label}</span>
+          <span class="crew-ops__desc">{action.desc}</span>
+        </a>
+      ))
+    }
+  </div>
+</section>
