@@ -22,7 +22,7 @@ const boardPayloadJson = JSON.stringify({ boardRows, base }).replace(/</g, "\\u0
       <div class="elevation-hero__label">Aid<br />Timeline</div>
     </div>
     <div class="elevation-hero__mountain" aria-hidden="true">
-      <svg viewBox="0 0 1200 320">
+      <svg viewBox="0 0 1200 320" preserveAspectRatio="none">
         <defs>
           <linearGradient id="boardBack" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stop-color="rgba(30,72,143,.56)"></stop>
@@ -40,7 +40,6 @@ const boardPayloadJson = JSON.stringify({ boardRows, base }).replace(/</g, "\\u0
   </section>
 
   <div class="container page-stack">
-    <p class="page-eyebrow">Crew</p>
     <p class="card__meta">{planSourceNote()} {firstHalfPrepNote()}</p>
     <p class="priority-action">
       <a class="btn btn--primary" href={`${base}next/`}>Next stop</a>

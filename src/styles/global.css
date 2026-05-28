@@ -2718,7 +2718,7 @@ body {
 .elevation-hero__copy {
   position: relative;
   z-index: 3;
-  padding: var(--space-6) var(--space-5) 0;
+  padding-block: var(--space-6) 0;
   display: flex;
   justify-content: space-between;
   gap: var(--space-5);
@@ -2757,24 +2757,65 @@ body {
   display: block;
 }
 
-.elevation-hero__markers line {
-  stroke: rgba(0, 31, 63, 0.55);
-  stroke-width: 1;
+.elevation-hero__markers {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 2;
+  pointer-events: none;
 }
 
-.elevation-hero__markers circle {
-  fill: var(--paper-warm);
-  stroke: rgba(0, 31, 63, 0.72);
-  stroke-width: 1.25;
+.elevation-hero__marker {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  pointer-events: auto;
 }
 
-.elevation-hero__markers text {
-  fill: rgba(0, 31, 63, 0.78);
+.elevation-hero__marker-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--paper-warm);
+  border: 1.5px solid var(--ink-primary);
+}
+
+.elevation-hero__marker-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  padding: 0.25rem 0.45rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--ink-divider);
   font-family: var(--font-mono);
-  font-size: 9px;
-  text-anchor: middle;
+  font-size: 0.62rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  color: var(--ink-primary);
+  white-space: nowrap;
+}
+
+.elevation-hero__marker-mile {
+  font-size: 0.56rem;
+  color: var(--ink-tertiary);
+}
+
+.elevation-hero__marker-name {
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .elevation-hero__marker-label {
+    display: none;
+  }
 }
 
 .elevation-hero--compact {
@@ -2799,59 +2840,6 @@ body {
   }
 }
 
-.page-meta-band {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.4rem;
-  padding: 0.72rem var(--space-5) 0.88rem;
-  border-top: var(--border-hairline);
-  border-bottom: var(--border-hairline);
-  background: var(--paper-warm);
-}
-
-.page-meta-band > div {
-  border-top: 2px solid rgba(0, 31, 63, 0.3);
-  padding-top: 0.4rem;
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.page-priority-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.45rem;
-  padding: 0.78rem var(--space-5);
-  border-bottom: var(--border-hairline);
-}
-
-.page-priority-card {
-  border: var(--border-hairline);
-  background: rgba(255, 255, 255, 0.36);
-  padding: var(--space-3);
-}
-
-.page-priority-card__k {
-  margin: 0 0 0.2rem;
-  font-size: 0.54rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ink-soft);
-}
-
-.page-priority-card__v {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-h3);
-  line-height: 0.95;
-  text-transform: uppercase;
-}
-
-.page-priority-card--critical {
-  border-color: rgba(219, 230, 76, 0.78);
-  background: rgba(219, 230, 76, 0.2);
-}
-
 @media (max-width: 900px) {
   .elevation-hero__copy {
     flex-direction: column;
@@ -2864,15 +2852,6 @@ body {
 
   .elevation-hero--compact {
     min-height: 20rem;
-  }
-
-  .page-meta-band,
-  .page-priority-row {
-    grid-template-columns: 1fr;
-  }
-
-  .elevation-hero__markers text {
-    display: none;
   }
 }
 
