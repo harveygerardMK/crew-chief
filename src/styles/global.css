@@ -2860,8 +2860,8 @@ body {
 
 .elevation-hero__runner {
   position: absolute;
-  left: 78%;
-  bottom: 20%;
+  left: 75%;
+  bottom: 14%;
   transform: translateX(-50%);
   z-index: 4;
   display: flex;

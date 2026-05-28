@@ -3,7 +3,12 @@ export const PACE_KEY = "tahoe200-pace";
 export const DRIVE_KEY = "tahoe200-drive-min";
 export const PLAYBOOK_KEY = "tahoe200-playbook";
 export const GLOVE_KEY = "tahoe200-trailhead";
-import { heroRunnerLeftPercent, readHeroProgressFromStorage } from "../lib/hero-progress";
+import {
+  heroRunnerLeftPercent,
+  heroRunnerUsesPreview,
+  HERO_RUNNER_PREVIEW_BOTTOM_PERCENT,
+  readHeroProgressFromStorage,
+} from "../lib/hero-progress";
 
 export type PaceScenario = "optimistic" | "baseline" | "conservative";
 
@@ -293,6 +298,9 @@ export function initHeroProgress() {
 
     nodes.forEach((node) => {
       node.style.left = `${safePercent}%`;
+      node.style.bottom = heroRunnerUsesPreview(progress)
+        ? `${HERO_RUNNER_PREVIEW_BOTTOM_PERCENT}%`
+        : "";
       node.setAttribute("aria-label", `Runner progress at ${label}`);
       const labelNode = node.querySelector<HTMLElement>("[data-hero-progress-label]");
       if (labelNode) labelNode.textContent = label;
