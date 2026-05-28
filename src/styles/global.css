@@ -155,7 +155,7 @@ iframe {
 
 .site-header {
   border-bottom: var(--border-hairline);
-  background: rgba(8, 16, 18, 0.92);
+  background: rgba(11, 12, 14, 0.92);
   backdrop-filter: blur(18px);
   position: sticky;
   top: 0;
@@ -440,7 +440,7 @@ main {
 .btn--primary {
   background: var(--accent-lime);
   color: var(--surface-deep);
-  clip-path: polygon(0 0, calc(100% - 0.75rem) 0, 100% 100%, 0 100%);
+  border-radius: var(--radius-sm);
   font-weight: 700;
 }
 
@@ -857,7 +857,7 @@ td {
   width: min(38rem, 64vw);
   height: min(22rem, 42vw);
   background: var(--signal-gradient);
-  clip-path: polygon(18% 0, 100% 0, 82% 100%, 0 78%);
+  border-radius: 999px;
   opacity: 0.55;
 }
 
@@ -912,7 +912,7 @@ td {
   padding: var(--space-4);
   min-width: 17rem;
   max-width: 22rem;
-  clip-path: polygon(0 0, 100% 0, calc(100% - 1rem) 100%, 0 100%);
+  border-radius: var(--radius-sm);
 }
 
 .home-entry-card__label {
@@ -941,6 +941,28 @@ td {
   font-weight: 800;
   letter-spacing: -0.06em;
   text-align: left;
+}
+
+.home-entry-card__route-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--surface-deep) 72%, var(--accent-blue) 28%);
+}
+
+.home-entry-card__route {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: var(--space-2) 0 var(--space-3);
+  padding: var(--space-1);
+  border: 1px solid color-mix(in srgb, var(--surface-deep) 24%, transparent);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .home-hero__mile {
@@ -1133,7 +1155,7 @@ td {
   width: 18rem;
   height: 10rem;
   background: var(--signal-gradient);
-  clip-path: polygon(18% 0, 100% 0, 82% 100%, 0 78%);
+  border-radius: 999px;
   opacity: 0.18;
   pointer-events: none;
 }
@@ -1199,7 +1221,7 @@ td {
 .crew-ops__action--primary {
   background: var(--accent-lime);
   color: var(--surface-deep);
-  clip-path: polygon(0 0, calc(100% - 0.7rem) 0, 100% 100%, 0 100%);
+  border-radius: var(--radius-sm);
 }
 
 .crew-ops__action--primary:hover {
@@ -1735,7 +1757,7 @@ td {
 /* Tahoe feature: command center, board, playbooks, family, trailhead */
 .command-center-wrap {
   background:
-    radial-gradient(circle at 86% 0, rgba(211, 116, 58, 0.2), transparent 24rem),
+    radial-gradient(circle at 86% 0, rgba(233, 174, 150, 0.2), transparent 24rem),
     var(--surface-deep);
   color: var(--ink-primary);
   padding: var(--space-6) 0;
@@ -1752,7 +1774,7 @@ td {
   width: min(34rem, 72vw);
   height: 20rem;
   background: var(--signal-gradient);
-  clip-path: polygon(18% 0, 100% 0, 82% 100%, 0 78%);
+  border-radius: 999px;
   opacity: 0.55;
   pointer-events: none;
 }
@@ -1761,8 +1783,11 @@ td {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--route-texture);
-  opacity: 0.55;
+  background:
+    linear-gradient(90deg, rgba(232, 232, 223, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(232, 232, 223, 0.035) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  opacity: 0.42;
   pointer-events: none;
 }
 
@@ -1789,8 +1814,7 @@ td {
 
 .aid-card {
   background:
-    linear-gradient(135deg, rgba(23, 37, 41, 0.9), rgba(18, 29, 32, 0.96)),
-    var(--route-texture);
+    linear-gradient(135deg, rgba(29, 30, 33, 0.92), rgba(7, 8, 10, 0.96));
   padding: var(--space-5);
   border-bottom: var(--border-hairline);
   border-radius: 0;
@@ -1932,8 +1956,7 @@ td {
 
 .command-center {
   background:
-    linear-gradient(135deg, rgba(23, 37, 41, 0.96), rgba(8, 16, 18, 0.92)),
-    var(--route-texture);
+    linear-gradient(135deg, rgba(29, 30, 33, 0.96), rgba(7, 8, 10, 0.94));
   color: var(--ink-primary);
   border: var(--border-hairline);
   border-radius: var(--radius-sm);
@@ -2014,7 +2037,7 @@ td {
   margin: 0;
   padding: var(--space-2) var(--space-3);
   font-weight: 800;
-  clip-path: polygon(0 0, calc(100% - 0.75rem) 0, 100% 100%, 0 100%);
+  border-radius: var(--radius-sm);
 }
 
 .command-center__actions {
@@ -2088,8 +2111,7 @@ td {
 
 .board-card {
   background:
-    linear-gradient(135deg, rgba(23, 37, 41, 0.94), rgba(8, 16, 18, 0.94)),
-    var(--route-texture);
+    linear-gradient(135deg, rgba(29, 30, 33, 0.94), rgba(7, 8, 10, 0.94));
   border: var(--border-hairline);
   padding: var(--space-4);
   margin-bottom: var(--space-3);

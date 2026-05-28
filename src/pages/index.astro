@@ -39,6 +39,25 @@ const base = import.meta.env.BASE_URL;
             <span class="home-entry-card__label">Entrance / group</span>
             <span class="home-entry-card__barcode"></span>
             <span class="home-entry-card__group">[ H ]</span>
+            <span class="home-entry-card__route-label">Tahoe loop signal</span>
+            <svg class="home-entry-card__route" viewBox="0 0 220 110" role="img" aria-label="Abstract Tahoe route">
+              <defs>
+                <linearGradient id="routeStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#657492"></stop>
+                  <stop offset="55%" stop-color="#ff6031"></stop>
+                  <stop offset="100%" stop-color="#c9ff00"></stop>
+                </linearGradient>
+              </defs>
+              <path
+                d="M15 70 C32 24, 72 20, 100 34 C127 46, 160 43, 188 18 C206 38, 198 67, 172 84 C139 105, 80 106, 43 90 C26 82, 17 77, 15 70 Z"
+                fill="none"
+                stroke="url(#routeStroke)"
+                stroke-width="6"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <circle cx="21" cy="68" r="4" fill="#ff6031"></circle>
+              <circle cx="188" cy="18" r="4" fill="#c9ff00"></circle>
+            </svg>
             <span class="home-hero__mile tabular">{race.distance_miles}</span>
             <span class="home-hero__mile-unit">mi / full loop</span>
           </div>
