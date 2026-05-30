@@ -1,15 +1,15 @@
 # Crew Chief Agent 2.0 — project status
 
-**Last updated:** 2026-05-30
+**Last updated:** 2026-05-30 (Phase 2 automation)
 
-## Shipped in repo (pending merge to `main`)
+## Shipped in repo (on `main`)
 
-| Piece | Path | PR |
-|-------|------|-----|
-| TrackLeaders poller | `poller/` | #5 |
-| FastAPI backend | `server/` | #6 / #7 |
-| Chat UI | `ui/` → `/crew-chief/agent/` | #7 |
-| Voice (draft) | `voice.md` | #7 |
+| Piece | Path |
+|-------|------|
+| TrackLeaders poller | `poller/` |
+| FastAPI backend | `server/` |
+| Chat UI | `ui/` → `/crew-chief/agent/` |
+| Voice (draft) | `voice.md` |
 | Deploy runbook | `docs/superpowers/runbooks/crew-chief-agent-deploy.md` | this branch |
 | Test checklist | `docs/superpowers/runbooks/crew-chief-agent-test-checklist.md` | this branch |
 | Mac mini failover | `docs/superpowers/runbooks/crew-chief-agent-failover-mac-mini.md` | this branch |
@@ -24,9 +24,10 @@
 - [ ] Confirm `/crew-chief/agent/` on Pages
 
 ### Phase 2 — Droplet + tunnel
-- [ ] Follow `crew-chief-agent-deploy.md`
+- [ ] Droplet: `sudo bash scripts/droplet-bootstrap.sh` (or full runbook)
 - [ ] PM2 + poller cron running
-- [ ] Tunnel URL → GitHub variable → Pages redeploy
+- [ ] Tunnel URL → GitHub variable `PUBLIC_AGENT_API_URL` → Pages redeploy
+- [x] CI: `agent-tests.yml` + deploy verifies `dist/agent/`
 
 ### Phase 3 — Content & testers
 - [ ] Harvey approves `voice.md`

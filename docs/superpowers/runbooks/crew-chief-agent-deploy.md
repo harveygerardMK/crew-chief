@@ -33,7 +33,23 @@ ssh root@YOUR_DROPLET_IP
 
 ---
 
-## 2. Install system packages
+
+## 2. Quick bootstrap (recommended)
+
+```bash
+git clone https://github.com/harveygerardMK/crew-chief.git /var/crew-chief
+cd /var/crew-chief
+sudo bash scripts/droplet-bootstrap.sh
+```
+
+This installs Python/Node/PM2, server deps, PM2 API process, poller cron, and seed data files.  
+Then continue at **section 5** (configure `.env` files) — bootstrap creates templates from `.env.example`.
+
+---
+
+## 3. Manual install (alternative)
+
+## 3. Install system packages
 
 ```bash
 apt update && apt upgrade -y
@@ -47,7 +63,7 @@ npm install -g pm2
 
 ---
 
-## 3. Clone the repo
+## 4. Clone the repo
 
 ```bash
 mkdir -p /var/crew-chief
@@ -66,7 +82,7 @@ cp data/visitors.example.json data/visitors.json
 
 ---
 
-## 4. Python dependencies (poller + server)
+## 5. Python dependencies (poller + server)
 
 ```bash
 cd /var/crew-chief/server
@@ -78,7 +94,7 @@ python3 -m pip install -r requirements-dev.txt   # optional; poller runtime is s
 
 ---
 
-## 5. Configure environment
+## 6. Configure environment
 
 ### Poller (`poller/.env`)
 
@@ -132,7 +148,7 @@ VISITORS_EXPORT_PATH=data/visitors.json
 
 ---
 
-## 6. Start with PM2
+## 7. Start with PM2
 
 From repo root:
 
@@ -152,7 +168,7 @@ curl -s http://127.0.0.1:8080/status | head
 
 ---
 
-## 7. Poller cron (every 5 minutes)
+## 8. Poller cron (every 5 minutes)
 
 ```bash
 crontab -e
@@ -173,7 +189,7 @@ cat /var/crew-chief/data/harvey_status.json
 
 ---
 
-## 8. Cloudflare Tunnel (public HTTPS)
+## 9. Cloudflare Tunnel (public HTTPS)
 
 On the droplet:
 
@@ -204,7 +220,7 @@ Note: quick tunnel URLs change on restart. For race week, use a named tunnel or 
 
 ---
 
-## 9. Wire GitHub Pages to the API
+## 10. Wire GitHub Pages to the API
 
 1. GitHub → `harveygerardMK/crew-chief` → **Settings** → **Secrets and variables** → **Actions** → **Variables**
 2. New variable: **`PUBLIC_AGENT_API_URL`** = your tunnel URL (no trailing slash)
@@ -214,7 +230,7 @@ After deploy, open https://harveygerardMK.github.io/crew-chief/agent/ on your ph
 
 ---
 
-## 10. Smoke test
+## 11. Smoke test
 
 From your laptop:
 
