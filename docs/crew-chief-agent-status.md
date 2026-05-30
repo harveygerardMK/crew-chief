@@ -19,7 +19,7 @@
 ## Phase tracker
 
 ### Phase 1 — Merge & static deploy
-- [ ] Merge integration PR to `main`
+- [x] Merge integration PR to `main` (2026-05-30, commit `383b442`)
 - [ ] Set GitHub variable `PUBLIC_AGENT_API_URL`
 - [ ] Confirm `/crew-chief/agent/` on Pages
 
