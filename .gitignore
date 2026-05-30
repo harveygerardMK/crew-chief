@@ -5,6 +5,10 @@ dist/
 .DS_Store
 .env
 .env.local
+poller/.env
+poller/.venv/
+data/harvey_status.json
+data/visitors.json
 Thumbs.db
 .vscode/
 .idea/
@@ -12,3 +16,6 @@ files.zip
 tahoe200-2026-cowork-handoff.zip
 tahoe200-cowork-brief.md
 tahoe200-handoff/
+
+poller/__pycache__/
+poller/tests/__pycache__/
