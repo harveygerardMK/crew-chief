@@ -4,9 +4,11 @@
   "version": "1.0.0",
   "description": "Harvey's Tahoe 200 2026 — crew, pacers, family follow-along.",
   "scripts": {
+    "prebuild": "node scripts/copy-ui.mjs",
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "ui:copy": "node scripts/copy-ui.mjs"
   },
   "dependencies": {
     "astro": "^5.7.10"

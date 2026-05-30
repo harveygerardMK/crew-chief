@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#232830" />
+    <meta name="description" content="Talk to Harvey during the Tahoe 200 — live race updates in his voice." />
+    <title>Ask Harvey · Tahoe 200</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="top-bar">
+        <div class="top-bar__row">
+          <div>
+            <h1 class="brand">
+              Ask Harvey
+              <span class="brand__sub">Tahoe 200 · Crew Chief Agent</span>
+            </h1>
+          </div>
+          <a class="site-link" href="../" id="crew-site-link">Crew site →</a>
+        </div>
+        <dl class="status-strip" id="status-strip" aria-live="polite">
+          <div>
+            <dt>Mile</dt>
+            <dd id="stat-mile">—</dd>
+          </div>
+          <div>
+            <dt>Speed</dt>
+            <dd id="stat-speed">—</dd>
+          </div>
+          <div>
+            <dt>Last ping</dt>
+            <dd id="stat-update">—</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd id="stat-race">—</dd>
+          </div>
+          <div class="status-strip__badge hidden" id="status-badge" data-tone="ok"></div>
+        </dl>
+      </header>
+
+      <!-- Onboarding -->
+      <section class="panel" id="onboarding-panel">
+        <p class="panel__lead">Before we start — who are you? Harvey’s friends and family use this to check in during the race.</p>
+        <form id="onboarding-form">
+          <div class="field">
+            <label for="visitor-name">Your first name</label>
+            <input
+              id="visitor-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              maxlength="120"
+              placeholder="Dan"
+            />
+          </div>
+          <div class="field">
+            <span id="relationship-label">How do you know Harvey?</span>
+            <div class="relationship-grid" role="group" aria-labelledby="relationship-label">
+              <label><input type="radio" name="relationship" value="family" required /> Family</label>
+              <label><input type="radio" name="relationship" value="friend" /> Friend</label>
+              <label><input type="radio" name="relationship" value="crew" /> Crew</label>
+              <label><input type="radio" name="relationship" value="pacer" /> Pacer</label>
+              <label><input type="radio" name="relationship" value="stranger" /> Just curious</label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--primary" id="onboarding-submit">Start chatting</button>
+          <p class="form-error hidden" id="onboarding-error"></p>
+        </form>
+      </section>
+
+      <!-- Chat -->
+      <section class="panel hidden" id="chat-panel">
+        <div class="chat">
+          <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+        </div>
+      </section>
+
+      <footer class="composer-wrap hidden" id="composer-wrap">
+        <form class="composer" id="composer-form">
+          <textarea
+            id="composer-input"
+            rows="1"
+            placeholder="How is he doing?"
+            aria-label="Message to Harvey"
+          ></textarea>
+          <button type="submit" class="composer__send" id="composer-send" aria-label="Send message">
+            Send
+          </button>
+        </form>
+        <p class="composer__hint">Enter to send · Shift+Enter for new line</p>
+      </footer>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./config.local.js" onerror=""></script>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

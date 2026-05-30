@@ -25,6 +25,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --ignore-scripts
+      - name: Copy chat UI into public/
+        env:
+          PUBLIC_AGENT_API_URL: ${{ vars.PUBLIC_AGENT_API_URL }}
+        run: node scripts/copy-ui.mjs
       - name: Build site
         env:
           PUBLIC_BROADCAST_API_URL: ${{ vars.PUBLIC_BROADCAST_API_URL }}
