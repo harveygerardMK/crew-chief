@@ -9,7 +9,7 @@
   "current_speed_mph": null,
   "stale": false,
   "source_url": "",
-  "error": "Awaiting TrackLeaders poller",
+  "error": "Awaiting TrackLeaders configuration (race week)",
   "data_stale": false,
   "last_successful_fetch": null
 }

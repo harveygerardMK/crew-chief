@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+"""Poll TrackLeaders and write data/harvey_status.json."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+from trackleaders import FetchError, TrackerSnapshot, fetch_tracker_snapshot, preserve_cached_snapshot
+
+DEFAULT_OUTPUT = Path(__file__).resolve().parent.parent / "data" / "harvey_status.json"
+
+
+def load_env_file(path: Path) -> None:
+    if not path.is_file():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip())
+
+
+def read_existing(path: Path) -> dict | None:
+    if not path.is_file():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+
+
+def write_snapshot(path: Path, snapshot: TrackerSnapshot) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = snapshot.to_dict()
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def run_poll(*, output_path: Path, dry_run: bool = False) -> TrackerSnapshot:
+    load_env_file(Path(__file__).resolve().parent / ".env")
+
+    event_slug = os.environ.get("TRACKLEADERS_EVENT_SLUG")
+    runner_name = os.environ.get("TRACKLEADERS_RUNNER_NAME")
+    fallback_url = os.environ.get("TRACKLEADERS_FALLBACK_URL")
+    previous = read_existing(output_path)
+
+    snapshot = fetch_tracker_snapshot(
+        event_slug=event_slug,
+        runner_name=runner_name,
+        fallback_url=fallback_url,
+    )
+
+    if not snapshot.enabled or snapshot.error:
+        if previous and (
+            previous.get("last_successful_fetch")
+            or (previous.get("enabled") and previous.get("route_mile") is not None)
+        ):
+            snapshot = preserve_cached_snapshot(
+                previous,
+                error=snapshot.error or "TrackLeaders fetch failed",
+            )
+        elif previous:
+            snapshot = preserve_cached_snapshot(previous, error=snapshot.error or "TrackLeaders fetch failed")
+            snapshot.enabled = False
+
+    if not dry_run:
+        write_snapshot(output_path, snapshot)
+
+    return snapshot
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path(os.environ.get("HARVEY_STATUS_PATH", DEFAULT_OUTPUT)),
+        help="Path to harvey_status.json (default: data/harvey_status.json)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Fetch and print result without writing the file",
+    )
+    args = parser.parse_args(argv)
+
+    snapshot = run_poll(output_path=args.output, dry_run=args.dry_run)
+    if args.dry_run:
+        print(json.dumps(snapshot.to_dict(), indent=2))
+
+    if snapshot.data_stale:
+        print(f"WARNING: serving cached data ({snapshot.error})", file=sys.stderr)
+        return 1
+
+    if snapshot.error and not snapshot.enabled:
+        print(f"ERROR: {snapshot.error}", file=sys.stderr)
+        return 1
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
