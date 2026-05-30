@@ -31,6 +31,13 @@ if ! command -v pm2 >/dev/null 2>&1; then
   npm install -g pm2
 fi
 
+if ! command -v cloudflared >/dev/null 2>&1; then
+  echo "==> Installing cloudflared..."
+  curl -fsSL "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb" -o /tmp/cloudflared.deb
+  dpkg -i /tmp/cloudflared.deb
+  rm -f /tmp/cloudflared.deb
+fi
+
 echo "==> Python dependencies (server)..."
 python3 -m pip install -q -r server/requirements.txt
 
