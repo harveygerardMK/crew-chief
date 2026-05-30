@@ -35,3 +35,17 @@ Node **22** matches CI (`.github/workflows/deploy.yml`).
 ### Long-running processes
 
 Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at repo root.
+
+### Crew Chief Agent 2.0 (poller + API + chat UI)
+
+| Service | Command | URL |
+|---------|---------|-----|
+| FastAPI backend | `cd server && uvicorn app:app --port 8080` | http://127.0.0.1:8080 |
+| TrackLeaders poller | `cd poller && python3 poll.py` | writes `data/harvey_status.json` |
+| Chat UI (built) | `PUBLIC_AGENT_API_URL=http://127.0.0.1:8080 npm run build && npm run preview` | http://localhost:4321/crew-chief/agent/ |
+
+- **Deploy runbook:** `docs/superpowers/runbooks/crew-chief-agent-deploy.md`
+- **Smoke test:** `./scripts/verify-agent.sh http://127.0.0.1:8080`
+- **Server tests:** `cd server && python3 -m pytest -q`
+- **Poller tests:** `cd poller && python3 -m pytest -q`
+- Set `ANTHROPIC_API_KEY` in `server/.env` for live Claude replies (otherwise `/chat` returns `fallback.md`).

@@ -27,6 +27,15 @@ All race facts come from `/data/*.json` — edit JSON, rebuild, deploy. No dupli
 
 Long-form copy lives in `src/content/pages/` (Astro content collections).
 
+
+## Ask Harvey (chat agent)
+
+Friends and family can talk to a conversational agent during race week:
+
+**https://harveygerardMK.github.io/crew-chief/agent/** (after deploy)
+
+Setup and ops: [docs/superpowers/runbooks/crew-chief-agent-deploy.md](docs/superpowers/runbooks/crew-chief-agent-deploy.md) · [project status](docs/crew-chief-agent-status.md)
+
 ## Local development
 
 ```bash
