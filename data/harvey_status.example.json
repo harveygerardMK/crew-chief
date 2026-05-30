@@ -1,0 +1,15 @@
+{
+  "enabled": false,
+  "fetched_at": null,
+  "race_status": "unknown",
+  "last_update_at": null,
+  "last_update_label": null,
+  "route_mile": null,
+  "elevation_gain_ft": null,
+  "current_speed_mph": null,
+  "stale": false,
+  "source_url": "",
+  "error": "Awaiting TrackLeaders poller",
+  "data_stale": false,
+  "last_successful_fetch": null
+}
