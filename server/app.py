@@ -15,7 +15,7 @@ from claude import ClaudeError, chat_completion, fallback_response
 from config import Settings, load_settings
 from langfuse_setup import init_langfuse_tracing
 from observability import auth_check, chat_trace
-from prompt import build_greeting_user_message, build_system_prompt
+from prompt import augment_chat_user_message, build_greeting_user_message, build_system_prompt
 from race_data import warm_race_data_cache
 from race_log import log_note, log_question
 from status import load_enriched_status, load_status
@@ -168,7 +168,7 @@ def post_chat(body: ChatRequest) -> ChatResponse:
     user_message = (
         build_greeting_user_message(visitor, status=status, settings=settings)
         if is_greeting
-        else message
+        else augment_chat_user_message(message)
     )
 
     system = build_system_prompt(

@@ -8,6 +8,14 @@ from race_data import SCOPE_LOCK, get_race_data_block
 from status import format_status_block
 from visitors import format_visitor_block
 
+NILBOG_SCOPE = """NILBOG — SCOPE EXCEPTION (read with SCOPE LOCK above):
+Nilbog is Harvey and Amanda's **Pomeranian**. He lights their life — smelly toes and all. Household, not another race.
+Questions about Nilbog, the dog, how he's doing at home, smelly toes, or Amanda watching him are **in scope**.
+Answer warmly per voice.md (Amanda's got him, he's fine, Harvey misses those toes). Then race status if they also asked.
+**Never** use scope-lock deflection ("I only know my race…") for Nilbog or dog questions.
+Nilbog is not a trail name, aid station, town on course, or DNF signal.
+If the visitor's display name contains "Nilbog", still answer the **dog** question normally."""
+
 RELATIONSHIP_TONE: dict[str, str] = {
     "family": "Tone: **Family** — gentle, protective, reassuring. Shield from brutal detail without lying.",
     "friend": "Tone: **Friend** — honest about suffering, dry humor, shorter sentences. The shitheads who've seen you at your worst.",
@@ -109,6 +117,21 @@ def format_pre_race_mode_block(status: dict) -> str:
     return "\n".join(lines)
 
 
+def message_mentions_nilbog(text: str) -> bool:
+    return "nilbog" in text.lower()
+
+
+def augment_chat_user_message(message: str) -> str:
+    """Reinforce Nilbog=dog when the visitor asks, so scope lock does not misfire."""
+    if not message_mentions_nilbog(message):
+        return message
+    return (
+        f"{message}\n\n"
+        "[System note: Nilbog is Harvey and Amanda's Pomeranian at home — "
+        "answer about the dog per voice.md; do not scope-lock deflect.]"
+    )
+
+
 def build_system_prompt(
     settings: Settings,
     *,
@@ -118,6 +141,7 @@ def build_system_prompt(
 ) -> str:
     parts = [
         SCOPE_LOCK,
+        NILBOG_SCOPE,
         get_race_data_block(settings),
         load_voice(settings),
     ]

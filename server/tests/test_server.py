@@ -135,6 +135,25 @@ def test_system_prompt_pacer_tone(settings: Settings) -> None:
     assert "pacer" in prompt.lower()
 
 
+def test_system_prompt_nilbog_scope_exception(settings: Settings) -> None:
+    visitor = create_visitor(settings, name="Sarah", relationship="family")
+    status = load_status(settings.status_path)
+    prompt = build_system_prompt(settings, status=status, visitor=visitor)
+    assert "NILBOG" in prompt
+    assert "Pomeranian" in prompt
+    assert "Never" in prompt and "only know my race" in prompt
+    assert prompt.index("NILBOG — SCOPE EXCEPTION") < prompt.index("## RACE DATA")
+
+
+def test_augment_chat_user_message_nilbog() -> None:
+    from prompt import augment_chat_user_message
+
+    out = augment_chat_user_message("How is Nilbog doing?")
+    assert "Pomeranian" in out
+    assert "How is Nilbog doing?" in out
+    assert augment_chat_user_message("Where is Harvey?") == "Where is Harvey?"
+
+
 def test_pre_race_simulation_block_in_prompt(settings: Settings) -> None:
     visitor = create_visitor(settings, name="Dan", relationship="friend")
     status = {
