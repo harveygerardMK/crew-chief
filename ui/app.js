@@ -24,6 +24,122 @@ const STALE_MS = 2 * 60 * 60 * 1000;
 
 const $ = (id) => document.getElementById(id);
 
+const SPLASH_TOTAL_MS = 2800;
+const SPLASH_MILE_START_MS = 1000;
+const SPLASH_DISSOLVE_MS = 2000;
+const SPLASH_STATUS_TIMEOUT_MS = 1500;
+
+function isStandalonePwa() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+function prepareSplashPaths() {
+  for (const path of document.querySelectorAll(".splash-rabbit__path")) {
+    const len = path.getTotalLength();
+    path.style.setProperty("--path-length", String(len));
+  }
+}
+
+function easeOutCubic(t) {
+  return 1 - (1 - t) ** 3;
+}
+
+function animateSplashMile(target, el) {
+  const duration = 1000;
+  const start = performance.now();
+  function frame(now) {
+    const t = Math.min(1, (now - start) / duration);
+    el.textContent = (target * easeOutCubic(t)).toFixed(1);
+    if (t < 1) requestAnimationFrame(frame);
+    else el.textContent = target.toFixed(1);
+  }
+  requestAnimationFrame(frame);
+}
+
+function splashShowsPrerace(status) {
+  if (!status) return true;
+  const mile = status.route_mile;
+  return mile == null || Number(mile) === 0;
+}
+
+async function fetchSplashStatus() {
+  const cached = loadCachedStatus();
+  try {
+    const base = apiBase();
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), SPLASH_STATUS_TIMEOUT_MS);
+    const res = await fetch(`${base}/status`, { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (res.ok) {
+      const data = await res.json();
+      if (data) cacheStatus(data);
+      return data;
+    }
+  } catch {
+    /* parallel fetch — use cache or skip counter */
+  }
+  return cached;
+}
+
+function renderSplashMile(status) {
+  const label = $("splash-mile-label");
+  const value = $("splash-mile-value");
+  if (!label || !value) return;
+
+  label.classList.remove("hidden");
+  value.classList.remove("splash__mile-value--date");
+
+  if (!status) {
+    label.classList.add("hidden");
+    value.textContent = "—";
+    return;
+  }
+
+  if (splashShowsPrerace(status)) {
+    label.classList.add("hidden");
+    value.textContent = "JUNE 12";
+    value.classList.add("splash__mile-value--date");
+    return;
+  }
+
+  const target = Number(status.route_mile);
+  if (Number.isNaN(target)) {
+    label.classList.add("hidden");
+    value.textContent = "—";
+    return;
+  }
+
+  animateSplashMile(target, value);
+}
+
+function runPwaSplash() {
+  if (!document.documentElement.classList.contains("splash-active")) return;
+
+  const splash = $("splash");
+  if (!splash) return;
+
+  splash.setAttribute("aria-hidden", "false");
+  prepareSplashPaths();
+
+  const statusPromise = fetchSplashStatus();
+
+  window.setTimeout(() => {
+    statusPromise.then(renderSplashMile);
+  }, SPLASH_MILE_START_MS);
+
+  window.setTimeout(() => {
+    splash.classList.add("splash--dissolve");
+  }, SPLASH_DISSOLVE_MS);
+
+  window.setTimeout(() => {
+    splash.remove();
+    document.documentElement.classList.remove("splash-active");
+  }, SPLASH_TOTAL_MS);
+}
+
 const onboardingPanel = $("onboarding-panel");
 const chatPanel = $("chat-panel");
 const composerWrap = $("composer-wrap");
@@ -623,4 +739,5 @@ async function init() {
   }
 }
 
+runPwaSplash();
 init();
