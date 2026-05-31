@@ -56,6 +56,9 @@ def settings(tmp_path: Path) -> Settings:
         segments_path=REPO_ROOT / "data" / "segments.json",
         questions_path=tmp_path / "questions.json",
         notes_path=tmp_path / "notes.json",
+        langfuse_public_key=None,
+        langfuse_secret_key=None,
+        langfuse_base_url="https://cloud.langfuse.com",
     )
 
 
@@ -200,6 +203,8 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     assert body["claude_configured"] is False
     assert body["status_file_readable"] is True
     assert body["race_status"] == "active"
+    assert body["langfuse_configured"] is False
+    assert body["langfuse_ok"] is None
 
     status = client.get("/status")
     assert status.json()["route_mile"] == 87.2

@@ -1,6 +1,6 @@
 # Crew Chief Agent — FastAPI server
 
-Conversational backend for Crew Chief Agent 2.0. Reads `voice.md`, live `harvey_status.json` (from the poller), and `visitors.json`. Calls Claude for chat replies and art prompts.
+Conversational backend for Crew Chief Agent 2.0. Reads `voice.md`, `harvey.md`, live `harvey_status.json` (from the poller), and `visitors.json`. Calls Claude for chat replies and art prompts.
 
 ## Endpoints
 
@@ -53,6 +53,7 @@ Expose via Cloudflare Tunnel (v1: `*.trycloudflare.com` is fine). Set `CORS_ORIG
 See `.env.example`. Key variables:
 
 - `ANTHROPIC_API_KEY` — required for live chat
+- `LANGFUSE_PUBLIC_KEY` + `LANGFUSE_SECRET_KEY` — optional; Anthropic OTEL tracing + per-chat audit traces (see runbook)
 - `HARVEY_STATUS_PATH` / `VISITORS_PATH` — JSON data files on the droplet
 - `GITHUB_TOKEN` — optional; backs up `visitors.json` to the repo on each write
 

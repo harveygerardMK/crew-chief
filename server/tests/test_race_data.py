@@ -41,6 +41,9 @@ def settings(tmp_path: Path) -> Settings:
         segments_path=REPO_ROOT / "data" / "segments.json",
         questions_path=tmp_path / "questions.json",
         notes_path=tmp_path / "notes.json",
+        langfuse_public_key=None,
+        langfuse_secret_key=None,
+        langfuse_base_url="https://cloud.langfuse.com",
     )
 
 

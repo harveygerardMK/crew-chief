@@ -54,6 +54,9 @@ def test_lookup_nga_image(tmp_path: Path) -> None:
         segments_path=Path(__file__).resolve().parents[2] / "data" / "segments.json",
         questions_path=tmp_path / "questions.json",
         notes_path=tmp_path / "notes.json",
+        langfuse_public_key=None,
+        langfuse_secret_key=None,
+        langfuse_base_url="https://cloud.langfuse.com",
     )
     url = lookup_nga_image(settings, {"route_mile": None})
     assert url == "https://example.com/art.jpg"
