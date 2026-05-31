@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from typing import Any
 
@@ -11,6 +12,8 @@ from anthropic import APIError
 
 from config import Settings
 from prompt import load_fallback
+
+logger = logging.getLogger(__name__)
 
 
 class ClaudeError(Exception):
@@ -35,10 +38,15 @@ def chat_completion(
             messages=[{"role": "user", "content": user_message}],
         )
     except APIError as err:
+        logger.warning("Anthropic API error: %s", err)
         raise ClaudeError(str(err)) from err
 
     text = _extract_text(response.content)
-    return _parse_model_json(text)
+    try:
+        return _parse_model_json(text)
+    except ClaudeError:
+        logger.warning("Claude response parse failed (first 300 chars): %s", text[:300])
+        raise
 
 
 def fallback_response(settings: Settings) -> dict[str, str]:
@@ -63,10 +71,9 @@ def _parse_model_json(text: str) -> dict[str, str]:
     if fence:
         cleaned = fence.group(1).strip()
 
-    try:
-        data = json.loads(cleaned)
-    except json.JSONDecodeError as err:
-        raise ClaudeError(f"Model returned non-JSON: {text[:200]}") from err
+    data = _try_parse_json_object(cleaned)
+    if data is None:
+        raise ClaudeError(f"Model returned non-JSON: {text[:200]}")
 
     reply = str(data.get("reply", "")).strip()
     art_prompt = str(data.get("art_prompt", "")).strip()
@@ -75,3 +82,21 @@ def _parse_model_json(text: str) -> dict[str, str]:
     if not art_prompt:
         art_prompt = "The Persistence of Memory, Dalí — time is doing something weird out here."
     return {"reply": reply, "art_prompt": art_prompt}
+
+
+def _try_parse_json_object(cleaned: str) -> dict[str, Any] | None:
+    try:
+        parsed = json.loads(cleaned)
+        return parsed if isinstance(parsed, dict) else None
+    except json.JSONDecodeError:
+        pass
+
+    start = cleaned.find("{")
+    end = cleaned.rfind("}")
+    if start >= 0 and end > start:
+        try:
+            parsed = json.loads(cleaned[start : end + 1])
+            return parsed if isinstance(parsed, dict) else None
+        except json.JSONDecodeError:
+            return None
+    return None
