@@ -44,12 +44,16 @@ jobs:
 
       - name: Smoke test live agent API
         if: vars.PUBLIC_AGENT_API_URL != ''
+        continue-on-error: true
         env:
-          # Pages deploy must not block on droplet API version (update droplet separately).
+          # Static site deploy must not block on droplet chat/API blips — update droplet separately.
           VERIFY_AGENT_STRICT: "0"
         run: |
           chmod +x scripts/verify-agent.sh
-          ./scripts/verify-agent.sh "${{ vars.PUBLIC_AGENT_API_URL }}"
+          ./scripts/verify-agent.sh "${{ vars.PUBLIC_AGENT_API_URL }}" || {
+            echo "::warning::Live agent smoke test failed — Pages deploy will continue. Fix droplet/API and re-run verify-agent.sh locally."
+            exit 0
+          }
       - name: Verify live updates rendered
         run: |
           JSON_COUNT=$(node -e "const d=require('./data/race-broadcast.json'); console.log(Array.isArray(d.updates)?d.updates.length:0)")
