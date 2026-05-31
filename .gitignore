@@ -12,3 +12,16 @@ files.zip
 tahoe200-2026-cowork-handoff.zip
 tahoe200-cowork-brief.md
 tahoe200-handoff/
+
+# Crew Chief Agent
+ui/config.local.js
+public/agent/
+server/.env
+server/__pycache__/
+server/tests/__pycache__/
+poller/.env
+poller/.venv/
+poller/__pycache__/
+poller/tests/__pycache__/
+data/harvey_status.json
+data/visitors.json

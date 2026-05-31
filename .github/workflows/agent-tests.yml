@@ -1,0 +1,34 @@
+name: Agent tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "poller/**"
+      - "server/**"
+      - "voice.md"
+      - "scripts/verify-agent.sh"
+  pull_request:
+    paths:
+      - "poller/**"
+      - "server/**"
+      - "voice.md"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install server dependencies
+        run: python3 -m pip install -r server/requirements.txt -r server/requirements-dev.txt
+
+      - name: Poller tests
+        run: python3 -m pip install -r poller/requirements-dev.txt && cd poller && python3 -m pytest -q
+
+      - name: Server tests
+        run: cd server && python3 -m pytest -q

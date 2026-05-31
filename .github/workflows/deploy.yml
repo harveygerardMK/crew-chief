@@ -28,7 +28,14 @@ jobs:
       - name: Build site
         env:
           PUBLIC_BROADCAST_API_URL: ${{ vars.PUBLIC_BROADCAST_API_URL }}
+          PUBLIC_AGENT_API_URL: ${{ vars.PUBLIC_AGENT_API_URL }}
         run: npm run build
+      - name: Verify agent UI in dist
+        run: |
+          test -f dist/agent/index.html
+          test -f dist/agent/app.js
+          grep -q 'CREW_CHIEF_API' dist/agent/config.js
+          echo "Agent UI present at /crew-chief/agent/"
       - name: Verify live updates rendered
         run: |
           JSON_COUNT=$(node -e "const d=require('./data/race-broadcast.json'); console.log(Array.isArray(d.updates)?d.updates.length:0)")
