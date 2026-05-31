@@ -34,7 +34,11 @@ Friends and family can talk to a conversational agent during race week:
 
 **https://harveygerardMK.github.io/crew-chief/agent/** (after deploy)
 
-Setup and ops: [docs/superpowers/runbooks/crew-chief-agent-deploy.md](docs/superpowers/runbooks/crew-chief-agent-deploy.md) · [project status](docs/crew-chief-agent-status.md)
+Setup and ops: [docs/superpowers/runbooks/crew-chief-agent-deploy.md](docs/superpowers/runbooks/crew-chief-agent-deploy.md) · [project status](docs/crew-chief-agent-status.md) · [race week](docs/superpowers/runbooks/crew-chief-agent-race-week.md)
+
+```bash
+npm run agent:verify   # smoke test live API (needs PUBLIC_AGENT_API_URL)
+```
 
 ## Local development
 

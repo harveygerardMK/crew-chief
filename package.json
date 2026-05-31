@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "test": "vitest run",
     "art:nga": "node scripts/build-nga-art-pairings.mjs",
-    "ui:copy": "node scripts/copy-ui.mjs"
+    "ui:copy": "node scripts/copy-ui.mjs",
+    "agent:verify": "bash scripts/verify-agent.sh \"${PUBLIC_AGENT_API_URL:-https://views-spirit-words-built.trycloudflare.com}\""
   },
   "dependencies": {
     "astro": "^5.7.10"
