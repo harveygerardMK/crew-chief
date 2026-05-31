@@ -104,6 +104,15 @@ def test_system_prompt_includes_status(settings: Settings) -> None:
     prompt = build_system_prompt(settings, status=status, visitor=visitor)
     assert "87.2" in prompt
     assert "friend" in prompt.lower()
+    assert "Tone: **Friend**" in prompt
+
+
+def test_system_prompt_pacer_tone(settings: Settings) -> None:
+    visitor = create_visitor(settings, name="Alex", relationship="pacer")
+    status = load_status(settings.status_path)
+    prompt = build_system_prompt(settings, status=status, visitor=visitor)
+    assert "Tone: **Pacer**" in prompt
+    assert "pacer" in prompt.lower()
 
 
 def test_fallback_response(settings: Settings) -> None:
@@ -121,6 +130,14 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     health = client.get("/health")
     assert health.status_code == 200
     assert health.json()["ok"] is True
+
+    ready = client.get("/ready")
+    assert ready.status_code == 200
+    body = ready.json()
+    assert body["ok"] is True
+    assert body["claude_configured"] is False
+    assert body["status_file_readable"] is True
+    assert body["race_status"] == "active"
 
     status = client.get("/status")
     assert status.json()["route_mile"] == 87.2

@@ -45,7 +45,11 @@ Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at 
 | Chat UI (built) | `PUBLIC_AGENT_API_URL=http://127.0.0.1:8080 npm run build && npm run preview` | http://localhost:4321/crew-chief/agent/ |
 
 - **Deploy runbook:** `docs/superpowers/runbooks/crew-chief-agent-deploy.md`
+- **Architecture spec:** `docs/superpowers/specs/crew-chief-agent-architecture.md`
 - **Smoke test:** `./scripts/verify-agent.sh http://127.0.0.1:8080`
+- **Droplet env check:** `bash scripts/check-agent-env.sh`
+- **Race-week poller:** `sudo bash scripts/race-week-switch.sh`
+- **Failure drills:** `bash scripts/run-failure-drills.sh`
 - **Server tests:** `cd server && python3 -m pytest -q`
 - **Poller tests:** `cd poller && python3 -m pytest -q`
 - Set `ANTHROPIC_API_KEY` in `server/.env` for live Claude replies (otherwise `/chat` returns `fallback.md`).

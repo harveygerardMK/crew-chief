@@ -23,10 +23,20 @@ All checks should pass.
 - [ ] Receive **greeting** without typing first
 - [ ] Ask: *"How is Harvey doing?"*
 - [ ] Reply sounds like Harvey (not generic assistant)
-- [ ] **Status strip** shows mile/speed or honest “unknown” pre-race
+- [ ] **Status strip** shows mile/speed or **pre-race** before June 12
 - [ ] **Art card** appears (image or caption-only if Commons fails)
 - [ ] Close tab, reopen — **return visit** greeting mentions name / prior check-in
 - [ ] Link to **Crew site** works
+
+### Sample questions by relationship
+
+| Relationship | Try asking |
+|--------------|------------|
+| **Family** | "Should I be worried?" / "Is he eating?" |
+| **Friend** | "How bad is it really?" / "What's the dumbest thing he's done so far?" |
+| **Crew** | "What does he need at the next stop?" / "Status for handoff?" |
+| **Pacer** | "When might I jump in?" / "What pace is he holding?" |
+| **Stranger** | "What is the Tahoe 200?" / "Why would anyone run 200 miles?" |
 
 Record tester name, device, date, anything weird.
 
@@ -36,6 +46,7 @@ Record tester name, device, date, anything weird.
 
 | Drill | How | Expected |
 |-------|-----|----------|
+| **All drills (guided)** | On droplet: `bash scripts/run-failure-drills.sh` | Step-by-step with restore prompts |
 | **Poller stopped** | Stop cron / don't run poller for 10 min | `/status` stale; chat says last known position; UI badge warns |
 | **TrackLeaders unreachable** | Bad slug in `poller/.env` | `data_stale: true`; cached miles preserved |
 | **Claude down** | Unset `ANTHROPIC_API_KEY`, restart API | `/chat` returns `fallback.md`, `"fallback": true` |
@@ -57,7 +68,7 @@ Restore service after each drill.
 
 ## E. Race-week config
 
-- [ ] `TRACKLEADERS_EVENT_SLUG` + `TRACKLEADERS_RUNNER_NAME` set on droplet
+- [ ] On droplet: `sudo bash scripts/race-week-switch.sh` (sets `tahoe20026` + Harvey Schaefer)
 - [ ] Manual poller run writes fresh `harvey_status.json`
 - [ ] `PUBLIC_AGENT_API_URL` matches live tunnel
 - [ ] PM2 + cron survive reboot (`pm2 startup`, crontab saved)

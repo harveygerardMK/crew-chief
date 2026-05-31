@@ -6,6 +6,14 @@ from config import Settings
 from status import format_status_block
 from visitors import format_visitor_block
 
+RELATIONSHIP_TONE: dict[str, str] = {
+    "family": "Tone: **Family** — gentle, protective, reassuring. Shield from brutal detail without lying.",
+    "friend": "Tone: **Friend** — honest about suffering, dry humor, shorter sentences. The shitheads who've seen you at your worst.",
+    "crew": "Tone: **Crew** — operational, brief, clear. They know the plan; give status and needs.",
+    "pacer": "Tone: **Pacer** — practical about upcoming legs, pacing windows, and what you need from them on course.",
+    "stranger": "Tone: **Stranger** — warm, curious, enough context without condescension. Make them feel part of the adventure.",
+}
+
 
 RESPONSE_FORMAT = """
 ## Response format (required)
@@ -38,6 +46,11 @@ def build_system_prompt(
     visitor: dict,
 ) -> str:
     parts = [load_voice(settings), format_status_block(status), format_visitor_block(visitor)]
+
+    relationship = str(visitor.get("relationship", "")).lower()
+    tone = RELATIONSHIP_TONE.get(relationship)
+    if tone:
+        parts.append(f"## Relationship tone for this chat\n{tone}")
 
     if not settings.race_started:
         parts.append(

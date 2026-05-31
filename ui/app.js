@@ -126,9 +126,14 @@ function renderStatus(status) {
   $("stat-mile").textContent = formatMile(status.route_mile);
   $("stat-speed").textContent = formatSpeed(status.current_speed_mph);
   $("stat-update").textContent = formatUpdate(status);
-  $("stat-race").textContent = status.race_status || "unknown";
+  const raceLabel =
+    !status.enabled && (status.race_status === "unknown" || !status.race_status)
+      ? "pre-race"
+      : status.race_status || "unknown";
+  $("stat-race").textContent = raceLabel;
 
   statusBadge.classList.add("hidden");
+  statusBadge.dataset.tone = "ok";
   if (status.data_stale) {
     statusBadge.textContent =
       "Tracker fetch stale — showing last known position. Canyons eat GPS; this is normal.";
@@ -258,6 +263,21 @@ async function requestChat(message = null) {
   });
 }
 
+function showFallbackNotice() {
+  statusBadge.textContent =
+    "Backup line — Harvey's voice is on a short tech delay. Tracker stats above are still live when available.";
+  statusBadge.dataset.tone = "fallback";
+  statusBadge.classList.remove("hidden");
+}
+
+function handleChatResponse(data) {
+  if (data.fallback) showFallbackNotice();
+  if (data.harvey_status_snapshot) {
+    cacheStatus(data.harvey_status_snapshot);
+    renderStatus(data.harvey_status_snapshot);
+  }
+}
+
 async function loadGreeting() {
   if (greetingDone) return;
   const loading = appendMessage({ role: "harvey", text: "…", loading: true });
@@ -269,10 +289,7 @@ async function loadGreeting() {
       text: data.reply,
       artPrompt: data.art_prompt,
     });
-    if (data.harvey_status_snapshot) {
-      cacheStatus(data.harvey_status_snapshot);
-      renderStatus(data.harvey_status_snapshot);
-    }
+    handleChatResponse(data);
     greetingDone = true;
   } catch (err) {
     loading.remove();
@@ -296,10 +313,7 @@ async function sendUserMessage(text) {
       text: data.reply,
       artPrompt: data.art_prompt,
     });
-    if (data.harvey_status_snapshot) {
-      cacheStatus(data.harvey_status_snapshot);
-      renderStatus(data.harvey_status_snapshot);
-    }
+    handleChatResponse(data);
   } catch (err) {
     loading.remove();
     appendMessage({

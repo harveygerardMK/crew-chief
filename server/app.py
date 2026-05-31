@@ -62,6 +62,22 @@ def health() -> dict[str, bool]:
     return {"ok": True}
 
 
+@app.get("/ready")
+def ready() -> dict[str, Any]:
+    """Ops probe: config + data files (no Claude call — safe to poll)."""
+    status = load_status(settings.status_path)
+    key = settings.anthropic_api_key or ""
+    return {
+        "ok": True,
+        "claude_configured": settings.claude_configured,
+        "api_key_ascii": bool(key) and key.isascii(),
+        "status_file_readable": settings.status_path.is_file(),
+        "status_enabled": bool(status.get("enabled")),
+        "data_stale": bool(status.get("data_stale")),
+        "race_status": status.get("race_status", "unknown"),
+    }
+
+
 @app.get("/status")
 def get_status() -> dict[str, Any]:
     return load_status(settings.status_path)

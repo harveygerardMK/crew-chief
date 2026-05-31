@@ -84,13 +84,15 @@ cat <<'EOF'
 
 1. Edit server/.env — set ANTHROPIC_API_KEY (required for live chat)
 2. Edit poller/.env — TRACKLEADERS_EVENT_SLUG + TRACKLEADERS_RUNNER_NAME when live
-3. Start Cloudflare Tunnel:
+3. Cloudflare Tunnel (included in PM2 ecosystem):
+     pm2 start deploy/ecosystem.config.cjs   # starts API + cloudflared
+     pm2 logs cloudflared   # copy https://….trycloudflare.com URL
+   Or one-off:
      cloudflared tunnel --url http://127.0.0.1:8080
-   Or persist with PM2:
-     pm2 start "cloudflared tunnel --url http://127.0.0.1:8080" --name cloudflared && pm2 save
 4. GitHub repo → Settings → Actions → Variables → PUBLIC_AGENT_API_URL = tunnel URL
 5. Re-run "Deploy to GitHub Pages" workflow
 6. From your laptop: ./scripts/verify-agent.sh https://YOUR-TUNNEL-URL
+7. On droplet: bash scripts/check-agent-env.sh
 
 Full runbook: docs/superpowers/runbooks/crew-chief-agent-deploy.md
 EOF

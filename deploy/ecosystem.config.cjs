@@ -15,5 +15,13 @@ module.exports = {
       max_restarts: 20,
       restart_delay: 3000,
     },
+    {
+      name: "cloudflared",
+      script: "cloudflared",
+      args: "tunnel --url http://127.0.0.1:8080",
+      autorestart: true,
+      max_restarts: 20,
+      restart_delay: 5000,
+    },
   ],
 };

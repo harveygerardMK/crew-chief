@@ -159,6 +159,12 @@ body {
   border-color: color-mix(in srgb, var(--status-error) 60%, var(--ink-divider));
 }
 
+.status-strip__badge[data-tone="fallback"] {
+  border-color: color-mix(in srgb, var(--status-stale) 50%, var(--ink-divider));
+  background: color-mix(in srgb, var(--status-stale) 8%, var(--surface-raised));
+  color: var(--ink-secondary);
+}
+
 .panel {
   flex: 1;
   display: flex;

@@ -20,6 +20,19 @@ HEALTH=$(curl -sf "$BASE/health") || fail "GET /health"
 echo "$HEALTH" | grep -q '"ok"' || echo "$HEALTH" | grep -q 'true' || fail "/health body"
 pass "GET /health"
 
+# Ready (ops probe)
+READY=$(curl -sf "$BASE/ready") || fail "GET /ready"
+echo "$READY" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d.get('ok') is True, d
+if not d.get('claude_configured'):
+    print('  WARNING: claude_configured=false — chat will use fallback')
+if not d.get('api_key_ascii', True):
+    print('  WARNING: api_key_ascii=false — fix ANTHROPIC_API_KEY encoding on droplet')
+"
+pass "GET /ready"
+
 # Status
 STATUS=$(curl -sf "$BASE/status") || fail "GET /status"
 echo "$STATUS" | grep -q 'race_status' || fail "/status JSON shape"
@@ -36,7 +49,16 @@ pass "POST /visitors → $VID"
 CHAT=$(curl -sf -X POST "$BASE/chat" \
   -H 'Content-Type: application/json' \
   -d "{\"visitor_id\":\"$VID\"}") || fail "POST /chat (greeting)"
-echo "$CHAT" | python3 -c "import sys,json; d=json.load(sys.stdin); assert d.get('reply'); assert d.get('art_prompt'); print('  fallback='+str(d.get('fallback',False)))"
+echo "$CHAT" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d.get('reply')
+assert d.get('art_prompt')
+fb = d.get('fallback', False)
+print('  fallback=' + str(fb))
+if fb:
+    print('  WARNING: fallback=True — check ANTHROPIC_API_KEY, credits, and pm2 logs')
+"
 pass "POST /chat greeting (reply + art_prompt)"
 
 # Message chat
