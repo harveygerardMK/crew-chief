@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
-from datetime import UTC
+from datetime import timezone
+
+UTC = timezone.utc
 from unittest.mock import patch
 
 import pytest

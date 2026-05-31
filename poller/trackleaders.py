@@ -5,7 +5,9 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
+
+UTC = timezone.utc
 from typing import Any, Literal
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
