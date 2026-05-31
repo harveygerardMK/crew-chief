@@ -146,6 +146,29 @@ GITHUB_REPO=crew-chief
 VISITORS_EXPORT_PATH=data/visitors.json
 ```
 
+**Post-race logs & race data (May 2026 bundle)** — defaults point at `data/` under the repo; create empty files on first deploy if you want explicit paths:
+
+```env
+AID_STATIONS_PATH=/var/crew-chief/data/aid-stations.json
+QUESTIONS_PATH=/var/crew-chief/data/questions.json
+NOTES_PATH=/var/crew-chief/data/notes.json
+```
+
+| File / endpoint | Purpose |
+|-----------------|--------|
+| `data/questions.json` | Append-only log of every `/chat` (for Harvey after the race). Not sent to Claude. |
+| `data/notes.json` | Notes from visitors via **`POST /notes`** `{ visitor_id, note_text }`. Not sent to Claude. |
+| RACE DATA in prompts | Loaded at API startup from `aid-stations.json`; refreshes from GitHub Pages every 30 min. |
+
+After deploy, confirm writes:
+
+```bash
+touch /var/crew-chief/data/questions.json /var/crew-chief/data/notes.json
+echo '[]' | tee /var/crew-chief/data/questions.json /var/crew-chief/data/notes.json
+# Send a test chat + note from the UI, then:
+ls -la /var/crew-chief/data/questions.json /var/crew-chief/data/notes.json
+```
+
 ---
 
 ## 7. Start with PM2
@@ -240,6 +263,8 @@ cd /path/to/crew-chief
 ```
 
 Or follow **docs/superpowers/runbooks/crew-chief-agent-test-checklist.md**.
+
+**Bundle smoke (phone):** onboarding → chat → ask **“How is he doing?”** (art card should appear) → **Leave Harvey a note** → return visit (catch-up offer). Greeting alone should **not** show an art card.
 
 ---
 
