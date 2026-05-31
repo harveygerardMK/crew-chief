@@ -5,7 +5,7 @@ const root = process.cwd();
 const src = join(root, "ui");
 const apiUrl = process.env.PUBLIC_AGENT_API_URL || "";
 
-const files = ["index.html", "styles.css", "app.js", "config.example.js"];
+const files = ["index.html", "styles.css", "app.js", "config.example.js", "splash-rabbit.svg"];
 
 let config = readFileSync(join(src, "config.js"), "utf8");
 config = config.replace(

@@ -40,6 +40,7 @@ Set repository variable **`PUBLIC_AGENT_API_URL`** in GitHub Actions to your Clo
 
 ## Features
 
+- **PWA splash** — When opened from the home screen (`display-mode: standalone`), a ~2.8s intro plays (rabbit draw-on, mile counter from `GET /status`, then fade to onboarding). Skipped in a normal browser tab.
 - First-visit onboarding → `POST /visitors` → `localStorage`
 - Session greeting → `POST /chat` with `{ visitor_id }` only
 - Chat → `POST /chat` with message
@@ -52,6 +53,7 @@ Set repository variable **`PUBLIC_AGENT_API_URL`** in GitHub Actions to your Clo
 |------|---------|
 | `index.html` | Layout: status strip, onboarding, messages, composer |
 | `styles.css` | Crew Chief palette + compact chat layout |
-| `app.js` | API client + UI logic |
+| `app.js` | API client + UI logic + PWA splash sequencing |
+| `splash-rabbit.svg` | Stroked rabbit paths (reference; inlined in `index.html`) |
 | `config.js` | API URL (injected at deploy) |
 | `config.local.js` | Local overrides (gitignored) |

@@ -24,6 +24,7 @@ poller/.venv/
 poller/__pycache__/
 poller/tests/__pycache__/
 data/harvey_status.json
+data/.pin-status
 data/visitors.json
 data/questions.json
 data/notes.json

@@ -1,15 +1,16 @@
 {
   "enabled": false,
   "fetched_at": null,
-  "race_status": "unknown",
+  "race_status": "anxious",
   "last_update_at": null,
-  "last_update_label": null,
-  "route_mile": null,
-  "elevation_gain_ft": null,
-  "current_speed_mph": null,
+  "last_update_label": "none",
+  "route_mile": 0,
+  "elevation_gain_ft": 0,
+  "current_speed_mph": 0,
   "stale": false,
+  "simulation": false,
   "source_url": "",
-  "error": "Awaiting TrackLeaders configuration (race week)",
+  "error": null,
   "data_stale": false,
   "last_successful_fetch": null
 }
