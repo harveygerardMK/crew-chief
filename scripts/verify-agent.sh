@@ -57,16 +57,21 @@ CHAT=$(curl -sf -X POST "$BASE/chat" \
   -H 'Content-Type: application/json' \
   -d "{\"visitor_id\":\"$VID\"}") || fail "POST /chat (greeting)"
 echo "$CHAT" | python3 -c "
-import sys, json
+import sys, json, os
 d = json.load(sys.stdin)
 assert d.get('reply')
-assert d.get('art_prompt') is None, 'greeting should not include art_prompt'
+strict = os.environ.get('VERIFY_AGENT_STRICT', '1') == '1'
+if d.get('art_prompt'):
+    msg = 'greeting included art_prompt (expected none after May 2026 bundle)'
+    if strict:
+        raise AssertionError(msg)
+    print('  WARNING: ' + msg + ' — droplet: git pull && pm2 restart crew-chief-api')
 fb = d.get('fallback', False)
 print('  fallback=' + str(fb))
 if fb:
     print('  WARNING: fallback=True — check ANTHROPIC_API_KEY, credits, and pm2 logs')
 "
-pass "POST /chat greeting (reply, no art_prompt)"
+pass "POST /chat greeting (reply)"
 
 CHAT_ART=$(curl -sf -X POST "$BASE/chat" \
   -H 'Content-Type: application/json' \
