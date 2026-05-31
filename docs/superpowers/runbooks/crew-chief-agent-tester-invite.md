@@ -1,7 +1,7 @@
 # Tester invites — copy/paste
 
-**Ask Harvey:** https://harveygerardMK.github.io/crew-chief/agent/  
-**Crew site:** https://harveygerardMK.github.io/crew-chief/
+**Ask Harvey:** [https://harveygerardMK.github.io/crew-chief/agent/](https://harveygerardMK.github.io/crew-chief/agent/)  
+**Crew site:** [https://harveygerardMK.github.io/crew-chief/](https://harveygerardMK.github.io/crew-chief/)
 
 Pick one message below. First visit: name + relationship. Works best on a phone.
 
@@ -13,7 +13,7 @@ Pick one message below. First visit: name + relationship. Works best on a phone.
 
 Hey — Harvey’s running the Tahoe 200 in June, and we set up a little chat thing so you can check in without digging through a whole website.
 
-**Link:** https://harveygerardMK.github.io/crew-chief/agent/
+**Link:** [https://harveygerardMK.github.io/crew-chief/agent/](https://harveygerardMK.github.io/crew-chief/agent/)
 
 Ask things like “How is he doing?” or “Should I be worried?” It’s Harvey’s voice. When the race is on, it’s grounded in his live tracker. Signal drops in the mountains are normal.
 
@@ -29,11 +29,11 @@ Thanks for caring. This is an adventure.
 
 Hey — I wanted you to have a simple way to check in during the Tahoe 200 without living on a tracker page.
 
-**Ask Harvey (chat):** https://harveygerardMK.github.io/crew-chief/agent/
+**Ask Harvey (chat):** [https://harveygerardMK.github.io/crew-chief/agent/](https://harveygerardMK.github.io/crew-chief/agent/)
 
 Choose **Family** when it asks how you know me. Try: *“Should I be worried?”* or *“Is he eating?”*
 
-Full schedule and follow-along: https://harveygerardMK.github.io/crew-chief/
+Full schedule and follow-along: [https://harveygerardMK.github.io/crew-chief/](https://harveygerardMK.github.io/crew-chief/)
 
 Love you. This is an adventure.
 
@@ -47,7 +47,7 @@ Love you. This is an adventure.
 
 You can now ask me how the Tahoe 200 is going and I’ll answer in my own voice (yes, really).
 
-**Link:** https://harveygerardMK.github.io/crew-chief/agent/
+**Link:** [https://harveygerardMK.github.io/crew-chief/agent/](https://harveygerardMK.github.io/crew-chief/agent/)
 
 Pick **Friend**. Ask something like *“How bad is it really?”* or *“What’s the dumbest thing you’ve done so far?”*
 
@@ -65,8 +65,8 @@ This is an adventure.
 
 For Tahoe 200 week — quick way to get a Harvey-voiced status readout without texting me on course.
 
-**Chat:** https://harveygerardMK.github.io/crew-chief/agent/  
-**Crew site:** https://harveygerardMK.github.io/crew-chief/
+**Chat:** [https://harveygerardMK.github.io/crew-chief/agent/](https://harveygerardMK.github.io/crew-chief/agent/)  
+**Crew site:** [https://harveygerardMK.github.io/crew-chief/](https://harveygerardMK.github.io/crew-chief/)
 
 Use **Pacer** or **Crew** as relationship. Good prompts: *“What do you need on the next leg?”* / *“Status for handoff?”*
 
