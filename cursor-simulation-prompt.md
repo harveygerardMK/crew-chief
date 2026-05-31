@@ -29,22 +29,24 @@ Parse the ping history below into `data/simulation_track.json`. Each entry shoul
 
 **Key events to flag in the JSON:**
 
-| Point range | Miles | What's happening |
-|-------------|-------|-----------------|
-| 1-16 | 4.7–10.7 | Moving well, early miles |
-| 197-207 | ~51.1 | Long stop, ~60 min — likely aid station |
-| 241 | 59.4 | 65-min gap (points 240→241) — signal blackout |
-| 248-249 | 61.6 | 70-min gap — sleep/rest |
-| 269-270 | 67.7 | 75-min gap — sleep (1h 15m) |
-| 299-307 | 75.8 | Extended stop, ~40 min |
-| 333-366 | 83.0 | Long stop, ~90 min — sleep station |
-| 348 | 83.8 | Last moving ping before sleep |
-| 372 | 84.7 | 25-min gap — resuming after sleep |
-| 411-426 | 96.9 | Very long stop, ~75 min |
-| 456 | 100.9 | Last ping before 65-min gap |
-| 480 | 102.8 | Resumes — gap was 65 min |
-| 492-527 | 107.5 | Longest stop, ~100 min — likely sleep station |
-| 568-623 | 124.5–126.2 | DNF zone — stopped at ~124.5 for hours, last ping at 126.2 |
+
+| Point range | Miles       | What's happening                                           |
+| ----------- | ----------- | ---------------------------------------------------------- |
+| 1-16        | 4.7–10.7    | Moving well, early miles                                   |
+| 197-207     | ~51.1       | Long stop, ~60 min — likely aid station                    |
+| 241         | 59.4        | 65-min gap (points 240→241) — signal blackout              |
+| 248-249     | 61.6        | 70-min gap — sleep/rest                                    |
+| 269-270     | 67.7        | 75-min gap — sleep (1h 15m)                                |
+| 299-307     | 75.8        | Extended stop, ~40 min                                     |
+| 333-366     | 83.0        | Long stop, ~90 min — sleep station                         |
+| 348         | 83.8        | Last moving ping before sleep                              |
+| 372         | 84.7        | 25-min gap — resuming after sleep                          |
+| 411-426     | 96.9        | Very long stop, ~75 min                                    |
+| 456         | 100.9       | Last ping before 65-min gap                                |
+| 480         | 102.8       | Resumes — gap was 65 min                                   |
+| 492-527     | 107.5       | Longest stop, ~100 min — likely sleep station              |
+| 568-623     | 124.5–126.2 | DNF zone — stopped at ~124.5 for hours, last ping at 126.2 |
+
 
 Add a `"flag"` field to notable points: `"sleep_station"`, `"signal_gap"`, `"dnf_zone"`, `"aid_station"`.
 
@@ -204,16 +206,18 @@ python scripts/restore_real_status.py
 
 ## What to test during simulation
 
-| What to watch | When |
-|--------------|------|
-| Status strip updates live | All pings |
-| Speed shows 0.0 at rest stops | Points 197-207, 299-307, 411-426, 492-527 |
-| Stale data banner fires | When gap between pings > 2 hours (points 241, 480) |
-| Agent says "last known position" language | During stale gaps |
-| Art card triggers on "how is he doing" | Throughout |
-| Return visit catch-up math | Check in at mile 50, come back at mile 80 |
-| DNF handling | After point 623 |
-| Agent never says "DNF" until status says so | During the long DNF-zone stop at 124.5 |
+
+| What to watch                               | When                                               |
+| ------------------------------------------- | -------------------------------------------------- |
+| Status strip updates live                   | All pings                                          |
+| Speed shows 0.0 at rest stops               | Points 197-207, 299-307, 411-426, 492-527          |
+| Stale data banner fires                     | When gap between pings > 2 hours (points 241, 480) |
+| Agent says "last known position" language   | During stale gaps                                  |
+| Art card triggers on "how is he doing"      | Throughout                                         |
+| Return visit catch-up math                  | Check in at mile 50, come back at mile 80          |
+| DNF handling                                | After point 623                                    |
+| Agent never says "DNF" until status says so | During the long DNF-zone stop at 124.5             |
+
 
 ---
 
