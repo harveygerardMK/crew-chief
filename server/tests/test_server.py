@@ -9,7 +9,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from claude import _parse_model_json, fallback_response
-from config import Settings
+from config import Settings, _anthropic_key_valid
 from prompt import build_greeting_user_message, build_system_prompt
 from status import load_status
 from visitors import InvalidRelationship, create_visitor, get_visitor, record_checkin
@@ -121,6 +121,7 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     health = client.get("/health")
     assert health.status_code == 200
     assert health.json()["ok"] is True
+    assert health.json()["claude_configured"] is False
 
     status = client.get("/status")
     assert status.json()["route_mile"] == 87.2
@@ -138,3 +139,11 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
 
     updated = get_visitor(settings, visitor_id)
     assert updated["checkin_count"] == 1
+
+
+def test_anthropic_key_validation() -> None:
+    assert _anthropic_key_valid(None) is False
+    assert _anthropic_key_valid("") is False
+    assert _anthropic_key_valid("ssk-ant-fake") is False
+    assert _anthropic_key_valid("sk-ant-api03-short") is False
+    assert _anthropic_key_valid("sk-ant-api03-" + "x" * 24) is True

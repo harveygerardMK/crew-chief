@@ -263,3 +263,31 @@ If the droplet fails during race week, see **crew-chief-agent-failover-mac-mini.
 ## What stays on Cloudflare Worker
 
 The **broadcast Worker** (`workers/broadcast/`) is unchanged — crew still uses `/crew-chief/update/` for photos and family broadcast JSON. The agent droplet is separate.
+
+## Chat shows “The chat line is down” for every message
+
+That text is **fallback mode** — Claude is not connected. It is not specific to one question.
+
+1. On the droplet, check health (after deploying latest server):
+   ```bash
+   curl -s http://127.0.0.1:8080/health
+   ```
+   You want `"claude_configured": true`. If `false`, fix `server/.env`.
+
+2. Key must start with `sk-ant-` (not `ssk-ant`). One line only:
+   ```bash
+   printf '%s\n' 'ANTHROPIC_API_KEY=sk-ant-YOUR_KEY_HERE' 'CORS_ORIGINS=*' > /var/crew-chief/server/.env
+   pm2 delete crew-chief-api 2>/dev/null; cd /var/crew-chief && pm2 start deploy/ecosystem.config.cjs
+   pm2 restart crew-chief-api --update-env
+   ```
+
+3. Test through the **tunnel** (not only localhost):
+   ```bash
+   curl -s https://YOUR_TUNNEL.trycloudflare.com/health
+   ```
+
+4. Chat test should return `"fallback": false`:
+   ```bash
+   VID=$(curl -s -X POST https://YOUR_TUNNEL.trycloudflare.com/visitors -H 'Content-Type: application/json' -d '{"name":"Test","relationship":"friend"}' | python3 -c "import sys,json;print(json.load(sys.stdin)['visitor_id'])")
+   curl -s -X POST https://YOUR_TUNNEL.trycloudflare.com/chat -H 'Content-Type: application/json' -d "{\"visitor_id\":\"$VID\",\"message\":\"Harvey, how are your feet?\"}" | python3 -c "import sys,json; d=json.load(sys.stdin); print('fallback', d.get('fallback')); print(d.get('reply','')[:120])"
+   ```

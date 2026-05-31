@@ -59,7 +59,7 @@ class ChatResponse(BaseModel):
 
 @app.get("/health")
 def health() -> dict[str, bool]:
-    return {"ok": True}
+    return {"ok": True, "claude_configured": settings.claude_configured}
 
 
 @app.get("/status")

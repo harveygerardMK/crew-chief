@@ -233,6 +233,14 @@ async function loadArtImage(container, artPrompt) {
   }
 }
 
+
+function showFallbackNotice() {
+  statusBadge.textContent =
+    "Backup line — Harvey's real chat AI isn't connected yet. Replies are a canned message until the server key is fixed.";
+  statusBadge.dataset.tone = "error";
+  statusBadge.classList.remove("hidden");
+}
+
 function showChat() {
   onboardingPanel.classList.add("hidden");
   chatPanel.classList.remove("hidden");
@@ -269,6 +277,7 @@ async function loadGreeting() {
       text: data.reply,
       artPrompt: data.art_prompt,
     });
+    if (data.fallback) showFallbackNotice();
     if (data.harvey_status_snapshot) {
       cacheStatus(data.harvey_status_snapshot);
       renderStatus(data.harvey_status_snapshot);
@@ -296,6 +305,7 @@ async function sendUserMessage(text) {
       text: data.reply,
       artPrompt: data.art_prompt,
     });
+    if (data.fallback) showFallbackNotice();
     if (data.harvey_status_snapshot) {
       cacheStatus(data.harvey_status_snapshot);
       renderStatus(data.harvey_status_snapshot);

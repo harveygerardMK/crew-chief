@@ -39,7 +39,17 @@ class Settings:
 
     @property
     def claude_configured(self) -> bool:
-        return bool(self.anthropic_api_key)
+        return _anthropic_key_valid(self.anthropic_api_key)
+
+
+def _anthropic_key_valid(key: str | None) -> bool:
+    """Reject empty keys and common paste typos (e.g. ssk-ant)."""
+    if not key:
+        return False
+    trimmed = key.strip()
+    if trimmed.startswith("ssk-"):
+        return False
+    return trimmed.startswith("sk-ant-") and len(trimmed) > 20
 
 
 def load_settings() -> Settings:
