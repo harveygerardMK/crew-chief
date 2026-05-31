@@ -6,6 +6,13 @@ import json
 from pathlib import Path
 from typing import Any
 
+from config import Settings
+from course_context import (
+    enrich_status,
+    format_course_context_block,
+    format_signal_gap_block,
+)
+
 
 DEFAULT_STATUS: dict[str, Any] = {
     "enabled": False,
@@ -50,4 +57,14 @@ def format_status_block(status: dict[str, Any]) -> str:
     ]
     if status.get("error"):
         lines.append(f"- Status note: {status['error']}")
+    course_block = format_course_context_block(status)
+    if course_block:
+        lines.extend(["", course_block])
+    gap_block = format_signal_gap_block(status)
+    if gap_block:
+        lines.extend(["", gap_block])
     return "\n".join(lines)
+
+
+def load_enriched_status(path: Path, settings: Settings) -> dict[str, Any]:
+    return enrich_status(settings, load_status(path))

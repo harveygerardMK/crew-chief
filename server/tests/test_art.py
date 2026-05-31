@@ -51,6 +51,7 @@ def test_lookup_nga_image(tmp_path: Path) -> None:
         visitors_export_path="data/visitors.json",
         art_pairings_path=pairings,
         aid_stations_path=Path(__file__).resolve().parents[2] / "data" / "aid-stations.json",
+        segments_path=Path(__file__).resolve().parents[2] / "data" / "segments.json",
         questions_path=tmp_path / "questions.json",
         notes_path=tmp_path / "notes.json",
     )

@@ -11,6 +11,9 @@
     "test": "vitest run",
     "art:nga": "node scripts/build-nga-art-pairings.mjs",
     "ui:copy": "node scripts/copy-ui.mjs",
+    "agent:demo": "bash scripts/agent-demo.sh",
+    "agent:sim": "python3 scripts/simulate_race.py",
+    "agent:restore": "python3 scripts/restore_real_status.py",
     "agent:verify": "bash scripts/verify-agent.sh \"${PUBLIC_AGENT_API_URL:-https://views-spirit-words-built.trycloudflare.com}\"",
     "agent:preflight": "bash scripts/laptop-preflight.sh"
   },

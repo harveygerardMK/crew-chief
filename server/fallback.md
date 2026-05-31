@@ -1,7 +1,5 @@
-Harvey here. The chat line is down for a minute — tech, not race.
+Harvey here. Quick read from the tracker when the line is working.
 
-Last we heard from the tracker, he was still moving. Signal gaps happen out here. Canyons eat GPS. Sleep happens.
+Signal gaps happen out here. Canyons eat GPS. Sleep happens. That is normal on a 200.
 
-If you're worried: no DNF on the tracker means no DNF. That's usually how this works.
-
-Check back in a few minutes, or follow along on the crew site.
+Check the crew site for the official word on race status.

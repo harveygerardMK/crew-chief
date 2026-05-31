@@ -5,8 +5,17 @@
 const STORAGE = {
   visitorId: "cc_visitor_id",
   visitorName: "cc_visitor_name",
+  visitorRelationship: "cc_visitor_relationship",
   cachedStatus: "cc_cached_status",
   simulationDismissed: "cc_simulation_dismissed",
+};
+
+const PROMPT_CHIPS = {
+  family: ["How is he doing?", "Is he resting or moving?", "Should I worry?"],
+  friend: ["How is he doing?", "Where is he on the course?", "How's he holding up?"],
+  crew: ["Status update?", "Next aid station?", "Anything I should know?"],
+  pacer: ["When might he reach me?", "Is he on pace?", "What do I need to know?"],
+  stranger: ["How is he doing?", "Where is he on the course?", "How does this work?"],
 };
 
 const STATUS_POLL_MS = 60_000;
@@ -28,6 +37,8 @@ const statusHeader = $("status-header");
 const statusBanner = $("status-banner");
 const simulationBanner = $("simulation-banner");
 const simulationDismiss = $("simulation-dismiss");
+const statPlace = $("stat-place");
+const promptChips = $("prompt-chips");
 const noteBtn = $("note-btn");
 const noteOverlay = $("note-overlay");
 
@@ -57,9 +68,14 @@ function getVisitorId() {
   return localStorage.getItem(STORAGE.visitorId);
 }
 
-function setVisitor(id, name) {
+function setVisitor(id, name, relationship) {
   localStorage.setItem(STORAGE.visitorId, id);
   localStorage.setItem(STORAGE.visitorName, name);
+  if (relationship) localStorage.setItem(STORAGE.visitorRelationship, relationship);
+}
+
+function getVisitorRelationship() {
+  return localStorage.getItem(STORAGE.visitorRelationship) || "friend";
 }
 
 function cacheStatus(status) {
@@ -131,6 +147,7 @@ function formatUpdate(status) {
 }
 
 function isPreRace(status) {
+  if (status?.simulation === true) return false;
   return (
     !status?.enabled &&
     (status?.race_status === "unknown" || !status?.race_status) &&
@@ -163,9 +180,30 @@ function renderSimulationBanner(status) {
   simulationBanner.classList.toggle("hidden", !show);
 }
 
+function renderPromptChips() {
+  if (!promptChips) return;
+  const relationship = getVisitorRelationship();
+  const chips = PROMPT_CHIPS[relationship] || PROMPT_CHIPS.friend;
+  promptChips.innerHTML = "";
+  for (const text of chips) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "prompt-chip";
+    btn.textContent = text;
+    btn.addEventListener("click", () => {
+      composerInput.value = text;
+      composerForm.requestSubmit();
+    });
+    promptChips.appendChild(btn);
+  }
+  promptChips.classList.remove("hidden");
+}
+
 function renderStatus(status) {
   statusHeader.classList.remove("status-header--stale", "status-header--prerace");
   statusBanner.classList.add("hidden");
+  statusBanner.innerHTML = "";
+  if (statPlace) statPlace.classList.add("hidden");
 
   if (isPreRace(status)) {
     statusHeader.classList.add("status-header--prerace");
@@ -188,17 +226,28 @@ function renderStatus(status) {
       : status.race_status || "—";
   $("stat-race").textContent = raceLabel;
 
+  if (statPlace && status.course_context?.place_label && status.enabled) {
+    statPlace.textContent = status.course_context.place_label;
+    statPlace.classList.remove("hidden");
+  }
+
   renderSimulationBanner(status);
 
+  const gap = status.signal_gap;
   const age = pingAgeMs(status);
   const signalGap =
+    gap?.active ||
     status.data_stale ||
     status.stale ||
     (age != null && age > STALE_MS && status.enabled);
 
   if (signalGap) {
     statusHeader.classList.add("status-header--stale");
-    statusBanner.textContent = "SIGNAL GAP — NORMAL IN BACKCOUNTRY";
+    if (gap?.title && gap?.detail) {
+      statusBanner.innerHTML = `<span class="status-banner__title">${escapeHtml(gap.title)}</span>${escapeHtml(gap.summary)}\n\n${escapeHtml(gap.detail)}`;
+    } else {
+      statusBanner.textContent = "SIGNAL GAP — NORMAL IN BACKCOUNTRY\n\nLast known position only. Canyons and aid stops often mean no fresh GPS for a while.";
+    }
     statusBanner.classList.remove("hidden");
   }
 }
@@ -335,6 +384,7 @@ function showChat() {
   onboardingPanel.classList.add("hidden");
   chatPanel.classList.remove("hidden");
   composerWrap.classList.remove("hidden");
+  renderPromptChips();
 }
 
 function updateNoteButton() {
@@ -456,7 +506,7 @@ onboardingForm.addEventListener("submit", async (event) => {
       method: "POST",
       body: JSON.stringify({ name, relationship }),
     });
-    setVisitor(data.visitor_id, data.name);
+    setVisitor(data.visitor_id, data.name, relationship);
     showChat();
     await refreshStatus();
     await loadGreeting();

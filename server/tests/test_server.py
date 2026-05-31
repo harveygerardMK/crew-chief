@@ -53,6 +53,7 @@ def settings(tmp_path: Path) -> Settings:
         visitors_export_path="data/visitors.json",
         art_pairings_path=tmp_path / "art-pairings.json",
         aid_stations_path=REPO_ROOT / "data" / "aid-stations.json",
+        segments_path=REPO_ROOT / "data" / "segments.json",
         questions_path=tmp_path / "questions.json",
         notes_path=tmp_path / "notes.json",
     )
@@ -96,7 +97,7 @@ def test_parse_model_json() -> None:
 def test_greeting_message_first_visit(settings: Settings) -> None:
     visitor = create_visitor(settings, name="Dan", relationship="friend")
     status = load_status(settings.status_path)
-    msg = build_greeting_user_message(visitor, status=status)
+    msg = build_greeting_user_message(visitor, status=status, settings=settings)
     assert "Dan" in msg or "first visit" in msg.lower()
 
 
@@ -105,9 +106,10 @@ def test_greeting_message_return_visit(settings: Settings) -> None:
     record_checkin(settings, visitor["id"], harvey_mile=50.0)
     visitor = get_visitor(settings, visitor["id"])
     status = load_status(settings.status_path)
-    msg = build_greeting_user_message(visitor, status=status)
-    assert "catch-up" in msg.lower()
+    msg = build_greeting_user_message(visitor, status=status, settings=settings)
+    assert "catch-up" in msg.lower() or "lead immediately" in msg.lower()
     assert "50" in msg
+    assert "wait for them to say yes" not in msg.lower()
 
 
 def test_system_prompt_includes_status(settings: Settings) -> None:
@@ -135,6 +137,50 @@ def test_fallback_response(settings: Settings) -> None:
     assert "art_prompt" not in out
     out_art = fallback_response(settings, include_art=True)
     assert out_art["art_prompt"]
+    with_status = fallback_response(
+        settings,
+        status={"enabled": True, "route_mile": 51.1, "current_speed_mph": 0.0, "race_status": "active"},
+    )
+    assert "mile 51.1" in with_status["reply"].lower()
+    assert "chat line is down" not in with_status["reply"].lower()
+    assert "no dnf" not in with_status["reply"].lower()
+
+
+def test_enriched_status_includes_course_context(settings: Settings) -> None:
+    from course_context import enrich_status
+
+    status = enrich_status(settings, {"enabled": True, "route_mile": 87.2})
+    assert status["course_context"]["segment_name"]
+    assert "next_aid_name" in status["course_context"]
+
+
+def test_catchup_summary_between_miles(settings: Settings) -> None:
+    from course_context import build_catchup_summary
+
+    summary = build_catchup_summary(
+        settings=settings,
+        last_mile=50.0,
+        current_mile=87.2,
+        last_seen="2026-06-12T10:00:00Z",
+    )
+    assert summary
+    assert "37" in summary or "87" in summary
+
+
+def test_signal_gap_context_when_stale() -> None:
+    from course_context import build_signal_gap_context
+
+    gap = build_signal_gap_context(
+        {
+            "enabled": True,
+            "stale": True,
+            "route_mile": 59.4,
+            "last_update_at": "2026-06-12T04:00:00Z",
+        }
+    )
+    assert gap
+    assert gap["title"]
+    assert gap["detail"]
 
 
 def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -166,7 +212,7 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     assert chat.status_code == 200
     body = chat.json()
     assert body["fallback"] is True
-    assert "Fallback message" in body["reply"]
+    assert "mile" in body["reply"].lower()
     assert body.get("art_prompt") is None
 
     chat_art = client.post(

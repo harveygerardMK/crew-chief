@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from config import Settings
+from config import REPO_ROOT, Settings
 from race_data import SCOPE_LOCK, get_race_data_block, reset_race_data_cache, warm_race_data_cache
 
 
@@ -38,6 +38,7 @@ def settings(tmp_path: Path) -> Settings:
         visitors_export_path="data/visitors.json",
         art_pairings_path=tmp_path / "art-pairings.json",
         aid_stations_path=aid,
+        segments_path=REPO_ROOT / "data" / "segments.json",
         questions_path=tmp_path / "questions.json",
         notes_path=tmp_path / "notes.json",
     )

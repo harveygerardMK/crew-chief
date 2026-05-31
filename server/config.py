@@ -34,6 +34,7 @@ class Settings:
     visitors_export_path: str
     art_pairings_path: Path
     aid_stations_path: Path
+    segments_path: Path
     questions_path: Path
     notes_path: Path
 
@@ -76,6 +77,9 @@ def load_settings() -> Settings:
         ),
         aid_stations_path=Path(
             os.environ.get("AID_STATIONS_PATH", REPO_ROOT / "data" / "aid-stations.json"),
+        ),
+        segments_path=Path(
+            os.environ.get("SEGMENTS_PATH", REPO_ROOT / "data" / "segments.json"),
         ),
         questions_path=Path(
             os.environ.get("QUESTIONS_PATH", REPO_ROOT / "data" / "questions.json"),

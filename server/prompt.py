@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from config import Settings
+from course_context import format_catchup_block
 from race_data import SCOPE_LOCK, get_race_data_block
 from status import format_status_block
 from visitors import format_visitor_block
@@ -65,6 +66,10 @@ def build_system_prompt(
         format_visitor_block(visitor),
     ]
 
+    catchup = format_catchup_block(visitor, status, settings)
+    if catchup:
+        parts.append(catchup)
+
     relationship = str(visitor.get("relationship", "")).lower()
     tone = RELATIONSHIP_TONE.get(relationship)
     if tone:
@@ -89,40 +94,32 @@ def build_system_prompt(
     if count > 0:
         parts.append(
             "## Return visitor catch-up\n"
-            "If they ask for a catch-up (yes to your offer), summarize miles covered and aid stations "
-            "passed since their last check-in using last_harvey_mile vs current mile in the status block. "
-            "Mention notable time gaps only when data supports it."
+            "This person has checked in before. On session start, lead with the catch-up block above "
+            "(miles covered, aids passed, current place). Do not ask permission — give the summary first, "
+            "then invite questions. Never speculate about DNF unless race_status explicitly says DNF."
         )
 
     parts.append(RESPONSE_FORMAT_WITH_ART if include_art else RESPONSE_FORMAT_REPLY_ONLY)
     return "\n\n".join(parts)
 
 
-def build_greeting_user_message(visitor: dict, *, status: dict) -> str:
+def build_greeting_user_message(visitor: dict, *, status: dict, settings: Settings) -> str:
     name = visitor.get("name", "friend")
     count = int(visitor.get("checkin_count", 0))
     if count == 0:
         return (
             f"[Session start — first visit. Greet {name} warmly by name. "
             "Introduce yourself briefly as Harvey on the Tahoe 200 journey. "
+            "Mention where you are on course using the course position block if mile data exists. "
             "Invite them to ask how you're doing. Keep it short.]"
         )
 
-    mile = status.get("route_mile")
-    status_bits = []
-    if mile is not None:
-        status_bits.append(f"you are around mile {mile}")
-    race_status = status.get("race_status")
-    if race_status and race_status != "unknown":
-        status_bits.append(f"race status: {race_status}")
-    status_line = f" State briefly that {', '.join(status_bits)}." if status_bits else ""
-
-    last_mile = visitor.get("last_harvey_mile")
-    mile_note = f" They last saw you around mile {last_mile}." if last_mile is not None else ""
+    catchup = format_catchup_block(visitor, status, settings)
+    catchup_hint = catchup.split("\n", 1)[1] if catchup else "Summarize progress since their last visit."
 
     return (
-        f"[Session start — return visit. Greet {name} by name.{status_line}{mile_note} "
-        "Ask: \"Want a quick catch-up since you last checked in?\" "
-        "Do not give the full catch-up yet — wait for them to say yes. "
-        "Keep it short and warm.]"
+        f"[Session start — return visit. Greet {name} by name. "
+        f"Lead immediately with this catch-up (in your own words): {catchup_hint} "
+        "Then ask what they want to know. Keep it warm and short. "
+        "Do not ask if they want a catch-up — just give it.]"
     )

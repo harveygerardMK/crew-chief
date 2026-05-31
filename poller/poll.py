@@ -34,14 +34,42 @@ def read_existing(path: Path) -> dict | None:
         return None
 
 
+def simulation_active(path: Path) -> bool:
+    existing = read_existing(path)
+    return bool(existing and existing.get("simulation") is True)
+
+
 def write_snapshot(path: Path, snapshot: TrackerSnapshot) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = snapshot.to_dict()
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
-def run_poll(*, output_path: Path, dry_run: bool = False) -> TrackerSnapshot:
+def run_poll(*, output_path: Path, dry_run: bool = False, force: bool = False) -> TrackerSnapshot:
     load_env_file(Path(__file__).resolve().parent / ".env")
+
+    if not force and simulation_active(output_path):
+        print(
+            "Skipping poll: simulation is active in harvey_status.json "
+            "(set POLLER_FORCE=1 or pass --force to override).",
+            file=sys.stderr,
+        )
+        existing = read_existing(output_path) or {}
+        return TrackerSnapshot(
+            enabled=bool(existing.get("enabled", True)),
+            fetched_at=existing.get("fetched_at", ""),
+            race_status=existing.get("race_status", "unknown"),
+            last_update_at=existing.get("last_update_at"),
+            last_update_label=existing.get("last_update_label"),
+            route_mile=existing.get("route_mile"),
+            elevation_gain_ft=existing.get("elevation_gain_ft"),
+            current_speed_mph=existing.get("current_speed_mph"),
+            stale=bool(existing.get("stale", False)),
+            source_url=existing.get("source_url", ""),
+            error=existing.get("error"),
+            data_stale=bool(existing.get("data_stale", False)),
+            last_successful_fetch=existing.get("last_successful_fetch"),
+        )
 
     event_slug = os.environ.get("TRACKLEADERS_EVENT_SLUG")
     runner_name = os.environ.get("TRACKLEADERS_RUNNER_NAME")
@@ -86,9 +114,15 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Fetch and print result without writing the file",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Poll even when harvey_status.json has simulation: true",
+    )
     args = parser.parse_args(argv)
 
-    snapshot = run_poll(output_path=args.output, dry_run=args.dry_run)
+    force = args.force or os.environ.get("POLLER_FORCE", "").strip() in {"1", "true", "yes"}
+    snapshot = run_poll(output_path=args.output, dry_run=args.dry_run, force=force)
     if args.dry_run:
         print(json.dumps(snapshot.to_dict(), indent=2))
 

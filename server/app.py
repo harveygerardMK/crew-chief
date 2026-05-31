@@ -16,7 +16,7 @@ from config import Settings, load_settings
 from prompt import build_greeting_user_message, build_system_prompt
 from race_data import warm_race_data_cache
 from race_log import log_note, log_question
-from status import load_status
+from status import load_enriched_status, load_status
 from visitors import (
     InvalidRelationship,
     VisitorError,
@@ -102,7 +102,7 @@ def ready() -> dict[str, Any]:
 
 @app.get("/status")
 def get_status() -> dict[str, Any]:
-    return load_status(settings.status_path)
+    return load_enriched_status(settings.status_path, settings)
 
 
 @app.post("/visitors", response_model=VisitorResponse)
@@ -149,7 +149,7 @@ def post_chat(body: ChatRequest) -> ChatResponse:
     except VisitorNotFound as err:
         raise HTTPException(status_code=404, detail=str(err)) from err
 
-    status = load_status(settings.status_path)
+    status = load_enriched_status(settings.status_path, settings)
     harvey_mile = status.get("route_mile")
     if isinstance(harvey_mile, (int, float)):
         mile_value: float | None = float(harvey_mile)
@@ -160,7 +160,9 @@ def post_chat(body: ChatRequest) -> ChatResponse:
     is_greeting = not message
     include_art = should_include_art_card(message)
     user_message = (
-        build_greeting_user_message(visitor, status=status) if is_greeting else message
+        build_greeting_user_message(visitor, status=status, settings=settings)
+        if is_greeting
+        else message
     )
 
     system = build_system_prompt(
@@ -179,7 +181,13 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         )
         fallback = False
     except ClaudeError:
-        model_out = fallback_response(settings, include_art=include_art)
+        model_out = fallback_response(
+            settings,
+            include_art=include_art,
+            status=status,
+            visitor=visitor,
+            is_greeting=is_greeting,
+        )
         fallback = True
 
     reply = model_out["reply"]

@@ -30,6 +30,7 @@
             <span class="stat-block__value stat-block__value--sm" id="stat-race">—</span>
           </div>
         </div>
+        <p class="status-place hidden" id="stat-place" aria-live="polite"></p>
         <p class="status-banner hidden" id="status-banner" aria-live="polite"></p>
         <div class="status-sim hidden" id="simulation-banner" role="status">
           <span>SIMULATION MODE — Replaying Cocodona 250 data · Not Harvey's real location</span>
@@ -77,6 +78,7 @@
       </section>
 
       <footer class="composer-wrap hidden" id="composer-wrap">
+        <div class="prompt-chips hidden" id="prompt-chips" role="group" aria-label="Suggested questions"></div>
         <form class="composer" id="composer-form">
           <textarea
             id="composer-input"
