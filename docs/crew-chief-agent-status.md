@@ -26,7 +26,7 @@ All complete except optional pre-race poller on droplet (`bash scripts/poller-pr
 
 ### Phase 3 — Content & testers
 - [x] Voice, prompts, UI, checklist ready
-- [ ] Harvey approves `voice.md`
+- [x] Harvey approves `voice.md` (2026-05-31)
 - [ ] 3 testers complete checklist
 
 ### Phase 4 — Race-week readiness (by June 10)
