@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from claude import ClaudeError, chat_completion, fallback_response
 from art import lookup_nga_image
+from art_trigger import should_include_art_card
+from claude import ClaudeError, chat_completion, fallback_response
 from config import Settings, load_settings
 from prompt import build_greeting_user_message, build_system_prompt
+from race_data import warm_race_data_cache
+from race_log import log_note, log_question
 from status import load_status
 from visitors import (
     InvalidRelationship,
@@ -24,7 +28,14 @@ from visitors import (
 
 settings: Settings = load_settings()
 
-app = FastAPI(title="Crew Chief Agent", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    warm_race_data_cache(settings)
+    yield
+
+
+app = FastAPI(title="Crew Chief Agent", version="0.2.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -54,9 +65,18 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     reply: str
     harvey_status_snapshot: dict[str, Any]
-    art_prompt: str
+    art_prompt: str | None = None
     art_image_url: str | None = None
     fallback: bool = False
+
+
+class NoteCreate(BaseModel):
+    visitor_id: str
+    note_text: str = Field(min_length=1, max_length=2000)
+
+
+class NoteResponse(BaseModel):
+    ok: bool = True
 
 
 @app.get("/health")
@@ -101,6 +121,27 @@ def post_visitors(body: VisitorCreate) -> VisitorResponse:
     )
 
 
+@app.post("/notes", response_model=NoteResponse)
+def post_notes(body: NoteCreate) -> NoteResponse:
+    try:
+        visitor = get_visitor(settings, body.visitor_id)
+    except VisitorNotFound as err:
+        raise HTTPException(status_code=404, detail=str(err)) from err
+
+    status = load_status(settings.status_path)
+    harvey_mile = status.get("route_mile")
+    mile_value: float | None = float(harvey_mile) if isinstance(harvey_mile, (int, float)) else None
+
+    log_note(
+        settings.notes_path,
+        visitor_name=str(visitor.get("name", "")),
+        relationship=str(visitor.get("relationship", "")),
+        note_text=body.note_text,
+        harvey_mile_at_time=mile_value,
+    )
+    return NoteResponse()
+
+
 @app.post("/chat", response_model=ChatResponse)
 def post_chat(body: ChatRequest) -> ChatResponse:
     try:
@@ -117,16 +158,55 @@ def post_chat(body: ChatRequest) -> ChatResponse:
 
     message = (body.message or "").strip()
     is_greeting = not message
-    user_message = build_greeting_user_message(visitor) if is_greeting else message
+    include_art = should_include_art_card(message)
+    user_message = (
+        build_greeting_user_message(visitor, status=status) if is_greeting else message
+    )
 
-    system = build_system_prompt(settings, status=status, visitor=visitor)
+    system = build_system_prompt(
+        settings,
+        status=status,
+        visitor=visitor,
+        include_art=include_art,
+    )
 
     try:
-        model_out = chat_completion(settings, system=system, user_message=user_message)
+        model_out = chat_completion(
+            settings,
+            system=system,
+            user_message=user_message,
+            require_art=include_art,
+        )
         fallback = False
     except ClaudeError:
-        model_out = fallback_response(settings)
+        model_out = fallback_response(settings, include_art=include_art)
         fallback = True
+
+    reply = model_out["reply"]
+    art_prompt: str | None = None
+    if include_art:
+        art_prompt = model_out.get("art_prompt") or (
+            "Wanderer Above the Sea of Fog, Friedrich — still moving, still out here."
+        )
+
+    if message:
+        log_question(
+            settings.questions_path,
+            visitor_name=str(visitor.get("name", "")),
+            relationship=str(visitor.get("relationship", "")),
+            harvey_mile_at_time=mile_value,
+            message=message,
+            response_summary=reply,
+        )
+    elif is_greeting:
+        log_question(
+            settings.questions_path,
+            visitor_name=str(visitor.get("name", "")),
+            relationship=str(visitor.get("relationship", "")),
+            harvey_mile_at_time=mile_value,
+            message="[session greeting]",
+            response_summary=reply,
+        )
 
     try:
         record_checkin(settings, body.visitor_id, harvey_mile=mile_value)
@@ -134,9 +214,9 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         pass
 
     return ChatResponse(
-        reply=model_out["reply"],
+        reply=reply,
         harvey_status_snapshot=status,
-        art_prompt=model_out["art_prompt"],
-        art_image_url=lookup_nga_image(settings, status),
+        art_prompt=art_prompt,
+        art_image_url=lookup_nga_image(settings, status) if art_prompt else None,
         fallback=fallback,
     )

@@ -9,7 +9,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from claude import _parse_model_json, fallback_response
-from config import Settings
+from config import REPO_ROOT, Settings
 from prompt import build_greeting_user_message, build_system_prompt
 from status import load_status
 from visitors import InvalidRelationship, create_visitor, get_visitor, record_checkin
@@ -52,6 +52,9 @@ def settings(tmp_path: Path) -> Settings:
         github_branch="main",
         visitors_export_path="data/visitors.json",
         art_pairings_path=tmp_path / "art-pairings.json",
+        aid_stations_path=REPO_ROOT / "data" / "aid-stations.json",
+        questions_path=tmp_path / "questions.json",
+        notes_path=tmp_path / "notes.json",
     )
 
 
@@ -80,14 +83,20 @@ def test_load_status_missing(tmp_path: Path) -> None:
 
 
 def test_parse_model_json() -> None:
-    out = _parse_model_json('{"reply": "Hey.", "art_prompt": "Starry Night, van Gogh — tired but moving."}')
+    out = _parse_model_json(
+        '{"reply": "Hey.", "art_prompt": "Starry Night, van Gogh — tired but moving."}',
+        require_art=True,
+    )
     assert out["reply"] == "Hey."
     assert "Starry Night" in out["art_prompt"]
+    reply_only = _parse_model_json('{"reply": "Hey."}', require_art=False)
+    assert "art_prompt" not in reply_only
 
 
 def test_greeting_message_first_visit(settings: Settings) -> None:
     visitor = create_visitor(settings, name="Dan", relationship="friend")
-    msg = build_greeting_user_message(visitor)
+    status = load_status(settings.status_path)
+    msg = build_greeting_user_message(visitor, status=status)
     assert "Dan" in msg or "first visit" in msg.lower()
 
 
@@ -95,7 +104,9 @@ def test_greeting_message_return_visit(settings: Settings) -> None:
     visitor = create_visitor(settings, name="Dan", relationship="friend")
     record_checkin(settings, visitor["id"], harvey_mile=50.0)
     visitor = get_visitor(settings, visitor["id"])
-    msg = build_greeting_user_message(visitor)
+    status = load_status(settings.status_path)
+    msg = build_greeting_user_message(visitor, status=status)
+    assert "catch-up" in msg.lower()
     assert "50" in msg
 
 
@@ -103,6 +114,8 @@ def test_system_prompt_includes_status(settings: Settings) -> None:
     visitor = create_visitor(settings, name="Dan", relationship="friend")
     status = load_status(settings.status_path)
     prompt = build_system_prompt(settings, status=status, visitor=visitor)
+    assert "SCOPE LOCK" in prompt
+    assert "RACE DATA" in prompt
     assert "87.2" in prompt
     assert "friend" in prompt.lower()
     assert "Tone: **Friend**" in prompt
@@ -119,7 +132,9 @@ def test_system_prompt_pacer_tone(settings: Settings) -> None:
 def test_fallback_response(settings: Settings) -> None:
     out = fallback_response(settings)
     assert "Fallback message" in out["reply"]
-    assert out["art_prompt"]
+    assert "art_prompt" not in out
+    out_art = fallback_response(settings, include_art=True)
+    assert out_art["art_prompt"]
 
 
 def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -152,7 +167,22 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     body = chat.json()
     assert body["fallback"] is True
     assert "Fallback message" in body["reply"]
-    assert body["art_prompt"]
+    assert body.get("art_prompt") is None
+
+    chat_art = client.post(
+        "/chat",
+        json={"visitor_id": visitor_id, "message": "How is he doing?"},
+    )
+    assert chat_art.status_code == 200
+    assert chat_art.json().get("art_prompt")
+
+    note = client.post(
+        "/notes",
+        json={"visitor_id": visitor_id, "note_text": "Proud of you."},
+    )
+    assert note.status_code == 200
+    assert settings.notes_path.is_file()
 
     updated = get_visitor(settings, visitor_id)
-    assert updated["checkin_count"] == 1
+    assert updated["checkin_count"] >= 2
+    assert settings.questions_path.is_file()

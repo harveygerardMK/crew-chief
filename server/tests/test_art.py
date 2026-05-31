@@ -50,6 +50,9 @@ def test_lookup_nga_image(tmp_path: Path) -> None:
         github_branch="main",
         visitors_export_path="data/visitors.json",
         art_pairings_path=pairings,
+        aid_stations_path=Path(__file__).resolve().parents[2] / "data" / "aid-stations.json",
+        questions_path=tmp_path / "questions.json",
+        notes_path=tmp_path / "notes.json",
     )
     url = lookup_nga_image(settings, {"route_mile": None})
     assert url == "https://example.com/art.jpg"

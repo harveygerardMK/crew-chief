@@ -33,6 +33,9 @@ class Settings:
     github_branch: str
     visitors_export_path: str
     art_pairings_path: Path
+    aid_stations_path: Path
+    questions_path: Path
+    notes_path: Path
 
     @property
     def race_started(self) -> bool:
@@ -71,4 +74,11 @@ def load_settings() -> Settings:
         art_pairings_path=Path(
             os.environ.get("ART_PAIRINGS_PATH", REPO_ROOT / "data" / "art-pairings.json"),
         ),
+        aid_stations_path=Path(
+            os.environ.get("AID_STATIONS_PATH", REPO_ROOT / "data" / "aid-stations.json"),
+        ),
+        questions_path=Path(
+            os.environ.get("QUESTIONS_PATH", REPO_ROOT / "data" / "questions.json"),
+        ),
+        notes_path=Path(os.environ.get("NOTES_PATH", REPO_ROOT / "data" / "notes.json")),
     )
