@@ -43,6 +43,9 @@ jobs:
 
       - name: Smoke test live agent API
         if: vars.PUBLIC_AGENT_API_URL != ''
+        env:
+          # Pages deploy must not block on droplet API version (update droplet separately).
+          VERIFY_AGENT_STRICT: "0"
         run: |
           chmod +x scripts/verify-agent.sh
           ./scripts/verify-agent.sh "${{ vars.PUBLIC_AGENT_API_URL }}"
