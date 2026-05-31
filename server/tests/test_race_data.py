@@ -5,7 +5,14 @@ from pathlib import Path
 import pytest
 
 from config import REPO_ROOT, Settings
-from race_data import SCOPE_LOCK, get_race_data_block, reset_race_data_cache, warm_race_data_cache
+from race_data import (
+    SCOPE_LOCK,
+    _build_race_data_block,
+    _load_local_aid_stations,
+    get_race_data_block,
+    reset_race_data_cache,
+    warm_race_data_cache,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -58,3 +65,21 @@ def test_race_data_block_includes_aid_table(settings: Settings) -> None:
     assert "Start" in block
     assert "confirm with crew before moving" in block
     assert "Sierra at Tahoe" in block or "52.2" in block
+
+
+def test_first_day_aids_lists_all_friday_stations(settings: Settings) -> None:
+    stations = _load_local_aid_stations(
+        Settings(
+            **{
+                **settings.__dict__,
+                "aid_stations_path": REPO_ROOT / "data" / "aid-stations.json",
+            }
+        )
+    )
+    block = _build_race_data_block(stations)
+    assert "First race day (Friday)" in block
+    assert "Housewife Hill" in block
+    assert "Armstrong Pass" in block
+    assert "Heavenly" in block
+    assert "Sat 11:30 AM" in block
+    assert "do not omit stations" in block.lower()

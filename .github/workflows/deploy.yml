@@ -42,6 +42,12 @@ jobs:
           }
           echo "Agent UI present at / and /agent/"
 
+      - name: Verify race data published for agent
+        run: |
+          test -f dist/data/aid-stations.json
+          curl -sf "file://$PWD/dist/data/aid-stations.json" | python3 -c "import json,sys; d=json.load(sys.stdin); assert len(d)>=10"
+          echo "aid-stations.json published at /data/ for agent API fetch"
+
       - name: Smoke test live agent API
         if: vars.PUBLIC_AGENT_API_URL != ''
         continue-on-error: true

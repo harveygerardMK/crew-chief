@@ -23,7 +23,7 @@ When citing any aid station cutoff, mileage, or crew access detail, add: "(per r
 
 PLAN_ETAS = [
     (0, "Start", "Fri 9:00 AM"),
-    (52.2, "Sierra at Tahoe", "Sat 12:00 AM (midnight)"),
+    (52.2, "Sierra at Tahoe", "Sat 11:30 AM"),
     (130, "Tahoe City", "Sun 12:36 PM"),
     (148.6, "Brockway Summit", "Sun 9:00 PM"),
     (163.6, "Village Green", "Mon 3:37 AM"),
@@ -97,8 +97,34 @@ def _fetch_remote_aid_stations() -> list[dict[str, Any]] | None:
     return None
 
 
+def _format_first_day_aids(aid_stations: list[dict[str, Any]]) -> str:
+    """Stations Harvey may reach on race day one (Friday) — from aid-stations.json only."""
+    lines = [
+        "**First race day (Friday) — aid stations on course (use this for 'what aids on Friday?'):**",
+        "",
+    ]
+    for station in sorted(aid_stations, key=lambda s: float(s.get("mile", 0))):
+        mile = float(station.get("mile", 0))
+        if mile > 52.2:
+            break
+        name = station.get("name", "—")
+        cutoff = station.get("cutoff") or "No cutoff"
+        crew = _yes_no(station.get("crew_access"))
+        notes = station.get("notes") or ""
+        note_bit = f" — {notes}" if notes else ""
+        lines.append(
+            f"- Mile {mile} · {name} · cutoff {cutoff} · crew access {crew}{note_bit}"
+        )
+    lines.append(
+        "- Sierra at Tahoe (mile 52.2) cutoff Sat 11:30 AM — first big crew reunion; "
+        "may be Friday night or Saturday morning depending on pace."
+    )
+    return "\n".join(lines)
+
+
 def _build_race_data_block(aid_stations: list[dict[str, Any]]) -> str:
     table = _format_aid_table(aid_stations) if aid_stations else "(aid station table unavailable)"
+    first_day = _format_first_day_aids(aid_stations) if aid_stations else ""
     parts = [
         "## RACE DATA",
         "",
@@ -106,14 +132,25 @@ def _build_race_data_block(aid_stations: list[dict[str, Any]]) -> str:
         "",
         table,
         "",
-        _format_plan_etas(),
-        "",
-        "**Race facts:**",
-        "",
-        RACE_FACTS,
-        "",
-        AID_CITATION_RULE.strip(),
     ]
+    if first_day:
+        parts.extend([first_day, ""])
+    parts.extend(
+        [
+            _format_plan_etas(),
+            "",
+            "**Race facts:**",
+            "",
+            RACE_FACTS,
+            "",
+            AID_CITATION_RULE.strip(),
+            "",
+            "When asked which aid stations fall on Friday (or any day), list every station "
+            "from the table above that matches — do not omit stations (e.g. Housewife Hill at "
+            "mile 43.2). Do not say 'just Heavenly' — Start/Heavenly Stagecoach (mile 0) is also "
+            "crew-accessible on Friday.",
+        ]
+    )
     return "\n".join(parts)
 
 
