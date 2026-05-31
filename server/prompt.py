@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from config import Settings
+from config import REPO_ROOT, Settings
 from course_context import format_catchup_block
 from race_data import SCOPE_LOCK, get_race_data_block
 from status import format_status_block
@@ -45,6 +45,13 @@ def load_voice(settings: Settings) -> str:
     return "You are Harvey Schaefer, running the Tahoe 200. (voice.md missing — use a warm, direct tone.)"
 
 
+def load_harvey_profile() -> str:
+    path = REPO_ROOT / "harvey.md"
+    if path.is_file():
+        return path.read_text(encoding="utf-8")
+    return ""
+
+
 def load_fallback(settings: Settings) -> str:
     if settings.fallback_path.is_file():
         return settings.fallback_path.read_text(encoding="utf-8").strip()
@@ -62,9 +69,16 @@ def build_system_prompt(
         SCOPE_LOCK,
         get_race_data_block(settings),
         load_voice(settings),
-        format_status_block(status),
-        format_visitor_block(visitor),
     ]
+    profile = load_harvey_profile()
+    if profile:
+        parts.append(profile)
+    parts.extend(
+        [
+            format_status_block(status),
+            format_visitor_block(visitor),
+        ]
+    )
 
     catchup = format_catchup_block(visitor, status, settings)
     if catchup:

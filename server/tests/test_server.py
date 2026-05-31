@@ -124,6 +124,7 @@ def test_system_prompt_includes_status(settings: Settings) -> None:
     assert "87.2" in prompt
     assert "friend" in prompt.lower()
     assert "Tone: **Friend**" in prompt
+    assert "loosely held" in prompt.lower() or "harvey.md" in prompt.lower()
 
 
 def test_system_prompt_pacer_tone(settings: Settings) -> None:

@@ -7,12 +7,14 @@ on:
       - "poller/**"
       - "server/**"
       - "voice.md"
+      - "harvey.md"
       - "scripts/verify-agent.sh"
   pull_request:
     paths:
       - "poller/**"
       - "server/**"
       - "voice.md"
+      - "harvey.md"
 
 jobs:
   test:
