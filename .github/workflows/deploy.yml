@@ -32,14 +32,15 @@ jobs:
         run: npm run build
       - name: Verify agent UI in dist
         run: |
+          test -f dist/index.html
           test -f dist/agent/index.html
-          test -f dist/agent/app.js
-          grep -q 'CREW_CHIEF_API' dist/agent/config.js
-          grep -qE 'CREW_CHIEF_API = "https://' dist/agent/config.js || {
+          test -f dist/app.js
+          grep -q 'CREW_CHIEF_API' dist/config.js
+          grep -qE 'CREW_CHIEF_API = "https://' dist/config.js || {
             echo "PUBLIC_AGENT_API_URL missing or empty — set repo variable before deploy"
             exit 1
           }
-          echo "Agent UI present at /agent/"
+          echo "Agent UI present at / and /agent/"
 
       - name: Smoke test live agent API
         if: vars.PUBLIC_AGENT_API_URL != ''
@@ -52,9 +53,9 @@ jobs:
       - name: Verify live updates rendered
         run: |
           JSON_COUNT=$(node -e "const d=require('./data/race-broadcast.json'); console.log(Array.isArray(d.updates)?d.updates.length:0)")
-          HTML_COUNT=$(grep -o 'class="live-update-item"' dist/index.html | wc -l | tr -d ' ')
+          HTML_COUNT=$(grep -o 'class="live-update-item"' dist/crew-site/index.html | wc -l | tr -d ' ')
           if [ "$JSON_COUNT" != "$HTML_COUNT" ]; then
-            echo "Live update count mismatch: race-broadcast.json has $JSON_COUNT, index.html has $HTML_COUNT"
+            echo "Live update count mismatch: race-broadcast.json has $JSON_COUNT, crew-site/index.html has $HTML_COUNT"
             exit 1
           fi
       - uses: actions/upload-pages-artifact@v3

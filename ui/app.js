@@ -483,11 +483,11 @@ async function sendUserMessage(text) {
 function fixCrewSiteLink() {
   const link = $("crew-site-link");
   const path = window.location.pathname;
-  if (path.includes("/agent")) {
-    link.href = path.replace(/\/agent\/?.*$/, "/") || "../";
-  } else {
-    link.href = "https://wheresharvey.com/";
-  }
+  const siteRoot = path.includes("/agent")
+    ? path.replace(/\/agent\/?.*$/, "/") || "/"
+    : "/";
+  const prefix = siteRoot.endsWith("/") ? siteRoot : `${siteRoot}/`;
+  link.href = `${prefix}crew-site/`;
 }
 
 onboardingForm.addEventListener("submit", async (event) => {

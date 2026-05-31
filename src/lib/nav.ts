@@ -6,7 +6,7 @@ export type PrimaryNavItem = {
 };
 
 export const primaryNav: PrimaryNavItem[] = [
-  { href: "/", label: "Home", activePrefixes: ["/"] },
+  { href: "/crew-site/", label: "Home", activePrefixes: ["/crew-site"] },
   {
     href: "/crew/",
     label: "Crew",

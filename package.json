@@ -5,7 +5,7 @@
   "description": "Harvey's Tahoe 200 2026 — crew, pacers, family follow-along.",
   "scripts": {
     "prebuild": "node scripts/copy-ui.mjs",
-    "dev": "astro dev",
+    "dev": "node scripts/copy-ui.mjs && astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest run",

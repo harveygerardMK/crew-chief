@@ -27,14 +27,14 @@ Minimal static chat front-end for the FastAPI backend (PR #6). No build step in 
 
 ## Production (GitHub Pages)
 
-The UI is copied to `public/agent/` before each Astro build:
+The UI is copied to `public/` (site root) and `public/agent/` before each Astro build:
 
 ```bash
 PUBLIC_AGENT_API_URL=https://your-tunnel.trycloudflare.com npm run ui:copy
 npm run build
 ```
 
-Live URL: **https://harveygerardMK.github.io/crew-chief/agent/**
+Live URL: **https://wheresharvey.com/** (legacy: `/agent/`)
 
 Set repository variable **`PUBLIC_AGENT_API_URL`** in GitHub Actions to your Cloudflare Tunnel URL.
 
