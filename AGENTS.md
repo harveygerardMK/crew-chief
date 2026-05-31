@@ -52,8 +52,10 @@ Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at 
 - **Race-week poller:** `sudo bash scripts/race-week-switch.sh`
 - **Failure drills:** `bash scripts/run-failure-drills.sh`
 - **Failure drills:** `bash scripts/run-failure-drills.sh`
-- **Droplet update:** `bash scripts/droplet-update.sh` (on server — pull + PM2 restart)
+- **Droplet update:** `bash scripts/droplet-update.sh` (on server — pull + full PM2 restart)
+- **Droplet code-only update:** `bash scripts/droplet-update-code.sh` (pull + API restart; keeps tunnel URL)
 - **Droplet share prep:** `bash scripts/droplet-share-prep.sh` (on server — pull, reset status, pin, PM2 restart)
+- **Droplet auto-deploy:** GitHub Actions `agent-droplet-deploy.yml` on push to `main` (needs `DROPLET_*` secrets)
 - **Tunnel URL:** `bash scripts/tunnel-url.sh` (on server)
 - **Pre-race poller:** `bash scripts/poller-preflight-setup.sh` (on server)
 - **Droplet full preflight:** `bash scripts/droplet-full-preflight.sh` (on server)

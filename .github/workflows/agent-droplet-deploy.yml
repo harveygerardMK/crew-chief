@@ -1,0 +1,50 @@
+name: Deploy agent to droplet
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "server/**"
+      - "poller/**"
+      - "voice.md"
+      - "harvey.md"
+      - "deploy/**"
+      - "scripts/droplet-update*.sh"
+      - "scripts/reset-share-status.sh"
+      - "scripts/race-week-switch.sh"
+      - "data/harvey_status.example.json"
+      - ".github/workflows/agent-droplet-deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Skip fork PRs; requires repo secrets on harveygerardMK/crew-chief.
+    if: github.repository == 'harveygerardMK/crew-chief'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy code on droplet via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            cd /var/crew-chief
+            bash scripts/droplet-update-code.sh
+
+      - name: Smoke test live API
+        if: vars.PUBLIC_AGENT_API_URL != ''
+        continue-on-error: true
+        run: |
+          chmod +x scripts/verify-agent.sh
+          ./scripts/verify-agent.sh "${{ vars.PUBLIC_AGENT_API_URL }}" || {
+            echo "::warning::Post-deploy smoke test failed — check pm2 logs on droplet"
+            exit 0
+          }

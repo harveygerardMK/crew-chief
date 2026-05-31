@@ -283,6 +283,45 @@ On **June 12**, run `sudo bash scripts/race-week-switch.sh` — that removes the
 
 ---
 
+## Auto-deploy from GitHub (optional)
+
+After a **one-time** secrets setup, pushes to `main` that touch `server/`, `poller/`, `voice.md`, etc. automatically SSH to the droplet and run `scripts/droplet-update-code.sh` (pull + restart API **without** restarting cloudflared, so the tunnel URL stays stable).
+
+### One-time setup (about 5 minutes)
+
+1. **On your Mac**, create a deploy key used only for GitHub Actions:
+
+   ```bash
+   ssh-keygen -t ed25519 -f ~/.ssh/crew-chief-deploy -N "" -C "github-actions-droplet"
+   ```
+
+2. **Install the public key on the droplet:**
+
+   ```bash
+   ssh root@107.170.32.201 'mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys' < ~/.ssh/crew-chief-deploy.pub
+   ```
+
+3. **Add GitHub repository secrets** (repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**):
+
+   | Secret | Value |
+   |--------|--------|
+   | `DROPLET_HOST` | `107.170.32.201` |
+   | `DROPLET_USER` | `root` |
+   | `DROPLET_SSH_KEY` | Entire contents of `~/.ssh/crew-chief-deploy` (private key, including `BEGIN`/`END` lines) |
+
+4. **Test:** GitHub → **Actions** → **Deploy agent to droplet** → **Run workflow**.
+
+### What auto-deploys vs what does not
+
+| Change | Auto on push to `main`? |
+|--------|-------------------------|
+| `ui/` (chat UI, splash) | ✅ GitHub Pages workflow |
+| `server/`, `voice.md`, poller | ✅ Droplet workflow (after secrets setup) |
+| `data/harvey_status.json` on server | ❌ Manual — run `droplet-share-prep.sh` or edit on droplet |
+| Full PM2 + tunnel restart | ❌ Manual — `droplet-update.sh` on droplet |
+
+---
+
 ## Logs & monitoring
 
 | Service | Command |
