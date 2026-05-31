@@ -268,6 +268,21 @@ Or follow **docs/superpowers/runbooks/crew-chief-agent-test-checklist.md**.
 
 ---
 
+## Share week (pre-race preview, before June 12)
+
+When sharing Ask Harvey with testers before the race, reset the header and pin status so the 5‑minute poller does not overwrite it with test-tracker miles:
+
+```bash
+cd /var/crew-chief
+bash scripts/droplet-share-prep.sh
+```
+
+This pulls `main`, writes the clean status (mile **0**, last ping **none**, status **anxious**, simulation off), touches `data/.pin-status`, and restarts PM2. Copy the tunnel URL it prints into GitHub → **Settings** → **Actions** → **Variables** → **`PUBLIC_AGENT_API_URL`**, then re-run **Deploy to GitHub Pages** if the URL changed.
+
+On **June 12**, run `sudo bash scripts/race-week-switch.sh` — that removes the pin and switches the poller to live Tahoe 200.
+
+---
+
 ## Logs & monitoring
 
 | Service | Command |

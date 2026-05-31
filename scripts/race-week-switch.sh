@@ -14,6 +14,12 @@ echo "==> Race-week poller switch"
 echo "    Event: ${EVENT_SLUG}"
 echo "    Runner: ${RUNNER_NAME}"
 
+PIN="${REPO_ROOT}/data/.pin-status"
+if [[ -f "$PIN" ]]; then
+  rm -f "$PIN"
+  echo "    Removed status pin (data/.pin-status) — poller may update harvey_status.json again."
+fi
+
 mkdir -p "$(dirname "$POLLER_ENV")"
 if [[ -f "$POLLER_ENV" ]]; then
   cp "$POLLER_ENV" "${POLLER_ENV}.bak.$(date +%Y%m%d%H%M%S)"

@@ -39,6 +39,11 @@ def simulation_active(path: Path) -> bool:
     return bool(existing and existing.get("simulation") is True)
 
 
+def status_pinned(path: Path) -> bool:
+    """When data/.pin-status exists, cron must not overwrite a hand-set preview file."""
+    return (path.parent / ".pin-status").is_file()
+
+
 def write_snapshot(path: Path, snapshot: TrackerSnapshot) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = snapshot.to_dict()
@@ -47,6 +52,29 @@ def write_snapshot(path: Path, snapshot: TrackerSnapshot) -> None:
 
 def run_poll(*, output_path: Path, dry_run: bool = False, force: bool = False) -> TrackerSnapshot:
     load_env_file(Path(__file__).resolve().parent / ".env")
+
+    if not force and status_pinned(output_path):
+        print(
+            "Skipping poll: status is pinned (data/.pin-status present). "
+            "Remove that file or use --force before race week.",
+            file=sys.stderr,
+        )
+        existing = read_existing(output_path) or {}
+        return TrackerSnapshot(
+            enabled=bool(existing.get("enabled", False)),
+            fetched_at=existing.get("fetched_at") or "",
+            race_status=existing.get("race_status", "unknown"),
+            last_update_at=existing.get("last_update_at"),
+            last_update_label=existing.get("last_update_label"),
+            route_mile=existing.get("route_mile"),
+            elevation_gain_ft=existing.get("elevation_gain_ft"),
+            current_speed_mph=existing.get("current_speed_mph"),
+            stale=bool(existing.get("stale", False)),
+            source_url=existing.get("source_url", ""),
+            error=existing.get("error"),
+            data_stale=bool(existing.get("data_stale", False)),
+            last_successful_fetch=existing.get("last_successful_fetch"),
+        )
 
     if not force and simulation_active(output_path):
         print(
