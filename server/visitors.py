@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from config import Settings, VALID_RELATIONSHIPS
+from known_people import format_known_person_block, lookup_known_person
 
 
 class VisitorError(Exception):
@@ -110,6 +111,9 @@ def format_visitor_block(visitor: dict[str, Any]) -> str:
         "Use the tone guidance for this relationship in voice.md. "
         "Address them by name when natural."
     )
+    person = lookup_known_person(str(visitor.get("name") or ""))
+    if person:
+        lines.extend(["", format_known_person_block(person)])
     return "\n".join(lines)
 
 
