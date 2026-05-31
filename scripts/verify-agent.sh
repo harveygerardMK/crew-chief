@@ -65,6 +65,11 @@ fb = d.get('fallback', False)
 print('  fallback=' + str(fb))
 if fb:
     print('  WARNING: fallback=True — check ANTHROPIC_API_KEY, credits, and pm2 logs')
+img = d.get('art_image_url')
+if img:
+    print('  art_image_url=set (NGA)')
+else:
+    print('  NOTE: art_image_url missing — droplet needs git pull for server/art.py + data/art-pairings.json')
 "
 pass "POST /chat greeting (reply + art_prompt)"
 

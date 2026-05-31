@@ -1,8 +1,24 @@
 # Crew Chief Agent 2.0 — project status
 
-**Last updated:** 2026-05-31 (Phase 2 architecture slice)
+**Last updated:** 2026-05-31 (verification pass)
 
 **Architecture spec:** [crew-chief-agent-architecture.md](superpowers/specs/crew-chief-agent-architecture.md)
+
+## Last verification (2026-05-31)
+
+| Check | Result |
+|-------|--------|
+| Server tests (`pytest`) | **14 passed** |
+| Poller tests | **6 passed** |
+| Site tests (`npm test`) | **7 passed** |
+| CI Deploy + Agent tests (commit `7a9442e`) | **green** |
+| Live API smoke (`verify-agent.sh`) | **pass** — `fallback=false` |
+| Pages `config.js` API URL | **set** → trycloudflare tunnel |
+| Live `/ready` on droplet | **404** — droplet behind `main`; run `droplet-update.sh` |
+| Live `art_image_url` in `/chat` | **not yet** — same droplet pull |
+| Poller dry-run (`copper26`) | **pass** — fetches test runner snapshot |
+
+**Blocker:** droplet needs `bash scripts/droplet-update.sh` (SSH from your machine — agent cannot reach `107.170.32.201`).
 
 ## Shipped in repo (on `main`)
 
