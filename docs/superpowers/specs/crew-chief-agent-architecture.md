@@ -127,18 +127,7 @@ Relationships: `family | friend | crew | pacer | stranger`.
 { "visitor_id": "uuid", "message": "optional" }
 ```
 
-Response:
-
-```json
-{
-  "reply": "...",
-  "art_prompt": "Title, Artist — caption",
-  "harvey_status_snapshot": { ... },
-  "fallback": false
-}
-```
-
-`fallback: true` means Claude failed (missing key, credits, network, bad key encoding) — static copy from `fallback.md`.
+Response includes `reply`, `art_prompt`, optional `art_image_url` (NGA IIIF when pairings file present), and `fallback`.
 
 ---
 

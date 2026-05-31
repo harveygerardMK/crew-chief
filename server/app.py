@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from claude import ClaudeError, chat_completion, fallback_response
+from art import lookup_nga_image
 from config import Settings, load_settings
 from prompt import build_greeting_user_message, build_system_prompt
 from status import load_status
@@ -54,6 +55,7 @@ class ChatResponse(BaseModel):
     reply: str
     harvey_status_snapshot: dict[str, Any]
     art_prompt: str
+    art_image_url: str | None = None
     fallback: bool = False
 
 
@@ -135,5 +137,6 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         reply=model_out["reply"],
         harvey_status_snapshot=status,
         art_prompt=model_out["art_prompt"],
+        art_image_url=lookup_nga_image(settings, status),
         fallback=fallback,
     )

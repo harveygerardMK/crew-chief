@@ -35,7 +35,17 @@ jobs:
           test -f dist/agent/index.html
           test -f dist/agent/app.js
           grep -q 'CREW_CHIEF_API' dist/agent/config.js
+          grep -qE 'CREW_CHIEF_API = "https://' dist/agent/config.js || {
+            echo "PUBLIC_AGENT_API_URL missing or empty — set repo variable before deploy"
+            exit 1
+          }
           echo "Agent UI present at /crew-chief/agent/"
+
+      - name: Smoke test live agent API
+        if: vars.PUBLIC_AGENT_API_URL != ''
+        run: |
+          chmod +x scripts/verify-agent.sh
+          ./scripts/verify-agent.sh "${{ vars.PUBLIC_AGENT_API_URL }}"
       - name: Verify live updates rendered
         run: |
           JSON_COUNT=$(node -e "const d=require('./data/race-broadcast.json'); console.log(Array.isArray(d.updates)?d.updates.length:0)")

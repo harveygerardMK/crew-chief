@@ -172,7 +172,7 @@ function scrollMessagesToBottom() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function appendMessage({ role, text, artPrompt = null, loading = false }) {
+function appendMessage({ role, text, artPrompt = null, artImageUrl = null, loading = false }) {
   const wrap = document.createElement("article");
   wrap.className = `msg msg--${role}${loading ? " msg--loading" : ""}`;
 
@@ -196,7 +196,7 @@ function appendMessage({ role, text, artPrompt = null, loading = false }) {
       <p class="art-card__caption">${escapeHtml(artPrompt)}</p>
     `;
     wrap.appendChild(card);
-    loadArtImage(card.querySelector(".art-card__img-wrap"), artPrompt);
+    loadArtImage(card.querySelector(".art-card__img-wrap"), artPrompt, artImageUrl);
   }
 
   messagesEl.appendChild(wrap);
@@ -204,8 +204,18 @@ function appendMessage({ role, text, artPrompt = null, loading = false }) {
   return wrap;
 }
 
-async function loadArtImage(container, artPrompt) {
+async function loadArtImage(container, artPrompt, artImageUrl = null) {
   if (!container) return;
+
+  if (artImageUrl) {
+    const img = document.createElement("img");
+    img.src = artImageUrl;
+    img.alt = artPrompt.split("—")[0].split("-")[0].trim() || "Art";
+    img.loading = "lazy";
+    container.appendChild(img);
+    return;
+  }
+
   const query = artPrompt.split("—")[0].split("-")[0].trim();
   if (!query) return;
 
@@ -288,6 +298,7 @@ async function loadGreeting() {
       role: "harvey",
       text: data.reply,
       artPrompt: data.art_prompt,
+      artImageUrl: data.art_image_url || null,
     });
     handleChatResponse(data);
     greetingDone = true;
@@ -312,6 +323,7 @@ async function sendUserMessage(text) {
       role: "harvey",
       text: data.reply,
       artPrompt: data.art_prompt,
+      artImageUrl: data.art_image_url || null,
     });
     handleChatResponse(data);
   } catch (err) {
@@ -390,6 +402,16 @@ composerInput.addEventListener("input", () => {
 
 async function init() {
   fixCrewSiteLink();
+
+  try {
+    apiBase();
+  } catch {
+    statusBadge.textContent =
+      "Chat API not configured in this build — crew site updates still work. Check back after deploy.";
+    statusBadge.dataset.tone = "error";
+    statusBadge.classList.remove("hidden");
+    return;
+  }
 
   const cached = loadCachedStatus();
   if (cached) renderStatus(cached);

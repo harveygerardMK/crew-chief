@@ -32,6 +32,7 @@ class Settings:
     github_repo: str
     github_branch: str
     visitors_export_path: str
+    art_pairings_path: Path
 
     @property
     def race_started(self) -> bool:
@@ -67,4 +68,7 @@ def load_settings() -> Settings:
         github_repo=os.environ.get("GITHUB_REPO", "crew-chief"),
         github_branch=os.environ.get("GITHUB_BRANCH", "main"),
         visitors_export_path=os.environ.get("VISITORS_EXPORT_PATH", "data/visitors.json"),
+        art_pairings_path=Path(
+            os.environ.get("ART_PAIRINGS_PATH", REPO_ROOT / "data" / "art-pairings.json"),
+        ),
     )

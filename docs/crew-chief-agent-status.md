@@ -20,6 +20,8 @@
 | Env validation (droplet) | `scripts/check-agent-env.sh` |
 | Race-week poller switch | `scripts/race-week-switch.sh` |
 | Failure drill guide | `scripts/run-failure-drills.sh` |
+| Droplet git pull + restart | `scripts/droplet-update.sh` |
+| NGA art card images | `data/art-pairings.json` + `server/art.py` |
 | PM2 config | `deploy/ecosystem.config.cjs` (API + cloudflared) |
 
 ## Phase tracker
@@ -27,15 +29,16 @@
 ### Phase 1 — Merge & static deploy
 - [x] Merge integration PR to `main` (2026-05-30, commit `383b442`)
 - [x] Ask Harvey link on crew site home + follow page
-- [ ] Set GitHub variable `PUBLIC_AGENT_API_URL`
-- [ ] Confirm `/crew-chief/agent/` on Pages talks to tunnel (not empty API URL)
+- [x] GitHub variable `PUBLIC_AGENT_API_URL` set (trycloudflare tunnel)
+- [x] `/crew-chief/agent/` on Pages wired to tunnel (config.js verified)
 
 ### Phase 2 — Droplet + tunnel
 - [x] Droplet provisioned (`crew-chief-agent`, 107.170.32.201)
 - [x] PM2 API running; live chat verified (Amanda test)
 - [x] `/ready` ops endpoint + `check-agent-env.sh`
 - [x] PM2 ecosystem includes cloudflared (restart droplet to pick up)
-- [ ] Tunnel URL → GitHub variable `PUBLIC_AGENT_API_URL` → Pages redeploy
+- [x] Tunnel URL → GitHub variable → Pages deploy (CI smoke test on build)
+- [ ] Droplet `git pull` via `scripts/droplet-update.sh` (brings `/ready`, NGA art, latest UI copy)
 - [ ] Poller cron returning fresh status (pre-race: `copper26` test slug OK)
 - [x] CI: `agent-tests.yml` + deploy verifies `dist/agent/`
 

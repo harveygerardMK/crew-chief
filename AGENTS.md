@@ -50,6 +50,7 @@ Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at 
 - **Droplet env check:** `bash scripts/check-agent-env.sh`
 - **Race-week poller:** `sudo bash scripts/race-week-switch.sh`
 - **Failure drills:** `bash scripts/run-failure-drills.sh`
+- **Droplet update:** `bash scripts/droplet-update.sh` (on server — pull + PM2 restart)
 - **Server tests:** `cd server && python3 -m pytest -q`
 - **Poller tests:** `cd poller && python3 -m pytest -q`
 - Set `ANTHROPIC_API_KEY` in `server/.env` for live Claude replies (otherwise `/chat` returns `fallback.md`).

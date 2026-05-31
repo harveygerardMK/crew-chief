@@ -51,6 +51,7 @@ def settings(tmp_path: Path) -> Settings:
         github_repo="test",
         github_branch="main",
         visitors_export_path="data/visitors.json",
+        art_pairings_path=tmp_path / "art-pairings.json",
     )
 
 
