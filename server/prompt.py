@@ -58,6 +58,57 @@ def load_fallback(settings: Settings) -> str:
     return "Harvey here — chat is temporarily down. He's still out there."
 
 
+def format_pre_race_mode_block(status: dict) -> str:
+    """Pre-race instructions with simulation and signal-gap transparency."""
+    lines = [
+        "## Pre-race mode",
+        "The race has not started yet (starts June 12, 2026, 9:00 AM PDT). "
+        "Harvey is training, planning, and probably overthinking drop bags. "
+        "Answer questions about the upcoming race, why he's doing this, and how preparation is going.",
+        "",
+        "When someone asks where Harvey is now before the start:",
+        "- Lead with civilization / prep (race starts June 12, 9 AM from Heavenly Stagecoach).",
+        "- Do **not** invent live Tahoe 200 progress or pretend the race is underway.",
+    ]
+
+    if status.get("simulation"):
+        mile = status.get("route_mile")
+        ctx = status.get("course_context") or {}
+        place = ctx.get("place_label") or ctx.get("place_short")
+        lines.extend(
+            [
+                "",
+                "**Simulation / test tracker active** (`simulation: true`):",
+                "Say plainly that mile data is from a **demo replay**, not Harvey on course at Tahoe.",
+            ]
+        )
+        if isinstance(mile, (int, float)):
+            place_bit = f" ({place})" if place else ""
+            lines.append(
+                f"Include one concrete line: demo tracker shows about mile {float(mile):.1f}{place_bit}."
+            )
+        else:
+            lines.append("If mile is missing, say the test feed is empty or stale.")
+    else:
+        lines.append(
+            "If tracker data is absent or stale, say so — do not invent miles."
+        )
+
+    gap = status.get("signal_gap") or {}
+    if gap.get("active"):
+        summary = gap.get("summary") or "No fresh ping recently."
+        lines.extend(
+            [
+                "",
+                f"**Signal gap active:** {summary}",
+                "Mention this briefly when answering location questions — even pre-race — "
+                "so visitors know the last ping is stale.",
+            ]
+        )
+
+    return "\n".join(lines)
+
+
 def build_system_prompt(
     settings: Settings,
     *,
@@ -90,13 +141,7 @@ def build_system_prompt(
         parts.append(f"## Relationship tone for this chat\n{tone}")
 
     if not settings.race_started:
-        parts.append(
-            "## Pre-race mode\n"
-            "The race has not started yet (starts June 12, 2026, 9:00 AM PDT). "
-            "Harvey is training, planning, and probably overthinking drop bags. "
-            "Answer questions about the upcoming race, why he's doing this, and how preparation is going. "
-            "Be honest that live tracker data may be absent or from test events."
-        )
+        parts.append(format_pre_race_mode_block(status))
     else:
         parts.append(
             "## On-course mode\n"

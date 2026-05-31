@@ -104,6 +104,31 @@ export LANGFUSE_DEBUG=True
 
 Remove or comment out Langfuse keys from `server/.env` and restart. Chat behavior is unchanged when keys are absent.
 
+## 8. Automated nightly check (GitHub Actions)
+
+Workflow: `.github/workflows/agent-langfuse.yml` (daily 9:00 UTC + manual dispatch).
+
+**One-time setup** — add repo secrets (Settings → Secrets → Actions):
+
+| Secret | Value |
+|--------|--------|
+| `LANGFUSE_PUBLIC_KEY` | `pk-lf-...` (same as server) |
+| `LANGFUSE_SECRET_KEY` | `sk-lf-...` |
+| `LANGFUSE_BASE_URL` | `https://us.cloud.langfuse.com` (optional if US) |
+
+Requires `PUBLIC_AGENT_API_URL` repo variable (same as other agent workflows).
+
+**Local run:**
+
+```bash
+export LANGFUSE_PUBLIC_KEY=pk-lf-...
+export LANGFUSE_SECRET_KEY=sk-lf-...
+export LANGFUSE_BASE_URL=https://us.cloud.langfuse.com
+./scripts/verify-langfuse-traces.sh http://127.0.0.1:8080
+```
+
+Checks: server Langfuse auth, live Claude reply (`fallback=false`), trace in Langfuse, no ERROR span, pre-race/simulation heuristics on the reply.
+
 ## Files
 
 - `server/langfuse_setup.py` — AnthropicInstrumentor init (after dotenv, before first Claude call)

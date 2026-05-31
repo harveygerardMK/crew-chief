@@ -135,6 +135,27 @@ def test_system_prompt_pacer_tone(settings: Settings) -> None:
     assert "pacer" in prompt.lower()
 
 
+def test_pre_race_simulation_block_in_prompt(settings: Settings) -> None:
+    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    status = {
+        "enabled": True,
+        "route_mile": 4.7,
+        "simulation": True,
+        "race_status": "active",
+        "course_context": {"place_label": "on leg Start → Heavenly"},
+        "signal_gap": {
+            "active": True,
+            "summary": "No fresh ping in about 2 hours.",
+        },
+    }
+    prompt = build_system_prompt(settings, status=status, visitor=visitor)
+    assert "Pre-race mode" in prompt
+    assert "demo replay" in prompt.lower()
+    assert "4.7" in prompt
+    assert "Signal gap active" in prompt
+    assert "demo tracker shows about mile 4.7" in prompt
+
+
 def test_fallback_response(settings: Settings) -> None:
     out = fallback_response(settings)
     assert "Fallback message" in out["reply"]

@@ -42,11 +42,12 @@ Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at 
 |---------|---------|-----|
 | FastAPI backend | `cd server && uvicorn app:app --port 8080` | http://127.0.0.1:8080 |
 | TrackLeaders poller | `cd poller && python3 poll.py` | writes `data/harvey_status.json` |
-| Chat UI (built) | `PUBLIC_AGENT_API_URL=http://127.0.0.1:8080 npm run build && npm run preview` | http://localhost:4321/agent/ |
+| Chat UI (built) | `PUBLIC_AGENT_API_URL=http://127.0.0.1:8080 npm run build && npm run preview` | http://localhost:4321/ |
 
 - **Deploy runbook:** `docs/superpowers/runbooks/crew-chief-agent-deploy.md`
 - **Architecture spec:** `docs/superpowers/specs/crew-chief-agent-architecture.md`
 - **Smoke test:** `./scripts/verify-agent.sh http://127.0.0.1:8080`
+- **Langfuse trace check:** `./scripts/verify-langfuse-traces.sh http://127.0.0.1:8080` (needs `LANGFUSE_*` env; see runbook)
 - **Droplet env check:** `bash scripts/check-agent-env.sh`
 - **Race-week poller:** `sudo bash scripts/race-week-switch.sh`
 - **Failure drills:** `bash scripts/run-failure-drills.sh`

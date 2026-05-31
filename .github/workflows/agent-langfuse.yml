@@ -1,0 +1,42 @@
+name: Agent Langfuse accuracy check
+
+on:
+  schedule:
+    # Daily at 9:00 UTC during race prep (May–June)
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  langfuse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve API URL
+        id: url
+        run: |
+          URL="${{ vars.PUBLIC_AGENT_API_URL }}"
+          if [[ -z "$URL" ]]; then
+            echo "::error::PUBLIC_AGENT_API_URL repo variable is not set"
+            exit 1
+          fi
+          echo "api_url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Verify chat trace in Langfuse
+        env:
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+          LANGFUSE_BASE_URL: ${{ secrets.LANGFUSE_BASE_URL }}
+          VERIFY_LANGFUSE_STRICT: "1"
+          VERIFY_LANGFUSE_CHECK_RECENT_ERRORS: "0"
+        run: |
+          if [[ -z "$LANGFUSE_PUBLIC_KEY" || -z "$LANGFUSE_SECRET_KEY" ]]; then
+            echo "::warning::LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY secrets not set — skipping"
+            exit 0
+          fi
+          export LANGFUSE_BASE_URL="${LANGFUSE_BASE_URL:-https://us.cloud.langfuse.com}"
+          chmod +x scripts/verify-langfuse-traces.sh
+          ./scripts/verify-langfuse-traces.sh "${{ steps.url.outputs.api_url }}"
