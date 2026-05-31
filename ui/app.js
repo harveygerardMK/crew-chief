@@ -6,6 +6,7 @@ const STORAGE = {
   visitorId: "cc_visitor_id",
   visitorName: "cc_visitor_name",
   cachedStatus: "cc_cached_status",
+  simulationDismissed: "cc_simulation_dismissed",
 };
 
 const STATUS_POLL_MS = 60_000;
@@ -25,6 +26,8 @@ const composerInput = $("composer-input");
 const composerSend = $("composer-send");
 const statusHeader = $("status-header");
 const statusBanner = $("status-banner");
+const simulationBanner = $("simulation-banner");
+const simulationDismiss = $("simulation-dismiss");
 const noteBtn = $("note-btn");
 const noteOverlay = $("note-overlay");
 
@@ -153,6 +156,13 @@ function pingAgeMs(status) {
   return Number.isNaN(t) ? null : Date.now() - t;
 }
 
+function renderSimulationBanner(status) {
+  if (!simulationBanner) return;
+  const show =
+    status?.simulation === true && sessionStorage.getItem(STORAGE.simulationDismissed) !== "1";
+  simulationBanner.classList.toggle("hidden", !show);
+}
+
 function renderStatus(status) {
   statusHeader.classList.remove("status-header--stale", "status-header--prerace");
   statusBanner.classList.add("hidden");
@@ -165,6 +175,7 @@ function renderStatus(status) {
     $("stat-race").textContent = `Starts in ${formatCountdown()}`;
     statusBanner.textContent = "RACE STARTS JUN 12 · 9:00 AM PDT";
     statusBanner.classList.remove("hidden");
+    renderSimulationBanner(status);
     return;
   }
 
@@ -176,6 +187,8 @@ function renderStatus(status) {
       ? "pre-race"
       : status.race_status || "—";
   $("stat-race").textContent = raceLabel;
+
+  renderSimulationBanner(status);
 
   const age = pingAgeMs(status);
   const signalGap =
@@ -523,6 +536,11 @@ $("note-submit").addEventListener("click", async () => {
   } finally {
     $("note-submit").disabled = false;
   }
+});
+
+simulationDismiss?.addEventListener("click", () => {
+  sessionStorage.setItem(STORAGE.simulationDismissed, "1");
+  simulationBanner?.classList.add("hidden");
 });
 
 async function init() {
