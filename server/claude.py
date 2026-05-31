@@ -22,6 +22,7 @@ def chat_completion(
     *,
     system: str,
     user_message: str,
+    require_art: bool = False,
 ) -> dict[str, str]:
     if not settings.claude_configured:
         raise ClaudeError("ANTHROPIC_API_KEY not configured")
@@ -38,15 +39,15 @@ def chat_completion(
         raise ClaudeError(str(err)) from err
 
     text = _extract_text(response.content)
-    return _parse_model_json(text)
+    return _parse_model_json(text, require_art=require_art)
 
 
-def fallback_response(settings: Settings) -> dict[str, str]:
+def fallback_response(settings: Settings, *, include_art: bool = False) -> dict[str, str]:
     body = load_fallback(settings)
-    return {
-        "reply": body,
-        "art_prompt": "Wanderer Above the Sea of Fog, Friedrich — waiting for a clear signal.",
-    }
+    out: dict[str, str] = {"reply": body}
+    if include_art:
+        out["art_prompt"] = "Wanderer Above the Sea of Fog, Friedrich — waiting for a clear signal."
+    return out
 
 
 def _extract_text(content: Any) -> str:
@@ -57,7 +58,7 @@ def _extract_text(content: Any) -> str:
     return "\n".join(chunks).strip()
 
 
-def _parse_model_json(text: str) -> dict[str, str]:
+def _parse_model_json(text: str, *, require_art: bool) -> dict[str, str]:
     cleaned = text.strip()
     fence = re.match(r"^```(?:json)?\s*(.*?)```\s*$", cleaned, flags=re.DOTALL | re.IGNORECASE)
     if fence:
@@ -69,9 +70,15 @@ def _parse_model_json(text: str) -> dict[str, str]:
         raise ClaudeError(f"Model returned non-JSON: {text[:200]}") from err
 
     reply = str(data.get("reply", "")).strip()
-    art_prompt = str(data.get("art_prompt", "")).strip()
     if not reply:
         raise ClaudeError("Model JSON missing reply")
-    if not art_prompt:
-        art_prompt = "The Persistence of Memory, Dalí — time is doing something weird out here."
-    return {"reply": reply, "art_prompt": art_prompt}
+
+    out: dict[str, str] = {"reply": reply}
+    art_prompt = str(data.get("art_prompt", "")).strip()
+    if require_art:
+        if not art_prompt:
+            art_prompt = "The Persistence of Memory, Dalí — time is doing something weird out here."
+        out["art_prompt"] = art_prompt
+    elif art_prompt:
+        out["art_prompt"] = art_prompt
+    return out

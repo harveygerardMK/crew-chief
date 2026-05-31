@@ -3,80 +3,72 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#232830" />
+    <meta name="theme-color" content="#0f0e0d" />
     <meta name="description" content="Talk to Harvey during the Tahoe 200 — live race updates in his voice." />
     <title>Ask Harvey · Tahoe 200</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="app">
-      <header class="top-bar">
-        <div class="top-bar__row">
-          <div>
-            <h1 class="brand">
-              Ask Harvey
-              <span class="brand__sub">Tahoe 200 · Crew Chief Agent</span>
-            </h1>
+      <header class="status-header" id="status-header">
+        <div class="status-header__inner" id="status-strip">
+          <div class="stat-block">
+            <span class="stat-block__label">Mile</span>
+            <span class="stat-block__value" id="stat-mile">—</span>
           </div>
-          <a class="site-link" href="../" id="crew-site-link">Crew site →</a>
+          <div class="stat-block">
+            <span class="stat-block__label">Speed</span>
+            <span class="stat-block__value" id="stat-speed">—</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-block__label">Last ping</span>
+            <span class="stat-block__value stat-block__value--sm" id="stat-update">—</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-block__label">Status</span>
+            <span class="stat-block__value stat-block__value--sm" id="stat-race">—</span>
+          </div>
         </div>
-        <dl class="status-strip" id="status-strip" aria-live="polite">
-          <div>
-            <dt>Mile</dt>
-            <dd id="stat-mile">—</dd>
-          </div>
-          <div>
-            <dt>Speed</dt>
-            <dd id="stat-speed">—</dd>
-          </div>
-          <div>
-            <dt>Last ping</dt>
-            <dd id="stat-update">—</dd>
-          </div>
-          <div>
-            <dt>Status</dt>
-            <dd id="stat-race">—</dd>
-          </div>
-          <div class="status-strip__badge hidden" id="status-badge" data-tone="ok"></div>
-        </dl>
+        <p class="status-banner hidden" id="status-banner" aria-live="polite"></p>
       </header>
 
-      <!-- Onboarding -->
-      <section class="panel" id="onboarding-panel">
-        <p class="panel__lead">Before we start — who are you? Harvey’s friends and family use this to check in during the race.</p>
-        <form id="onboarding-form">
-          <div class="field">
-            <label for="visitor-name">Your first name</label>
-            <input
-              id="visitor-name"
-              name="name"
-              type="text"
-              autocomplete="name"
-              required
-              maxlength="120"
-              placeholder="Dan"
-            />
-          </div>
-          <div class="field">
-            <span id="relationship-label">How do you know Harvey?</span>
-            <div class="relationship-grid" role="group" aria-labelledby="relationship-label">
-              <label><input type="radio" name="relationship" value="family" required /> Family</label>
-              <label><input type="radio" name="relationship" value="friend" /> Friend</label>
-              <label><input type="radio" name="relationship" value="crew" /> Crew</label>
-              <label><input type="radio" name="relationship" value="pacer" /> Pacer</label>
-              <label><input type="radio" name="relationship" value="stranger" /> Just curious</label>
+      <section class="onboarding" id="onboarding-panel">
+        <div class="onboarding__inner">
+          <h1 class="onboarding__title">Hey. Who's checking in?</h1>
+          <form id="onboarding-form" class="onboarding__form">
+            <div class="field-underline">
+              <label class="visually-hidden" for="visitor-name">Your first name</label>
+              <input
+                id="visitor-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                maxlength="120"
+                placeholder="Your name"
+              />
             </div>
-          </div>
-          <button type="submit" class="btn btn--primary" id="onboarding-submit">Start chatting</button>
-          <p class="form-error hidden" id="onboarding-error"></p>
-        </form>
+            <fieldset class="relationship-pills">
+              <legend class="relationship-pills__legend">How do you know Harvey?</legend>
+              <div class="relationship-pills__grid" role="group">
+                <label class="pill"><input type="radio" name="relationship" value="family" required /> Family</label>
+                <label class="pill"><input type="radio" name="relationship" value="friend" /> Friend</label>
+                <label class="pill"><input type="radio" name="relationship" value="crew" /> Crew</label>
+                <label class="pill"><input type="radio" name="relationship" value="pacer" /> Pacer</label>
+                <label class="pill"><input type="radio" name="relationship" value="stranger" /> Curious</label>
+              </div>
+            </fieldset>
+            <button type="submit" class="btn-cta" id="onboarding-submit">Let's go</button>
+            <p class="form-error hidden" id="onboarding-error"></p>
+          </form>
+        </div>
       </section>
 
-      <!-- Chat -->
-      <section class="panel hidden" id="chat-panel">
-        <div class="chat">
-          <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions"></div>
-        </div>
+      <section class="chat-panel hidden" id="chat-panel">
+        <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+        <button type="button" class="note-btn hidden" id="note-btn">
+          📝 Leave Harvey a note for after the race
+        </button>
       </section>
 
       <footer class="composer-wrap hidden" id="composer-wrap">
@@ -91,8 +83,24 @@
             Send
           </button>
         </form>
-        <p class="composer__hint">Enter to send · Shift+Enter for new line</p>
+        <p class="footer-meta">
+          <a class="footer-link" href="../" id="crew-site-link">Crew site</a>
+          <span class="footer-meta__sep">·</span>
+          <span>Enter to send</span>
+        </p>
       </footer>
+    </div>
+
+    <div class="note-overlay hidden" id="note-overlay" role="dialog" aria-modal="true" aria-labelledby="note-title">
+      <div class="note-overlay__card">
+        <h2 class="note-overlay__title" id="note-title">Leave a message for Harvey to read after the race.</h2>
+        <textarea id="note-input" rows="4" maxlength="2000" placeholder="Your note…"></textarea>
+        <div class="note-overlay__actions">
+          <button type="button" class="btn-ghost" id="note-cancel">Cancel</button>
+          <button type="button" class="btn-cta btn-cta--inline" id="note-submit">Send note</button>
+        </div>
+        <p class="form-error hidden" id="note-error"></p>
+      </div>
     </div>
 
     <script src="./config.js"></script>

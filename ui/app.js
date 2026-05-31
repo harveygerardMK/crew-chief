@@ -1,5 +1,5 @@
 /**
- * Crew Chief Agent — minimal chat UI (vanilla JS, no build step).
+ * Crew Chief Agent — Ask Harvey chat UI
  */
 
 const STORAGE = {
@@ -9,10 +9,11 @@ const STORAGE = {
 };
 
 const STATUS_POLL_MS = 60_000;
+const RACE_START_MS = Date.parse("2026-06-12T16:00:00.000Z"); // Fri 9 AM PDT
+const STALE_MS = 2 * 60 * 60 * 1000;
 
 const $ = (id) => document.getElementById(id);
 
-/** @type {HTMLElement} */
 const onboardingPanel = $("onboarding-panel");
 const chatPanel = $("chat-panel");
 const composerWrap = $("composer-wrap");
@@ -22,10 +23,14 @@ const onboardingError = $("onboarding-error");
 const composerForm = $("composer-form");
 const composerInput = $("composer-input");
 const composerSend = $("composer-send");
-const statusBadge = $("status-badge");
+const statusHeader = $("status-header");
+const statusBanner = $("status-banner");
+const noteBtn = $("note-btn");
+const noteOverlay = $("note-overlay");
 
 let busy = false;
 let greetingDone = false;
+let exchangeCount = 0;
 
 function apiBase() {
   const base = (window.CREW_CHIEF_API || "").replace(/\/$/, "");
@@ -58,7 +63,7 @@ function cacheStatus(status) {
   try {
     localStorage.setItem(STORAGE.cachedStatus, JSON.stringify(status));
   } catch {
-    /* quota — ignore */
+    /* quota */
   }
 }
 
@@ -97,12 +102,12 @@ async function api(path, options = {}) {
 
 function formatMile(mile) {
   if (mile == null || Number.isNaN(Number(mile))) return "—";
-  return `${Number(mile).toFixed(1)} / 200`;
+  return Number(mile).toFixed(1);
 }
 
 function formatSpeed(mph) {
   if (mph == null || Number.isNaN(Number(mph))) return "—";
-  return `${Number(mph).toFixed(1)} mph`;
+  return `${Number(mph).toFixed(1)}`;
 }
 
 function formatUpdate(status) {
@@ -122,31 +127,66 @@ function formatUpdate(status) {
   return "—";
 }
 
+function isPreRace(status) {
+  return (
+    !status?.enabled &&
+    (status?.race_status === "unknown" || !status?.race_status) &&
+    Date.now() < RACE_START_MS
+  );
+}
+
+function formatCountdown() {
+  const diff = RACE_START_MS - Date.now();
+  if (diff <= 0) return "soon";
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  if (days > 0) return `${days}d ${hours}h`;
+  if (hours > 0) return `${hours}h ${mins}m`;
+  return `${mins}m`;
+}
+
+function pingAgeMs(status) {
+  const at = status?.last_update_at || status?.fetched_at;
+  if (!at) return null;
+  const t = Date.parse(at);
+  return Number.isNaN(t) ? null : Date.now() - t;
+}
+
 function renderStatus(status) {
+  statusHeader.classList.remove("status-header--stale", "status-header--prerace");
+  statusBanner.classList.add("hidden");
+
+  if (isPreRace(status)) {
+    statusHeader.classList.add("status-header--prerace");
+    $("stat-mile").textContent = "—";
+    $("stat-speed").textContent = "—";
+    $("stat-update").textContent = "—";
+    $("stat-race").textContent = `Starts in ${formatCountdown()}`;
+    statusBanner.textContent = "RACE STARTS JUN 12 · 9:00 AM PDT";
+    statusBanner.classList.remove("hidden");
+    return;
+  }
+
   $("stat-mile").textContent = formatMile(status.route_mile);
   $("stat-speed").textContent = formatSpeed(status.current_speed_mph);
   $("stat-update").textContent = formatUpdate(status);
   const raceLabel =
     !status.enabled && (status.race_status === "unknown" || !status.race_status)
       ? "pre-race"
-      : status.race_status || "unknown";
+      : status.race_status || "—";
   $("stat-race").textContent = raceLabel;
 
-  statusBadge.classList.add("hidden");
-  statusBadge.dataset.tone = "ok";
-  if (status.data_stale) {
-    statusBadge.textContent =
-      "Tracker fetch stale — showing last known position. Canyons eat GPS; this is normal.";
-    statusBadge.dataset.tone = "stale";
-    statusBadge.classList.remove("hidden");
-  } else if (status.stale) {
-    statusBadge.textContent = "No fresh GPS ping in a while — probably a canyon or a nap.";
-    statusBadge.dataset.tone = "stale";
-    statusBadge.classList.remove("hidden");
-  } else if (status.error && !status.enabled) {
-    statusBadge.textContent = status.error;
-    statusBadge.dataset.tone = "error";
-    statusBadge.classList.remove("hidden");
+  const age = pingAgeMs(status);
+  const signalGap =
+    status.data_stale ||
+    status.stale ||
+    (age != null && age > STALE_MS && status.enabled);
+
+  if (signalGap) {
+    statusHeader.classList.add("status-header--stale");
+    statusBanner.textContent = "SIGNAL GAP — NORMAL IN BACKCOUNTRY";
+    statusBanner.classList.remove("hidden");
   }
 }
 
@@ -158,12 +198,7 @@ async function refreshStatus() {
     return status;
   } catch {
     const cached = loadCachedStatus();
-    if (cached) {
-      renderStatus(cached);
-      statusBadge.textContent = "Offline — showing last saved stats from this device.";
-      statusBadge.dataset.tone = "error";
-      statusBadge.classList.remove("hidden");
-    }
+    if (cached) renderStatus(cached);
     return cached;
   }
 }
@@ -172,15 +207,44 @@ function scrollMessagesToBottom() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-function appendMessage({ role, text, artPrompt = null, artImageUrl = null, loading = false }) {
+function parseArtPrompt(artPrompt) {
+  const raw = String(artPrompt || "").trim();
+  const parts = raw.split(/[—–-]/);
+  const titleArtist = (parts[0] || raw).trim();
+  const condition = parts.slice(1).join("—").trim();
+  const comma = titleArtist.lastIndexOf(",");
+  let title = titleArtist;
+  let artist = "";
+  if (comma > 0) {
+    title = titleArtist.slice(0, comma).trim();
+    artist = titleArtist.slice(comma + 1).trim();
+  }
+  return { title, artist, condition: condition || raw };
+}
+
+function appendThinkingMessage() {
   const wrap = document.createElement("article");
-  wrap.className = `msg msg--${role}${loading ? " msg--loading" : ""}`;
+  wrap.className = "msg msg--harvey msg--loading";
+  wrap.innerHTML = `
+    <div class="msg__label">Harvey</div>
+    <div class="msg__bubble">
+      <span class="thinking-dots" aria-label="Harvey is typing">
+        <span></span><span></span><span></span>
+      </span>
+    </div>
+  `;
+  messagesEl.appendChild(wrap);
+  scrollMessagesToBottom();
+  return wrap;
+}
+
+function appendMessage({ role, text, artPrompt = null, artImageUrl = null }) {
+  const wrap = document.createElement("article");
+  wrap.className = `msg msg--${role}`;
 
   const label = document.createElement("div");
   label.className = "msg__label";
-  if (role === "user") label.textContent = "You";
-  else if (role === "harvey") label.textContent = "Harvey";
-  else label.textContent = "Note";
+  label.textContent = role === "user" ? "You" : role === "harvey" ? "Harvey" : "Note";
 
   const bubble = document.createElement("div");
   bubble.className = "msg__bubble";
@@ -189,11 +253,17 @@ function appendMessage({ role, text, artPrompt = null, artImageUrl = null, loadi
   wrap.append(label, bubble);
 
   if (artPrompt && role === "harvey") {
+    const parsed = parseArtPrompt(artPrompt);
     const card = document.createElement("div");
     card.className = "art-card";
+    const meta =
+      parsed.artist && parsed.title
+        ? `${escapeHtml(parsed.title)} · ${escapeHtml(parsed.artist)}`
+        : escapeHtml(parsed.title || artPrompt);
     card.innerHTML = `
       <div class="art-card__img-wrap" aria-hidden="true"></div>
-      <p class="art-card__caption">${escapeHtml(artPrompt)}</p>
+      <p class="art-card__meta">${meta}</p>
+      <p class="art-card__note">${escapeHtml(parsed.condition)}</p>
     `;
     wrap.appendChild(card);
     loadArtImage(card.querySelector(".art-card__img-wrap"), artPrompt, artImageUrl);
@@ -210,7 +280,7 @@ async function loadArtImage(container, artPrompt, artImageUrl = null) {
   if (artImageUrl) {
     const img = document.createElement("img");
     img.src = artImageUrl;
-    img.alt = artPrompt.split("—")[0].split("-")[0].trim() || "Art";
+    img.alt = artPrompt.split("—")[0].trim() || "Art";
     img.loading = "lazy";
     container.appendChild(img);
     return;
@@ -244,7 +314,7 @@ async function loadArtImage(container, artPrompt, artImageUrl = null) {
     img.loading = "lazy";
     container.appendChild(img);
   } catch {
-    /* text-only art card is fine */
+    /* text-only art card */
   }
 }
 
@@ -252,6 +322,12 @@ function showChat() {
   onboardingPanel.classList.add("hidden");
   chatPanel.classList.remove("hidden");
   composerWrap.classList.remove("hidden");
+}
+
+function updateNoteButton() {
+  if (exchangeCount >= 1) {
+    noteBtn.classList.remove("hidden");
+  }
 }
 
 function setBusy(next) {
@@ -274,10 +350,9 @@ async function requestChat(message = null) {
 }
 
 function showFallbackNotice() {
-  statusBadge.textContent =
-    "Backup line — Harvey's voice is on a short tech delay. Tracker stats above are still live when available.";
-  statusBadge.dataset.tone = "fallback";
-  statusBadge.classList.remove("hidden");
+  statusBanner.textContent =
+    "BACKUP LINE — Harvey's voice is on a short delay. Tracker stats above stay live when available.";
+  statusBanner.classList.remove("hidden");
 }
 
 function handleChatResponse(data) {
@@ -290,18 +365,20 @@ function handleChatResponse(data) {
 
 async function loadGreeting() {
   if (greetingDone) return;
-  const loading = appendMessage({ role: "harvey", text: "…", loading: true });
+  const loading = appendThinkingMessage();
   try {
     const data = await requestChat();
     loading.remove();
     appendMessage({
       role: "harvey",
       text: data.reply,
-      artPrompt: data.art_prompt,
+      artPrompt: data.art_prompt || null,
       artImageUrl: data.art_image_url || null,
     });
     handleChatResponse(data);
     greetingDone = true;
+    exchangeCount += 1;
+    updateNoteButton();
   } catch (err) {
     loading.remove();
     appendMessage({
@@ -315,17 +392,22 @@ async function loadGreeting() {
 
 async function sendUserMessage(text) {
   appendMessage({ role: "user", text });
-  const loading = appendMessage({ role: "harvey", text: "…", loading: true });
+  exchangeCount += 1;
+  updateNoteButton();
+
+  const loading = appendThinkingMessage();
   try {
     const data = await requestChat(text);
     loading.remove();
     appendMessage({
       role: "harvey",
       text: data.reply,
-      artPrompt: data.art_prompt,
+      artPrompt: data.art_prompt || null,
       artImageUrl: data.art_image_url || null,
     });
     handleChatResponse(data);
+    exchangeCount += 1;
+    updateNoteButton();
   } catch (err) {
     loading.remove();
     appendMessage({
@@ -341,7 +423,7 @@ function fixCrewSiteLink() {
   if (path.includes("/agent")) {
     link.href = path.replace(/\/agent\/?.*$/, "/") || "../";
   } else {
-    link.href = "https://harveygerardMK.github.io/crew-chief/";
+    link.href = "https://harveygerardmk.github.io/crew-chief/";
   }
 }
 
@@ -400,16 +482,58 @@ composerInput.addEventListener("input", () => {
   composerInput.style.height = `${Math.min(composerInput.scrollHeight, 128)}px`;
 });
 
+noteBtn.addEventListener("click", () => {
+  noteOverlay.classList.remove("hidden");
+  $("note-input").value = "";
+  $("note-error").classList.add("hidden");
+  $("note-input").focus();
+});
+
+$("note-cancel").addEventListener("click", () => {
+  noteOverlay.classList.add("hidden");
+});
+
+noteOverlay.addEventListener("click", (event) => {
+  if (event.target === noteOverlay) noteOverlay.classList.add("hidden");
+});
+
+$("note-submit").addEventListener("click", async () => {
+  const text = $("note-input").value.trim();
+  const errEl = $("note-error");
+  if (!text) {
+    errEl.textContent = "Write something first.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+  errEl.classList.add("hidden");
+  $("note-submit").disabled = true;
+  try {
+    await api("/notes", {
+      method: "POST",
+      body: JSON.stringify({ visitor_id: getVisitorId(), note_text: text }),
+    });
+    noteOverlay.classList.add("hidden");
+    appendMessage({
+      role: "system",
+      text: "Note saved — Harvey will see it after the race.",
+    });
+  } catch (err) {
+    errEl.textContent = err.message || "Could not save note.";
+    errEl.classList.remove("hidden");
+  } finally {
+    $("note-submit").disabled = false;
+  }
+});
+
 async function init() {
   fixCrewSiteLink();
 
   try {
     apiBase();
   } catch {
-    statusBadge.textContent =
-      "Chat API not configured in this build — crew site updates still work. Check back after deploy.";
-    statusBadge.dataset.tone = "error";
-    statusBadge.classList.remove("hidden");
+    statusBanner.textContent =
+      "Chat API not configured in this build — crew site updates still work.";
+    statusBanner.classList.remove("hidden");
     return;
   }
 
@@ -419,7 +543,7 @@ async function init() {
   try {
     await refreshStatus();
   } catch {
-    /* cached already shown */
+    /* cached */
   }
 
   setInterval(refreshStatus, STATUS_POLL_MS);

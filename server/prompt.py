@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from config import Settings
+from race_data import SCOPE_LOCK, get_race_data_block
 from status import format_status_block
 from visitors import format_visitor_block
 
@@ -15,15 +16,25 @@ RELATIONSHIP_TONE: dict[str, str] = {
 }
 
 
-RESPONSE_FORMAT = """
+RESPONSE_FORMAT_REPLY_ONLY = """
+## Response format (required)
+
+Reply with a single JSON object only — no markdown fences, no preamble:
+
+{"reply": "your message in Harvey's voice"}
+
+- `reply`: what the visitor reads in chat. Do not sign off with "This is an adventure, Harvey." — that is for emails, not chat.
+"""
+
+RESPONSE_FORMAT_WITH_ART = """
 ## Response format (required)
 
 Reply with a single JSON object only — no markdown fences, no preamble:
 
 {"reply": "your message in Harvey's voice", "art_prompt": "Artist, Title — brief vibe match to current status"}
 
-- `reply`: what the visitor reads in chat. Sign off with "This is an adventure, Harvey." when it fits.
-- `art_prompt`: one line for the art card (see voice.md). Use a real painting. On pure greetings with no status change, still suggest something loosely thematic.
+- `reply`: what the visitor reads in chat. Do not sign off with "This is an adventure, Harvey."
+- `art_prompt`: one line for the art card (see voice.md). Use a real painting.
 """
 
 
@@ -36,7 +47,7 @@ def load_voice(settings: Settings) -> str:
 def load_fallback(settings: Settings) -> str:
     if settings.fallback_path.is_file():
         return settings.fallback_path.read_text(encoding="utf-8").strip()
-    return "Harvey here — chat is temporarily down. He's still out there. This is an adventure, Harvey."
+    return "Harvey here — chat is temporarily down. He's still out there."
 
 
 def build_system_prompt(
@@ -44,8 +55,15 @@ def build_system_prompt(
     *,
     status: dict,
     visitor: dict,
+    include_art: bool = False,
 ) -> str:
-    parts = [load_voice(settings), format_status_block(status), format_visitor_block(visitor)]
+    parts = [
+        SCOPE_LOCK,
+        get_race_data_block(settings),
+        load_voice(settings),
+        format_status_block(status),
+        format_visitor_block(visitor),
+    ]
 
     relationship = str(visitor.get("relationship", "")).lower()
     tone = RELATIONSHIP_TONE.get(relationship)
@@ -67,22 +85,44 @@ def build_system_prompt(
             "If data is stale or missing, say so clearly — do not invent miles or pace."
         )
 
-    parts.append(RESPONSE_FORMAT)
+    count = int(visitor.get("checkin_count", 0))
+    if count > 0:
+        parts.append(
+            "## Return visitor catch-up\n"
+            "If they ask for a catch-up (yes to your offer), summarize miles covered and aid stations "
+            "passed since their last check-in using last_harvey_mile vs current mile in the status block. "
+            "Mention notable time gaps only when data supports it."
+        )
+
+    parts.append(RESPONSE_FORMAT_WITH_ART if include_art else RESPONSE_FORMAT_REPLY_ONLY)
     return "\n\n".join(parts)
 
 
-def build_greeting_user_message(visitor: dict) -> str:
+def build_greeting_user_message(visitor: dict, *, status: dict) -> str:
+    name = visitor.get("name", "friend")
     count = int(visitor.get("checkin_count", 0))
     if count == 0:
         return (
-            "[Session start — first visit. Greet them warmly by name. "
-            "Introduce yourself briefly as Harvey checking in from the Tahoe 200 journey. "
+            f"[Session start — first visit. Greet {name} warmly by name. "
+            "Introduce yourself briefly as Harvey on the Tahoe 200 journey. "
             "Invite them to ask how you're doing. Keep it short.]"
         )
-    mile = visitor.get("last_harvey_mile")
-    mile_note = f" Last check-in they saw you around mile {mile}." if mile is not None else ""
+
+    mile = status.get("route_mile")
+    status_bits = []
+    if mile is not None:
+        status_bits.append(f"you are around mile {mile}")
+    race_status = status.get("race_status")
+    if race_status and race_status != "unknown":
+        status_bits.append(f"race status: {race_status}")
+    status_line = f" State briefly that {', '.join(status_bits)}." if status_bits else ""
+
+    last_mile = visitor.get("last_harvey_mile")
+    mile_note = f" They last saw you around mile {last_mile}." if last_mile is not None else ""
+
     return (
-        f"[Session start — return visit. Greet {visitor.get('name')} by name.{mile_note} "
-        f"They've checked in {count} time(s) before. Reference that naturally. "
-        "Do not answer a question they haven't asked yet — just welcome them back.]"
+        f"[Session start — return visit. Greet {name} by name.{status_line}{mile_note} "
+        "Ask: \"Want a quick catch-up since you last checked in?\" "
+        "Do not give the full catch-up yet — wait for them to say yes. "
+        "Keep it short and warm.]"
     )

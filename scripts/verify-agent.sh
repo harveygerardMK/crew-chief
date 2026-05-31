@@ -60,18 +60,27 @@ echo "$CHAT" | python3 -c "
 import sys, json
 d = json.load(sys.stdin)
 assert d.get('reply')
-assert d.get('art_prompt')
+assert d.get('art_prompt') is None, 'greeting should not include art_prompt'
 fb = d.get('fallback', False)
 print('  fallback=' + str(fb))
 if fb:
     print('  WARNING: fallback=True — check ANTHROPIC_API_KEY, credits, and pm2 logs')
+"
+pass "POST /chat greeting (reply, no art_prompt)"
+
+CHAT_ART=$(curl -sf -X POST "$BASE/chat" \
+  -H 'Content-Type: application/json' \
+  -d "{\"visitor_id\":\"$VID\",\"message\":\"How is he doing?\"}") || fail "POST /chat (art trigger)"
+echo "$CHAT_ART" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+assert d.get('reply')
+assert d.get('art_prompt'), 'art trigger should return art_prompt'
 img = d.get('art_image_url')
 if img:
     print('  art_image_url=set (NGA)')
-else:
-    print('  NOTE: art_image_url missing — droplet needs git pull for server/art.py + data/art-pairings.json')
 "
-pass "POST /chat greeting (reply + art_prompt)"
+pass "POST /chat art trigger"
 
 # Message chat
 CHAT2=$(curl -sf -X POST "$BASE/chat" \
