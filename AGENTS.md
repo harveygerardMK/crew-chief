@@ -57,6 +57,7 @@ Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at 
 - **Droplet share prep:** `bash scripts/droplet-share-prep.sh` (on server — pull, reset status, pin, PM2 restart)
 - **Droplet auto-deploy:** GitHub Actions `agent-droplet-deploy.yml` on push to `main` (needs `DROPLET_*` secrets)
 - **Tunnel URL:** `bash scripts/tunnel-url.sh` (on server)
+- **Named tunnel setup:** `bash scripts/droplet-named-tunnel-setup.sh` (on server, once — stable `https://agent.wheresharvey.com`)
 - **Pre-race poller:** `bash scripts/poller-preflight-setup.sh` (on server)
 - **Droplet full preflight:** `bash scripts/droplet-full-preflight.sh` (on server)
 - **Laptop preflight:** `npm run agent:preflight`

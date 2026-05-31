@@ -1,0 +1,14 @@
+# Named Cloudflare Tunnel — stable API URL (e.g. https://agent.wheresharvey.com)
+#
+# Setup: bash scripts/droplet-named-tunnel-setup.sh (on droplet, once)
+# Copy result to config.yml (gitignored) or let the setup script write it.
+#
+# Requires wheresharvey.com DNS on Cloudflare (see docs/.../crew-chief-agent-named-tunnel.md).
+
+tunnel: crew-chief-agent
+credentials-file: /root/.cloudflared/TUNNEL-UUID.json
+
+ingress:
+  - hostname: agent.wheresharvey.com
+    service: http://127.0.0.1:8080
+  - service: http_status:404

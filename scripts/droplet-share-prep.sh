@@ -15,13 +15,14 @@ git pull --ff-only origin main
 echo "==> Resetting status to pre-race share state (mile 0, last ping none, anxious)..."
 bash scripts/reset-share-status.sh
 
-echo "==> Installing server dependencies..."
+echo "==> Restarting API (cloudflared unchanged — tunnel URL stays stable)..."
 python3 -m pip install -q -r server/requirements.txt
-
-echo "==> Restarting PM2 (API + cloudflared)..."
-pm2 delete all 2>/dev/null || true
-pm2 start deploy/ecosystem.config.cjs
-pm2 save
+pm2 restart crew-chief-api --update-env || {
+  echo "WARN: crew-chief-api not running — starting full PM2 stack..."
+  pm2 delete all 2>/dev/null || true
+  pm2 start deploy/ecosystem.config.cjs
+  pm2 save
+}
 
 echo "==> Waiting for API..."
 for _ in 1 2 3 4 5 6 7 8 9 10; do
@@ -46,4 +47,4 @@ echo ""
 echo "Share prep complete."
 echo "  • Status is PINNED — poller cron will not overwrite until race week."
 echo "  • June 12: sudo bash scripts/race-week-switch.sh (unpins + live TrackLeaders)."
-echo "  • Redeploy GitHub Pages if tunnel URL changed (repo variable PUBLIC_AGENT_API_URL)."
+echo "  • Redeploy GitHub Pages if tunnel URL changed (not needed with named tunnel — see crew-chief-agent-named-tunnel.md)."

@@ -214,32 +214,26 @@ cat /var/crew-chief/data/harvey_status.json
 
 ## 9. Cloudflare Tunnel (public HTTPS)
 
-On the droplet:
+**Use a named tunnel** so the API URL never changes when PM2 restarts. Full guide: **[crew-chief-agent-named-tunnel.md](crew-chief-agent-named-tunnel.md)**.
+
+Target URL: **`https://agent.wheresharvey.com`** → set GitHub variable **`PUBLIC_AGENT_API_URL`** once.
+
+On the droplet (after wheresharvey.com DNS is on Cloudflare):
 
 ```bash
-curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -o cloudflared.deb
-dpkg -i cloudflared.deb
-cloudflared tunnel login
-cloudflared tunnel create crew-chief-agent
-cloudflared tunnel route dns crew-chief-agent agent.yourdomain.com   # OR skip for quick tunnel
+cd /var/crew-chief
+bash scripts/droplet-named-tunnel-setup.sh
 ```
 
-**Quick tunnel (v1 — no custom domain):**
+### Quick tunnel (legacy — avoid for production)
+
+Quick tunnels get a **new URL on every cloudflared restart** and break chat until you update `PUBLIC_AGENT_API_URL` and redeploy Pages.
 
 ```bash
 cloudflared tunnel --url http://127.0.0.1:8080
 ```
 
-Copy the `https://….trycloudflare.com` URL.
-
-**Persistent tunnel** — see [Cloudflare docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) or run quick tunnel under PM2:
-
-```bash
-pm2 start "cloudflared tunnel --url http://127.0.0.1:8080" --name cloudflared
-pm2 save
-```
-
-Note: quick tunnel URLs change on restart. For race week, use a named tunnel or stable trycloudflare with PM2.
+Copy the `https://….trycloudflare.com` URL only as a temporary fallback.
 
 ---
 
