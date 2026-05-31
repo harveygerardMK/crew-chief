@@ -22,7 +22,7 @@
 All complete.
 
 ### Phase 2 — Droplet + tunnel ✅
-All complete except optional pre-race poller on droplet (`bash scripts/poller-preflight-setup.sh`).
+All complete. Poller preflight (`copper26`) verified on droplet 2026-05-31.
 
 ### Phase 3 — Content & testers
 - [x] Voice, prompts, UI, checklist ready
