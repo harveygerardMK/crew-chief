@@ -59,10 +59,10 @@ Restore service after each drill.
 
 ## D. Content sign-off (Harvey)
 
-- [ ] Read full **`voice.md`** — fix anything off-brand
+- [x] Read full **`voice.md`** — approved 2026-05-31
 - [ ] Test as **family** relationship vs **friend** — tone should differ
 - [ ] Confirm agent **never speculates DNF** without tracker proof
-- [ ] Sign-off date: __________
+- [ ] Sign-off date: 2026-05-31
 
 ---
 
