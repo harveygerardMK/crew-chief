@@ -211,7 +211,7 @@ export const UPDATE_PAGE_HTML = `<!DOCTYPE html>
     <button id="save-btn" type="submit" class="btn btn--primary">Save update</button>
   </form>
 
-  <p class="home"><a href="https://harveygerardmk.github.io/crew-chief/">← Back to race site</a></p>
+  <p class="home"><a href="https://wheresharvey.com/">← Back to race site</a></p>
 
   <script>
 ${UPDATE_PAGE_SCRIPT}

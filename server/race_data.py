@@ -38,7 +38,7 @@ RACE_FACTS = """- 200.4 miles, one loop around Lake Tahoe, mostly Tahoe Rim Trai
 - Tracker: destinationtrailrun.com/tahoe"""
 
 RELOAD_SECONDS = 30 * 60
-CREW_SITE_DATA_BASE = "https://harveygerardmk.github.io/crew-chief/data"
+CREW_SITE_DATA_BASE = "https://wheresharvey.com/data"
 
 _lock = threading.Lock()
 _cached_block: str | None = None

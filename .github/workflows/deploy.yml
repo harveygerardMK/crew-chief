@@ -39,7 +39,7 @@ jobs:
             echo "PUBLIC_AGENT_API_URL missing or empty — set repo variable before deploy"
             exit 1
           }
-          echo "Agent UI present at /crew-chief/agent/"
+          echo "Agent UI present at /agent/"
 
       - name: Smoke test live agent API
         if: vars.PUBLIC_AGENT_API_URL != ''

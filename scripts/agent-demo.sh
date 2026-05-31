@@ -15,7 +15,7 @@ cd "$REPO_ROOT"
 PORT="${AGENT_DEMO_PORT:-8080}"
 ASTRO_PORT="${AGENT_DEMO_ASTRO_PORT:-4321}"
 API_URL="http://127.0.0.1:${PORT}"
-UI_URL="http://localhost:${ASTRO_PORT}/crew-chief/agent/"
+UI_URL="http://localhost:${ASTRO_PORT}/agent/"
 PIDS=()
 
 kill_port() {

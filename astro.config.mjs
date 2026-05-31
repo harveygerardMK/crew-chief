@@ -1,9 +1,9 @@
 import { defineConfig } from "astro/config";
 
-// GitHub Pages project site: https://harveygerardMK.github.io/crew-chief/
+// Custom domain: https://wheresharvey.com/ (GitHub Pages)
 export default defineConfig({
-  site: "https://harveygerardMK.github.io",
-  base: "/crew-chief/",
+  site: "https://wheresharvey.com",
+  base: "/",
   trailingSlash: "always",
   output: "static",
   build: {

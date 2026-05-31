@@ -33,7 +33,7 @@ jobs:
       - name: Verify Pages config matches variable
         run: |
           API="${{ steps.url.outputs.api_url }}"
-          CONFIG=$(curl -sf "https://harveygerardMK.github.io/crew-chief/agent/config.js")
+          CONFIG=$(curl -sf "https://wheresharvey.com/agent/config.js")
           echo "$CONFIG" | grep -qF "$API" || {
             echo "::warning::Pages config.js may not match PUBLIC_AGENT_API_URL — redeploy Pages"
             exit 1

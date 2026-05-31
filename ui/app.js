@@ -486,7 +486,7 @@ function fixCrewSiteLink() {
   if (path.includes("/agent")) {
     link.href = path.replace(/\/agent\/?.*$/, "/") || "../";
   } else {
-    link.href = "https://harveygerardmk.github.io/crew-chief/";
+    link.href = "https://wheresharvey.com/";
   }
 }
 

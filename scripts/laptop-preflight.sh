@@ -23,7 +23,7 @@ echo "==> Agent API: $URL"
 
 echo ""
 echo "==> Pages config.js"
-CONFIG=$(curl -sf "https://harveygerardMK.github.io/crew-chief/agent/config.js")
+CONFIG=$(curl -sf "https://wheresharvey.com/agent/config.js")
 echo "$CONFIG" | grep CREW_CHIEF_API
 echo "$CONFIG" | grep -qF "$URL" || {
   echo "WARN: Pages config does not match API URL — redeploy GitHub Pages" >&2
@@ -32,7 +32,7 @@ echo "$CONFIG" | grep -qF "$URL" || {
 
 echo ""
 echo "==> Ask Harvey UI"
-curl -sf -o /dev/null -w "HTTP %{http_code}\n" "https://harveygerardMK.github.io/crew-chief/agent/"
+curl -sf -o /dev/null -w "HTTP %{http_code}\n" "https://wheresharvey.com/agent/"
 
 echo ""
 echo "Laptop preflight passed."

@@ -2,7 +2,7 @@
 
 Trip site for **Harvey Schaefer** running the [Tahoe 200 Endurance Run](https://www.destinationtrailrun.com/tahoe) — race plan, crew playbooks, pacer info, and a page for family. **Tahoe 200 only** (not Leadville or other events).
 
-**Live site:** https://harveygerardMK.github.io/crew-chief/
+**Live site:** https://wheresharvey.com/
 
 **Repo:** https://github.com/harveygerardMK/crew-chief
 
@@ -32,7 +32,7 @@ Long-form copy lives in `src/content/pages/` (Astro content collections).
 
 Friends and family can talk to a conversational agent during race week:
 
-**https://harveygerardMK.github.io/crew-chief/agent/** (after deploy)
+**https://wheresharvey.com/agent/** (after deploy)
 
 Setup and ops: [docs/superpowers/runbooks/crew-chief-agent-deploy.md](docs/superpowers/runbooks/crew-chief-agent-deploy.md) · [project status](docs/crew-chief-agent-status.md) · [race week](docs/superpowers/runbooks/crew-chief-agent-race-week.md)
 

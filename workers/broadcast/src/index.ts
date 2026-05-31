@@ -6,10 +6,14 @@ import { getTrackerSnapshot, type TrackLeadersEnv } from "./trackleaders";
 
 export interface Env extends GitHubEnv, TrackLeadersEnv {}
 
-const ALLOWED_ORIGINS = ["https://harveygerardmk.github.io", "http://localhost:4321"];
+const ALLOWED_ORIGINS = [
+  "https://wheresharvey.com",
+  "https://www.wheresharvey.com",
+  "https://harveygerardmk.github.io",
+  "http://localhost:4321",
+];
 
-const SITE_BASE = "/crew-chief";
-const HOMEPAGE_URL = "https://harveygerardmk.github.io/crew-chief/";
+const HOMEPAGE_URL = "https://wheresharvey.com/";
 const UPDATE_PAGE_URL = "https://crew-chief-broadcast.harvey-schaefer.workers.dev/update";
 const RATE_LIMIT_MS = 30_000;
 const lastPostByIp = new Map<string, number>();
@@ -157,7 +161,7 @@ async function handleBroadcastInner(
     const sha = await getFileSha(env, path);
     await putFile(env, path, toBase64(bytes), "broadcast: update from crew", sha);
     photos.push({
-      url: `${SITE_BASE}/race-updates/${filename}`,
+      url: `/race-updates/${filename}`,
       alt: station ? `Harvey at ${station}` : "Harvey on course",
     });
   }
