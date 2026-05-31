@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mission Control + Entry System Hybrid</title>
+    <style>
+      :root {
+        --black: #111113;
+        --panel: #1d1e21;
+        --panel-2: #25272b;
+        --paper: #e8e8df;
+        --stone: #aaa69b;
+        --blue: #657492;
+        --peach: #e9ae96;
+        --lime: #c9ff00;
+        --orange: #ff6031;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #232324;
+        color: var(--paper);
+        font-family: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+        padding: 28px;
+      }
+
+      .wrap {
+        max-width: 1220px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(42px, 8vw, 118px);
+        line-height: 0.84;
+        letter-spacing: -0.065em;
+      }
+
+      .intro {
+        max-width: 820px;
+        color: #c6c4ba;
+        margin: 0 0 28px;
+      }
+
+      .board {
+        background: #0d0e10;
+        border: 12px solid #07080a;
+        padding: 14px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      }
+
+      .topline {
+        display: grid;
+        grid-template-columns: 36px repeat(7, 1fr) 100px;
+        gap: 12px;
+        align-items: center;
+        border-bottom: 1px solid #303237;
+        padding-bottom: 12px;
+        font-size: 9px;
+        text-transform: uppercase;
+        color: #a9aaa8;
+      }
+
+      .dots {
+        display: grid;
+        grid-template-columns: repeat(3, 4px);
+        gap: 4px;
+      }
+
+      .dots span {
+        width: 4px;
+        height: 4px;
+        background: var(--paper);
+      }
+
+      .topline b {
+        color: var(--paper);
+        font-weight: 500;
+      }
+
+      .mini-strips {
+        display: flex;
+        gap: 5px;
+        justify-content: flex-end;
+      }
+
+      .mini-strips span {
+        height: 10px;
+        width: 18px;
+        background: var(--orange);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 0.95fr 0.9fr 1.15fr 1.05fr;
+        grid-template-rows: 150px 160px 88px;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .panel {
+        position: relative;
+        background: var(--panel);
+        border: 1px solid #2e3035;
+        padding: 16px;
+        overflow: hidden;
+      }
+
+      .panel.blue {
+        background: var(--blue);
+      }
+
+      .panel.peach {
+        background: var(--peach);
+        color: var(--black);
+      }
+
+      .panel.paper {
+        background: var(--paper);
+        color: var(--black);
+      }
+
+      .panel.lime {
+        background: var(--lime);
+        color: var(--black);
+      }
+
+      .label {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.72;
+      }
+
+      .number {
+        position: absolute;
+        left: 16px;
+        bottom: 12px;
+        font-size: clamp(46px, 8vw, 74px);
+        line-height: 0.85;
+        letter-spacing: -0.09em;
+      }
+
+      .station {
+        grid-row: span 2;
+      }
+
+      .station .big {
+        position: absolute;
+        left: 18px;
+        bottom: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 178px;
+        line-height: 0.72;
+        letter-spacing: -0.1em;
+        font-weight: 900;
+      }
+
+      .station .group {
+        font-size: 44px;
+        font-weight: 900;
+        margin-top: 24px;
+      }
+
+      .barcode {
+        height: 28px;
+        background: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px, currentColor 7px 10px, transparent 10px 14px);
+        opacity: 0.9;
+        margin: 16px 0;
+      }
+
+      .chart {
+        grid-column: span 2;
+      }
+
+      .bars {
+        position: absolute;
+        right: 22px;
+        bottom: 22px;
+        display: flex;
+        align-items: end;
+        gap: 12px;
+      }
+
+      .bars i {
+        width: 28px;
+        background: var(--stone);
+      }
+
+      .bars i:nth-child(3) {
+        height: 96px;
+        background: var(--blue);
+      }
+
+      .serif {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 26px;
+        line-height: 1;
+      }
+
+      .route-strip {
+        grid-column: span 2;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+      }
+
+      .chips {
+        display: flex;
+        gap: 7px;
+        position: absolute;
+        left: 16px;
+        bottom: 16px;
+      }
+
+      .chips span {
+        width: 44px;
+        height: 16px;
+      }
+
+      .caption {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .caption-card {
+        border: 1px solid #3b3d42;
+        background: #18191b;
+        padding: 18px;
+      }
+
+      .caption-card h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .caption-card p {
+        margin: 0;
+        color: #c6c4ba;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 760px) {
+        body {
+          padding: 16px;
+        }
+
+        .topline,
+        .grid,
+        .caption {
+          grid-template-columns: 1fr;
+        }
+
+        .grid {
+          grid-template-rows: none;
+        }
+
+        .panel,
+        .station,
+        .chart,
+        .route-strip {
+          grid-column: auto;
+          grid-row: auto;
+          min-height: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Mission Control / Entry System</h1>
+      <p class="intro">A refined hybrid: modular race telemetry from concept 1, with concept 3's credential graphics, peach/lime palette pops, barcode dividers, oversized station identity, and livelier editorial contrast.</p>
+
+      <section class="board" data-choice="mission-entry-hybrid" onclick="toggleSelect(this)">
+        <div class="topline">
+          <div class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span>Start<br /><b>Jun 12</b></span>
+          <span>Station<br /><b>Echo</b></span>
+          <span>Mile<br /><b>62.9</b></span>
+          <span>ETA<br /><b>03:40</b></span>
+          <span>Cutoff<br /><b>105H</b></span>
+          <span>Signal<br /><b>Move</b></span>
+          <span>Group<br /><b>[ H ]</b></span>
+          <div class="mini-strips"><span></span><span style="background:#000"></span><span style="background:var(--lime)"></span></div>
+        </div>
+
+        <div class="grid">
+          <article class="panel blue">
+            <div class="label">Today focus</div>
+            <div class="number">1.8</div>
+          </article>
+
+          <article class="panel station paper">
+            <div class="label">Entrance / group</div>
+            <div class="barcode"></div>
+            <div class="group">[ H ]</div>
+            <div class="big">3</div>
+          </article>
+
+          <article class="panel chart">
+            <div class="label">Total course balance</div>
+            <div class="number">1.592</div>
+            <div class="bars"><i style="height:44px"></i><i style="height:58px"></i><i></i><i style="height:72px"></i><i style="height:62px"></i></div>
+          </article>
+
+          <article class="panel peach">
+            <div class="label">Crew note</div>
+            <div class="serif" style="position:absolute;left:16px;bottom:18px;">Refined,<br />but never<br />fragile.</div>
+          </article>
+
+          <article class="panel">
+            <div class="label">Completed tasks</div>
+            <div class="number">2</div>
+          </article>
+
+          <article class="panel lime">
+            <div class="label">Priority action</div>
+            <div style="position:absolute;left:16px;bottom:18px;font-size:30px;line-height:.9;font-weight:900;">MOVE<br />NOW</div>
+          </article>
+
+          <article class="panel route-strip">
+            <div class="label">Route strip</div>
+            <div class="chips"><span style="background:var(--blue)"></span><span style="background:var(--orange)"></span><span style="background:#000"></span><span style="background:var(--lime)"></span></div>
+            <div style="font-size:28px;font-weight:900;">10 / 20 STATIONS</div>
+          </article>
+
+          <article class="panel">
+            <div class="label">Hours to leave</div>
+            <div class="number">6.9</div>
+          </article>
+        </div>
+      </section>
+
+      <div class="caption">
+        <div class="caption-card">
+          <h2>What carries over from 1</h2>
+          <p>Dense modular layout, dark NASA console base, top telemetry rail, big numeric readouts, and race-board-first hierarchy.</p>
+        </div>
+        <div class="caption-card">
+          <h2>What carries over from 3</h2>
+          <p>Barcode texture, oversized station IDs, group labels, peach editorial warmth, sharp lime priority hits, and credential-style color strips.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

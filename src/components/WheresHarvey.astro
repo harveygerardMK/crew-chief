@@ -7,7 +7,7 @@ interface Props {
   preview?: boolean;
   /** Use demo tracker stats (no Worker / TrackLeaders required) */
   mock?: boolean;
-  /** Override race start for elapsed-time / song (preview) */
+  /** Override race start for elapsed-time / art pairing (preview) */
   raceStartOverride?: string;
 }
 
@@ -57,32 +57,70 @@ const raceStart = raceStartOverride ?? RACE_START_ISO;
   </p>
   <p class="wheres-harvey__notice card-surface__meta wheres-harvey__notice--warn" data-wh-warn hidden></p>
 
-  <dl class="wheres-harvey__grid">
-    <div class="wheres-harvey__stat">
-      <dt>Last beacon ping</dt>
-      <dd class="wheres-harvey__stat-value" data-wh-beacon>—</dd>
-    </div>
-    <div class="wheres-harvey__stat">
-      <dt>Miles run</dt>
-      <dd class="wheres-harvey__stat-value" data-wh-miles-run>—</dd>
-    </div>
-    <div class="wheres-harvey__stat">
-      <dt>Miles remaining</dt>
-      <dd class="wheres-harvey__stat-value" data-wh-miles-left>—</dd>
-    </div>
-    <div class="wheres-harvey__stat">
-      <dt>Next aid station</dt>
-      <dd class="wheres-harvey__stat-value" data-wh-next-aid>—</dd>
-    </div>
-    <div class="wheres-harvey__stat">
-      <dt>Elevation climbed</dt>
-      <dd class="wheres-harvey__stat-value" data-wh-elevation>—</dd>
-    </div>
-    <div class="wheres-harvey__stat wheres-harvey__stat--song">
-      <dt>Song in my head</dt>
-      <dd class="wheres-harvey__song" data-wh-song>Checking the mental playlist…</dd>
-    </div>
-  </dl>
+  <div class="wheres-harvey__columns">
+    <dl class="wheres-harvey__stats">
+      <div class="wheres-harvey__stat">
+        <dt>Last beacon ping</dt>
+        <dd class="wheres-harvey__stat-value" data-wh-beacon>—</dd>
+      </div>
+      <div class="wheres-harvey__stat">
+        <dt>Miles run</dt>
+        <dd class="wheres-harvey__stat-value" data-wh-miles-run>—</dd>
+      </div>
+      <div class="wheres-harvey__stat">
+        <dt>Miles remaining</dt>
+        <dd class="wheres-harvey__stat-value" data-wh-miles-left>—</dd>
+      </div>
+      <div class="wheres-harvey__stat">
+        <dt>Next aid station</dt>
+        <dd class="wheres-harvey__stat-value" data-wh-next-aid>—</dd>
+      </div>
+      <div class="wheres-harvey__stat">
+        <dt>Elevation climbed</dt>
+        <dd class="wheres-harvey__stat-value" data-wh-elevation>—</dd>
+      </div>
+    </dl>
+
+    <aside class="wheres-harvey__art-panel" aria-label="Art but make it sports">
+      <p class="wheres-harvey__art-eyebrow">Art but make it sports</p>
+      <figure class="wheres-harvey__art">
+        <div class="wheres-harvey__art-frame">
+          <img
+            class="wheres-harvey__art-thumb"
+            data-wh-art-img
+            width="320"
+            height="240"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption class="wheres-harvey__art-body">
+          <p class="wheres-harvey__art-moment" data-wh-art-moment>Reading the museum wall…</p>
+          <p class="wheres-harvey__art-work">
+            <a
+              class="wheres-harvey__art-link"
+              data-wh-art-link
+              href="https://www.nga.gov/artwork-search"
+              target="_blank"
+              rel="noopener noreferrer"
+            ></a>
+          </p>
+          <p class="wheres-harvey__art-caption" data-wh-art-caption></p>
+          <p class="wheres-harvey__art-credit">
+            Image{" "}
+            <a href="https://www.nga.gov/open-access-images/open-data.html" target="_blank" rel="noopener noreferrer">
+              National Gallery of Art
+            </a>
+            {" · "}Inspired by{" "}
+            <a href="https://www.artbutmakeitsports.com/" target="_blank" rel="noopener noreferrer">
+              ArtButMakeItSports
+            </a>
+          </p>
+        </figcaption>
+      </figure>
+    </aside>
+  </div>
 
   {status.message && !preview && <p class="status-block__secondary">{status.message}</p>}
 

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crew Chief Homepage — V5 Separated</title>
+    <style>
+      :root {
+        --paper: #f6f7ed;
+        --ink: #001f3f;
+        --ink-soft: #1e488f;
+        --line: rgba(0, 31, 63, 0.24);
+        --accent-lime: #dbe64c;
+        --mantis: #74c365;
+        --book-green: #00804c;
+        --midnight: #001f3f;
+        --nuit: #1e488f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Helvetica Neue", "Arial Narrow", Arial, sans-serif;
+      }
+      .page {
+        width: min(1200px, 95vw);
+        margin: 1.2rem auto 2.4rem;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,.22)), var(--paper);
+        overflow: visible;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.35rem;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        font-size: 1.85rem;
+        line-height: .9;
+        font-weight: 700;
+        letter-spacing: -.03em;
+        text-transform: uppercase;
+      }
+      .nav {
+        display: flex;
+        gap: .75rem;
+        flex-wrap: wrap;
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .1em;
+      }
+
+      /* HERO: text + mountain only */
+      .hero {
+        position: relative;
+        min-height: 520px;
+        border-bottom: 1px solid var(--line);
+        overflow: visible;
+        background:
+          linear-gradient(to right, rgba(0,31,63,.06) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0,31,63,.06) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255,255,255,.36), rgba(255,255,255,.14));
+        background-size: 160px 160px, 160px 160px, auto;
+      }
+      .hero-copy {
+        position: relative;
+        z-index: 3;
+        padding: 1.2rem 1.35rem 0;
+      }
+      .hero h1 {
+        margin: 0;
+        max-width: 10.5ch;
+        font-size: clamp(2.1rem, 5.2vw, 4.7rem);
+        line-height: .9;
+        letter-spacing: -.03em;
+        text-transform: uppercase;
+      }
+      .mountain {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100vw;
+        max-width: none;
+        bottom: 0;
+        height: 58%;
+        z-index: 1;
+      }
+      .mountain svg { width: 100%; height: 100%; display: block; }
+
+      /* BELOW THE FOLD: all operational text/modules */
+      .below {
+        position: relative;
+        z-index: 5;
+        background: var(--paper);
+      }
+      .meta-band {
+        padding: .72rem 1.35rem .88rem;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0,1fr));
+        gap: .4rem;
+      }
+      .meta-band div {
+        border-top: 2px solid rgba(0,31,63,.3);
+        padding-top: .4rem;
+        font-size: .68rem;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+      }
+      .now-row {
+        padding: .78rem 1.35rem;
+        border-bottom: 1px solid var(--line);
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0,1fr));
+        gap: .45rem;
+      }
+      .now-card {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,.36);
+        padding: .55rem;
+      }
+      .now-card .k {
+        margin: 0 0 .2rem;
+        font-size: .54rem;
+        text-transform: uppercase;
+        letter-spacing: .1em;
+        color: var(--ink-soft);
+      }
+      .now-card .v {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.08;
+        text-transform: uppercase;
+      }
+      .now-card.critical {
+        border-color: rgba(219,230,76,.78);
+        background: rgba(219,230,76,.2);
+      }
+      .content {
+        padding: .88rem 1.35rem 1.2rem;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: .58rem;
+      }
+      .panel {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,.34);
+        min-height: 180px;
+      }
+      .panel h3 {
+        margin: 0;
+        padding: .55rem .68rem;
+        border-bottom: 1px solid var(--line);
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .09em;
+      }
+      .panel .body { padding: .68rem; font-size: .92rem; line-height: 1.3; }
+      .list { margin: 0; padding-left: 1rem; }
+      .list li { margin-bottom: .42rem; }
+      .ops {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: .42rem;
+      }
+      .ops button {
+        border: 1px solid var(--line);
+        background: rgba(116,195,101,.18);
+        min-height: 44px;
+        font-size: .65rem;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+      .foot {
+        border-top: 1px solid var(--line);
+        padding: .6rem 1.35rem;
+        font-size: .66rem;
+        text-transform: uppercase;
+        letter-spacing: .09em;
+        color: var(--ink-soft);
+      }
+      @media (max-width: 900px) {
+        .meta-band, .now-row, .content { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">Crew<br />Chief</div>
+        <nav class="nav"><span>Next Stop</span><span>Race Board</span><span>Crew Guide</span><span>Follow</span></nav>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div>
+            <h1>Tahoe 200 alpine race logistics</h1>
+          </div>
+        </div>
+        <div class="mountain" aria-hidden="true">
+          <svg viewBox="0 0 1200 320">
+            <defs>
+              <linearGradient id="back5" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(30,72,143,.56)"></stop>
+                <stop offset="100%" stop-color="rgba(30,72,143,.3)"></stop>
+              </linearGradient>
+              <linearGradient id="front5" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(0,128,76,.82)"></stop>
+                <stop offset="100%" stop-color="rgba(0,128,76,.62)"></stop>
+              </linearGradient>
+            </defs>
+            <path fill="url(#back5)" d="M0 320V138L18 98L30 126L42 88L54 160L74 210L110 226L138 116L156 90L174 184L198 244L224 256L248 170L270 176L292 126L316 216L336 148L360 90L378 102L396 60L416 66L438 148L462 112L484 80L510 210L538 190L566 192L592 120L614 72L638 86L666 162L688 58L710 126L736 96L760 52L786 194L812 162L834 48L856 66L886 140L912 208L940 224L962 172L982 158L1004 182L1028 106L1052 82L1074 200L1098 256L1120 208L1140 72L1164 98L1182 158L1200 110V320Z"/>
+            <path fill="url(#front5)" d="M0 320V170L24 126L48 164L72 94L98 198L122 228L152 240L178 128L198 100L222 200L246 254L272 264L296 186L316 190L344 138L370 224L390 168L418 114L438 126L464 80L492 88L514 166L542 126L564 92L590 218L616 202L642 204L668 132L694 84L718 100L744 176L768 72L792 136L818 108L842 62L870 200L896 166L920 56L946 74L978 148L1004 212L1030 232L1054 180L1078 166L1102 190L1128 114L1152 88L1176 208L1200 234V320Z"/>
+          </svg>
+        </div>
+      </section>
+
+      <section class="below">
+        <section class="meta-band">
+          <div>Distance 200 mi</div>
+          <div>Pace Baseline</div>
+          <div>Aid Status On Track</div>
+          <div>Cutoff 100h</div>
+          <div>Plan v2026.05</div>
+        </section>
+
+        <section class="now-row">
+          <article class="now-card critical"><p class="k">Critical action</p><p class="v">Depart for Spooner in 34 min</p></article>
+          <article class="now-card"><p class="k">Current segment</p><p class="v">Heavenly to Spooner</p></article>
+          <article class="now-card"><p class="k">Crew prep</p><p class="v">Fuel + Socks + Headlamp</p></article>
+        </section>
+
+        <section class="content">
+          <article class="panel">
+            <h3>Live Race Updates</h3>
+            <div class="body">
+              <ul class="list">
+                <li>Heavenly check-in complete · +7 min vs baseline</li>
+                <li>Temperature drop expected after mile 135</li>
+                <li>Next family window estimated at 16:10</li>
+              </ul>
+            </div>
+          </article>
+          <article class="panel">
+            <h3>Crew Ops</h3>
+            <div class="body">
+              <div class="ops">
+                <button>Next Stop View</button>
+                <button>Board Check-in</button>
+                <button>Fuel Checklist</button>
+                <button>Family Note</button>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <footer class="foot">V5 separated pass · hero composition preserved · all modules moved below</footer>
+    </div>
+  </body>
+  </html>

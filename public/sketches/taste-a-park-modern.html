@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taste Sketch A Modern Park</title>
+    <link rel="stylesheet" href="/sketches/taste.css" />
+    <style>
+      :root {
+        --spruce: #2f5b52;
+        --stone: #6f7e7f;
+        --lake: #3f8fb2;
+        --trail: #bd624b;
+      }
+      .cover {
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.22)),
+          var(--paper);
+      }
+      .hero {
+        position: absolute;
+        left: 2.4rem;
+        top: 9.2rem;
+        z-index: 3;
+        max-width: 34rem;
+      }
+      .hero h2 {
+        margin: 0 0 0.6rem;
+        font-size: clamp(2rem, 4vw, 3.3rem);
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+      }
+      .hero p {
+        margin: 0;
+        max-width: 33ch;
+        font-size: 1rem;
+        line-height: 1.35;
+        color: rgba(23, 23, 23, 0.82);
+      }
+      .mountains {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 18%;
+        height: 46%;
+        z-index: 2;
+      }
+      .data-strip {
+        position: absolute;
+        left: 2.4rem;
+        right: 2.4rem;
+        bottom: 2.8rem;
+        z-index: 4;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.35rem;
+      }
+      .data-strip div {
+        border: 0;
+        border-top: 2px solid rgba(23, 23, 23, 0.34);
+        background: transparent;
+        padding: 0.45rem 0.5rem;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .nodes {
+        position: absolute;
+        right: 7.5rem;
+        bottom: 13.8rem;
+        z-index: 4;
+        display: grid;
+        gap: 0.5rem;
+      }
+      .node {
+        width: 1.45rem;
+        height: 1.45rem;
+        border-radius: 999px;
+        border: 0;
+        background: rgba(23, 23, 23, 0.75);
+        display: grid;
+        place-items: center;
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.94);
+      }
+      .subhead {
+        position: absolute;
+        right: 2.4rem;
+        top: 12.2rem;
+        z-index: 3;
+        font-size: 1.55rem;
+        line-height: 0.95;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        text-align: right;
+        opacity: 0.78;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/sketches/taste-a.html">A / Original</a>
+      <a href="/sketches/taste-a-ranger-v2.html">A+ / Ranger</a>
+      <a href="/sketches/taste-a-park-modern.html">A++ / Modern Park</a>
+    </nav>
+    <main class="cover">
+      <header class="top">
+        <div class="left-kicker">Crew<br />Chief</div>
+        <div class="right-stack">
+          <h1>Modern<br />Park Minimal</h1>
+        </div>
+      </header>
+
+      <section class="hero">
+        <h2>Calm command for alpine race logistics</h2>
+        <p>Race-day view reduced to the essentials: clean type and an elevation-true mountain profile.</p>
+      </section>
+      <div class="subhead">Tahoe 200<br />Field System</div>
+
+      <svg class="mountains" viewBox="0 0 1200 320" aria-hidden="true">
+        <defs>
+          <linearGradient id="ridgeBack" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(118,132,132,0.68)"></stop>
+            <stop offset="100%" stop-color="rgba(118,132,132,0.42)"></stop>
+          </linearGradient>
+          <linearGradient id="ridgeFront" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(67,108,103,0.78)"></stop>
+            <stop offset="100%" stop-color="rgba(56,96,92,0.64)"></stop>
+          </linearGradient>
+        </defs>
+        <path fill="url(#ridgeBack)" d="M0 298L0 145L18 106L30 132L42 94L54 166L74 218L110 232L138 122L156 96L174 188L198 246L224 258L248 176L270 182L292 132L316 220L336 154L360 96L378 108L396 66L416 72L438 154L462 118L484 86L510 214L538 194L566 196L592 126L614 78L638 92L666 168L688 64L710 132L736 102L760 58L786 198L812 168L834 54L856 72L886 146L912 212L940 230L962 178L982 164L1004 188L1028 112L1052 88L1074 206L1098 262L1120 214L1140 78L1164 104L1182 164L1200 116L1200 298Z"/>
+        <path fill="url(#ridgeFront)" d="M0 298L0 176L24 134L48 172L72 102L98 206L122 236L152 248L178 136L198 108L222 208L246 262L272 272L296 194L316 198L344 146L370 232L390 176L418 122L438 134L464 88L492 96L514 174L542 134L564 100L590 226L616 210L642 212L668 140L694 92L718 108L744 184L768 80L792 144L818 116L842 70L870 208L896 174L920 64L946 82L978 156L1004 220L1030 240L1054 188L1078 174L1102 198L1128 122L1152 96L1176 216L1200 242L1200 298Z"/>
+      </svg>
+
+      <div class="data-strip">
+        <div>Distance 200 mi</div>
+        <div>Pace baseline</div>
+        <div>Aid status on track</div>
+        <div>Family update 16:10</div>
+      </div>
+      <div class="nodes" aria-hidden="true">
+        <span class="node">1</span>
+        <span class="node">2</span>
+        <span class="node">3</span>
+      </div>
+
+      <div class="label">Concept A++ · modern national-park minimal</div>
+    </main>
+  </body>
+  </html>

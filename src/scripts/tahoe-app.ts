@@ -13,9 +13,13 @@ import {
   aidStationNearMile,
   elevationAtMile,
   formatPaceBucket,
+  getCurrentSegment,
+  getLastAidStation,
   getNextAidStation,
-  guessHeadSong,
+  isNextAidCrew,
   milesRemaining,
+  pickArtPairing,
+  racePhaseBand,
   weatherBucketFromCode,
   weatherBucketFromTemp,
   type WeatherBucket,
@@ -334,7 +338,8 @@ interface WeatherState {
 
 let cachedWeather: WeatherState = { bucket: "unknown", tempF: null };
 let lastWeatherMile: number | null = null;
-let lastSongKey = "";
+let lastArtKey = "";
+const shownArtIds = new Set<string>();
 
 export function initWheresHarvey() {
   const root = document.querySelector<HTMLElement>("[data-wheres-harvey]");
@@ -356,7 +361,10 @@ export function initWheresHarvey() {
     milesLeft: root.querySelector<HTMLElement>("[data-wh-miles-left]"),
     nextAid: root.querySelector<HTMLElement>("[data-wh-next-aid]"),
     elevation: root.querySelector<HTMLElement>("[data-wh-elevation]"),
-    song: root.querySelector<HTMLElement>("[data-wh-song]"),
+    song: root.querySelector<HTMLElement>("[data-wh-art-moment]"),
+    artCaption: root.querySelector<HTMLElement>("[data-wh-art-caption]"),
+    artImg: root.querySelector<HTMLImageElement>("[data-wh-art-img]"),
+    artLink: root.querySelector<HTMLAnchorElement>("[data-wh-art-link]"),
   };
 
   let lastSnapshot: TrackerSnapshot | null = null;
@@ -486,17 +494,50 @@ export function initWheresHarvey() {
 
     const weather = await fetchWeather(mile);
     const paceBucket = formatPaceBucket(snapshot.current_speed_mph);
-    const songKey = `${Math.floor(mile / 5)}|${Math.floor(hour)}|${paceBucket}|${weather.bucket}`;
-    if (songKey !== lastSongKey && els.song) {
-      const song = guessHeadSong({
-        hour,
-        elapsedHours,
-        weather: weather.bucket,
-        paceBucket,
-        mile,
-      });
-      els.song.textContent = `"${song.title}" — ${song.artist}. ${song.rationale}`;
-      lastSongKey = songKey;
+    const lastAid = getLastAidStation(mile);
+    const segment = getCurrentSegment(mile);
+    const artKey = `${Math.floor(mile / 5)}|${Math.floor(hour)}|${paceBucket}|${weather.bucket}|${nextAid?.name ?? "done"}`;
+    if (artKey !== lastArtKey) {
+      const art = pickArtPairing(
+        {
+          hour,
+          elapsedHours,
+          weather: weather.bucket,
+          paceBucket,
+          mile,
+          lastAid,
+          nextAid,
+          nextAidIsCrew: isNextAidCrew(mile),
+          segmentName: segment?.name ?? null,
+          phaseBand: racePhaseBand(mile),
+        },
+        { excludeObjectIds: shownArtIds },
+      );
+      if (art.objectId) shownArtIds.add(art.objectId);
+      if (els.song) els.song.textContent = art.sportsMoment;
+      if (els.artLink) {
+        els.artLink.href = art.sourceUrl;
+        els.artLink.textContent = `${art.title} · ${art.artist} (${art.year})`;
+      }
+      if (els.artCaption) els.artCaption.textContent = art.caption;
+      if (els.artImg) {
+        els.artImg.alt = art.title;
+        els.artImg.classList.remove("is-loaded", "is-error");
+        els.artImg.onload = () => {
+          els.artImg!.classList.add("is-loaded");
+          els.artImg!.classList.remove("is-error");
+        };
+        els.artImg.onerror = () => {
+          els.artImg!.classList.remove("is-loaded");
+          els.artImg!.classList.add("is-error");
+        };
+        if (els.artImg.getAttribute("src") !== art.imageUrl) {
+          els.artImg.src = art.imageUrl;
+        } else if (els.artImg.complete && els.artImg.naturalWidth > 0) {
+          els.artImg.classList.add("is-loaded");
+        }
+      }
+      lastArtKey = artKey;
     }
 
     syncHeroFromTracker(mile);

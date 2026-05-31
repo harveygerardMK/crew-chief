@@ -391,11 +391,19 @@ main {
   margin: var(--space-4) 0 0;
 }
 
-.wheres-harvey__grid {
+.wheres-harvey__columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-3) var(--space-4);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--space-5);
   margin: var(--space-4) 0 0;
+  align-items: start;
+}
+
+.wheres-harvey__stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
 }
 
 .wheres-harvey__stat {
@@ -420,16 +428,100 @@ main {
   color: var(--ink-primary);
 }
 
-.wheres-harvey__stat--song {
-  grid-column: 1 / -1;
+.wheres-harvey__art-panel {
+  padding: var(--space-4);
+  border: 1px solid color-mix(in srgb, var(--ink-tertiary) 28%, transparent);
+  background: color-mix(in srgb, var(--surface-base) 88%, white 12%);
 }
 
-.wheres-harvey__song {
+.wheres-harvey__art-eyebrow {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.wheres-harvey__art {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.wheres-harvey__art-frame {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--ink-tertiary) 35%, transparent);
+  background: color-mix(in srgb, var(--surface-base) 90%, white);
+}
+
+.wheres-harvey__art-thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.wheres-harvey__art-thumb.is-loaded {
+  opacity: 1;
+}
+
+.wheres-harvey__art-thumb.is-error {
+  opacity: 0;
+}
+
+.wheres-harvey__art-body {
+  min-width: 0;
+}
+
+.wheres-harvey__art-moment {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  color: var(--ink-primary);
+  line-height: 1.4;
+}
+
+.wheres-harvey__art-work {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--ink-secondary);
+  line-height: 1.35;
+}
+
+.wheres-harvey__art-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.wheres-harvey__art-link:hover {
+  color: var(--link-hover);
+}
+
+.wheres-harvey__art-caption {
   margin: 0;
   font-size: var(--text-body-sm);
   font-style: italic;
   color: var(--ink-secondary);
   line-height: 1.45;
+}
+
+.wheres-harvey__art-credit {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-caption);
+  color: var(--ink-tertiary);
+}
+
+.wheres-harvey__art-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .wheres-harvey__notice {
@@ -473,13 +565,9 @@ main {
   font-size: var(--text-body-sm);
 }
 
-@media (max-width: 640px) {
-  .wheres-harvey__grid {
+@media (max-width: 720px) {
+  .wheres-harvey__columns {
     grid-template-columns: 1fr;
-  }
-
-  .wheres-harvey__stat--song {
-    grid-column: auto;
   }
 }
 

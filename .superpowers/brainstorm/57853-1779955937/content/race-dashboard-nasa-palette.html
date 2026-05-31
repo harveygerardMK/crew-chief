@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crew Chief Visual Sketches</title>
+    <style>
+      :root {
+        --ink: #1c1d1c;
+        --black: #111113;
+        --panel: #1f2022;
+        --blue: #637391;
+        --stone: #aaa69b;
+        --paper: #e9eadf;
+        --peach: #e8ad96;
+        --lime: #c9ff00;
+        --orange: #ff5c2f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #232324;
+        color: var(--paper);
+        font-family: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+        padding: 28px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .intro {
+        max-width: 980px;
+        margin: 0 auto 24px;
+      }
+
+      .intro h1 {
+        font-size: clamp(34px, 6vw, 72px);
+        line-height: 0.9;
+        letter-spacing: -0.06em;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--paper);
+      }
+
+      .intro p {
+        color: #b9b8ae;
+        max-width: 760px;
+      }
+
+      .grid {
+        max-width: 1180px;
+        margin: 0 auto;
+        display: grid;
+        gap: 22px;
+      }
+
+      .concept {
+        border: 1px solid #333438;
+        background: #161719;
+        padding: 14px;
+        cursor: pointer;
+      }
+
+      .concept:hover {
+        border-color: var(--lime);
+      }
+
+      .concept[data-selected="true"] {
+        outline: 2px solid var(--lime);
+        outline-offset: 4px;
+      }
+
+      .caption {
+        padding: 16px 4px 4px;
+        display: grid;
+        gap: 4px;
+      }
+
+      .caption h2 {
+        font-size: 18px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .caption p {
+        color: #b9b8ae;
+        font-size: 13px;
+      }
+
+      .sketch {
+        min-height: 420px;
+        overflow: hidden;
+      }
+
+      .mission {
+        background: #101114;
+        border: 10px solid #090a0c;
+        padding: 14px;
+      }
+
+      .mission-top {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr) auto;
+        gap: 12px;
+        border-bottom: 1px solid #2d2f34;
+        padding-bottom: 14px;
+        font-size: 9px;
+        color: #a9aaa8;
+        text-transform: uppercase;
+      }
+
+      .mission-top b {
+        color: var(--paper);
+        font-weight: 500;
+      }
+
+      .mission-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 0.9fr 1.8fr;
+        grid-template-rows: 150px 170px 82px;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .m-panel {
+        background: #202124;
+        border: 1px solid #2e3035;
+        padding: 16px;
+        position: relative;
+      }
+
+      .m-panel.blue {
+        background: var(--blue);
+        color: white;
+      }
+
+      .m-panel.peach {
+        background: var(--peach);
+        color: var(--black);
+      }
+
+      .m-label {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: currentColor;
+        opacity: 0.75;
+      }
+
+      .m-num {
+        position: absolute;
+        left: 16px;
+        bottom: 14px;
+        font-size: 52px;
+        line-height: 0.9;
+        letter-spacing: -0.08em;
+      }
+
+      .chart {
+        grid-column: span 2;
+      }
+
+      .bars {
+        position: absolute;
+        right: 22px;
+        bottom: 22px;
+        display: flex;
+        align-items: end;
+        gap: 12px;
+      }
+
+      .bars i {
+        width: 28px;
+        background: var(--stone);
+      }
+
+      .bars i:nth-child(3) {
+        height: 92px;
+        background: var(--blue);
+      }
+
+      .instrument {
+        background: var(--paper);
+        color: var(--ink);
+        border: 2px solid var(--ink);
+        border-radius: 34px;
+        padding: 28px;
+      }
+
+      .phone-top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 20px;
+        margin-bottom: 22px;
+      }
+
+      .device-title {
+        font-size: 54px;
+        letter-spacing: -0.06em;
+        line-height: 0.9;
+      }
+
+      .temperature {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        border: 1.5px solid var(--ink);
+        border-radius: 999px;
+        padding: 10px 18px;
+        gap: 18px;
+        margin: 22px 0;
+      }
+
+      .temperature strong {
+        font-size: 48px;
+        font-weight: 400;
+      }
+
+      .device-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .device-card {
+        border: 1.5px solid var(--ink);
+        border-radius: 20px;
+        padding: 16px;
+        min-height: 136px;
+      }
+
+      .device-card b {
+        display: block;
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+
+      .device-card strong {
+        display: block;
+        font-size: 34px;
+        font-weight: 400;
+      }
+
+      .schedule {
+        margin-top: 22px;
+        border-top: 1.5px solid var(--ink);
+      }
+
+      .schedule div {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        gap: 18px;
+        border-bottom: 1.5px solid var(--ink);
+        padding: 12px 0;
+        font-size: 18px;
+      }
+
+      .entry {
+        background: #deded8;
+        color: #050505;
+        padding: 18px;
+        display: grid;
+        grid-template-columns: 1.35fr 0.8fr;
+        gap: 24px;
+      }
+
+      .entry h2 {
+        font-size: clamp(60px, 12vw, 130px);
+        line-height: 0.8;
+        letter-spacing: -0.08em;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 18px;
+      }
+
+      .barcode {
+        height: 46px;
+        background: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 7px, #000 7px 9px, transparent 9px 13px);
+        border-bottom: 10px solid #000;
+        margin-bottom: 22px;
+      }
+
+      .entry-number {
+        font-size: 176px;
+        line-height: 0.75;
+        font-weight: 900;
+        letter-spacing: -0.08em;
+      }
+
+      .tag-strips {
+        display: flex;
+        gap: 7px;
+        margin: 14px 0;
+      }
+
+      .tag-strips span {
+        display: block;
+        width: 48px;
+        height: 16px;
+      }
+
+      .entry-right {
+        display: grid;
+        align-content: start;
+        gap: 20px;
+      }
+
+      .bearing {
+        font-size: 92px;
+        line-height: 0.85;
+        font-weight: 900;
+      }
+
+      .serif-note {
+        background: var(--peach);
+        padding: 18px;
+        min-height: 130px;
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .lime-chip {
+        background: var(--lime);
+        color: #111;
+        display: inline-block;
+        padding: 16px 24px;
+        border-radius: 12px;
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        margin-top: 90px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="intro">
+      <h1>Three NASA-race dashboard directions</h1>
+      <p>Palette mixed from the new Pavillion reference: stone paper, peach, black, blue-gray, signal orange, and one sharp lime hit. Click one if a direction feels right.</p>
+    </div>
+
+    <main class="grid">
+      <section class="concept" data-choice="mission-control" onclick="toggleSelect(this)">
+        <div class="sketch mission">
+          <div class="mission-top">
+            <span>Start<br /><b>Jun 12</b></span>
+            <span>Mile<br /><b>62.9</b></span>
+            <span>ETA<br /><b>03:40</b></span>
+            <span>Cutoff<br /><b>105h</b></span>
+            <span>Gain<br /><b>32,093</b></span>
+            <span>Signal<br /><b>Echo</b></span>
+            <span>Mode<br /><b>Crew</b></span>
+            <span>H.S.</span>
+          </div>
+          <div class="mission-grid">
+            <div class="m-panel blue"><span class="m-label">Next crew move</span><span class="m-num">1.8</span></div>
+            <div class="m-panel"><span class="m-label">Completed aids</span><span class="m-num">2</span></div>
+            <div class="m-panel chart"><span class="m-label">Race board delta</span><span class="m-num">1.592</span><div class="bars"><i style="height:45px"></i><i style="height:58px"></i><i></i><i style="height:70px"></i><i style="height:60px"></i></div></div>
+            <div class="m-panel"><span class="m-label">Hours to leave</span><span class="m-num">6.9</span></div>
+            <div class="m-panel blue"><span class="m-label">Aesthetic usability effect</span><span style="position:absolute;left:16px;bottom:18px;font-size:26px;line-height:.9;">CREW<br />CHIEF</span></div>
+            <div class="m-panel"><span class="m-label">Work-life balance</span><span class="m-num">7.89</span></div>
+            <div class="m-panel peach" style="grid-column: span 3;"><span class="m-label">Custom dashboard</span><span style="position:absolute;right:18px;bottom:18px;">10 / 20 stations</span></div>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>A. Race Mission Control</h2>
+          <p>Most NASA/dashboard. Dense, horizontal, dark, telemetry-first. Use for crew-critical pages and race board.</p>
+        </div>
+      </section>
+
+      <section class="concept" data-choice="field-console" onclick="toggleSelect(this)">
+        <div class="sketch instrument">
+          <div class="phone-top"><span>14:41</span><span>||| ≡</span></div>
+          <div class="device-title">Crew Chief</div>
+          <div class="temperature"><span>−</span><strong>62.9mi</strong><span>68%</span></div>
+          <div class="device-cards">
+            <div class="device-card"><b>Radiators</b><strong>3:40</strong><span>arrival window</span></div>
+            <div class="device-card"><b>Panels</b><strong>320kWh</strong><span>crew capacity</span></div>
+          </div>
+          <div class="schedule">
+            <div><b>WEEKDAYS</b><span>18°C</span><span>6AM–10AM</span><span>OFF</span></div>
+            <div><b>DAY OFF</b><span>19°C</span><span>9AM–1PM</span><span>ON</span></div>
+            <div><b>SUNDAY</b><span>19°C</span><span>10AM–12PM</span><span>OFF</span></div>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>B. Field Mono Console</h2>
+          <p>Most usable on phone. Light instrument-panel UI with huge mono numbers, rounded modules, and calm tactical controls.</p>
+        </div>
+      </section>
+
+      <section class="concept" data-choice="entry-system" onclick="toggleSelect(this)">
+        <div class="sketch entry">
+          <div>
+            <div style="display:flex;gap:8px;margin-bottom:18px"><span style="width:40px;height:8px;background:var(--orange)"></span><span style="width:12px;height:8px;background:#000"></span><span style="width:28px;height:8px;background:var(--orange)"></span></div>
+            <h2>ENTRACE</h2>
+            <div class="barcode"></div>
+            <div style="font-size:34px;font-weight:900;">GROUP : [ H ]</div>
+            <div class="tag-strips"><span style="background:var(--blue)"></span><span style="background:var(--orange)"></span><span style="background:#000"></span><span style="background:var(--lime)"></span></div>
+            <div class="entry-number">3</div>
+          </div>
+          <div class="entry-right">
+            <div class="bearing">180°</div>
+            <div style="font-size:54px;font-weight:900;">PG. 01</div>
+            <div class="serif-note">Pavillion-style editorial warmth meets race credential system. Strong identity layer for section headers and aid cards.</div>
+            <div class="lime-chip">Baseline Typeface</div>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>C. Tahoe Entry System</h2>
+          <p>Most ownable brand system. Barcode dividers, credential labels, huge station IDs, peach/lime accents, and serif warmth.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

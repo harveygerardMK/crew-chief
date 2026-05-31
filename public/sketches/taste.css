@@ -1,0 +1,117 @@
+:root {
+  --paper: #ece6db;
+  --ink: #171717;
+  --red: #d94a3a;
+  --cyan: #2da9d5;
+  --teal: #4f8f8c;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Helvetica Neue", "Arial Narrow", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.cover {
+  width: min(1120px, 94vw);
+  margin: 2rem auto;
+  border: 1px solid rgba(23, 23, 23, 0.22);
+  min-height: 86vh;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 25% 78%, rgba(217, 74, 58, 0.09), transparent 32%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.12)),
+    var(--paper);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  padding: 2.2rem 2.4rem 0;
+}
+.left-kicker { font-size: 2.2rem; line-height: 0.95; font-weight: 650; letter-spacing: -0.02em; }
+.right-stack { text-align: right; }
+.right-stack h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5.3vw, 4.4rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+.right-stack p {
+  margin: 1rem 0 0;
+  font-size: 1.2rem;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(217, 74, 58, 0.44) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217, 74, 58, 0.44) 1px, transparent 1px);
+  background-size: 150px 150px;
+  transform: translateY(4.6rem);
+}
+
+.contours {
+  position: absolute;
+  left: 12%;
+  bottom: 10%;
+  width: 62%;
+  height: 44%;
+  opacity: 0.8;
+}
+
+.chips {
+  position: absolute;
+  right: 2.4rem;
+  bottom: 2.4rem;
+  display: grid;
+  gap: 0.45rem;
+}
+.chip {
+  border: 1px solid rgba(23, 23, 23, 0.78);
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.45);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.label {
+  position: absolute;
+  left: 2.4rem;
+  bottom: 2.6rem;
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 650;
+}
+
+.bird, .tree, .fish { position: absolute; opacity: 0.96; }
+.bird { color: var(--cyan); }
+.tree { color: var(--teal); }
+.fish { color: var(--red); }
+
+.nav {
+  width: min(1120px, 94vw);
+  margin: 1rem auto 0;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.nav a {
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid rgba(23, 23, 23, 0.75);
+  padding: 0.4rem 0.65rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.nav a:hover { background: var(--ink); color: var(--paper); }

@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mission Entry Refinements</title>
+    <style>
+      :root {
+        --black: #0b0c0e;
+        --panel: #1b1c20;
+        --panel2: #24262b;
+        --paper: #e8e8df;
+        --stone: #aaa69b;
+        --blue: #657492;
+        --peach: #e9ae96;
+        --lime: #c9ff00;
+        --orange: #ff6031;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #232324;
+        color: var(--paper);
+        font-family: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+        padding: 28px;
+      }
+
+      .wrap {
+        max-width: 1260px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(40px, 7vw, 104px);
+        line-height: 0.84;
+        letter-spacing: -0.065em;
+      }
+
+      .intro {
+        margin: 0 0 24px;
+        max-width: 860px;
+        color: #c8c6bd;
+      }
+
+      .options {
+        display: grid;
+        gap: 22px;
+      }
+
+      .concept {
+        border: 1px solid #34363b;
+        background: #141517;
+        padding: 14px;
+        cursor: pointer;
+      }
+
+      .concept:hover { border-color: var(--lime); }
+      .concept[data-selected="true"] {
+        outline: 2px solid var(--lime);
+        outline-offset: 4px;
+      }
+
+      .caption {
+        display: grid;
+        grid-template-columns: minmax(0, 0.45fr) minmax(0, 1fr);
+        gap: 14px;
+        padding: 16px 4px 2px;
+      }
+
+      .caption h2 {
+        margin: 0;
+        font-size: 17px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .caption p {
+        margin: 0;
+        color: #c8c6bd;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .mock {
+        min-height: 380px;
+        background: var(--black);
+        border: 10px solid #07080a;
+        padding: 12px;
+        overflow: hidden;
+      }
+
+      .rail {
+        display: grid;
+        grid-template-columns: 34px repeat(6, 1fr) 80px;
+        gap: 12px;
+        align-items: center;
+        border-bottom: 1px solid #303237;
+        padding-bottom: 12px;
+        font-size: 9px;
+        color: #a9aaa8;
+        text-transform: uppercase;
+      }
+
+      .rail b {
+        color: var(--paper);
+        font-weight: 500;
+      }
+
+      .dots {
+        display: grid;
+        grid-template-columns: repeat(3, 4px);
+        gap: 4px;
+      }
+
+      .dots span {
+        width: 4px;
+        height: 4px;
+        background: var(--paper);
+      }
+
+      .strips {
+        display: flex;
+        gap: 5px;
+        justify-content: flex-end;
+      }
+
+      .strips span {
+        width: 16px;
+        height: 10px;
+        background: var(--orange);
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid #2e3035;
+        padding: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .paper { background: var(--paper); color: #111; }
+      .blue { background: var(--blue); }
+      .peach { background: var(--peach); color: #111; }
+      .lime { background: var(--lime); color: #111; }
+
+      .label {
+        display: block;
+        font-size: 10px;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        opacity: .72;
+      }
+
+      .num {
+        position: absolute;
+        left: 16px;
+        bottom: 12px;
+        font-size: clamp(48px, 9vw, 84px);
+        line-height: .82;
+        letter-spacing: -.08em;
+      }
+
+      .barcode {
+        display: block;
+        height: 26px;
+        margin: 14px 0;
+        background: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 7px, currentColor 7px 10px, transparent 10px 14px);
+      }
+
+      .entry-strip {
+        height: 12px;
+        background: linear-gradient(90deg, var(--blue) 0 24%, var(--orange) 24% 46%, #050505 46% 72%, var(--lime) 72%);
+      }
+
+      .grid-a {
+        display: grid;
+        grid-template-columns: 0.9fr 1fr 1.7fr;
+        grid-template-rows: 136px 136px 86px;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .grid-a .entry-id { grid-row: span 2; }
+      .grid-a .chart { grid-column: span 2; }
+      .grid-a .strip { grid-column: span 3; }
+
+      .entry-big {
+        position: absolute;
+        left: 16px;
+        bottom: 10px;
+        font-size: 176px;
+        font-weight: 900;
+        line-height: .72;
+        letter-spacing: -.1em;
+      }
+
+      .bars {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        display: flex;
+        gap: 11px;
+        align-items: end;
+      }
+
+      .bars i {
+        width: 24px;
+        background: var(--stone);
+      }
+
+      .bars i:nth-child(3) {
+        height: 88px;
+        background: var(--blue);
+      }
+
+      .grid-b {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr;
+        grid-template-rows: 132px 132px 132px;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .grid-b .hero-panel {
+        grid-row: span 3;
+        background: var(--paper);
+        color: #111;
+      }
+
+      .grid-b .hero-panel .entry-big {
+        font-size: 230px;
+      }
+
+      .serif {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 28px;
+        line-height: .95;
+      }
+
+      .grid-c {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 120px 160px 100px;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .grid-c .wide { grid-column: span 3; }
+      .grid-c .tall { grid-row: span 2; }
+      .grid-c .span2 { grid-column: span 2; }
+
+      @media (max-width: 760px) {
+        body { padding: 16px; }
+        .caption,
+        .rail,
+        .grid-a,
+        .grid-b,
+        .grid-c {
+          grid-template-columns: 1fr;
+          grid-template-rows: none;
+        }
+        .grid-a > *,
+        .grid-b > *,
+        .grid-c > * {
+          grid-column: auto !important;
+          grid-row: auto !important;
+          min-height: 120px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Three refinements of the hybrid</h1>
+      <p class="intro">All three keep the same direction. The difference is where the system leans: dashboard-first, credential-first, or balanced modular editorial.</p>
+
+      <div class="options">
+        <section class="concept" data-choice="a-dashboard-first" onclick="toggleSelect(this)">
+          <div class="mock">
+            <div class="rail">
+              <div class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <span>Start<br><b>Jun 12</b></span>
+              <span>Station<br><b>Echo</b></span>
+              <span>Mile<br><b>62.9</b></span>
+              <span>ETA<br><b>03:40</b></span>
+              <span>Cutoff<br><b>105h</b></span>
+              <span>Signal<br><b>Move</b></span>
+              <div class="strips"><span></span><span style="background:#050505"></span><span style="background:var(--lime)"></span></div>
+            </div>
+            <div class="grid-a">
+              <div class="panel blue"><span class="label">Today focus</span><span class="num">1.8</span></div>
+              <div class="panel paper entry-id"><span class="label">Entrance / group</span><span class="barcode"></span><b style="font-size:36px">[ H ]</b><span class="entry-big">3</span></div>
+              <div class="panel chart"><span class="label">Total course balance</span><span class="num">1.592</span><div class="bars"><i style="height:38px"></i><i style="height:52px"></i><i></i><i style="height:70px"></i><i style="height:58px"></i></div></div>
+              <div class="panel"><span class="label">Completed tasks</span><span class="num">2</span></div>
+              <div class="panel lime"><span class="label">Priority action</span><b style="position:absolute;bottom:18px;left:16px;font-size:28px;line-height:.88">MOVE<br>NOW</b></div>
+              <div class="panel strip"><span class="label">Route strip</span><div class="entry-strip" style="position:absolute;left:16px;right:16px;bottom:22px"></div><b style="position:absolute;right:18px;bottom:18px;font-size:26px">10 / 20 STATIONS</b></div>
+            </div>
+          </div>
+          <div class="caption">
+            <h2>A. Dashboard-first</h2>
+            <p>The closest to the current approved sketch: broad modular blocks, dense operational rail, credential panel as one strong counterpoint.</p>
+          </div>
+        </section>
+
+        <section class="concept" data-choice="b-credential-first" onclick="toggleSelect(this)">
+          <div class="mock">
+            <div class="rail">
+              <div class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <span>Group<br><b>[ H ]</b></span>
+              <span>Course<br><b>T200</b></span>
+              <span>Station<br><b>03</b></span>
+              <span>Signal<br><b>Move</b></span>
+              <span>Runner<br><b>Harvey</b></span>
+              <span>Mode<br><b>Crew</b></span>
+              <div class="strips"><span></span><span style="background:var(--blue)"></span><span style="background:var(--lime)"></span></div>
+            </div>
+            <div class="grid-b">
+              <div class="panel hero-panel"><span class="label">Credential / station</span><span class="barcode"></span><b style="font-size:48px">[ H ]</b><span class="entry-big">3</span></div>
+              <div class="panel peach"><span class="label">Crew note</span><div class="serif" style="position:absolute;bottom:18px;left:16px">Refined,<br>but never<br>fragile.</div></div>
+              <div class="panel lime"><span class="label">Priority</span><b style="position:absolute;bottom:18px;left:16px;font-size:34px;line-height:.86">NEXT<br>STOP</b></div>
+              <div class="panel"><span class="label">Arrival window</span><span class="num">3:40</span></div>
+              <div class="panel blue"><span class="label">Mile marker</span><span class="num">62.9</span></div>
+              <div class="panel" style="grid-column:span 2"><span class="label">Race board / status strip</span><div class="entry-strip" style="position:absolute;left:16px;right:16px;bottom:22px"></div></div>
+            </div>
+          </div>
+          <div class="caption">
+            <h2>B. Credential-first</h2>
+            <p>More ownable and expressive. The station ID becomes the brand moment, with dashboard modules orbiting it.</p>
+          </div>
+        </section>
+
+        <section class="concept" data-choice="c-balanced-editorial" onclick="toggleSelect(this)">
+          <div class="mock">
+            <div class="rail">
+              <div class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <span>Start<br><b>Jun 12</b></span>
+              <span>Station<br><b>Echo</b></span>
+              <span>Group<br><b>[ H ]</b></span>
+              <span>Mile<br><b>62.9</b></span>
+              <span>Signal<br><b>Move</b></span>
+              <span>State<br><b>Live</b></span>
+              <div class="strips"><span style="background:var(--blue)"></span><span></span><span style="background:var(--lime)"></span></div>
+            </div>
+            <div class="grid-c">
+              <div class="panel wide"><span class="label">Make the next crew call</span><span style="position:absolute;bottom:18px;left:16px;font-size:52px;line-height:.86;font-weight:900;letter-spacing:-.08em">MISSION<br>ENTRY</span></div>
+              <div class="panel paper tall"><span class="label">Station</span><span class="barcode"></span><b style="font-size:34px">[ H ]</b><span class="entry-big" style="font-size:150px">3</span></div>
+              <div class="panel lime"><span class="label">Move</span><b style="position:absolute;bottom:18px;left:16px;font-size:28px;line-height:.86">NOW</b></div>
+              <div class="panel blue"><span class="label">Mile</span><span class="num">62.9</span></div>
+              <div class="panel peach span2"><span class="label">Note</span><div class="serif" style="position:absolute;bottom:18px;left:16px">A little warmth keeps the console human.</div></div>
+              <div class="panel span2"><span class="label">Course balance</span><span class="num">1.592</span></div>
+              <div class="panel span2"><span class="label">Route strip</span><div class="entry-strip" style="position:absolute;left:16px;right:16px;bottom:22px"></div></div>
+            </div>
+          </div>
+          <div class="caption">
+            <h2>C. Balanced editorial</h2>
+            <p>A cleaner middle ground: still modular, more breathing room, with controlled serif warmth and credential motifs.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

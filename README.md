@@ -87,7 +87,7 @@ The official Tahoe 200 tracker goes live closer to race day at [destinationtrail
 When the race is on-course, the home page and Follow page show a **Where's Harvey?** panel instead of the T-minus countdown. It polls TrackLeaders every ~60 seconds via the broadcast Worker and shows:
 
 - Last beacon ping, miles run / remaining, next aid station, elevation climbed
-- A whimsical "song in my head" guess (time, weather, pace — no API)
+- An **Art but make it sports** pairing ([ArtButMakeItSports](https://www.artbutmakeitsports.com/) riff): thumbnail + caption from time, weather, pace, and aid context
 
 **Race-week setup:**
 

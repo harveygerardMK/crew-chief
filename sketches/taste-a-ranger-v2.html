@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taste Sketch A+ Ranger</title>
+    <link rel="stylesheet" href="/sketches/taste.css" />
+    <style>
+      :root {
+        --pine: #3e6a5f;
+        --ridge: #7ea8a8;
+        --lake: #4ea3c7;
+        --trail: #c9664a;
+        --mist: #d5ddd5;
+      }
+      .cover {
+        background:
+          radial-gradient(circle at 74% 20%, rgba(78, 163, 199, 0.12), transparent 26%),
+          radial-gradient(circle at 12% 88%, rgba(201, 102, 74, 0.12), transparent 30%),
+          linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0.14)),
+          var(--paper);
+      }
+      .hero-note {
+        position: absolute;
+        left: 2.4rem;
+        top: 9.3rem;
+        max-width: 28rem;
+        z-index: 3;
+      }
+      .hero-note h2 {
+        margin: 0 0 0.5rem;
+        font-size: clamp(1.8rem, 3.7vw, 3.2rem);
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+      }
+      .hero-note p {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.35;
+        max-width: 34ch;
+      }
+      .range {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 22%;
+        height: 36%;
+        z-index: 2;
+      }
+      .ranger-badge {
+        position: absolute;
+        right: 2.4rem;
+        top: 10.5rem;
+        width: 180px;
+        height: 210px;
+        z-index: 4;
+        border: 1px solid rgba(23, 23, 23, 0.55);
+        background: rgba(255, 255, 255, 0.38);
+        clip-path: polygon(50% 0, 96% 24%, 96% 72%, 50% 100%, 4% 72%, 4% 24%);
+        display: grid;
+        place-items: center;
+      }
+      .ranger-badge .inner {
+        width: 130px;
+        height: 156px;
+        border: 1px solid rgba(23, 23, 23, 0.45);
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        gap: 0.35rem;
+      }
+      .ranger-badge .tag {
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+      }
+      .ranger-badge .big {
+        font-size: 1.3rem;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .ranger-badge svg { width: 50px; color: var(--pine); }
+      .trail-line {
+        position: absolute;
+        left: 10%;
+        right: 8%;
+        bottom: 17%;
+        height: 90px;
+        z-index: 3;
+      }
+      .legend-row {
+        position: absolute;
+        left: 2.4rem;
+        right: 2.4rem;
+        bottom: 2.8rem;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.4rem;
+        z-index: 4;
+      }
+      .legend-item {
+        border: 1px solid rgba(23, 23, 23, 0.6);
+        background: rgba(255,255,255,0.44);
+        padding: 0.42rem 0.5rem;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .symbol-row {
+        position: absolute;
+        left: 2.5rem;
+        bottom: 8.2rem;
+        display: flex;
+        gap: 0.65rem;
+        align-items: center;
+        z-index: 4;
+      }
+      .symbol-row svg { width: 40px; }
+      .symbol-row .pine { color: var(--pine); }
+      .symbol-row .peak { color: var(--ridge); }
+      .symbol-row .water { color: var(--lake); }
+      .symbol-row .camp { color: var(--trail); width: 34px; }
+      .chips { right: 2.4rem; bottom: 14.2rem; }
+      .chip { background: rgba(255,255,255,0.5); }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/sketches/taste-a.html">A / Original</a>
+      <a href="/sketches/taste-a-ranger.html">A+ / Ranger Mountain</a>
+      <a href="/sketches/taste-b.html">B / Ledger Spine</a>
+      <a href="/sketches/taste-c.html">C / Atlas Blocks</a>
+    </nav>
+    <main class="cover">
+      <div class="grid"></div>
+      <header class="top">
+        <div class="left-kicker">Crew<br />Chief</div>
+        <div class="right-stack">
+          <h1>Mountain<br />Field Sheet</h1>
+          <p>Tahoe 200<br />Ranger Edition</p>
+        </div>
+      </header>
+
+      <section class="hero-note">
+        <h2>Steady crew calls in alpine terrain</h2>
+        <p>
+          Editorial map language with national-park iconography, subtle topographic structure, and race-day clarity.
+        </p>
+      </section>
+
+      <svg class="range" viewBox="0 0 1200 360" aria-hidden="true">
+        <path fill="rgba(126,168,168,0.35)" d="M0 310L150 210L250 244L410 132L560 218L690 124L840 206L980 132L1120 220L1200 176V360H0Z"/>
+        <path fill="rgba(62,106,95,0.42)" d="M0 328L108 250L220 282L360 196L480 248L640 158L760 242L910 168L1032 236L1200 184V360H0Z"/>
+        <path fill="rgba(213,221,213,0.45)" d="M220 282L316 198L372 236L414 196L470 248L510 236L564 262L632 200L676 242L748 208L808 242L856 224L904 250L220 282Z"/>
+      </svg>
+
+      <svg class="contours" viewBox="0 0 600 260" aria-hidden="true" style="left:14%;bottom:18%;width:58%;opacity:0.86">
+        <g fill="none" stroke="#bec6bd" stroke-width="1.1">
+          <path d="M18 168C72 92 152 84 202 136C252 186 304 186 368 120C422 66 512 74 584 138" />
+          <path d="M12 188C70 112 166 102 224 154C272 196 334 198 396 142C460 84 530 90 598 154" />
+          <path d="M8 208C68 132 170 122 240 170C296 208 358 208 428 158C486 118 556 122 604 178" />
+        </g>
+      </svg>
+
+      <svg class="trail-line" viewBox="0 0 900 90" aria-hidden="true">
+        <path d="M10 64C88 12 192 16 268 54C352 88 430 82 518 40C602 0 704 8 892 58" fill="none" stroke="var(--trail)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+
+      <aside class="ranger-badge" aria-hidden="true">
+        <div class="inner">
+          <div class="tag">National Park Crew</div>
+          <svg viewBox="0 0 60 60"><path fill="currentColor" d="M30 4L45 24H35L48 40H12L25 24H15L30 4z"/></svg>
+          <div class="big">Tahoe Ops</div>
+          <div class="tag">Field Permit H</div>
+        </div>
+      </aside>
+
+      <div class="symbol-row" aria-hidden="true">
+        <svg class="peak" viewBox="0 0 60 40"><path fill="currentColor" d="M2 36L18 10L30 27L40 14L58 36z"/></svg>
+        <svg class="pine" viewBox="0 0 70 80"><path fill="currentColor" d="M34 6l16 22H40l13 17H39l13 18H18l13-18H17l13-17H20L34 6z"/></svg>
+        <svg class="water" viewBox="0 0 70 32"><path fill="currentColor" d="M0 16c8-8 14-8 22 0s14 8 22 0s14-8 22 0v8H0z"/></svg>
+        <svg class="camp" viewBox="0 0 40 40"><path fill="currentColor" d="M20 4l14 24H6L20 4zm-3 24h6v8h-6z"/></svg>
+      </div>
+
+      <div class="chips">
+        <div class="chip">Signal: Green</div>
+        <div class="chip">Forest wind: 8mph</div>
+        <div class="chip">Crew depart: 34 min</div>
+      </div>
+
+      <div class="legend-row">
+        <div class="legend-item">Distance 200 mi</div>
+        <div class="legend-item">Pace baseline</div>
+        <div class="legend-item">Aid status on track</div>
+        <div class="legend-item">Family window 16:10</div>
+      </div>
+
+      <div class="label">Concept A+ · subtle alpine palette + park-ranger icon set</div>
+    </main>
+  </body>
+  </html>

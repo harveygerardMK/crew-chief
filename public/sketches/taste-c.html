@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taste Sketch C</title>
+    <link rel="stylesheet" href="/sketches/taste.css" />
+    <style>
+      .cover { padding: 2.1rem; }
+      .top { padding: 0; margin-bottom: 1.2rem; }
+      .tiles {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 0.8rem;
+        min-height: 68vh;
+      }
+      .tile {
+        border: 1px solid rgba(23, 23, 23, 0.78);
+        background: rgba(255, 255, 255, 0.43);
+        position: relative;
+        overflow: hidden;
+      }
+      .tile.hero { grid-row: span 2; }
+      .tile h3 {
+        margin: 0; padding: 0.75rem;
+        font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+      }
+      .tile p { margin: 0; padding: 0 0.75rem 0.75rem; font-size: 0.92rem; max-width: 28ch; }
+      .mini-grid {
+        position: absolute; inset: 0;
+        background-image:
+          linear-gradient(to right, rgba(217, 74, 58, 0.34) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(217, 74, 58, 0.34) 1px, transparent 1px);
+        background-size: 82px 82px;
+      }
+      .badge {
+        position: absolute; right: 0.7rem; bottom: 0.7rem;
+        border: 1px solid rgba(23, 23, 23, 0.82); padding: 0.36rem 0.55rem;
+        font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/sketches/taste-a.html">A / Gridline Field Sheet</a>
+      <a href="/sketches/taste-b.html">B / Ledger Spine</a>
+      <a href="/sketches/taste-c.html">C / Atlas Blocks</a>
+    </nav>
+    <main class="cover">
+      <header class="top">
+        <div class="left-kicker">Crew<br />Chief</div>
+        <div class="right-stack">
+          <h1>Atlas<br />Blocks</h1>
+          <p>Modular Map<br />System</p>
+        </div>
+      </header>
+      <section class="tiles">
+        <article class="tile hero">
+          <div class="mini-grid"></div>
+          <h3>Hero tile</h3>
+          <p>Map-cover language contained to one dominant frame with calm copy and single action.</p>
+          <svg class="tree" style="left:16%;bottom:18%;width:84px" viewBox="0 0 70 80" aria-hidden="true"><path fill="currentColor" d="M34 6l16 22H40l13 17H39l13 18H18l13-18H17l13-17H20L34 6z"/></svg>
+          <svg class="bird" style="left:58%;bottom:34%;width:95px" viewBox="0 0 80 60" aria-hidden="true"><path fill="currentColor" d="M5 38c15-4 28-17 34-30 6 11 15 17 36 20-12 4-21 10-30 22-12-5-23-7-40-12z"/></svg>
+          <div class="badge">Start briefing</div>
+        </article>
+        <article class="tile">
+          <h3>Signal tile</h3>
+          <p>Flag, weather, risk. High contrast; no decoration.</p>
+          <div class="badge">Green</div>
+        </article>
+        <article class="tile">
+          <h3>Data band tile</h3>
+          <p>Pace, ETA, aid status, family ping in one horizontal strip.</p>
+          <div class="badge">15:40 ETA</div>
+        </article>
+        <article class="tile">
+          <h3>Family tile</h3>
+          <p>Readable quick updates and expected windows.</p>
+        </article>
+        <article class="tile">
+          <h3>Course tile</h3>
+          <p>Mini contour map and markers for next stop.</p>
+        </article>
+      </section>
+      <div class="label" style="left:2.1rem;bottom:1rem">Concept C · Modular editorial map system</div>
+    </main>
+  </body>
+  </html>

@@ -6,9 +6,14 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "vitest run",
+    "art:nga": "node scripts/build-nga-art-pairings.mjs"
   },
   "dependencies": {
     "astro": "^5.7.10"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
   }
 }

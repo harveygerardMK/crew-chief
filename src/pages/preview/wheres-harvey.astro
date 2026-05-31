@@ -8,7 +8,7 @@ const mode = Astro.url.searchParams.get("mode") ?? "demo";
 /** Demo: sample stats without TrackLeaders. Live: poll the broadcast Worker /tracker. */
 const useMock = mode !== "live";
 
-/** ~32h into a 200-miler so song + elapsed-time logic has something to work with. */
+/** ~32h into a 200-miler so art pairing logic has context. */
 const previewRaceStart = new Date(Date.now() - 32 * 3_600_000).toISOString();
 const pageUrl = `${base}preview/wheres-harvey/`;
 ---
@@ -35,7 +35,7 @@ const pageUrl = `${base}preview/wheres-harvey/`;
       {
         useMock ? (
           <p class="note-box note-box--compact">
-            <strong>Demo stats</strong> — sample mile, elevation, and beacon time. No TrackLeaders setup required.
+            <strong>Demo stats</strong> — sample mile, elevation, beacon, and art pairing. No TrackLeaders setup required.
           </p>
         ) : (
           <p class="note-box note-box--compact">

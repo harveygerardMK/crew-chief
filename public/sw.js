@@ -1,4 +1,4 @@
-const CACHE = "tahoe-crew-v3";
+const CACHE = "tahoe-crew-v4";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

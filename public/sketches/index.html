@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crew Chief Sketches</title>
+    <style>
+      :root {
+        --paper: #f6f1e8;
+        --ink: #111111;
+        --grid: #d94a3a;
+        --cyan: #59c7d9;
+        --coral: #dfa08d;
+        --line: #d8d2c6;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .wrap { width: min(1100px, 92vw); margin: 1.5rem auto 3rem; }
+      h1 { margin: 0 0 0.5rem; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.02em; }
+      .meta { margin: 0 0 1rem; opacity: 0.8; }
+      .tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+      .tabs a {
+        text-decoration: none;
+        color: var(--ink);
+        border: 1px solid var(--ink);
+        padding: 0.4rem 0.7rem;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+      .tabs a:hover { background: var(--ink); color: var(--paper); }
+      .card {
+        position: relative;
+        border: 1px solid var(--ink);
+        margin-bottom: 1.25rem;
+        background: rgba(255, 255, 255, 0.35);
+        padding: 1rem;
+      }
+      .title { font-size: 1.15rem; text-transform: uppercase; margin: 0 0 0.65rem; }
+      .frame {
+        position: relative;
+        border: 1px solid var(--ink);
+        min-height: 330px;
+        overflow: hidden;
+        background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.1));
+      }
+      .grid::before {
+        content: "";
+        position: absolute; inset: 0;
+        background-image:
+          linear-gradient(to right, rgba(217,74,58,.45) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(217,74,58,.45) 1px, transparent 1px);
+        background-size: 96px 96px;
+      }
+      .contours::after {
+        content: "";
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(circle at 28% 64%, transparent 0 90px, rgba(216,210,198,.95) 91px 92px, transparent 93px),
+          radial-gradient(circle at 33% 62%, transparent 0 118px, rgba(216,210,198,.75) 119px 120px, transparent 121px),
+          radial-gradient(circle at 37% 59%, transparent 0 148px, rgba(216,210,198,.7) 149px 150px, transparent 151px),
+          radial-gradient(circle at 41% 56%, transparent 0 176px, rgba(216,210,198,.55) 177px 178px, transparent 179px);
+        mix-blend-mode: multiply;
+      }
+      .hdr {
+        position: relative; z-index: 2;
+        display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+        padding: 0.8rem 0.9rem;
+      }
+      .brand { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+      .hero {
+        position: relative; z-index: 2; padding: 1.2rem 1rem 0.8rem;
+        max-width: 62%;
+      }
+      .hero h3 { margin: 0 0 0.35rem; font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1; text-transform: uppercase; }
+      .hero p { margin: 0 0 0.75rem; font-size: 0.95rem; opacity: 0.85; }
+      .cta {
+        display: inline-block; border: 1px solid var(--ink); padding: 0.45rem 0.75rem;
+        text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; font-weight: 700;
+        background: var(--ink); color: var(--paper);
+      }
+      .band {
+        position: relative; z-index: 2;
+        margin: 0.6rem 1rem 0;
+        border: 1px solid var(--ink);
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .band div { padding: 0.5rem 0.55rem; border-right: 1px solid var(--ink); font-size: 0.77rem; }
+      .band div:last-child { border-right: 0; }
+      .chips { position: absolute; right: 1rem; top: 4.8rem; z-index: 2; display: grid; gap: 0.4rem; width: 31%; }
+      .chip { border: 1px solid var(--ink); padding: 0.45rem; font-size: 0.75rem; background: rgba(255,255,255,.62); }
+      .icons { position: absolute; left: 0.9rem; bottom: 0.8rem; z-index: 2; display: flex; gap: 0.5rem; align-items: end; }
+      .icon { width: 34px; height: 34px; border-radius: 50%; opacity: 0.95; }
+      .i-cyan { background: var(--cyan); }
+      .i-coral { background: var(--grid); }
+      .i-soft { background: var(--coral); width: 24px; height: 24px; }
+      .sketch-b .hero { max-width: 100%; }
+      .sketch-b .chips { position: relative; right: auto; top: auto; width: auto; margin: 0.75rem 1rem 0; grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .sketch-b .band { grid-template-columns: repeat(5, minmax(0,1fr)); }
+      .sketch-c .frame { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0.8rem; padding: 0.9rem; }
+      .tile {
+        border: 1px solid var(--ink);
+        background: rgba(255,255,255,.52);
+        min-height: 130px;
+        position: relative;
+        overflow: hidden;
+      }
+      .tile h4 { margin: 0; padding: 0.6rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.07em; }
+      .tile p { margin: 0; padding: 0 0.6rem 0.6rem; font-size: 0.78rem; }
+      .tile.hero-tile { grid-row: span 2; min-height: 272px; }
+      .tile .mini-grid {
+        position: absolute; inset: 0; opacity: 0.5;
+        background-image:
+          linear-gradient(to right, rgba(217,74,58,.35) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(217,74,58,.35) 1px, transparent 1px);
+        background-size: 72px 72px;
+      }
+      .legend { margin-top: 0.45rem; font-size: 0.75rem; opacity: 0.84; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Crew Chief Visual Sketches</h1>
+      <p class="meta">Three map-cover-inspired concepts: A / B / C</p>
+      <nav class="tabs">
+        <a href="#a">Concept A — Gridline Command Sheet</a>
+        <a href="#b">Concept B — Contour Ledger</a>
+        <a href="#c">Concept C — Atlas Tiles</a>
+      </nav>
+
+      <section id="a" class="card sketch-a">
+        <h2 class="title">Concept A — Gridline Command Sheet</h2>
+        <div class="frame grid contours">
+          <div class="hdr">
+            <div class="brand">Crew Chief · Tahoe 200</div>
+            <div class="brand">Weather / Menu</div>
+          </div>
+          <div class="hero">
+            <h3>Race command, clear at a glance</h3>
+            <p>Asymmetric editorial grid with a right-side live signal rail.</p>
+            <span class="cta">Start race briefing</span>
+          </div>
+          <div class="chips">
+            <div class="chip">LIVE SIGNAL: Green</div>
+            <div class="chip">Wind 8mph · Temp 47F</div>
+            <div class="chip">Risk: Low</div>
+          </div>
+          <div class="band">
+            <div>Distance<br /><strong>200 mi</strong></div>
+            <div>Pace<br /><strong>Baseline</strong></div>
+            <div>Crew ETA<br /><strong>3:40 PM</strong></div>
+            <div>Aid Status<br /><strong>On pace</strong></div>
+          </div>
+          <div class="icons"><span class="icon i-cyan"></span><span class="icon i-coral"></span><span class="icon i-soft"></span></div>
+        </div>
+      </section>
+
+      <section id="b" class="card sketch-b">
+        <h2 class="title">Concept B — Contour Ledger</h2>
+        <div class="frame contours">
+          <div class="hdr">
+            <div class="brand">Crew Chief · Race Day Ledger</div>
+            <div class="brand">Live / Menu</div>
+          </div>
+          <div class="hero">
+            <h3>Everything your crew needs, in order</h3>
+            <p>Single-column notebook flow with contour ribbons and red rules.</p>
+            <span class="cta" style="background: transparent; color: var(--ink);">Open race brief</span>
+          </div>
+          <div class="chips">
+            <div class="chip">Signal panel: flag / wind / risk</div>
+            <div class="chip">Race data band: splits + fuel</div>
+            <div class="chip">Family view + next action</div>
+          </div>
+          <div class="band">
+            <div>Split A</div><div>Split B</div><div>Fuel</div><div>Position</div><div>Next stop</div>
+          </div>
+          <div class="icons"><span class="icon i-cyan"></span><span class="icon i-soft"></span></div>
+        </div>
+      </section>
+
+      <section id="c" class="card sketch-c">
+        <h2 class="title">Concept C — Atlas Tiles</h2>
+        <div class="frame">
+          <article class="tile hero-tile">
+            <div class="mini-grid"></div>
+            <h4>Hero Tile</h4>
+            <p>Map motif contained inside module. Big CTA + key summary.</p>
+            <p class="legend">Contour + cyan water marker + coral beacon.</p>
+          </article>
+          <article class="tile">
+            <h4>Signal Tile</h4>
+            <p>Risk chips, weather, route alerts.</p>
+          </article>
+          <article class="tile">
+            <h4>Race Data Band Tile</h4>
+            <p>Pace | ETA | Aid | Crew comms</p>
+          </article>
+          <article class="tile">
+            <h4>Family Tile</h4>
+            <p>Short updates + expected windows.</p>
+          </article>
+          <article class="tile">
+            <h4>Course Tile</h4>
+            <p>Mini map + location icons.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </body>
+  </html>

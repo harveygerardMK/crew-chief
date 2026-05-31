@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taste Sketch B</title>
+    <link rel="stylesheet" href="/sketches/taste.css" />
+    <style>
+      .cover { min-height: 90vh; }
+      .ledger {
+        position: absolute; left: 50%; top: 7.4rem; bottom: 2.2rem; width: 1px;
+        background: rgba(217, 74, 58, 0.62);
+      }
+      .rows {
+        position: absolute; inset: 9.2rem 2.3rem 2.4rem;
+        display: grid; grid-template-rows: repeat(4, minmax(0, 1fr));
+      }
+      .row {
+        border-top: 1px solid rgba(217, 74, 58, 0.62);
+        display: grid; grid-template-columns: 1fr 1fr;
+        align-items: center;
+        padding: 0 0.5rem;
+      }
+      .row span { font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.08em; }
+      .row strong { font-size: 1.2rem; text-transform: uppercase; letter-spacing: -0.02em; }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/sketches/taste-a.html">A / Gridline Field Sheet</a>
+      <a href="/sketches/taste-b.html">B / Ledger Spine</a>
+      <a href="/sketches/taste-c.html">C / Atlas Blocks</a>
+    </nav>
+    <main class="cover">
+      <header class="top">
+        <div class="left-kicker">Crew<br />Chief</div>
+        <div class="right-stack">
+          <h1>Ledger<br />Spine</h1>
+          <p>Control Flow<br />for Crew Ops</p>
+        </div>
+      </header>
+      <div class="ledger"></div>
+      <div class="rows">
+        <div class="row"><span>Signal panel</span><strong>Flag green</strong></div>
+        <div class="row"><span>Race data</span><strong>Pace baseline</strong></div>
+        <div class="row"><span>Family updates</span><strong>Next window 16:10</strong></div>
+        <div class="row"><span>Next action</span><strong>Depart in 34 min</strong></div>
+      </div>
+      <svg class="contours" viewBox="0 0 600 260" aria-hidden="true" style="left:4%;width:42%;opacity:0.66">
+        <g fill="none" stroke="#c3baab" stroke-width="1.15">
+          <path d="M28 212C88 140 150 126 206 170C250 204 286 208 334 170C386 130 442 138 504 192" />
+          <path d="M22 232C84 160 152 146 216 186C266 216 314 220 368 184C422 148 486 156 548 212" />
+        </g>
+      </svg>
+      <svg class="bird" style="left:67%;bottom:17%;width:110px" viewBox="0 0 80 60" aria-hidden="true"><path fill="currentColor" d="M5 38c15-4 28-17 34-30 6 11 15 17 36 20-12 4-21 10-30 22-12-5-23-7-40-12z"/></svg>
+      <svg class="fish" style="left:25%;bottom:13%;width:64px" viewBox="0 0 80 40" aria-hidden="true"><path fill="currentColor" d="M6 20c8-7 18-11 30-11h19l14-8v13l9 6-9 6v13l-14-8H36C24 31 14 27 6 20z"/></svg>
+      <div class="label">Concept B · Sequential notebook rhythm, minimal ornament</div>
+    </main>
+  </body>
+  </html>
