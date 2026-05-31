@@ -1,45 +1,48 @@
 # Handoff — Ask Harvey agent (2026-05-31)
 
-Harvey went to bed with the stack **live**. No action required unless something breaks.
+**Status:** Stack live. Phases 1–2 complete. Phase 3 = send invites.
 
-## What's working
+## Live
 
-- **Chat:** https://harveygerardMK.github.io/crew-chief/agent/
-- **API tunnel:** `https://views-spirit-words-built.trycloudflare.com`
-- **GitHub variable:** `PUBLIC_AGENT_API_URL` set and Pages deployed
-- **Droplet:** PM2 `crew-chief-api` + `cloudflared` on port **8080**
-- **Smoke test:** `fallback=false`, NGA art images, `/ready` OK
+| What | URL |
+|------|-----|
+| Ask Harvey | https://harveygerardMK.github.io/crew-chief/agent/ |
+| API tunnel | `https://views-spirit-words-built.trycloudflare.com` |
+| Preflight (Mac) | `npm run agent:preflight` |
+| Tester tracking | [Issue #10](https://github.com/harveygerardMK/crew-chief/issues/10) |
 
-## When you wake up (optional, 5 min)
+Verified: chat `fallback=false`, NGA art, `/ready` OK, poller mile data on `/status`.
 
-1. Phone-test Ask Harvey — send one message
-2. On droplet (if tracker still shows stale):
-   ```bash
-   ssh root@107.170.32.201
-   cd /var/crew-chief && bash scripts/poller-preflight-setup.sh
-   ```
-3. ~~Sign off **`voice.md`**~~ — approved 2026-05-31
-4. Send tester invite to 3 people — `docs/superpowers/runbooks/crew-chief-agent-tester-invite.md`
+## Done without you
 
-## Still on you (not automated)
+- [x] voice.md approved
+- [x] GitHub variable + Pages deploy
+- [x] Droplet pull, poller preflight, env check
+- [x] Tester invite copy (family / friend / pacer / generic)
+- [x] Scheduled CI health checks (8 AM / 8 PM UTC)
+- [x] `npm run agent:preflight` one-command Mac verify
 
-- [x] Harvey approves `voice.md` (2026-05-31)
-- [ ] 3 testers complete checklist
-- [ ] Failure drills once (`bash scripts/run-failure-drills.sh` on droplet)
-- [ ] **June 12:** `sudo bash scripts/race-week-switch.sh`
+## Still needs a human
 
-## If tunnel URL changes
+| Task | How |
+|------|-----|
+| **3 testers** | Send invites from `crew-chief-agent-tester-invite.md` → log in checklist → close #10 |
+| **Poller cron confirm** | On droplet: `bash scripts/ensure-poller-cron.sh` |
+| **Failure drills** | On droplet: `bash scripts/run-failure-drills.sh` |
+| **June 12** | `sudo bash scripts/race-week-switch.sh` |
 
-Quick tunnel URLs change when `cloudflared` restarts:
+## Tunnel URL changed?
 
 ```bash
-bash scripts/tunnel-url.sh   # on droplet
+bash scripts/tunnel-url.sh   # droplet
+gh variable set PUBLIC_AGENT_API_URL --body "NEW_URL" -R harveygerardMK/crew-chief
+gh workflow run "Deploy to GitHub Pages" -R harveygerardMK/crew-chief
 ```
 
-Update GitHub variable → redeploy Pages (or ask Cursor to run `gh variable set` + workflow).
+## Cursor / SSH
 
-## Cursor can continue from
+Agent SSH from Cursor still blocked (`Permission denied`). Your Terminal SSH works. Droplet one-liner:
 
-- Status: `docs/crew-chief-agent-status.md`
-- Architecture: `docs/superpowers/specs/crew-chief-agent-architecture.md`
-- Race week: `docs/superpowers/runbooks/crew-chief-agent-race-week.md`
+```bash
+bash scripts/droplet-full-preflight.sh
+```
