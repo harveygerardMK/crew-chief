@@ -54,6 +54,8 @@ Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at 
 - **Droplet update:** `bash scripts/droplet-update.sh` (on server — pull + PM2 restart)
 - **Tunnel URL:** `bash scripts/tunnel-url.sh` (on server)
 - **Pre-race poller:** `bash scripts/poller-preflight-setup.sh` (on server)
+- **Droplet full preflight:** `bash scripts/droplet-full-preflight.sh` (on server)
+- **Laptop preflight:** `npm run agent:preflight`
 - **Server tests:** `cd server && python3 -m pytest -q`
 - **Poller tests:** `cd poller && python3 -m pytest -q`
 - Set `ANTHROPIC_API_KEY` in `server/.env` for live Claude replies (otherwise `/chat` returns `fallback.md`).
