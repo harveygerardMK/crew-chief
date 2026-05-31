@@ -1,9 +1,19 @@
-const CACHE = "tahoe-crew-v4";
+const CACHE = "tahoe-crew-v5";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) =>
-      cache.addAll(["./", "./favicon.svg", "./manifest.webmanifest"]).catch(() => {}),
+      cache
+        .addAll([
+          "./",
+          "./favicon.ico",
+          "./favicon-32x32.png",
+          "./apple-touch-icon.png",
+          "./icon-192.png",
+          "./icon-512.png",
+          "./manifest.webmanifest",
+        ])
+        .catch(() => {}),
     ),
   );
   self.skipWaiting();
