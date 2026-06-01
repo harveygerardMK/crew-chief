@@ -23,11 +23,12 @@ When citing any aid station cutoff, mileage, or crew access detail, add: "(per r
 
 PLAN_ETAS = [
     (0, "Start", "Fri 9:00 AM"),
-    (52.2, "Sierra at Tahoe", "Sat 11:30 AM"),
-    (130, "Tahoe City", "Sun 12:36 PM"),
-    (148.6, "Brockway Summit", "Sun 9:00 PM"),
-    (163.6, "Village Green", "Mon 3:37 AM"),
-    (200.4, "Finish", "Mon 6:00 PM"),
+    (52.2, "Sierra at Tahoe", "Fri 11:00 PM (goal pace)"),
+    (87.6, "Loon Lake", "Sat 2:30 PM (goal pace)"),
+    (130, "Tahoe City", "Sun 9:30 AM (goal pace)"),
+    (148.6, "Brockway Summit", "Sun 5:30 PM (goal pace)"),
+    (163.6, "Village Green", "Sun 11:30 PM (goal pace)"),
+    (200.4, "Finish", "Mon 9:00 AM – 5:00 PM (72–80 hr goal)"),
 ]
 
 RACE_FACTS = """- 200.4 miles, one loop around Lake Tahoe, mostly Tahoe Rim Trail

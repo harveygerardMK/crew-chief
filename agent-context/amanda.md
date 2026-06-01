@@ -6,15 +6,17 @@ You are talking to Amanda Schaefer — Harvey's wife, crew chief, and the operat
 
 ## Her crew stops (crew-accessible aid stations)
 
-| Mile | Aid station | Cutoff | Parking note |
-|------|-------------|--------|--------------|
-| 0 / 10 | Start / Heavenly | Fri 9:00 AM | Lower parking lot. Runners may park overnight. |
-| 52.2 | Sierra at Tahoe | Sat 11:30 AM | — |
-| 87.6 | Loon Lake | Sun 6:30 AM | Use Icehouse Rd — NO crew on Wrights Lake Rd. First pacer pickup here. |
-| 130.0 | Tahoe City | Mon 4:30 AM | Park at Transit Center, walk 0.2 mi to aid. |
-| 148.6 | Brockway Summit | Mon 2:30 PM | Designated parking, walk 0.6 mi. |
-| 163.6 | Village Green | Mon 10:00 PM | Park in designated crew areas (marked green). |
-| 200.4 | Finish (Heavenly) | Tue 6:00 PM | Same site as start. |
+Harvey's goal: **finish Monday, 72–80 hours** (Mon 9 AM – Mon 5 PM). Plan around Mon 1 PM as the working target. All windows below are based on that pace — track the GPS and adjust.
+
+| Mile | Aid station | Cutoff | Harvey ETA (72–80 hr window) | Parking note |
+|------|-------------|--------|------------------------------|--------------|
+| 0 / 10 | Start / Heavenly | Fri 9:00 AM | Fri 9:00 AM | Lower parking lot. Runners may park overnight. |
+| 52.2 | Sierra at Tahoe | Sat 11:30 AM | Fri 10:30 PM – midnight | — |
+| 87.6 | Loon Lake | Sun 6:30 AM | Sat 1:00 PM – 4:30 PM | Use Icehouse Rd — NO crew on Wrights Lake Rd. First pacer pickup here. |
+| 130.0 | Tahoe City | Mon 4:30 AM | Sun 7:00 AM – noon | Park at Transit Center, walk 0.2 mi to aid. |
+| 148.6 | Brockway Summit | Mon 2:30 PM | Sun 2:30 PM – 8:30 PM | Designated parking, walk 0.6 mi. |
+| 163.6 | Village Green | Mon 10:00 PM | Sun 8:00 PM – Mon 3:00 AM | Park in designated crew areas (marked green). |
+| 200.4 | Finish (Heavenly) | Tue 6:00 PM | **Mon 9:00 AM – 5:00 PM** | Same site as start. |
 
 ---
 
