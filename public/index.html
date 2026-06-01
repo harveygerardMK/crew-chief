@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f0e0d" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Talk to Harvey during the Tahoe 200 — live race updates in his voice." />
+    <title>Ask Harvey · Tahoe 200</title>
+    <link rel="stylesheet" href="./styles.css?v=20260531b" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="status-header" id="status-header">
+        <div class="status-header__inner" id="status-strip">
+          <div class="stat-block">
+            <span class="stat-block__label">Mile</span>
+            <span class="stat-block__value" id="stat-mile">—</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-block__label">Speed</span>
+            <span class="stat-block__value" id="stat-speed">—</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-block__label">Last ping</span>
+            <span class="stat-block__value stat-block__value--sm" id="stat-update">—</span>
+          </div>
+          <div class="stat-block">
+            <span class="stat-block__label">Status</span>
+            <span class="stat-block__value stat-block__value--sm" id="stat-race">—</span>
+          </div>
+        </div>
+        <p class="status-place hidden" id="stat-place" aria-live="polite"></p>
+        <p class="status-banner hidden" id="status-banner" aria-live="polite"></p>
+        <div class="status-sim hidden" id="simulation-banner" role="status">
+          <span>SIMULATION MODE — Replaying Cocodona 250 data · Not Harvey's real location</span>
+          <button type="button" class="status-sim__dismiss" id="simulation-dismiss" aria-label="Dismiss simulation notice">×</button>
+        </div>
+      </header>
+
+      <section class="onboarding" id="onboarding-panel">
+        <div class="onboarding__inner">
+          <h1 class="onboarding__title">Hey. Who's checking in?</h1>
+          <form id="onboarding-form" class="onboarding__form">
+            <div class="field-underline">
+              <label class="visually-hidden" for="visitor-name">Your first name</label>
+              <input
+                id="visitor-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                maxlength="120"
+                placeholder="Your name"
+              />
+            </div>
+            <fieldset class="relationship-pills">
+              <legend class="relationship-pills__legend">How do you know Harvey?</legend>
+              <div class="relationship-pills__grid" role="group">
+                <label class="pill"><input type="radio" name="relationship" value="family" required /> Family</label>
+                <label class="pill"><input type="radio" name="relationship" value="friend" /> Friend</label>
+                <label class="pill"><input type="radio" name="relationship" value="crew" /> Crew</label>
+                <label class="pill"><input type="radio" name="relationship" value="pacer" /> Pacer</label>
+                <label class="pill"><input type="radio" name="relationship" value="stranger" /> Curious</label>
+              </div>
+            </fieldset>
+            <button type="submit" class="btn-cta" id="onboarding-submit">Let's go</button>
+            <p class="form-error hidden" id="onboarding-error"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="chat-panel hidden" id="chat-panel">
+        <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+        <button type="button" class="note-btn hidden" id="note-btn">
+          📝 Leave Harvey a note for after the race
+        </button>
+      </section>
+
+      <footer class="composer-wrap hidden" id="composer-wrap">
+        <div class="prompt-chips hidden" id="prompt-chips" role="group" aria-label="Suggested questions"></div>
+        <form class="composer" id="composer-form">
+          <textarea
+            id="composer-input"
+            rows="1"
+            placeholder="How is he doing?"
+            aria-label="Message to Harvey"
+          ></textarea>
+          <button type="submit" class="composer__send" id="composer-send" aria-label="Send message">
+            Send
+          </button>
+        </form>
+        <p class="footer-meta">
+          <a class="footer-link" href="/crew-site/" id="crew-site-link">Crew site</a>
+          <span class="footer-meta__sep">·</span>
+          <span>Enter to send</span>
+        </p>
+      </footer>
+    </div>
+
+    <div class="note-overlay hidden" id="note-overlay" role="dialog" aria-modal="true" aria-labelledby="note-title">
+      <div class="note-overlay__card">
+        <h2 class="note-overlay__title" id="note-title">Leave a message for Harvey to read after the race.</h2>
+        <textarea id="note-input" rows="4" maxlength="2000" placeholder="Your note…"></textarea>
+        <div class="note-overlay__actions">
+          <button type="button" class="btn-ghost" id="note-cancel">Cancel</button>
+          <button type="button" class="btn-cta btn-cta--inline" id="note-submit">Send note</button>
+        </div>
+        <p class="form-error hidden" id="note-error"></p>
+      </div>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./config.local.js" onerror=""></script>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
