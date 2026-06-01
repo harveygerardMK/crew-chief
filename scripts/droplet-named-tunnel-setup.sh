@@ -22,6 +22,24 @@ echo "Prerequisite: ${HOSTNAME} DNS zone must be on Cloudflare (not Squarespace-
 echo "See docs/superpowers/runbooks/crew-chief-agent-named-tunnel.md"
 echo ""
 
+ZONE="${HOSTNAME#*.}"
+if command -v dig >/dev/null 2>&1; then
+  if dig NS "$ZONE" +short 2>/dev/null | grep -qi cloudflare; then
+    echo "✓ ${ZONE} nameservers look like Cloudflare"
+  else
+    echo "WARN: ${ZONE} may still use Squarespace DNS."
+    echo "      Add the zone to Cloudflare and switch nameservers before continuing,"
+    echo "      or 'cloudflared tunnel route dns' will fail."
+    echo ""
+    read -r -p "Continue anyway? [y/N] " ans || ans=""
+    if [[ "${ans,,}" != "y" ]]; then
+      echo "Aborted. Complete Phase 1 in crew-chief-agent-named-tunnel.md first."
+      exit 1
+    fi
+  fi
+fi
+echo ""
+
 if ! command -v cloudflared >/dev/null 2>&1; then
   echo "Installing cloudflared..."
   curl -fsSL "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb" -o /tmp/cloudflared.deb
@@ -90,7 +108,14 @@ echo ""
 echo "==> Stable API URL (set GitHub variable PUBLIC_AGENT_API_URL to this — once):"
 echo "https://${HOSTNAME}"
 echo ""
-echo "Verify:"
-echo "  curl -s https://${HOSTNAME}/health"
+if curl -sf "https://${HOSTNAME}/health" >/dev/null 2>&1; then
+  echo "✓ https://${HOSTNAME}/health OK"
+else
+  echo "WARN: https://${HOSTNAME}/health not reachable yet."
+  echo "      DNS can take a few minutes. Retry: curl -s https://${HOSTNAME}/health"
+fi
 echo ""
-echo "Then redeploy GitHub Pages (or push to main) so config.js picks up the new URL."
+echo "Verify from your Mac:"
+echo "  bash scripts/verify-named-tunnel.sh"
+echo ""
+echo "Then set GitHub PUBLIC_AGENT_API_URL=https://${HOSTNAME} and redeploy Pages."
