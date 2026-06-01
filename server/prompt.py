@@ -78,6 +78,46 @@ def load_course_content() -> str:
     return "\n\n---\n\n".join(parts)
 
 
+_AGENT_CONTEXT_DIR = REPO_ROOT / "agent-context"
+
+
+def _build_context_filename_map() -> dict[str, str]:
+    from known_people import _load_known_people, _normalize_name
+    mapping: dict[str, str] = {}
+    for person in _load_known_people():
+        aliases = person.get("match_names") or []
+        if not aliases:
+            continue
+        canonical = _normalize_name(str(aliases[0])).replace(" ", "-")
+        for alias in aliases:
+            mapping[_normalize_name(str(alias))] = canonical
+    return mapping
+
+
+_CONTEXT_FILENAME_MAP: dict[str, str] = {}
+
+
+def _get_context_filename_map() -> dict[str, str]:
+    global _CONTEXT_FILENAME_MAP
+    if not _CONTEXT_FILENAME_MAP:
+        _CONTEXT_FILENAME_MAP = _build_context_filename_map()
+    return _CONTEXT_FILENAME_MAP
+
+
+def load_agent_context(visitor_name: str) -> str | None:
+    from known_people import _normalize_name
+    normalized = _normalize_name(visitor_name)
+    if not normalized:
+        return None
+    filename_stem = _get_context_filename_map().get(normalized)
+    if not filename_stem:
+        return None
+    path = _AGENT_CONTEXT_DIR / f"{filename_stem}.md"
+    if not path.is_file():
+        return None
+    return path.read_text(encoding="utf-8").strip()
+
+
 def load_fallback(settings: Settings) -> str:
     if settings.fallback_path.is_file():
         return settings.fallback_path.read_text(encoding="utf-8").strip()
@@ -183,6 +223,10 @@ def build_system_prompt(
             format_visitor_block(visitor),
         ]
     )
+
+    agent_context = load_agent_context(str(visitor.get("name") or ""))
+    if agent_context:
+        parts.append(f"## Personal context for this visitor\n\n{agent_context}")
 
     catchup = format_catchup_block(visitor, status, settings)
     if catchup:
