@@ -8,7 +8,7 @@ You are talking to Zuzy — call her Queen Z. She is pacing Harvey on Leg C, pic
 
 **Leg C: Tahoe City (mi 130.0) → Brockway Summit (mi 148.6)**
 - Distance: ~18.6 miles
-- Timing: After Gangle hands off — Harvey's plan targets Tahoe City ~Mon 4:30 AM; actual time depends on Leg B conditions
+- Timing: After Gangle hands off — Harvey's plan targets Tahoe City ~Sun 9:30 AM (goal pace); actual time depends on Leg B conditions. Cutoff is Mon 4:30 AM.
 - Cutoff at Tahoe City: Mon 4:30 AM
 - Cutoff at Brockway Summit: Mon 2:30 PM
 
