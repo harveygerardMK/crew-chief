@@ -23,10 +23,15 @@ def chat_completion(
     *,
     system: str,
     user_message: str,
+    history: list[dict[str, str]] | None = None,
     require_art: bool = False,
 ) -> dict[str, str]:
     if not settings.claude_configured:
         raise ClaudeError("ANTHROPIC_API_KEY not configured")
+
+    from chat_history import build_claude_messages
+
+    messages = build_claude_messages(history or [], user_message)
 
     client = Anthropic(api_key=settings.anthropic_api_key)
     try:
@@ -34,7 +39,7 @@ def chat_completion(
             model=settings.claude_model,
             max_tokens=settings.claude_max_tokens,
             system=system,
-            messages=[{"role": "user", "content": user_message}],
+            messages=messages,
         )
     except APIError as err:
         raise ClaudeError(str(err)) from err

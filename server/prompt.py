@@ -16,6 +16,16 @@ Answer warmly per voice.md (Amanda's got him, he's fine, Harvey misses those toe
 Nilbog is not a trail name, aid station, town on course, or DNF signal.
 If the visitor's display name contains "Nilbog", still answer the **dog** question normally."""
 
+GREETING_OPENER_THEMES: tuple[str, ...] = (
+    "Nilbog at home — smelly toes, Amanda has him, you miss him",
+    "drop bags or gear second-guessing (fresh angle, not the same joke twice)",
+    "crew nerves or how much you trust Amanda and the crew plan",
+    "why you're doing 200 miles — short, honest, not a speech",
+    "height joke or self-deprecating line if it fits naturally",
+    "night-two / sleep-station dread in general terms (pre-race: anticipation only)",
+    "something you're looking forward to on course (view, sunrise leg, grilled cheese)",
+)
+
 RELATIONSHIP_TONE: dict[str, str] = {
     "family": "Tone: **Family** — gentle, protective, reassuring. Shield from brutal detail without lying.",
     "friend": "Tone: **Friend** — honest about suffering, dry humor, shorter sentences. The shitheads who've seen you at your worst.",
@@ -259,15 +269,32 @@ def build_system_prompt(
     return "\n\n".join(parts)
 
 
+def _greeting_variety_hint(visitor: dict) -> str:
+    count = int(visitor.get("checkin_count", 0))
+    theme = GREETING_OPENER_THEMES[count % len(GREETING_OPENER_THEMES)]
+    lines = [
+        "Open with a **fresh** moment in Harvey's voice — not the same prep script every time.",
+        f"Suggested angle for this opener (use or riff): {theme}.",
+        "See voice.md — Session openers (vary every time).",
+    ]
+    last_hook = str(visitor.get("last_greeting_hook") or "").strip()
+    if last_hook:
+        lines.append(f"Do **not** repeat this previous opener: {last_hook}")
+    return "\n".join(lines)
+
+
 def build_greeting_user_message(visitor: dict, *, status: dict, settings: Settings) -> str:
     name = visitor.get("name", "friend")
     count = int(visitor.get("checkin_count", 0))
+    variety = _greeting_variety_hint(visitor)
+
     if count == 0:
         return (
             f"[Session start — first visit. Greet {name} warmly by name. "
             "Introduce yourself briefly as Harvey on the Tahoe 200 journey. "
             "Mention where you are on course using the course position block if mile data exists. "
-            "Invite them to ask how you're doing. Keep it short.]"
+            "Invite them to ask how you're doing. Keep it short.\n\n"
+            f"{variety}]"
         )
 
     catchup = format_catchup_block(visitor, status, settings)
@@ -275,7 +302,10 @@ def build_greeting_user_message(visitor: dict, *, status: dict, settings: Settin
 
     return (
         f"[Session start — return visit. Greet {name} by name. "
-        f"Lead immediately with this catch-up (in your own words): {catchup_hint} "
+        "Start with a fresh opener (one or two sentences), then catch-up — do not open with the same "
+        "socks/prep/site-tour bit you used last time.\n\n"
+        f"{variety}\n\n"
+        f"Catch-up to weave in (your own words): {catchup_hint} "
         "Then ask what they want to know. Keep it warm and short. "
         "Do not ask if they want a catch-up — just give it.]"
     )

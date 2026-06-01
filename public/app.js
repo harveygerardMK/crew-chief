@@ -8,7 +8,10 @@ const STORAGE = {
   visitorRelationship: "cc_visitor_relationship",
   cachedStatus: "cc_cached_status",
   simulationDismissed: "cc_simulation_dismissed",
+  chatHistory: "cc_chat_history",
 };
+
+const MAX_CHAT_HISTORY = 10;
 
 const PROMPT_CHIPS = {
   family: ["How is he doing?", "Is he resting or moving?", "Should I worry?"],
@@ -23,6 +26,122 @@ const RACE_START_MS = Date.parse("2026-06-12T16:00:00.000Z"); // Fri 9 AM PDT
 const STALE_MS = 2 * 60 * 60 * 1000;
 
 const $ = (id) => document.getElementById(id);
+
+const SPLASH_TOTAL_MS = 2800;
+const SPLASH_MILE_START_MS = 1000;
+const SPLASH_DISSOLVE_MS = 2000;
+const SPLASH_STATUS_TIMEOUT_MS = 1500;
+
+function isStandalonePwa() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+function prepareSplashPaths() {
+  for (const path of document.querySelectorAll(".splash-rabbit__path")) {
+    const len = path.getTotalLength();
+    path.style.setProperty("--path-length", String(len));
+  }
+}
+
+function easeOutCubic(t) {
+  return 1 - (1 - t) ** 3;
+}
+
+function animateSplashMile(target, el) {
+  const duration = 1000;
+  const start = performance.now();
+  function frame(now) {
+    const t = Math.min(1, (now - start) / duration);
+    el.textContent = (target * easeOutCubic(t)).toFixed(1);
+    if (t < 1) requestAnimationFrame(frame);
+    else el.textContent = target.toFixed(1);
+  }
+  requestAnimationFrame(frame);
+}
+
+function splashShowsPrerace(status) {
+  if (!status) return true;
+  const mile = status.route_mile;
+  return mile == null || Number(mile) === 0;
+}
+
+async function fetchSplashStatus() {
+  const cached = loadCachedStatus();
+  try {
+    const base = apiBase();
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), SPLASH_STATUS_TIMEOUT_MS);
+    const res = await fetch(`${base}/status`, { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (res.ok) {
+      const data = await res.json();
+      if (data) cacheStatus(data);
+      return data;
+    }
+  } catch {
+    /* parallel fetch — use cache or skip counter */
+  }
+  return cached;
+}
+
+function renderSplashMile(status) {
+  const label = $("splash-mile-label");
+  const value = $("splash-mile-value");
+  if (!label || !value) return;
+
+  label.classList.remove("hidden");
+  value.classList.remove("splash__mile-value--date");
+
+  if (!status) {
+    label.classList.add("hidden");
+    value.textContent = "—";
+    return;
+  }
+
+  if (splashShowsPrerace(status)) {
+    label.classList.add("hidden");
+    value.textContent = "JUNE 12";
+    value.classList.add("splash__mile-value--date");
+    return;
+  }
+
+  const target = Number(status.route_mile);
+  if (Number.isNaN(target)) {
+    label.classList.add("hidden");
+    value.textContent = "—";
+    return;
+  }
+
+  animateSplashMile(target, value);
+}
+
+function runPwaSplash() {
+  if (!document.documentElement.classList.contains("splash-active")) return;
+
+  const splash = $("splash");
+  if (!splash) return;
+
+  splash.setAttribute("aria-hidden", "false");
+  prepareSplashPaths();
+
+  const statusPromise = fetchSplashStatus();
+
+  window.setTimeout(() => {
+    statusPromise.then(renderSplashMile);
+  }, SPLASH_MILE_START_MS);
+
+  window.setTimeout(() => {
+    splash.classList.add("splash--dissolve");
+  }, SPLASH_DISSOLVE_MS);
+
+  window.setTimeout(() => {
+    splash.remove();
+    document.documentElement.classList.remove("splash-active");
+  }, SPLASH_TOTAL_MS);
+}
 
 const onboardingPanel = $("onboarding-panel");
 const chatPanel = $("chat-panel");
@@ -76,6 +195,35 @@ function setVisitor(id, name, relationship) {
 
 function getVisitorRelationship() {
   return localStorage.getItem(STORAGE.visitorRelationship) || "friend";
+}
+
+function clearChatHistory() {
+  sessionStorage.removeItem(STORAGE.chatHistory);
+}
+
+function loadChatHistory() {
+  try {
+    const raw = sessionStorage.getItem(STORAGE.chatHistory);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveChatHistory(entries) {
+  sessionStorage.setItem(
+    STORAGE.chatHistory,
+    JSON.stringify(entries.slice(-MAX_CHAT_HISTORY)),
+  );
+}
+
+function pushChatTurn(role, content) {
+  const text = String(content || "").trim();
+  if (!text) return;
+  const history = loadChatHistory();
+  history.push({ role, content: text });
+  saveChatHistory(history);
 }
 
 function cacheStatus(status) {
@@ -399,12 +547,13 @@ function setBusy(next) {
   $("onboarding-submit").disabled = next;
 }
 
-async function requestChat(message = null) {
+async function requestChat(message = null, history = null) {
   const visitorId = getVisitorId();
   if (!visitorId) throw new Error("Not registered");
 
   const body = { visitor_id: visitorId };
   if (message) body.message = message;
+  if (history && history.length > 0) body.history = history;
 
   return api("/chat", {
     method: "POST",
@@ -430,7 +579,7 @@ async function loadGreeting() {
   if (greetingDone) return;
   const loading = appendThinkingMessage();
   try {
-    const data = await requestChat();
+    const data = await requestChat(null, []);
     loading.remove();
     appendMessage({
       role: "harvey",
@@ -438,6 +587,7 @@ async function loadGreeting() {
       artPrompt: data.art_prompt || null,
       artImageUrl: data.art_image_url || null,
     });
+    pushChatTurn("assistant", data.reply);
     handleChatResponse(data);
     greetingDone = true;
     exchangeCount += 1;
@@ -458,9 +608,10 @@ async function sendUserMessage(text) {
   exchangeCount += 1;
   updateNoteButton();
 
+  const priorHistory = loadChatHistory();
   const loading = appendThinkingMessage();
   try {
-    const data = await requestChat(text);
+    const data = await requestChat(text, priorHistory);
     loading.remove();
     appendMessage({
       role: "harvey",
@@ -468,6 +619,8 @@ async function sendUserMessage(text) {
       artPrompt: data.art_prompt || null,
       artImageUrl: data.art_image_url || null,
     });
+    pushChatTurn("user", text);
+    pushChatTurn("assistant", data.reply);
     handleChatResponse(data);
     exchangeCount += 1;
     updateNoteButton();
@@ -618,9 +771,11 @@ async function init() {
 
   const visitorId = getVisitorId();
   if (visitorId) {
+    clearChatHistory();
     showChat();
     await loadGreeting();
   }
 }
 
+runPwaSplash();
 init();

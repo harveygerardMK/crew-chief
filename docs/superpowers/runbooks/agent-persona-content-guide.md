@@ -10,13 +10,15 @@
 
 On first visit, the visitor picks **How do you know Harvey?**
 
-| UI label | Stored value | Use for |
-|----------|--------------|---------|
-| Family | `family` | Parents, siblings, close family |
-| Friend | `friend` | Friends (“the shitheads”) |
-| Crew | `crew` | Crew chief, pit crew, logistics |
-| Pacer | `pacer` | Anyone pacing on course |
-| Curious | `stranger` | New visitors |
+
+| UI label | Stored value | Use for                         |
+| -------- | ------------ | ------------------------------- |
+| Family   | `family`     | Parents, siblings, close family |
+| Friend   | `friend`     | Friends (“the shitheads”)       |
+| Crew     | `crew`       | Crew chief, pit crew, logistics |
+| Pacer    | `pacer`      | Anyone pacing on course         |
+| Curious  | `stranger`   | New visitors                    |
+
 
 That choice is saved in the browser and sent with every chat message.
 
@@ -28,18 +30,20 @@ That choice is saved in the browser and sent with every chat message.
 
 Built in `server/prompt.py` — order matters:
 
-| Source | File / data | Who receives it |
-|--------|-------------|-----------------|
-| Scope lock | `server/race_data.py` | Everyone |
-| Race logistics | `data/aid-stations.json` (+ site `/data/aid-stations.json`) | Everyone — **authoritative for miles, cutoffs, crew access** |
-| Voice & tone | `voice.md` (repo root) | **Entire file, every visitor** |
-| Inner voice | `harvey.md` (repo root) | Everyone |
-| Course pages | `src/content/pages/*.md` (four pages, concatenated) | Everyone |
-| Live tracker | `data/harvey_status.json` | Everyone |
-| Visitor block | `data/visitors.json` | That session’s name + relationship |
-| Known person bullets | `data/known-people.json` | If **display name** matches `match_names` |
-| **Personal brief** | `agent-context/{stem}.md` | If name maps via `known-people.json` (see below) |
-| Relationship tone | `prompt.py` `RELATIONSHIP_TONE` | Matching relationship pill only |
+
+| Source               | File / data                                                 | Who receives it                                              |
+| -------------------- | ----------------------------------------------------------- | ------------------------------------------------------------ |
+| Scope lock           | `server/race_data.py`                                       | Everyone                                                     |
+| Race logistics       | `data/aid-stations.json` (+ site `/data/aid-stations.json`) | Everyone — **authoritative for miles, cutoffs, crew access** |
+| Voice & tone         | `voice.md` (repo root)                                      | **Entire file, every visitor**                               |
+| Inner voice          | `harvey.md` (repo root)                                     | Everyone                                                     |
+| Course pages         | `src/content/pages/*.md` (four pages, concatenated)         | Everyone                                                     |
+| Live tracker         | `data/harvey_status.json`                                   | Everyone                                                     |
+| Visitor block        | `data/visitors.json`                                        | That session’s name + relationship                           |
+| Known person bullets | `data/known-people.json`                                    | If **display name** matches `match_names`                    |
+| **Personal brief**   | `agent-context/{stem}.md`                                   | If name maps via `known-people.json` (see below)             |
+| Relationship tone    | `prompt.py` `RELATIONSHIP_TONE`                             | Matching relationship pill only                              |
+
 
 Random `.md` under `docs/` is **not** read by the agent.
 
@@ -54,15 +58,17 @@ Long-form playbooks load **only when the visitor’s onboarding name** matches a
 1. `known-people.json` lists `match_names` per person (e.g. `"amanda"`, `"gangle"`, `"queen z"`).
 2. The **first** `match_names` entry becomes the file stem: `amanda` → `agent-context/amanda.md`, `brendan` → `agent-context/brendan.md`, `zuzy` → `agent-context/zuzy.md`.
 3. Any alias in `match_names` resolves to that same file.
-4. `load_agent_context()` in `server/prompt.py` injects the file under **`## Personal context for this visitor`**.
+4. `load_agent_context()` in `server/prompt.py` injects the file under `**## Personal context for this visitor`**.
 
 ### Current files
 
-| File | Typical signup names |
-|------|----------------------|
-| `agent-context/amanda.md` | Amanda |
-| `agent-context/brendan.md` | Brendan, Gangle, Gangl |
-| `agent-context/zuzy.md` | Zuzy, Queen Z, Queen-Z, etc. |
+
+| File                       | Typical signup names         |
+| -------------------------- | ---------------------------- |
+| `agent-context/amanda.md`  | Amanda                       |
+| `agent-context/brendan.md` | Brendan, Gangle, Gangl       |
+| `agent-context/zuzy.md`    | Zuzy, Queen Z, Queen-Z, etc. |
+
 
 ### Adding a new person
 
@@ -124,14 +130,16 @@ Loaded as `## Course & race context`. Edits deploy to droplet via the same auto-
 
 ## Content routing cheat sheet
 
-| You are writing… | Put it in | Do not put it in |
-|------------------|-----------|------------------|
-| Aid miles, cutoffs, crew access | `data/aid-stations.json` | Persona MD |
-| Long crew/pacer playbook for Amanda/Gangle | `agent-context/{stem}.md` + `known-people.json` | `voice.md` walls of text |
-| How Harvey talks to crew vs friends (general) | `voice.md` sections | Duplicate aid tables |
-| Short nicknames / leg one-liners | `known-people.json` `notes` | Secrets |
-| Philosophy, “loosely held” | `harvey.md` | Chat email sign-offs |
-| API keys, tunnel URLs | **Never in git** | Any MD |
+
+| You are writing…                              | Put it in                                       | Do not put it in         |
+| --------------------------------------------- | ----------------------------------------------- | ------------------------ |
+| Aid miles, cutoffs, crew access               | `data/aid-stations.json`                        | Persona MD               |
+| Long crew/pacer playbook for Amanda/Gangle    | `agent-context/{stem}.md` + `known-people.json` | `voice.md` walls of text |
+| How Harvey talks to crew vs friends (general) | `voice.md` sections                             | Duplicate aid tables     |
+| Short nicknames / leg one-liners              | `known-people.json` `notes`                     | Secrets                  |
+| Philosophy, “loosely held”                    | `harvey.md`                                     | Chat email sign-offs     |
+| API keys, tunnel URLs                         | **Never in git**                                | Any MD                   |
+
 
 **Citation rule:** Aid cutoffs and crew access → *(per race plan — confirm with crew before moving)*. Do not invent logistics outside the race data block.
 
@@ -143,8 +151,8 @@ Loaded as `## Course & race context`. Edits deploy to droplet via the same auto-
 
 Pushes to `main` that touch any of these trigger **Deploy agent to droplet** (needs `DROPLET_HOST`, `DROPLET_USER`, `DROPLET_SSH_KEY`):
 
-- `server/**`, `voice.md`, `harvey.md`
-- `agent-context/**`
+- `server/`**, `voice.md`, `harvey.md`
+- `agent-context/`**
 - `data/known-people.json`
 - `src/content/pages/**`
 - (see `.github/workflows/agent-droplet-deploy.yml` for full list)
@@ -170,11 +178,13 @@ ssh root@107.170.32.201 'cd /var/crew-chief && git pull origin main && bash scri
 
 ## Infrastructure (for writers)
 
-| Piece | URL |
-|-------|-----|
-| Crew site | https://wheresharvey.com/ |
-| Agent API | https://agent.wheresharvey.com |
-| Race JSON | https://wheresharvey.com/data/aid-stations.json |
+
+| Piece     | URL                                                                                                |
+| --------- | -------------------------------------------------------------------------------------------------- |
+| Crew site | [https://wheresharvey.com/](https://wheresharvey.com/)                                             |
+| Agent API | [https://agent.wheresharvey.com](https://agent.wheresharvey.com)                                   |
+| Race JSON | [https://wheresharvey.com/data/aid-stations.json](https://wheresharvey.com/data/aid-stations.json) |
+
 
 ```bash
 curl -s https://agent.wheresharvey.com/health
@@ -210,17 +220,19 @@ Covers `load_agent_context()` for Amanda, Gangle, Queen Z.
 
 ## Related files
 
-| File | Role |
-|------|------|
-| `agent-context/*.md` | Personal briefs (name-matched) |
-| `data/known-people.json` | Aliases + routing to MD stem |
-| `voice.md` | Global tone by relationship |
-| `harvey.md` | Inner voice |
-| `server/prompt.py` | `load_agent_context()`, `load_course_content()` |
-| `server/visitors.py` | Visitor + known-person blocks |
-| `.github/workflows/agent-droplet-deploy.yml` | Auto-deploy paths |
-| `docs/superpowers/runbooks/crew-chief-agent-named-tunnel.md` | Stable tunnel |
-| `docs/superpowers/runbooks/crew-chief-agent-deploy.md` | Full deploy runbook |
+
+| File                                                         | Role                                            |
+| ------------------------------------------------------------ | ----------------------------------------------- |
+| `agent-context/*.md`                                         | Personal briefs (name-matched)                  |
+| `data/known-people.json`                                     | Aliases + routing to MD stem                    |
+| `voice.md`                                                   | Global tone by relationship                     |
+| `harvey.md`                                                  | Inner voice                                     |
+| `server/prompt.py`                                           | `load_agent_context()`, `load_course_content()` |
+| `server/visitors.py`                                         | Visitor + known-person blocks                   |
+| `.github/workflows/agent-droplet-deploy.yml`                 | Auto-deploy paths                               |
+| `docs/superpowers/runbooks/crew-chief-agent-named-tunnel.md` | Stable tunnel                                   |
+| `docs/superpowers/runbooks/crew-chief-agent-deploy.md`       | Full deploy runbook                             |
+
 
 ---
 
@@ -238,4 +250,4 @@ Full policy: [2026-06-01-agent-content-strategy-design.md](../specs/2026-06-01-a
 
 **Relationship-scoped** files (e.g. `agent-context/crew.md` for every crew pill, not only Amanda) would need a separate loader — not implemented today.
 
-**Multi-turn chat** (send last N UI messages to `/chat`) — if follow-ups like “what about the second one?” fail in testing.
+**Multi-turn chat** — spec approved: [2026-06-01-chat-session-memory-design.md](../specs/2026-06-01-chat-session-memory-design.md) (history in tab only; fresh greeting each page load).

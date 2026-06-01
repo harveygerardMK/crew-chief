@@ -81,6 +81,26 @@ def get_visitor(settings: Settings, visitor_id: str) -> dict[str, Any]:
     raise VisitorNotFound(f"Unknown visitor_id: {visitor_id}")
 
 
+def record_last_greeting_hook(
+    settings: Settings,
+    visitor_id: str,
+    *,
+    hook: str,
+) -> dict[str, Any]:
+    """Store a short summary of the last session opener so the next greeting can vary."""
+    snippet = hook.strip()[:160]
+    data = _load_raw(settings.visitors_path)
+    for visitor in data["visitors"]:
+        if visitor.get("id") != visitor_id:
+            continue
+        if snippet:
+            visitor["last_greeting_hook"] = snippet
+        _save_raw(settings.visitors_path, data)
+        maybe_export_visitors(settings, data)
+        return visitor
+    raise VisitorNotFound(f"Unknown visitor_id: {visitor_id}")
+
+
 def record_checkin(settings: Settings, visitor_id: str, *, harvey_mile: float | None) -> dict[str, Any]:
     data = _load_raw(settings.visitors_path)
     now = _iso_now()
