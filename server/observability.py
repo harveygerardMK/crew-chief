@@ -7,6 +7,7 @@ from contextlib import AbstractContextManager, nullcontext
 from typing import Any
 
 from config import Settings
+from visitors import resolve_audience
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ def _visitor_metadata(visitor: dict[str, Any]) -> dict[str, Any]:
     return {
         "visitor_id": visitor.get("id"),
         "name": visitor.get("name"),
-        "relationship": visitor.get("relationship"),
+        "audience": resolve_audience(visitor),
         "checkin_count": visitor.get("checkin_count"),
         "last_harvey_mile": visitor.get("last_harvey_mile"),
     }
@@ -86,11 +87,11 @@ class ChatTrace(AbstractContextManager["ChatTrace"]):
             )
             self._span = self._span_cm.__enter__()
             visitor_id = str(self.visitor.get("id") or "")
-            relationship = str(self.visitor.get("relationship") or "unknown")
+            audience = resolve_audience(self.visitor)
             self._propagate_cm = propagate_attributes(
                 user_id=visitor_id or None,
                 session_id=visitor_id or None,
-                tags=["crew-chief", "chat", relationship],
+                tags=["crew-chief", "chat", audience],
                 metadata={
                     "simulation": self.status.get("simulation"),
                     "route_mile": self.status.get("route_mile"),

@@ -8,21 +8,20 @@
 
 ## How Ask Harvey knows who is talking
 
-On first visit, the visitor picks **How do you know Harvey?**
+On first visit, the visitor picks **how they are following the race**:
 
 
-| UI label | Stored value | Use for                         |
-| -------- | ------------ | ------------------------------- |
-| Family   | `family`     | Parents, siblings, close family |
-| Friend   | `friend`     | Friends (“the shitheads”)       |
-| Crew     | `crew`       | Crew chief, pit crew, logistics |
-| Pacer    | `pacer`      | Anyone pacing on course         |
-| Curious  | `stranger`   | New visitors                    |
+| UI label | Stored value | Use for |
+| -------- | ------------ | ------- |
+| Helping at the race | `on_course` | Crew chief, crew, pacers — logistics chips and operational tone |
+| Watching from afar | `remote` | Family, friends, curious — pulse-check chips and warm/simple tone |
 
 
-That choice is saved in the browser and sent with every chat message.
+That choice is saved in the browser (`cc_visitor_audience`) and on the server (`audience` on the visitor record). It drives suggested question chips and `AUDIENCE_TONE` in `server/prompt.py`.
 
-**Amanda (crew chief)** should pick **Crew** at onboarding. **Gangle / Queen Z** should pick **Pacer**. Relationship sets tone; personal briefs load by **name** (see below).
+**Amanda (crew chief)** should pick **Helping at the race** (UI pre-selects this when the name matches `known-people.json`). **Gangle / Queen Z** should pick **Helping at the race** as pacers. Personal briefs still load by **name** (see below).
+
+Legacy visitors with old `relationship` (`crew` / `pacer` → `on_course`, else `remote`) are migrated on the server when they return; the UI syncs via `GET /visitors/{id}`.
 
 ---
 
@@ -42,7 +41,7 @@ Built in `server/prompt.py` — order matters:
 | Visitor block        | `data/visitors.json`                                        | That session’s name + relationship                           |
 | Known person bullets | `data/known-people.json`                                    | If **display name** matches `match_names`                    |
 | **Personal brief**   | `agent-context/{stem}.md`                                   | If name maps via `known-people.json` (see below)             |
-| Relationship tone    | `prompt.py` `RELATIONSHIP_TONE`                             | Matching relationship pill only                              |
+| Audience tone        | `prompt.py` `AUDIENCE_TONE`                                 | `on_course` vs `remote` only                                 |
 
 
 Random `.md` under `docs/` is **not** read by the agent.

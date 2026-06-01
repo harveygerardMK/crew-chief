@@ -25,16 +25,28 @@ def _load_known_people() -> tuple[dict[str, Any], ...]:
     return tuple(entry for entry in data if isinstance(entry, dict))
 
 
+def default_audience_for_name(name: str) -> str | None:
+    person = lookup_known_person(name)
+    if not person:
+        return None
+    aud = str(person.get("default_audience") or "").strip().lower()
+    if aud in ("on_course", "remote"):
+        return aud
+    return None
+
+
 def lookup_known_person(name: str) -> dict[str, Any] | None:
     normalized = _normalize_name(name)
     if not normalized:
         return None
+    first_token = normalized.split()[0] if normalized else ""
     for person in _load_known_people():
         aliases = person.get("match_names") or []
         if not isinstance(aliases, list):
             continue
         for alias in aliases:
-            if _normalize_name(str(alias)) == normalized:
+            norm_alias = _normalize_name(str(alias))
+            if norm_alias == normalized or (first_token and norm_alias == first_token):
                 return person
     return None
 

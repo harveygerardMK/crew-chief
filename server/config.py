@@ -15,6 +15,9 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 RACE_START = datetime(2026, 6, 12, 16, 0, 0, tzinfo=UTC)
 
 VALID_RELATIONSHIPS = frozenset({"family", "friend", "crew", "pacer", "stranger"})
+VALID_AUDIENCES = frozenset({"on_course", "remote"})
+# Legacy relationship values mapped to audience when `audience` is missing.
+ON_COURSE_RELATIONSHIPS = frozenset({"crew", "pacer"})
 
 
 @dataclass(frozen=True)

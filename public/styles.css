@@ -273,6 +273,48 @@ body {
   gap: 0.5rem;
 }
 
+.audience-pills__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pill--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.pill--stacked input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pill__title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pill__hint {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.pill--stacked:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.pill--stacked:has(input:checked) .pill__title {
+  color: var(--accent);
+}
+
 .pill {
   display: inline-flex;
   align-items: center;
@@ -656,4 +698,111 @@ body {
   justify-content: flex-end;
   gap: 0.5rem;
   margin-top: 1rem;
+}
+
+/* PWA splash (standalone home screen only) */
+#splash {
+  display: none;
+}
+
+html.splash-active #splash {
+  display: flex;
+}
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  opacity: 1;
+  transition: opacity 0.8s ease-out;
+  pointer-events: auto;
+}
+
+.splash--dissolve {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 20rem;
+  padding: 2rem 1.5rem;
+}
+
+.splash__rabbit {
+  width: min(40vw, 11rem);
+  height: auto;
+  overflow: visible;
+}
+
+.splash-rabbit__path {
+  stroke: var(--accent);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--path-length, 1200);
+  stroke-dashoffset: var(--path-length, 1200);
+  animation: splash-draw 0.42s ease-out forwards;
+}
+
+.splash-rabbit__path--1 {
+  animation-delay: 0s;
+}
+
+.splash-rabbit__path--2 {
+  animation-delay: 0.26s;
+}
+
+.splash-rabbit__path--3 {
+  animation-delay: 0.52s;
+}
+
+@keyframes splash-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.splash__mile {
+  text-align: center;
+  opacity: 0;
+  animation: splash-mile-in 0.35s ease-out 1s forwards;
+}
+
+@keyframes splash-mile-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.splash__mile-label {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.splash__mile-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--text);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.splash__mile-value--date {
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
 }

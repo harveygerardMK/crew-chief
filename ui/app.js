@@ -5,6 +5,8 @@
 const STORAGE = {
   visitorId: "cc_visitor_id",
   visitorName: "cc_visitor_name",
+  visitorAudience: "cc_visitor_audience",
+  /** @deprecated migrated to visitorAudience */
   visitorRelationship: "cc_visitor_relationship",
   cachedStatus: "cc_cached_status",
   simulationDismissed: "cc_simulation_dismissed",
@@ -14,12 +16,19 @@ const STORAGE = {
 const MAX_CHAT_HISTORY = 10;
 
 const PROMPT_CHIPS = {
-  family: ["How is he doing?", "Is he resting or moving?", "Should I worry?"],
-  friend: ["How is he doing?", "Where is he on the course?", "How's he holding up?"],
-  crew: ["Status update?", "Next aid station?", "Anything I should know?"],
-  pacer: ["When might he reach me?", "Is he on pace?", "What do I need to know?"],
-  stranger: ["How is he doing?", "Where is he on the course?", "How does this work?"],
+  on_course: [
+    "What's the next crew-access aid?",
+    "What should we have ready at the next stop?",
+    "Is he on pace for the next cutoff?",
+  ],
+  remote: [
+    "How is he doing right now?",
+    "Is he resting or still moving?",
+    "Where is he on the course?",
+  ],
 };
+
+const ON_COURSE_RELATIONSHIPS = new Set(["crew", "pacer"]);
 
 const STATUS_POLL_MS = 60_000;
 const RACE_START_MS = Date.parse("2026-06-12T16:00:00.000Z"); // Fri 9 AM PDT
@@ -187,14 +196,50 @@ function getVisitorId() {
   return localStorage.getItem(STORAGE.visitorId);
 }
 
-function setVisitor(id, name, relationship) {
+function setVisitor(id, name, audience) {
   localStorage.setItem(STORAGE.visitorId, id);
   localStorage.setItem(STORAGE.visitorName, name);
-  if (relationship) localStorage.setItem(STORAGE.visitorRelationship, relationship);
+  if (audience) localStorage.setItem(STORAGE.visitorAudience, audience);
 }
 
-function getVisitorRelationship() {
-  return localStorage.getItem(STORAGE.visitorRelationship) || "friend";
+function relationshipToAudience(relationship) {
+  const rel = String(relationship || "").toLowerCase();
+  return ON_COURSE_RELATIONSHIPS.has(rel) ? "on_course" : "remote";
+}
+
+function getVisitorAudience() {
+  const stored = localStorage.getItem(STORAGE.visitorAudience);
+  if (stored === "on_course" || stored === "remote") return stored;
+  const legacy = localStorage.getItem(STORAGE.visitorRelationship);
+  if (legacy) {
+    const migrated = relationshipToAudience(legacy);
+    localStorage.setItem(STORAGE.visitorAudience, migrated);
+    return migrated;
+  }
+  return "remote";
+}
+
+/** Pre-select on_course for known crew (e.g. Amanda) when name matches server list. */
+const KNOWN_ON_COURSE_NAMES = new Set(["amanda"]);
+
+function suggestAudienceFromName(name) {
+  const normalized = String(name || "")
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)[0];
+  if (KNOWN_ON_COURSE_NAMES.has(normalized)) return "on_course";
+  return null;
+}
+
+function applyAudienceSuggestionFromName() {
+  const nameInput = $("visitor-name");
+  if (!nameInput) return;
+  const suggested = suggestAudienceFromName(nameInput.value);
+  if (!suggested) return;
+  const radio = onboardingForm?.querySelector(`input[name="audience"][value="${suggested}"]`);
+  if (radio && !onboardingForm.querySelector('input[name="audience"]:checked')) {
+    radio.checked = true;
+  }
 }
 
 function clearChatHistory() {
@@ -330,8 +375,8 @@ function renderSimulationBanner(status) {
 
 function renderPromptChips() {
   if (!promptChips) return;
-  const relationship = getVisitorRelationship();
-  const chips = PROMPT_CHIPS[relationship] || PROMPT_CHIPS.friend;
+  const audience = getVisitorAudience();
+  const chips = PROMPT_CHIPS[audience] || PROMPT_CHIPS.remote;
   promptChips.innerHTML = "";
   for (const text of chips) {
     const btn = document.createElement("button");
@@ -649,17 +694,17 @@ onboardingForm.addEventListener("submit", async (event) => {
 
   const form = new FormData(onboardingForm);
   const name = String(form.get("name") || "").trim();
-  const relationship = String(form.get("relationship") || "");
+  const audience = String(form.get("audience") || "");
 
-  if (!name || !relationship) return;
+  if (!name || !audience) return;
 
   setBusy(true);
   try {
     const data = await api("/visitors", {
       method: "POST",
-      body: JSON.stringify({ name, relationship }),
+      body: JSON.stringify({ name, audience }),
     });
-    setVisitor(data.visitor_id, data.name, relationship);
+    setVisitor(data.visitor_id, data.name, data.audience || audience);
     showChat();
     await refreshStatus();
     await loadGreeting();
@@ -771,10 +816,19 @@ async function init() {
 
   const visitorId = getVisitorId();
   if (visitorId) {
+    try {
+      const profile = await api(`/visitors/${encodeURIComponent(visitorId)}`);
+      if (profile.audience) setVisitor(visitorId, profile.name, profile.audience);
+    } catch {
+      /* use localStorage audience / legacy migration */
+    }
     clearChatHistory();
     showChat();
     await loadGreeting();
   }
+
+  $("visitor-name")?.addEventListener("input", applyAudienceSuggestionFromName);
+  $("visitor-name")?.addEventListener("blur", applyAudienceSuggestionFromName);
 }
 
 runPwaSplash();

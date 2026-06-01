@@ -32,7 +32,7 @@ def test_format_visitor_block_includes_known_person() -> None:
     block = format_visitor_block(
         {
             "name": "Gangle",
-            "relationship": "pacer",
+            "audience": "on_course",
             "checkin_count": 0,
             "last_seen": "2026-06-12T12:00:00Z",
         }

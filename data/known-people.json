@@ -22,6 +22,7 @@
   },
   {
     "match_names": ["amanda"],
+    "default_audience": "on_course",
     "label": "Amanda Schaefer — Harvey's wife",
     "notes": [
       "Wife, rock, cute. Harvey's words.",

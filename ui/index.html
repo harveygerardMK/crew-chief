@@ -76,14 +76,21 @@
                 placeholder="Your name"
               />
             </div>
-            <fieldset class="relationship-pills">
-              <legend class="relationship-pills__legend">How do you know Harvey?</legend>
-              <div class="relationship-pills__grid" role="group">
-                <label class="pill"><input type="radio" name="relationship" value="family" required /> Family</label>
-                <label class="pill"><input type="radio" name="relationship" value="friend" /> Friend</label>
-                <label class="pill"><input type="radio" name="relationship" value="crew" /> Crew</label>
-                <label class="pill"><input type="radio" name="relationship" value="pacer" /> Pacer</label>
-                <label class="pill"><input type="radio" name="relationship" value="stranger" /> Curious</label>
+            <fieldset class="audience-pills relationship-pills">
+              <legend class="audience-pills__legend relationship-pills__legend">
+                Will you be helping at the race, or watching from afar?
+              </legend>
+              <div class="audience-pills__stack" role="group">
+                <label class="pill pill--stacked">
+                  <input type="radio" name="audience" value="on_course" required />
+                  <span class="pill__title">Helping at the race</span>
+                  <span class="pill__hint">Crew chief, crew, or pacer</span>
+                </label>
+                <label class="pill pill--stacked">
+                  <input type="radio" name="audience" value="remote" />
+                  <span class="pill__title">Watching from afar</span>
+                  <span class="pill__hint">Family, friends, or just checking in</span>
+                </label>
               </div>
             </fieldset>
             <button type="submit" class="btn-cta" id="onboarding-submit">Let's go</button>

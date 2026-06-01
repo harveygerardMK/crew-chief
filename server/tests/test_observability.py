@@ -53,7 +53,7 @@ def test_status_metadata_extracts_accuracy_fields() -> None:
 
 def test_chat_trace_disabled_is_noop() -> None:
     settings = _settings(langfuse=False)
-    visitor = {"id": "v1", "name": "Dan", "relationship": "friend"}
+    visitor = {"id": "v1", "name": "Dan", "audience": "remote"}
     status = {"route_mile": 10.0, "race_status": "active"}
     with chat_trace(
         settings,
@@ -69,7 +69,7 @@ def test_chat_trace_record_methods_noop_when_disabled() -> None:
     settings = _settings(langfuse=False)
     trace = ChatTrace(
         settings,
-        visitor={"id": "v1", "name": "Dan", "relationship": "friend"},
+        visitor={"id": "v1", "name": "Dan", "audience": "remote"},
         status={"route_mile": 10.0},
         user_message="hello",
         is_greeting=False,

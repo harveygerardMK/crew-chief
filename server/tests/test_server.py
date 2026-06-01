@@ -12,7 +12,7 @@ from claude import _parse_model_json, fallback_response
 from config import REPO_ROOT, Settings
 from prompt import build_greeting_user_message, build_system_prompt
 from status import load_status
-from visitors import InvalidRelationship, create_visitor, get_visitor, record_checkin
+from visitors import InvalidAudience, create_visitor, get_visitor, record_checkin, resolve_audience
 
 
 @pytest.fixture
@@ -63,19 +63,20 @@ def settings(tmp_path: Path) -> Settings:
 
 
 def test_create_and_get_visitor(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    visitor = create_visitor(settings, name="Dan", audience="remote")
     loaded = get_visitor(settings, visitor["id"])
     assert loaded["name"] == "Dan"
+    assert loaded["audience"] == "remote"
     assert loaded["checkin_count"] == 0
 
 
-def test_invalid_relationship(settings: Settings) -> None:
-    with pytest.raises(InvalidRelationship):
-        create_visitor(settings, name="Dan", relationship="enemy")
+def test_invalid_audience(settings: Settings) -> None:
+    with pytest.raises(InvalidAudience):
+        create_visitor(settings, name="Dan", audience="enemy")
 
 
 def test_record_checkin_updates_mile(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Amanda", relationship="family")
+    visitor = create_visitor(settings, name="Amanda", audience="remote")
     updated = record_checkin(settings, visitor["id"], harvey_mile=42.0)
     assert updated["checkin_count"] == 1
     assert updated["last_harvey_mile"] == 42.0
@@ -98,14 +99,14 @@ def test_parse_model_json() -> None:
 
 
 def test_greeting_message_first_visit(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    visitor = create_visitor(settings, name="Dan", audience="remote")
     status = load_status(settings.status_path)
     msg = build_greeting_user_message(visitor, status=status, settings=settings)
     assert "Dan" in msg or "first visit" in msg.lower()
 
 
 def test_greeting_message_return_visit(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    visitor = create_visitor(settings, name="Dan", audience="remote")
     record_checkin(settings, visitor["id"], harvey_mile=50.0)
     visitor = get_visitor(settings, visitor["id"])
     status = load_status(settings.status_path)
@@ -116,7 +117,7 @@ def test_greeting_message_return_visit(settings: Settings) -> None:
 
 
 def test_greeting_message_variety_hint(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    visitor = create_visitor(settings, name="Dan", audience="remote")
     visitor["last_greeting_hook"] = "socks and drop bags again"
     status = load_status(settings.status_path)
     msg = build_greeting_user_message(visitor, status=status, settings=settings)
@@ -125,27 +126,27 @@ def test_greeting_message_variety_hint(settings: Settings) -> None:
 
 
 def test_system_prompt_includes_status(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    visitor = create_visitor(settings, name="Dan", audience="remote")
     status = load_status(settings.status_path)
     prompt = build_system_prompt(settings, status=status, visitor=visitor)
     assert "SCOPE LOCK" in prompt
     assert "RACE DATA" in prompt
     assert "87.2" in prompt
-    assert "friend" in prompt.lower()
-    assert "Tone: **Friend**" in prompt
+    assert "remote" in prompt.lower() or "afar" in prompt.lower()
+    assert "Tone: **Remote**" in prompt
     assert "loosely held" in prompt.lower() or "harvey.md" in prompt.lower()
 
 
 def test_system_prompt_pacer_tone(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Alex", relationship="pacer")
+    visitor = create_visitor(settings, name="Alex", audience="on_course")
     status = load_status(settings.status_path)
     prompt = build_system_prompt(settings, status=status, visitor=visitor)
-    assert "Tone: **Pacer**" in prompt
-    assert "pacer" in prompt.lower()
+    assert "Tone: **On course**" in prompt
+    assert "on course" in prompt.lower()
 
 
 def test_system_prompt_nilbog_scope_exception(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Sarah", relationship="family")
+    visitor = create_visitor(settings, name="Sarah", audience="remote")
     status = load_status(settings.status_path)
     prompt = build_system_prompt(settings, status=status, visitor=visitor)
     assert "NILBOG" in prompt
@@ -164,7 +165,7 @@ def test_augment_chat_user_message_nilbog() -> None:
 
 
 def test_pre_race_simulation_block_in_prompt(settings: Settings) -> None:
-    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    visitor = create_visitor(settings, name="Dan", audience="remote")
     status = {
         "enabled": True,
         "route_mile": 4.7,
@@ -258,7 +259,7 @@ def test_chat_passes_sanitized_history(settings: Settings, monkeypatch: pytest.M
     monkeypatch.setattr(app_module, "settings", settings)
     client = TestClient(app_module.app)
 
-    created = client.post("/visitors", json={"name": "Dan", "relationship": "friend"})
+    created = client.post("/visitors", json={"name": "Dan", "audience": "remote"})
     visitor_id = created.json()["visitor_id"]
 
     response = client.post(
@@ -298,7 +299,7 @@ def test_greeting_ignores_client_history(settings: Settings, monkeypatch: pytest
     monkeypatch.setattr(app_module, "settings", settings)
     client = TestClient(app_module.app)
 
-    created = client.post("/visitors", json={"name": "Dan", "relationship": "friend"})
+    created = client.post("/visitors", json={"name": "Dan", "audience": "remote"})
     visitor_id = created.json()["visitor_id"]
 
     client.post(
@@ -328,7 +329,7 @@ def test_greeting_records_last_hook(settings: Settings, monkeypatch: pytest.Monk
     monkeypatch.setattr(app_module, "settings", settings)
     client = TestClient(app_module.app)
 
-    created = client.post("/visitors", json={"name": "Dan", "relationship": "friend"})
+    created = client.post("/visitors", json={"name": "Dan", "audience": "remote"})
     visitor_id = created.json()["visitor_id"]
     client.post("/chat", json={"visitor_id": visitor_id})
 
@@ -359,7 +360,7 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     status = client.get("/status")
     assert status.json()["route_mile"] == 87.2
 
-    created = client.post("/visitors", json={"name": "Dan", "relationship": "friend"})
+    created = client.post("/visitors", json={"name": "Dan", "audience": "remote"})
     assert created.status_code == 200
     visitor_id = created.json()["visitor_id"]
 
@@ -387,3 +388,29 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     updated = get_visitor(settings, visitor_id)
     assert updated["checkin_count"] >= 2
     assert settings.questions_path.is_file()
+
+    profile = client.get(f"/visitors/{visitor_id}")
+    assert profile.status_code == 200
+    assert profile.json()["audience"] == "remote"
+
+
+def test_legacy_visitor_migrates_relationship_to_audience(settings: Settings) -> None:
+    import json
+
+    legacy = {
+        "visitors": [
+            {
+                "id": "legacy-crew-1",
+                "name": "Gangle",
+                "relationship": "pacer",
+                "first_seen": "2026-06-01T00:00:00Z",
+                "last_seen": "2026-06-01T00:00:00Z",
+                "checkin_count": 0,
+                "last_harvey_mile": None,
+            }
+        ]
+    }
+    settings.visitors_path.write_text(json.dumps(legacy) + "\n", encoding="utf-8")
+    loaded = get_visitor(settings, "legacy-crew-1")
+    assert resolve_audience(loaded) == "on_course"
+    assert loaded.get("audience") == "on_course"

@@ -9,7 +9,8 @@ Conversational backend for Crew Chief Agent 2.0. Reads `voice.md`, `harvey.md`, 
 | `GET` | `/health` | Liveness check |
 | `GET` | `/ready` | Ops probe (key configured, status file, no Claude call) |
 | `GET` | `/status` | Raw `harvey_status.json` |
-| `POST` | `/visitors` | Register visitor `{ name, relationship }` |
+| `POST` | `/visitors` | Register visitor `{ name, audience }` — `on_course` or `remote` |
+| `GET` | `/visitors/{visitor_id}` | Profile `{ visitor_id, name, audience }` |
 | `POST` | `/chat` | Chat `{ visitor_id, message? }` — omit `message` for session greeting |
 
 **Relationships:** `family`, `friend`, `crew`, `pacer`, `stranger`

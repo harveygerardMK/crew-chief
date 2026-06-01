@@ -273,6 +273,48 @@ body {
   gap: 0.5rem;
 }
 
+.audience-pills__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pill--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.pill--stacked input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pill__title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pill__hint {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.pill--stacked:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.pill--stacked:has(input:checked) .pill__title {
+  color: var(--accent);
+}
+
 .pill {
   display: inline-flex;
   align-items: center;

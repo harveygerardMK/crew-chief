@@ -10,7 +10,7 @@ UTC = timezone.utc
 from pathlib import Path
 from typing import Any
 
-from config import Settings, VALID_RELATIONSHIPS
+from config import ON_COURSE_RELATIONSHIPS, Settings, VALID_AUDIENCES
 from known_people import format_known_person_block, lookup_known_person
 
 
@@ -22,8 +22,12 @@ class VisitorNotFound(VisitorError):
     pass
 
 
-class InvalidRelationship(VisitorError):
+class InvalidAudience(VisitorError):
     pass
+
+
+# Backward compat for tests importing InvalidRelationship
+InvalidRelationship = InvalidAudience
 
 
 def _iso_now() -> str:
@@ -45,21 +49,40 @@ def _save_raw(path: Path, data: dict[str, Any]) -> None:
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
 
-def create_visitor(settings: Settings, *, name: str, relationship: str) -> dict[str, Any]:
+def resolve_audience(visitor: dict[str, Any]) -> str:
+    """Return on_course or remote; infer from legacy relationship when needed."""
+    aud = str(visitor.get("audience") or "").strip().lower()
+    if aud in VALID_AUDIENCES:
+        return aud
+    rel = str(visitor.get("relationship") or "").strip().lower()
+    if rel in ON_COURSE_RELATIONSHIPS:
+        return "on_course"
+    return "remote"
+
+
+def _migrate_visitor_audience(visitor: dict[str, Any]) -> bool:
+    """Set audience on visitor if missing. Returns True if mutated."""
+    if str(visitor.get("audience") or "").strip().lower() in VALID_AUDIENCES:
+        return False
+    visitor["audience"] = resolve_audience(visitor)
+    return True
+
+
+def create_visitor(settings: Settings, *, name: str, audience: str) -> dict[str, Any]:
     name = name.strip()
-    relationship = relationship.strip().lower()
+    audience = audience.strip().lower()
     if not name:
         raise VisitorError("Name is required")
-    if relationship not in VALID_RELATIONSHIPS:
-        raise InvalidRelationship(
-            f"relationship must be one of: {', '.join(sorted(VALID_RELATIONSHIPS))}"
+    if audience not in VALID_AUDIENCES:
+        raise InvalidAudience(
+            f"audience must be one of: {', '.join(sorted(VALID_AUDIENCES))}"
         )
 
     now = _iso_now()
     visitor = {
         "id": str(uuid.uuid4()),
         "name": name,
-        "relationship": relationship,
+        "audience": audience,
         "first_seen": now,
         "last_seen": now,
         "checkin_count": 0,
@@ -75,9 +98,16 @@ def create_visitor(settings: Settings, *, name: str, relationship: str) -> dict[
 
 def get_visitor(settings: Settings, visitor_id: str) -> dict[str, Any]:
     data = _load_raw(settings.visitors_path)
+    changed = False
     for visitor in data["visitors"]:
-        if visitor.get("id") == visitor_id:
-            return visitor
+        if visitor.get("id") != visitor_id:
+            continue
+        if _migrate_visitor_audience(visitor):
+            changed = True
+        if changed:
+            _save_raw(settings.visitors_path, data)
+            maybe_export_visitors(settings, data)
+        return visitor
     raise VisitorNotFound(f"Unknown visitor_id: {visitor_id}")
 
 
@@ -107,6 +137,8 @@ def record_checkin(settings: Settings, visitor_id: str, *, harvey_mile: float | 
     for visitor in data["visitors"]:
         if visitor.get("id") != visitor_id:
             continue
+        if _migrate_visitor_audience(visitor):
+            pass
         visitor["last_seen"] = now
         visitor["checkin_count"] = int(visitor.get("checkin_count", 0)) + 1
         if harvey_mile is not None:
@@ -118,19 +150,18 @@ def record_checkin(settings: Settings, visitor_id: str, *, harvey_mile: float | 
 
 
 def format_visitor_block(visitor: dict[str, Any]) -> str:
+    audience = resolve_audience(visitor)
+    audience_label = "helping at the race (on course)" if audience == "on_course" else "watching from afar"
     lines = [
         "## Visitor context",
         f"- Name: {visitor.get('name')}",
-        f"- Relationship to Harvey: {visitor.get('relationship')}",
+        f"- Following the race: {audience_label}",
         f"- Check-ins this race: {visitor.get('checkin_count', 0)}",
         f"- Last seen: {visitor.get('last_seen')}",
     ]
     if visitor.get("last_harvey_mile") is not None:
         lines.append(f"- Last time they checked in, Harvey was around mile {visitor['last_harvey_mile']}")
-    lines.append(
-        "Use the tone guidance for this relationship in voice.md. "
-        "Address them by name when natural."
-    )
+    lines.append("Address them by name when natural.")
     person = lookup_known_person(str(visitor.get("name") or ""))
     if person:
         lines.extend(["", format_known_person_block(person)])

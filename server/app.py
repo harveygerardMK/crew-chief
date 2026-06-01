@@ -21,13 +21,14 @@ from race_data import warm_race_data_cache
 from race_log import log_note, log_question
 from status import load_enriched_status, load_status
 from visitors import (
-    InvalidRelationship,
+    InvalidAudience,
     VisitorError,
     VisitorNotFound,
     create_visitor,
     get_visitor,
     record_checkin,
     record_last_greeting_hook,
+    resolve_audience,
 )
 
 settings: Settings = load_settings()
@@ -53,13 +54,13 @@ app.add_middleware(
 
 class VisitorCreate(BaseModel):
     name: str = Field(min_length=1, max_length=120)
-    relationship: str
+    audience: str
 
 
 class VisitorResponse(BaseModel):
     visitor_id: str
     name: str
-    relationship: str
+    audience: str
 
 
 class ChatRequest(BaseModel):
@@ -118,8 +119,8 @@ def get_status() -> dict[str, Any]:
 @app.post("/visitors", response_model=VisitorResponse)
 def post_visitors(body: VisitorCreate) -> VisitorResponse:
     try:
-        visitor = create_visitor(settings, name=body.name, relationship=body.relationship)
-    except InvalidRelationship as err:
+        visitor = create_visitor(settings, name=body.name, audience=body.audience)
+    except InvalidAudience as err:
         raise HTTPException(status_code=400, detail=str(err)) from err
     except VisitorError as err:
         raise HTTPException(status_code=400, detail=str(err)) from err
@@ -127,7 +128,21 @@ def post_visitors(body: VisitorCreate) -> VisitorResponse:
     return VisitorResponse(
         visitor_id=visitor["id"],
         name=visitor["name"],
-        relationship=visitor["relationship"],
+        audience=visitor["audience"],
+    )
+
+
+@app.get("/visitors/{visitor_id}", response_model=VisitorResponse)
+def get_visitor_profile(visitor_id: str) -> VisitorResponse:
+    try:
+        visitor = get_visitor(settings, visitor_id)
+    except VisitorNotFound as err:
+        raise HTTPException(status_code=404, detail=str(err)) from err
+
+    return VisitorResponse(
+        visitor_id=visitor["id"],
+        name=visitor["name"],
+        audience=resolve_audience(visitor),
     )
 
 
@@ -145,7 +160,7 @@ def post_notes(body: NoteCreate) -> NoteResponse:
     log_note(
         settings.notes_path,
         visitor_name=str(visitor.get("name", "")),
-        relationship=str(visitor.get("relationship", "")),
+        audience=resolve_audience(visitor),
         note_text=body.note_text,
         harvey_mile_at_time=mile_value,
     )
@@ -228,7 +243,7 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         log_question(
             settings.questions_path,
             visitor_name=str(visitor.get("name", "")),
-            relationship=str(visitor.get("relationship", "")),
+            audience=resolve_audience(visitor),
             harvey_mile_at_time=mile_value,
             message=message,
             response_summary=reply,
@@ -237,7 +252,7 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         log_question(
             settings.questions_path,
             visitor_name=str(visitor.get("name", "")),
-            relationship=str(visitor.get("relationship", "")),
+            audience=resolve_audience(visitor),
             harvey_mile_at_time=mile_value,
             message="[session greeting]",
             response_summary=reply,

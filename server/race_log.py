@@ -33,7 +33,7 @@ def log_question(
     path: Path,
     *,
     visitor_name: str,
-    relationship: str,
+    audience: str,
     harvey_mile_at_time: float | None,
     message: str,
     response_summary: str,
@@ -43,7 +43,7 @@ def log_question(
         {
             "timestamp": _iso_now(),
             "visitor_name": visitor_name,
-            "relationship": relationship,
+            "audience": audience,
             "harvey_mile_at_time": harvey_mile_at_time,
             "message": message,
             "response_summary": response_summary[:100],
@@ -55,7 +55,7 @@ def log_note(
     path: Path,
     *,
     visitor_name: str,
-    relationship: str,
+    audience: str,
     note_text: str,
     harvey_mile_at_time: float | None,
 ) -> None:
@@ -64,7 +64,7 @@ def log_note(
         {
             "timestamp": _iso_now(),
             "visitor_name": visitor_name,
-            "relationship": relationship,
+            "audience": audience,
             "note_text": note_text.strip(),
             "harvey_mile_at_time": harvey_mile_at_time,
         },
