@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 
 from art import lookup_nga_image
 from art_trigger import should_include_art_card
+from chat_history import sanitize_history
 from claude import ClaudeError, chat_completion, fallback_response
 from config import Settings, load_settings
 from langfuse_setup import init_langfuse_tracing
@@ -26,6 +27,7 @@ from visitors import (
     create_visitor,
     get_visitor,
     record_checkin,
+    record_last_greeting_hook,
 )
 
 settings: Settings = load_settings()
@@ -62,16 +64,18 @@ class VisitorResponse(BaseModel):
 
 class ChatRequest(BaseModel):
     visitor_id: str
-    message: str | None = None
+    message: Optional[str] = None
+    # Client sends prior turns; invalid roles/empty content filtered in sanitize_history.
+    history: list[dict[str, Any]] = Field(default_factory=list)
 
 
 class ChatResponse(BaseModel):
     reply: str
     harvey_status_snapshot: dict[str, Any]
-    art_prompt: str | None = None
-    art_image_url: str | None = None
+    art_prompt: Optional[str] = None
+    art_image_url: Optional[str] = None
     fallback: bool = False
-    trace_id: str | None = None
+    trace_id: Optional[str] = None
 
 
 class NoteCreate(BaseModel):
@@ -165,6 +169,7 @@ def post_chat(body: ChatRequest) -> ChatResponse:
     message = (body.message or "").strip()
     is_greeting = not message
     include_art = should_include_art_card(message)
+    history = [] if is_greeting else sanitize_history(body.history)
     user_message = (
         build_greeting_user_message(visitor, status=status, settings=settings)
         if is_greeting
@@ -192,6 +197,7 @@ def post_chat(body: ChatRequest) -> ChatResponse:
                 settings,
                 system=system,
                 user_message=user_message,
+                history=history,
                 require_art=include_art,
             )
             fallback = False
@@ -241,6 +247,12 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         record_checkin(settings, body.visitor_id, harvey_mile=mile_value)
     except VisitorNotFound:
         pass
+
+    if is_greeting and reply:
+        try:
+            record_last_greeting_hook(settings, body.visitor_id, hook=reply)
+        except VisitorNotFound:
+            pass
 
     return ChatResponse(
         reply=reply,

@@ -110,9 +110,18 @@ def test_greeting_message_return_visit(settings: Settings) -> None:
     visitor = get_visitor(settings, visitor["id"])
     status = load_status(settings.status_path)
     msg = build_greeting_user_message(visitor, status=status, settings=settings)
-    assert "catch-up" in msg.lower() or "lead immediately" in msg.lower()
-    assert "50" in msg
+    assert "catch-up" in msg.lower() or "fresh opener" in msg.lower()
+    assert "vary" in msg.lower() or "fresh" in msg.lower()
     assert "wait for them to say yes" not in msg.lower()
+
+
+def test_greeting_message_variety_hint(settings: Settings) -> None:
+    visitor = create_visitor(settings, name="Dan", relationship="friend")
+    visitor["last_greeting_hook"] = "socks and drop bags again"
+    status = load_status(settings.status_path)
+    msg = build_greeting_user_message(visitor, status=status, settings=settings)
+    assert "socks and drop bags" in msg
+    assert "fresh" in msg.lower()
 
 
 def test_system_prompt_includes_status(settings: Settings) -> None:
@@ -225,6 +234,106 @@ def test_signal_gap_context_when_stale() -> None:
     assert gap
     assert gap["title"]
     assert gap["detail"]
+
+
+def test_chat_passes_sanitized_history(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> None:
+    import app as app_module
+
+    captured: dict = {}
+
+    def fake_completion(
+        _settings: Settings,
+        *,
+        system: str,
+        user_message: str,
+        history: list | None = None,
+        require_art: bool = False,
+    ) -> dict[str, str]:
+        captured["system"] = system
+        captured["history"] = history
+        captured["user_message"] = user_message
+        return {"reply": "Follow-up answer."}
+
+    monkeypatch.setattr(app_module, "chat_completion", fake_completion)
+    monkeypatch.setattr(app_module, "settings", settings)
+    client = TestClient(app_module.app)
+
+    created = client.post("/visitors", json={"name": "Dan", "relationship": "friend"})
+    visitor_id = created.json()["visitor_id"]
+
+    response = client.post(
+        "/chat",
+        json={
+            "visitor_id": visitor_id,
+            "message": "Which ones have crew access?",
+            "history": [
+                {"role": "user", "content": "What aids on Friday?"},
+                {"role": "assistant", "content": "Start, Heavenly, Armstrong."},
+                {"role": "system", "content": "ignored"},
+            ],
+        },
+    )
+    assert response.status_code == 200
+    assert len(captured["history"]) == 2
+    assert captured["user_message"] == "Which ones have crew access?"
+
+
+def test_greeting_ignores_client_history(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> None:
+    import app as app_module
+
+    captured: dict = {}
+
+    def fake_completion(
+        _settings: Settings,
+        *,
+        system: str,
+        user_message: str,
+        history: list | None = None,
+        require_art: bool = False,
+    ) -> dict[str, str]:
+        captured["history"] = history
+        return {"reply": "Fresh opener."}
+
+    monkeypatch.setattr(app_module, "chat_completion", fake_completion)
+    monkeypatch.setattr(app_module, "settings", settings)
+    client = TestClient(app_module.app)
+
+    created = client.post("/visitors", json={"name": "Dan", "relationship": "friend"})
+    visitor_id = created.json()["visitor_id"]
+
+    client.post(
+        "/chat",
+        json={
+            "visitor_id": visitor_id,
+            "history": [{"role": "user", "content": "old thread"}],
+        },
+    )
+    assert captured["history"] == []
+
+
+def test_greeting_records_last_hook(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> None:
+    import app as app_module
+
+    def fake_completion(
+        _settings: Settings,
+        *,
+        system: str,
+        user_message: str,
+        history: list | None = None,
+        require_art: bool = False,
+    ) -> dict[str, str]:
+        return {"reply": "Nilbog's toes are undefeated."}
+
+    monkeypatch.setattr(app_module, "chat_completion", fake_completion)
+    monkeypatch.setattr(app_module, "settings", settings)
+    client = TestClient(app_module.app)
+
+    created = client.post("/visitors", json={"name": "Dan", "relationship": "friend"})
+    visitor_id = created.json()["visitor_id"]
+    client.post("/chat", json={"visitor_id": visitor_id})
+
+    visitor = get_visitor(settings, visitor_id)
+    assert "Nilbog" in visitor.get("last_greeting_hook", "")
 
 
 def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> None:

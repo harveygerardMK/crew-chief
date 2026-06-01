@@ -8,7 +8,10 @@ const STORAGE = {
   visitorRelationship: "cc_visitor_relationship",
   cachedStatus: "cc_cached_status",
   simulationDismissed: "cc_simulation_dismissed",
+  chatHistory: "cc_chat_history",
 };
+
+const MAX_CHAT_HISTORY = 10;
 
 const PROMPT_CHIPS = {
   family: ["How is he doing?", "Is he resting or moving?", "Should I worry?"],
@@ -192,6 +195,35 @@ function setVisitor(id, name, relationship) {
 
 function getVisitorRelationship() {
   return localStorage.getItem(STORAGE.visitorRelationship) || "friend";
+}
+
+function clearChatHistory() {
+  sessionStorage.removeItem(STORAGE.chatHistory);
+}
+
+function loadChatHistory() {
+  try {
+    const raw = sessionStorage.getItem(STORAGE.chatHistory);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveChatHistory(entries) {
+  sessionStorage.setItem(
+    STORAGE.chatHistory,
+    JSON.stringify(entries.slice(-MAX_CHAT_HISTORY)),
+  );
+}
+
+function pushChatTurn(role, content) {
+  const text = String(content || "").trim();
+  if (!text) return;
+  const history = loadChatHistory();
+  history.push({ role, content: text });
+  saveChatHistory(history);
 }
 
 function cacheStatus(status) {
@@ -515,12 +547,13 @@ function setBusy(next) {
   $("onboarding-submit").disabled = next;
 }
 
-async function requestChat(message = null) {
+async function requestChat(message = null, history = null) {
   const visitorId = getVisitorId();
   if (!visitorId) throw new Error("Not registered");
 
   const body = { visitor_id: visitorId };
   if (message) body.message = message;
+  if (history && history.length > 0) body.history = history;
 
   return api("/chat", {
     method: "POST",
@@ -546,7 +579,7 @@ async function loadGreeting() {
   if (greetingDone) return;
   const loading = appendThinkingMessage();
   try {
-    const data = await requestChat();
+    const data = await requestChat(null, []);
     loading.remove();
     appendMessage({
       role: "harvey",
@@ -554,6 +587,7 @@ async function loadGreeting() {
       artPrompt: data.art_prompt || null,
       artImageUrl: data.art_image_url || null,
     });
+    pushChatTurn("assistant", data.reply);
     handleChatResponse(data);
     greetingDone = true;
     exchangeCount += 1;
@@ -574,9 +608,10 @@ async function sendUserMessage(text) {
   exchangeCount += 1;
   updateNoteButton();
 
+  const priorHistory = loadChatHistory();
   const loading = appendThinkingMessage();
   try {
-    const data = await requestChat(text);
+    const data = await requestChat(text, priorHistory);
     loading.remove();
     appendMessage({
       role: "harvey",
@@ -584,6 +619,8 @@ async function sendUserMessage(text) {
       artPrompt: data.art_prompt || null,
       artImageUrl: data.art_image_url || null,
     });
+    pushChatTurn("user", text);
+    pushChatTurn("assistant", data.reply);
     handleChatResponse(data);
     exchangeCount += 1;
     updateNoteButton();
@@ -734,6 +771,7 @@ async function init() {
 
   const visitorId = getVisitorId();
   if (visitorId) {
+    clearChatHistory();
     showChat();
     await loadGreeting();
   }
