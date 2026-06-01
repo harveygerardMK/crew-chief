@@ -115,6 +115,40 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.stat-info {
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+.stat-info:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
+.stat-tooltip {
+  padding: 0.55rem 1rem 0.6rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  animation: stat-tooltip-in 0.12s ease;
+}
+
+@keyframes stat-tooltip-in {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .stat-block__value {

@@ -791,6 +791,36 @@ simulationDismiss?.addEventListener("click", () => {
   simulationBanner?.classList.add("hidden");
 });
 
+const STAT_INFO = {
+  mile: "Harvey's position on the 200.4-mile course. Updates every few minutes when GPS is active.",
+  speed: "Moving pace in mph. 0.0 means stopped — sleeping, at an aid, or in a signal gap. All normal.",
+  update: "When the tracker last got a GPS fix. Hours of silence is completely normal in canyons and at sleep stations.",
+  race: "Current race status — racing, sleeping, or finished. 'Pre-race' until the gun goes off June 12.",
+};
+
+const statTooltip = $("stat-tooltip");
+
+document.querySelectorAll(".stat-info").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const stat = btn.dataset.stat;
+    const text = STAT_INFO[stat];
+    if (!text || !statTooltip) return;
+    const isOpen = !statTooltip.classList.contains("hidden") && statTooltip.dataset.stat === stat;
+    if (isOpen) {
+      statTooltip.classList.add("hidden");
+    } else {
+      statTooltip.textContent = text;
+      statTooltip.dataset.stat = stat;
+      statTooltip.classList.remove("hidden");
+    }
+  });
+});
+
+document.addEventListener("click", () => {
+  statTooltip?.classList.add("hidden");
+});
+
 async function init() {
   fixCrewSiteLink();
 
