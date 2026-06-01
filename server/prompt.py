@@ -60,6 +60,24 @@ def load_harvey_profile() -> str:
     return ""
 
 
+_CONTENT_PAGES_DIR = REPO_ROOT / "src" / "content" / "pages"
+_CONTENT_PAGE_ORDER = [
+    "about-the-race.md",
+    "course-overview.md",
+    "pacer-onboarding.md",
+    "rules-summary.md",
+]
+
+
+def load_course_content() -> str:
+    parts = []
+    for filename in _CONTENT_PAGE_ORDER:
+        path = _CONTENT_PAGES_DIR / filename
+        if path.is_file():
+            parts.append(path.read_text(encoding="utf-8").strip())
+    return "\n\n---\n\n".join(parts)
+
+
 def load_fallback(settings: Settings) -> str:
     if settings.fallback_path.is_file():
         return settings.fallback_path.read_text(encoding="utf-8").strip()
@@ -156,6 +174,9 @@ def build_system_prompt(
     profile = load_harvey_profile()
     if profile:
         parts.append(profile)
+    course_content = load_course_content()
+    if course_content:
+        parts.append(f"## Course & race context\n\n{course_content}")
     parts.extend(
         [
             format_status_block(status),
