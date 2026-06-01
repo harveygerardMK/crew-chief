@@ -44,3 +44,4 @@ General defaults:
 - **Meet point:** Barker Pass aid station. No crew access — Gangle gets there as a pacer.
 - **Crew handoff at Tahoe City:** Amanda and crew will be at Tahoe City. Park at Transit Center, walk 0.2 mi.
 - **After handoff:** Queen Z takes over Leg C from Tahoe City.
+- **Base camp:** Eli's house — Amanda, Gangle, and Queen Z are all staying there for the race. One car between the crew.

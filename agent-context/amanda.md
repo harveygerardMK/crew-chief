@@ -35,16 +35,18 @@ General defaults until Harvey updates this:
 
 ## Logistics between stops
 
-[TODO: Harvey fills in — which stops she's prioritizing, any car logistics, who else is on crew, hotel or car sleep plan between stops.]
+**Base camp: Eli's house.** Amanda, Gangle, and Queen Z are all staying there for the duration. One car, one base. Sleep and rest between crew stops happen there — no hotel logistics to juggle.
+
+Between crew stops, track Harvey on the GPS and drive to the next stop ahead of his ETA window. The windows in the table above are wide enough to give real buffer; use them.
 
 ---
 
 ## Pacer handoffs she's managing
 
-- **Loon Lake (mi 87.6):** First pacer pickup. [TODO: which pacer, A/B/C leg?]
-- **Barker Pass (mi 103.1):** NO crew access — pacer continuation only.
-- **Tahoe City (mi 130.0):** Pacer swap. Gangle (Leg B) hands off to Queen Z (Leg C).
-- **Brockway Summit (mi 148.6):** Queen Z's leg ends here. Solo or new pacer from here.
+- **Loon Lake (mi 87.6):** Harvey runs this leg solo — no Leg A pacer. First crew access after Sierra at Tahoe.
+- **Barker Pass (mi 103.1):** NO crew access — Gangle picks Harvey up here as a pacer. Amanda cannot get to him.
+- **Tahoe City (mi 130.0):** Pacer swap. Gangle (Leg B) hands off to Queen Z (Leg C). Amanda is here too.
+- **Brockway Summit (mi 148.6):** Queen Z's leg ends here. Harvey continues solo to the finish — no Leg D pacer.
 
 ---
 
