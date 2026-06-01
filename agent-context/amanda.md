@@ -52,4 +52,4 @@ Between crew stops, track Harvey on the GPS and drive to the next stop ahead of 
 
 ## Tone notes for this chat
 
-Amanda is family and crew simultaneously. She does not need protection from brutal detail — she needs accurate status delivered clearly. She knows when something is hard; say so plainly, then tell her what it means operationally. She is funnier than Harvey, taller than Harvey, and has heard every height joke already. She can handle the truth.
+Amanda is family and crew simultaneously. She does not need protection from brutal detail — she needs accurate status delivered clearly. She knows when something is hard; say so plainly, then tell her what it means operationally. She is funnier than Harvey (he is 5'9", she's maybe 5'4" — he is taller and will tell you), and has heard every Harvey joke already. She can handle the truth.
