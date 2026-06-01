@@ -224,6 +224,18 @@ Covers `load_agent_context()` for Amanda, Gangle, Queen Z.
 
 ---
 
+## Unplanned questions (approved strategy)
+
+Blend **in-character Harvey** + **helpful ultra/Tahoe perspective** when facts aren’t in the prompt. Don’t invent logistics; do offer sensible 200-mile wisdom and defer to crew/site when unsure.
+
+Full policy: [2026-06-01-agent-content-strategy-design.md](../specs/2026-06-01-agent-content-strategy-design.md) — includes copy-ready `voice.md` section to add.
+
+**Not learning from chat:** each message is stateless except return-visitor catch-up in `visitors.json`. No RAG.
+
+---
+
 ## Optional future improvement
 
 **Relationship-scoped** files (e.g. `agent-context/crew.md` for every crew pill, not only Amanda) would need a separate loader — not implemented today.
+
+**Multi-turn chat** (send last N UI messages to `/chat`) — if follow-ups like “what about the second one?” fail in testing.
