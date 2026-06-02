@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Tahoe 200 — June 2026</name>
+    <description>All aid stations, crew stops, and key locations for Harvey's Tahoe 200. Color key: Green = Crew access, Blue = Drop bag only (no crew), Red = Sleep station, Yellow = Pacer pickup.</description>
+
+    <!-- Styles -->
+    <Style id="crew-stop">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon><href>http://maps.google.com/mapfiles/ms/icons/green-dot.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="drop-only">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon><href>http://maps.google.com/mapfiles/ms/icons/blue-dot.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="sleep-station">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon><href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="pacer-only">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon><href>http://maps.google.com/mapfiles/ms/icons/yellow-dot.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="parking">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon><href>http://maps.google.com/mapfiles/ms/icons/purple-dot.png</href></Icon>
+      </IconStyle>
+    </Style>
+
+    <!-- ===== CREW STOPS ===== -->
+    <Folder>
+      <name>🟢 Crew Stops</name>
+      <description>Stations where the crew vehicle has access. Show your crew pass.</description>
+
+      <Placemark>
+        <name>Start / Finish — Heavenly Stagecoach (Mi 0 / 200.4)</name>
+        <description><![CDATA[<b>Mile 0 (Start) · Mile 200.4 (Finish)</b><br>
+Crew access · Drop bag · Cutoff: Fri 9:00 AM start / Tue 6:00 PM finish<br><br>
+<b>Start:</b> Harvey departs Fri Jun 12, 9:00 AM<br>
+<b>Finish window:</b> Mon Jun 15 9:00 AM (72 hr) – Mon 5:00 PM (80 hr)<br><br>
+375 Quaking Aspen Ln, Stateline, NV 89449<br>
+Parking: Lower lot. Overnight OK.<br><br>
+Drop bag: BAG 1 (Heavenly mi 10 — same site)]]></description>
+        <styleUrl>#crew-stop</styleUrl>
+        <Point><coordinates>-119.88593,38.96107,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Sierra at Tahoe — Crew Stop 2 (Mi 52.2)</name>
+        <description><![CDATA[<b>Mile 52.2</b><br>
+Crew access · Drop bag · Cutoff: Sat 11:30 AM<br><br>
+<b>Harvey arrives:</b> Fri ~10:20 PM – Sat midnight (72–80 hr)<br>
+First major crew stop. Full foot care + kit reset.<br><br>
+Parking: Standard aid-station parking. Display crew pass.<br><br>
+Drop bag: BAG 3]]></description>
+        <styleUrl>#crew-stop</styleUrl>
+        <Point><coordinates>-120.08097,38.80072,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Loon Lake — Crew Stop 3 / Pacer Leg A Start (Mi 87.6)</name>
+        <description><![CDATA[<b>Mile 87.6</b><br>
+Crew access · Drop bag · Pacer pickup · Cutoff: Sun 6:30 AM<br><br>
+<b>Harvey arrives:</b> Sat ~2:48–6:06 PM (72–80 hr)<br>
+PACER #1 (Leg A) picks up here. Full kit reset.<br><br>
+⚠️ Parking: Icehouse Rd ONLY — do NOT use Wrights Lake Rd<br><br>
+Drop bag: BAG 5 (backup — crew covers primary)]]></description>
+        <styleUrl>#crew-stop</styleUrl>
+        <Point><coordinates>-120.31479,38.98226,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Tahoe City — Crew Stop 4 / Pacer Leg B End + C Start (Mi 130.0)</name>
+        <description><![CDATA[<b>Mile 130.0</b><br>
+Crew access · Drop bag · Pacer swap · Cutoff: Mon 4:30 AM<br><br>
+<b>Harvey arrives:</b> Sun ~8:06 AM – 1:24 PM (72–80 hr)<br>
+Gangle (Leg B) ends here. Queen Z (Leg C) starts here.<br><br>
+⚠️ Parking: Transit Center — walk 0.2 mi to aid station<br><br>
+Drop bag: BAG 8 (backup)]]></description>
+        <styleUrl>#crew-stop</styleUrl>
+        <Point><coordinates>-120.14735,39.16445,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Brockway Summit — Crew Stop 5 / Sleep / Pacer Leg C End (Mi 148.6)</name>
+        <description><![CDATA[<b>Mile 148.6</b><br>
+Crew access · Drop bag · Sleep station · Pacer · Cutoff: Mon 2:30 PM<br><br>
+<b>Harvey arrives:</b> Sun ~3:12–9:18 PM (72–80 hr)<br>
+Sleep stop — 6 hr max. Queen Z (Leg C) ends here.<br><br>
+⚠️ Parking: Designated lot — walk 0.6 mi to aid station<br><br>
+Drop bag: BAG 9 (sleep backup)]]></description>
+        <styleUrl>#crew-stop</styleUrl>
+        <Point><coordinates>-120.08087,39.25748,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Village Green — Crew Stop 6 (Mi 163.6)</name>
+        <description><![CDATA[<b>Mile 163.6</b><br>
+Crew access · Drop bag · Pacer · Cutoff: Mon 10:00 PM<br><br>
+<b>Harvey arrives:</b> Sun ~8:48 PM – Mon ~3:33 AM (72–80 hr)<br>
+Quick stop. Headlamp swap, caffeine, warm layers.<br><br>
+Parking: Green-marked crew areas<br><br>
+Drop bag: BAG 10 (light backup)]]></description>
+        <styleUrl>#crew-stop</styleUrl>
+        <Point><coordinates>-119.94491,39.24127,0</coordinates></Point>
+      </Placemark>
+
+    </Folder>
+
+    <!-- ===== DROP BAG ONLY (NO CREW) ===== -->
+    <Folder>
+      <name>🔵 Drop Bag Only — No Crew Access</name>
+      <description>Stations with drop bags but no crew vehicle access. Harvey's bag is his only support here.</description>
+
+      <Placemark>
+        <name>Armstrong Pass — No Drop Bag (Mi 26.0)</name>
+        <description><![CDATA[<b>Mile 26.0</b><br>
+No crew · No drop bag · Full aid<br><br>
+Aid station only — no bags, no crew.<br>
+Rough road. Lug-a-Loo toilets.]]></description>
+        <styleUrl>#drop-only</styleUrl>
+        <Point><coordinates>-119.90041,38.83051,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Housewife Hill — Drop Bag Only (Mi 43.2)</name>
+        <description><![CDATA[<b>Mile 43.2</b><br>
+No crew · Drop bag<br><br>
+<b>Harvey arrives:</b> Fri ~8:00–9:15 PM (72–80 hr)<br>
+First solo stop. Entering Rubicon dust zone.<br><br>
+Drop bag: BAG 2 — Medium (socks, gels, dust masks, foot care)]]></description>
+        <styleUrl>#drop-only</styleUrl>
+        <Point><coordinates>-120.01778,38.79596,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Stephen Jones Memorial — Drop Bag / Pacer (Mi 110.6)</name>
+        <description><![CDATA[<b>Mile 110.6</b><br>
+No crew · Drop bag · Pacer access<br><br>
+<b>Harvey arrives:</b> Sun ~12:12 AM – 4:52 AM (72–80 hr)<br>
+Quick stop, Gangle (Leg B) has Harvey. Light fuel top-off.<br><br>
+Drop bag: BAG 7 — Light (gels, socks, batteries, tape)]]></description>
+        <styleUrl>#drop-only</styleUrl>
+        <Point><coordinates>-120.15854,39.11393,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Spooner Summit — Drop Bag / Pacer (Mi 182.3)</name>
+        <description><![CDATA[<b>Mile 182.3</b><br>
+No crew · Drop bag · Pacer access · Cutoff: Tue 8:00 AM<br><br>
+<b>Harvey arrives:</b> Mon ~3:00–11:00 AM (72–80 hr)<br>
+FINAL PUSH — 18.1 miles to the buckle. Don't leave anything in this bag.<br><br>
+Drop bag: BAG 11 — Medium/Final push (big caffeine, calories, headlamp)]]></description>
+        <styleUrl>#drop-only</styleUrl>
+        <Point><coordinates>-119.89581,39.10374,0</coordinates></Point>
+      </Placemark>
+
+    </Folder>
+
+    <!-- ===== SLEEP STATIONS ===== -->
+    <Folder>
+      <name>🔴 Sleep Stations</name>
+      <description>Designated sleep stops. 6-hour maximum. Beds for runners first; pacers only if available.</description>
+
+      <Placemark>
+        <name>Wrights Lake — SLEEP / Drop Bag Only (Mi 70.7)</name>
+        <description><![CDATA[<b>Mile 70.7</b><br>
+No crew · Drop bag · SLEEP STATION · Cutoff: Sat 9:30 PM<br><br>
+<b>Harvey arrives:</b> Sat ~6:55–9:23 AM (72–80 hr)<br>
+Most critical drop bag. Sleep 1–2 hrs, full clothing change, foot care.<br>
+Pick up trekking poles here.<br><br>
+⚠️ No crew on Wrights Lake Road<br><br>
+Drop bag: BAG 4 — FULL SLEEP (sleeping bag, full kit change, full foot care, night fuel)]]></description>
+        <styleUrl>#sleep-station</styleUrl>
+        <Point><coordinates>-120.23897,38.848,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Barker Pass — SLEEP / Pacer Leg B Start (Mi 103.1)</name>
+        <description><![CDATA[<b>Mile 103.1</b><br>
+No crew · Drop bag · Pacer access · SLEEP STATION · Cutoff: Sun 2:30 PM<br><br>
+<b>Harvey arrives:</b> Sat ~9:06 PM – Sun ~1:09 AM (72–80 hr)<br>
+Second sleep stop. Gangle (Leg B) picks up here and runs to Tahoe City.<br>
+Gangle drives his own car to Barker Pass — coordinate vehicle return with Leg A pacer.<br><br>
+Drop bag: BAG 6 — FULL SLEEP (sleeping bag, kit change, foot care, night fuel)]]></description>
+        <styleUrl>#sleep-station</styleUrl>
+        <Point><coordinates>-120.23305,39.07662,0</coordinates></Point>
+      </Placemark>
+
+    </Folder>
+
+    <!-- ===== CREW PARKING ===== -->
+    <Folder>
+      <name>🟣 Crew Parking Notes</name>
+      <description>Specific parking locations where crew parks and walks to the aid station.</description>
+
+      <Placemark>
+        <name>Tahoe City — Transit Center Parking (walk 0.2 mi)</name>
+        <description><![CDATA[Park at the Tahoe City Transit Center and walk 0.2 miles to the aid station at Commons Beach.<br><br>
+Arrival window: Sun ~8:06 AM – 1:24 PM]]></description>
+        <styleUrl>#parking</styleUrl>
+        <Point><coordinates>-120.14316,39.16723,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Brockway Summit — Designated Crew Lot (walk 0.6 mi)</name>
+        <description><![CDATA[Park in designated crew area and walk 0.6 miles to the aid station.<br><br>
+Arrival window: Sun ~3:12–9:18 PM<br>
+Sleep stop — 6 hr max for Harvey.]]></description>
+        <styleUrl>#parking</styleUrl>
+        <Point><coordinates>-120.07500,39.25200,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Loon Lake — Icehouse Rd Access Point</name>
+        <description><![CDATA[⚠️ Use Icehouse Rd ONLY.<br>
+Do NOT use Wrights Lake Rd — no crew access on that route.<br><br>
+Arrival window: Sat ~2:48–6:06 PM<br>
+Pacer #1 (Leg A) picks up here.]]></description>
+        <styleUrl>#parking</styleUrl>
+        <Point><coordinates>-120.30000,38.97500,0</coordinates></Point>
+      </Placemark>
+
+    </Folder>
+
+    <!-- ===== PACER PICKUP POINTS ===== -->
+    <Folder>
+      <name>🟡 Pacer Pickup Points</name>
+      <description>Where each pacer meets Harvey. Pacers must have their own mandatory gear and pacer bib.</description>
+
+      <Placemark>
+        <name>Leg A Start — Loon Lake (Mi 87.6) · Pacer TBD</name>
+        <description><![CDATA[<b>Leg A: Loon Lake → Barker Pass (15.5 mi · 2,712 ft gain)</b><br>
+Pacer: TBD — UNASSIGNED<br><br>
+<b>Harvey arrives:</b> Sat ~2:48–6:06 PM<br>
+First pacer leg — climbing, daylight into evening.<br><br>
+Access via Icehouse Rd]]></description>
+        <styleUrl>#pacer-only</styleUrl>
+        <Point><coordinates>-120.31479,38.98226,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Leg B Start — Barker Pass (Mi 103.1) · Gangle</name>
+        <description><![CDATA[<b>Leg B: Barker Pass → Tahoe City (26.9 mi · 2,843 ft gain)</b><br>
+Pacer: Gangle (Brendan Gangl)<br><br>
+<b>Harvey arrives:</b> Sat ~9:06 PM – Sun ~1:09 AM<br>
+Longest leg — overnight, Stephen Jones (110.6) in the middle.<br>
+Gangle should arrive by Sat 7:00 PM to cover the early window.<br><br>
+⚠️ Gangle drives himself to Barker Pass. Vehicle stays here while he runs to TC.]]></description>
+        <styleUrl>#pacer-only</styleUrl>
+        <Point><coordinates>-120.23305,39.07662,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Leg C Start — Tahoe City (Mi 130.0) · Queen Z</name>
+        <description><![CDATA[<b>Leg C: Tahoe City → Brockway Summit (18.6 mi · 3,476 ft gain)</b><br>
+Pacer: Queen Z (Zuzy)<br><br>
+<b>Harvey arrives:</b> Sun ~8:06 AM – 1:24 PM<br>
+Biggest single climb on the back half. Queen Z should arrive by Sun 7:00 AM.<br><br>
+Parking: Transit Center — walk 0.2 mi to aid]]></description>
+        <styleUrl>#pacer-only</styleUrl>
+        <Point><coordinates>-120.14735,39.16445,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Leg D Start — Brockway Summit (Mi 148.6) · Pacer TBD</name>
+        <description><![CDATA[<b>Leg D: Brockway Summit → Village Green (15.0 mi · 2,164 ft gain)</b><br>
+Pacer: TBD — UNASSIGNED<br><br>
+<b>Harvey arrives:</b> Sun ~3:12–9:18 PM (then sleeps 6 hrs)<br>
+Mostly downhill (3,142 ft loss). Night section. Quad punishment.<br><br>
+Parking: Designated lot — walk 0.6 mi]]></description>
+        <styleUrl>#pacer-only</styleUrl>
+        <Point><coordinates>-120.08087,39.25748,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Leg E Start — Village Green (Mi 163.6) · Pacer TBD</name>
+        <description><![CDATA[<b>Leg E: Village Green → Spooner Summit (18.7 mi · 3,716 ft gain)</b><br>
+Pacer: TBD — UNASSIGNED<br><br>
+<b>Harvey arrives:</b> Sun ~8:48 PM – Mon ~3:33 AM<br>
+Hardest mental leg. Pre-dawn. Biggest climb on the back half.<br><br>
+⚠️ Leg ends at Spooner Summit — no crew access. Pacer needs own exit plan.]]></description>
+        <styleUrl>#pacer-only</styleUrl>
+        <Point><coordinates>-119.94491,39.24127,0</coordinates></Point>
+      </Placemark>
+
+      <Placemark>
+        <name>Leg F Start — Spooner Summit (Mi 182.3) · Pacer TBD</name>
+        <description><![CDATA[<b>Leg F: Spooner Summit → Finish (18.1 mi · 3,294 ft gain)</b><br>
+Pacer: TBD — UNASSIGNED<br><br>
+<b>Harvey arrives:</b> Mon ~3:00–11:00 AM<br>
+Final leg. 18.1 miles to the buckle. Pacer finishes at Heavenly.<br><br>
+⚠️ No crew at Spooner. Pacer drives themselves here.]]></description>
+        <styleUrl>#pacer-only</styleUrl>
+        <Point><coordinates>-119.89581,39.10374,0</coordinates></Point>
+      </Placemark>
+
+    </Folder>
+
+  </Document>
+</kml>
