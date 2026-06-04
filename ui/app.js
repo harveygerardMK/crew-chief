@@ -11,6 +11,7 @@ const STORAGE = {
   cachedStatus: "cc_cached_status",
   simulationDismissed: "cc_simulation_dismissed",
   chatHistory: "cc_chat_history",
+  welcomeSeen: "cc_welcome_seen",
 };
 
 const MAX_CHAT_HISTORY = 10;
@@ -821,7 +822,29 @@ document.addEventListener("click", () => {
   statTooltip?.classList.add("hidden");
 });
 
+function maybeShowWelcome() {
+  if (localStorage.getItem(STORAGE.welcomeSeen)) return;
+  if (localStorage.getItem(STORAGE.visitorId)) {
+    localStorage.setItem(STORAGE.welcomeSeen, "1");
+    return;
+  }
+  const overlay = $("welcome-overlay");
+  if (!overlay) return;
+  overlay.classList.remove("hidden");
+
+  function dismiss() {
+    overlay.classList.add("hidden");
+    localStorage.setItem(STORAGE.welcomeSeen, "1");
+  }
+
+  $("welcome-dismiss")?.addEventListener("click", dismiss);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) dismiss();
+  });
+}
+
 async function init() {
+  maybeShowWelcome();
   fixCrewSiteLink();
 
   try {

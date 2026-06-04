@@ -734,6 +734,89 @@ body {
   margin-top: 1rem;
 }
 
+/* Welcome overlay */
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--safe-top) 0 var(--safe-bottom);
+}
+
+@media (min-height: 600px) {
+  .welcome-overlay {
+    align-items: center;
+    padding: 1.5rem;
+  }
+}
+
+.welcome-overlay__card {
+  background: var(--surface);
+  border-radius: 12px 12px 8px 8px;
+  padding: 1.5rem 1.25rem 1.25rem;
+  width: 100%;
+  max-width: 26rem;
+  max-height: 90dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+@media (min-height: 600px) {
+  .welcome-overlay__card {
+    border-radius: 12px;
+  }
+}
+
+.welcome-overlay__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0;
+}
+
+.welcome-overlay__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.welcome-overlay__body p {
+  margin: 0;
+}
+
+.welcome-overlay__body ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.welcome-overlay__section-label {
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 0.25rem !important;
+}
+
+.welcome-overlay__link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.welcome-overlay__thanks {
+  color: var(--text);
+  font-style: italic;
+}
+
 /* PWA splash (standalone home screen only) */
 #splash {
   display: none;

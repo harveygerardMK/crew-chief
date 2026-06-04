@@ -36,22 +36,23 @@
       <header class="status-header" id="status-header">
         <div class="status-header__inner" id="status-strip">
           <div class="stat-block">
-            <span class="stat-block__label">Mile</span>
+            <span class="stat-block__label">Mile<button class="stat-info" aria-label="What is Mile?" data-stat="mile">ⓘ</button></span>
             <span class="stat-block__value" id="stat-mile">—</span>
           </div>
           <div class="stat-block">
-            <span class="stat-block__label">Speed</span>
+            <span class="stat-block__label">Speed<button class="stat-info" aria-label="What is Speed?" data-stat="speed">ⓘ</button></span>
             <span class="stat-block__value" id="stat-speed">—</span>
           </div>
           <div class="stat-block">
-            <span class="stat-block__label">Last ping</span>
+            <span class="stat-block__label">Last ping<button class="stat-info" aria-label="What is Last ping?" data-stat="update">ⓘ</button></span>
             <span class="stat-block__value stat-block__value--sm" id="stat-update">—</span>
           </div>
           <div class="stat-block">
-            <span class="stat-block__label">Status</span>
+            <span class="stat-block__label">Status<button class="stat-info" aria-label="What is Status?" data-stat="race">ⓘ</button></span>
             <span class="stat-block__value stat-block__value--sm" id="stat-race">—</span>
           </div>
         </div>
+        <div class="stat-tooltip hidden" id="stat-tooltip"></div>
         <p class="status-place hidden" id="stat-place" aria-live="polite"></p>
         <p class="status-banner hidden" id="status-banner" aria-live="polite"></p>
         <div class="status-sim hidden" id="simulation-banner" role="status">
@@ -136,6 +137,29 @@
           <button type="button" class="btn-cta btn-cta--inline" id="note-submit">Send note</button>
         </div>
         <p class="form-error hidden" id="note-error"></p>
+      </div>
+    </div>
+
+    <div class="welcome-overlay hidden" id="welcome-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+      <div class="welcome-overlay__card">
+        <h2 class="welcome-overlay__title" id="welcome-title">Hey. Quick thing before we start.</h2>
+        <div class="welcome-overlay__body">
+          <p>I'm Harvey Schaefer, and yes — I'm running 200 miles around Lake Tahoe. June 12–17, 2026. On purpose.</p>
+          <p>I know. I know.</p>
+          <p>But here's the thing: you're here watching, which makes you complicit. We're in this together now.</p>
+          <p class="welcome-overlay__section-label">What this is:</p>
+          <ul>
+            <li>Ask how I'm doing, where I am, what the race looks like — answered in real time from live GPS</li>
+            <li>Header up top shows mile, speed, and last ping</li>
+            <li>See the art version of my current suffering (just ask "how is he doing")</li>
+            <li>Leave me a note to read after I finish</li>
+            <li>And if you're feeling generous: <a class="welcome-overlay__link" href="https://venmo.com/harveyschaefer" target="_blank" rel="noopener">send a few bucks</a> — no pressure, seriously</li>
+          </ul>
+          <p class="welcome-overlay__section-label">Why your name matters:</p>
+          <p>Enter it once and this app remembers you — no giant Star Wars opening scroll every visit. You're in the system. You're crew now.</p>
+          <p class="welcome-overlay__thanks">Thanks for being here. It means more than I'll admit out loud.</p>
+        </div>
+        <button type="button" class="btn-cta" id="welcome-dismiss">Got it, let's go</button>
       </div>
     </div>
 
