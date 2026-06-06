@@ -9,6 +9,7 @@ const FILES = [
   "crew-stops.json",
   "race.json",
   "race-week.json",
+  "race-broadcast.json",
 ];
 
 const root = process.cwd();
