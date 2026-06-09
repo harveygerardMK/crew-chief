@@ -2,98 +2,72 @@
   {
     "leg": "A",
     "from": "Loon Lake (87.6)",
-    "to": "Barker Pass (103.1)",
+    "to": "Tahoe City (130.0)",
     "from_mile": 87.6,
-    "to_mile": 103.1,
-    "miles": 15.5,
-    "gain_ft": 2712,
-    "terrain_notes": "First pacer leg — climbing, mostly daylight into evening. I may nap at Barker after. Plan has me at Sierra (~52 mi) by Saturday midnight and picking you up here Saturday afternoon-ish.",
+    "to_mile": 130.0,
+    "miles": 42.4,
+    "gain_ft": 5555,
+    "terrain_notes": "The big one. Loon Lake through Barker Pass (sleep stop, mile 103.1) and Stephen Jones Memorial (mile 110.6) to Tahoe City. There is NO crew and NO pacer swap anywhere in this leg — once you start at Loon Lake you are with me until Tahoe City. I'll sleep at Barker Pass partway through; plan to rest there too. This is two nights and 42 miles. Only take this leg if you can cover the distance and handle broken sleep.",
     "what_to_bring": [
       "Full mandatory gear (same as runner)",
       "Pacer bib (provided at check-in)",
       "Headlamp + spare batteries",
       "GPX of course on your own device",
-      "Warm layers — gets cold up high"
+      "Warm layers — gets cold up high",
+      "Sun protection — daylight in the back half of this leg",
+      "Extra calories and water for long stretches between aids"
     ]
   },
   {
     "leg": "B",
-    "from": "Barker Pass (103.1)",
-    "to": "Tahoe City (130.0)",
-    "from_mile": 103.1,
-    "to_mile": 130.0,
-    "miles": 26.9,
-    "gain_ft": 2843,
-    "terrain_notes": "Barker → Stephen Jones (7.5 mi, no crew) → Tahoe City (19.4 mi). Long leg — fresh pacer helps. Overnight into Sunday.",
-    "what_to_bring": [
-      "Full mandatory gear",
-      "Pacer bib",
-      "Sun protection",
-      "Extra calories for you",
-      "Water for a long stretch"
-    ]
-  },
-  {
-    "leg": "C",
     "from": "Tahoe City (130.0)",
     "to": "Brockway Summit (148.6)",
     "from_mile": 130.0,
     "to_mile": 148.6,
     "miles": 18.6,
     "gain_ft": 3476,
-    "terrain_notes": "Big climb — 3,476 ft up. Sunday afternoon into evening. Sleep stop at Brockway after.",
+    "terrain_notes": "Biggest single climb on the back half — 3,476 ft up. Sunday afternoon into evening. Sleep stop at Brockway after. This section can cook in the heat; there are exposed stretches especially in the back half of the climb.",
     "what_to_bring": [
       "Full mandatory gear",
-      "Strong headlamp",
-      "Warm layers",
-      "Patience — I'll be deep in the pain cave"
+      "Pacer bib",
+      "Sun protection",
+      "Warm layers for the summit",
+      "Extra calories for you",
+      "Water for a long, hot climb"
     ]
   },
   {
-    "leg": "D",
+    "leg": "C",
     "from": "Brockway Summit (148.6)",
     "to": "Village Green (163.6)",
     "from_mile": 148.6,
     "to_mile": 163.6,
     "miles": 15.0,
     "gain_ft": 2164,
-    "terrain_notes": "Mostly down (~3,142 ft loss). Sunday night into Monday morning. Quads may be angry.",
+    "terrain_notes": "Mostly down (~3,142 ft loss). Sunday night into Monday morning. Quads may be angry after the Brockway climb. One stream crossing that's usually passable on rocks during race week.",
     "what_to_bring": [
       "Full mandatory gear",
       "Trekking poles if you use them",
-      "Calories",
-      "Headlamp"
-    ]
-  },
-  {
-    "leg": "E",
-    "from": "Village Green (163.6)",
-    "to": "Spooner Summit (182.3)",
-    "from_mile": 163.6,
-    "to_mile": 182.3,
-    "miles": 18.7,
-    "gain_ft": 3716,
-    "terrain_notes": "Longest climb on the back half. Monday morning. Probably the hardest mental leg.",
-    "what_to_bring": [
-      "Full mandatory gear",
+      "Strong headlamp + spare batteries",
       "Warm layers",
-      "Caffeine for you",
-      "Whatever gets you through a long grind"
+      "Calories"
     ]
   },
   {
-    "leg": "F",
-    "from": "Spooner Summit (182.3)",
+    "leg": "D",
+    "from": "Village Green (163.6)",
     "to": "Finish (200.4)",
-    "from_mile": 182.3,
+    "from_mile": 163.6,
     "to_mile": 200.4,
-    "miles": 18.1,
-    "gain_ft": 3294,
-    "terrain_notes": "Last ~18 miles to the buckle. Monday late morning into evening (plan ~6 PM finish). Good pacer here — keep the wheels on.",
+    "miles": 36.8,
+    "gain_ft": 7010,
+    "terrain_notes": "The final push, and the second-longest leg. Village Green through Spooner Summit (mile 182.3, no crew or pacer swap) to the finish at Heavenly. Two big climbs: 3,716 ft up to Spooner, then 3,294 ft up to the finish ridge. Starts pre-dawn Monday. The Spooner-to-finish stretch plays tricks on the mind — runnable but it feels endless. Your job is to keep the wheels on and get me to the buckle. Like Leg A, there is no legal swap point in this leg: once you start at Village Green you're with me to the finish.",
     "what_to_bring": [
       "Full mandatory gear",
+      "Caffeine for you — long pre-dawn grind",
+      "Warm layers (cold pre-dawn at altitude)",
       "Phone for finish photos",
-      "Whatever energy you have left"
+      "Calories and water for a long stretch with no crew"
     ]
   }
 ]

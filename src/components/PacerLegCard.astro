@@ -8,7 +8,7 @@ interface Props {
 const { leg } = Astro.props;
 ---
 
-<article class="pacer-leg-card">
+<article class="pacer-leg-card" id={`leg-${leg.leg.toLowerCase()}`}>
   <p class="pacer-leg-card__eyebrow">Leg {leg.leg}</p>
   <h3 class="pacer-leg-card__title">
     {leg.from} → {leg.to}

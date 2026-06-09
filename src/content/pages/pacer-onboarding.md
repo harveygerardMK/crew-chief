@@ -5,8 +5,8 @@ Thanks for thinking about pacing me at the Tahoe 200. Here's the straight story 
 ## The basics
 
 - **Pacing = running next to me** between aids for safety and company. You can't carry my gear or hand me food/water on trail.
-- **Earliest pickup: mile 87.6 (Loon Lake).** All six legs are Loon Lake to the finish.
-- **Legs are 15–27 miles each**, with 2,000–3,700 ft of climbing per leg.
+- **Earliest pickup: mile 87.6 (Loon Lake).** All four legs are Loon Lake to the finish.
+- **Legs are 15–42 miles each**, with 2,000–3,700 ft of climbing per leg.
 - **Assume night running.** Headlamp is mandatory.
 
 ## What it's actually like
