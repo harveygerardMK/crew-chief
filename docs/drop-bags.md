@@ -177,7 +177,7 @@ Most important bag. Sleep 1–2 hours. Change everything. Eat hot food before ly
 **Label: `BAG 5 · LOON LAKE · MILE 87.6`**
 
 **Race position:** 44% complete · ~33–34 hours elapsed  
-**Conditions ahead:** Leaving the Rubicon. Leg A with Pacer #1 starts here — 15.5 miles and 2,712 ft of climbing to Barker Pass (103.1). Evening into night. Terrain improves but elevation gain is significant.  
+**Conditions ahead:** Leaving the Rubicon. Leg A (the long pacer leg) starts here — 42.4 miles to Tahoe City (130.0) with no crew and no pacer swap in between. First climb is 2,712 ft to the Barker Pass sleep stop (103.1, a run-through for pacers, not a swap point). Evening into night. Elevation gain is significant.  
 **Arrival window:** Sat ~2:48–6:06 PM (afternoon/evening)
 
 Crew is here for full kit reset and pacer pickup. Drop bag is pure overflow backup.
@@ -291,7 +291,7 @@ Major crew stop with possible pacer swap. Drop bag is backup. Crew parks at Tran
 **Label: `BAG 9 · BROCKWAY SUMMIT · MILE 148.6 · SLEEP`**
 
 **Race position:** 74% complete · ~54–61 hours elapsed  
-**Conditions ahead:** Leg D — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Quad punishment after a big climb. Night section. Then Leg E — the longest climb on the back half, 3,716 ft to Spooner. Sleep here is critical to finishing strong.  
+**Conditions ahead:** Leg C — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Quad punishment after a big climb. Night section. Then Leg D — the final 36.8 miles to the finish, climbing 3,716 ft to Spooner Summit (182.3, a run-through, not a pacer swap) and on to Heavenly. Sleep here is critical to finishing strong.  
 **Arrival window:** Sun ~3:00 PM – 9:30 PM (afternoon/evening)
 
 Crew walks 0.6 mi from parking. Sleep stop — 6-hour max. Drop bag covers if crew is delayed or I arrive before them.
@@ -326,7 +326,7 @@ Crew walks 0.6 mi from parking. Sleep stop — 6-hour max. Drop bag covers if cr
 **Label: `BAG 10 · VILLAGE GREEN · MILE 163.6`**
 
 **Race position:** 82% complete · ~59–67 hours elapsed  
-**Conditions ahead:** Leg E — the hardest mental leg. 18.7 miles and 3,716 ft of climbing to Spooner Summit (182.3). Pre-dawn, deeply fatigued, this is where the race is won or lost mentally. Then Leg F (18.1 mi to finish) with last pacer.  
+**Conditions ahead:** Leg D — the final push and second-longest leg. 36.8 miles to the finish with no pacer swap: 3,716 ft up to Spooner Summit (182.3, a run-through) then 3,294 ft up to the finish ridge at Heavenly. Pre-dawn start, deeply fatigued — this is where the race is won or lost mentally.  
 **Arrival window:** Sun ~8:45 PM – Mon ~3:30 AM (night)
 
 Crew is here. Quick stop, 36.8 miles to go. Crew handles primary.

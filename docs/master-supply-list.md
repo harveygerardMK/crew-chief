@@ -147,7 +147,7 @@ Consolidated quantities across all 11 drop bags and 7 crew stops. Buy or assembl
 | Phone charger cables | 2 per device type | Car charger + backup |
 | Crew headlamps | 1 per crew member | You'll be out at night |
 | Crew warm layers | Full set per crew person | It gets cold at aid stations |
-| Crew sleeping bags / blankets | 1 per crew person | Sleep in car between stops |
+| Crew sleeping bags / blankets | 1 per crew person | Backup only — crew sleeps at Eli's in Truckee (real beds) |
 | Printed crew schedule (laminated) | 2 copies | One in car, one in crew bag |
 | Permanent marker | 2 | Drop bag labeling and station notes |
 

@@ -11,11 +11,11 @@ Harvey's goal: **finish Monday, 72–80 hours** (Mon 9 AM – Mon 5 PM). Plan ar
 | Mile | Aid station | Cutoff | Harvey ETA (72–80 hr window) | Parking note |
 |------|-------------|--------|------------------------------|--------------|
 | 0 / 10 | Start / Heavenly | Fri 9:00 AM | Fri 9:00 AM | Lower parking lot. Runners may park overnight. |
-| 52.2 | Sierra at Tahoe | Sat 11:30 AM | Fri 10:30 PM – midnight | — |
-| 87.6 | Loon Lake | Sun 6:30 AM | Sat 1:00 PM – 4:30 PM | Use Icehouse Rd — NO crew on Wrights Lake Rd. First pacer pickup here. |
-| 130.0 | Tahoe City | Mon 4:30 AM | Sun 7:00 AM – noon | Park at Transit Center, walk 0.2 mi to aid. |
-| 148.6 | Brockway Summit | Mon 2:30 PM | Sun 2:30 PM – 8:30 PM | Designated parking, walk 0.6 mi. |
-| 163.6 | Village Green | Mon 10:00 PM | Sun 8:00 PM – Mon 3:00 AM | Park in designated crew areas (marked green). |
+| 52.2 | Sierra at Tahoe | Sat 11:30 AM | Fri 10:20 PM – Sat 12:00 AM | — |
+| 87.6 | Loon Lake | Sun 6:30 AM | Sat 2:48 – 6:06 PM | Use Icehouse Rd — NO crew on Wrights Lake Rd. First pacer pickup here. |
+| 130.0 | Tahoe City | Mon 4:30 AM | Sun 8:06 AM – 1:24 PM | Park at Transit Center, walk 0.2 mi to aid. |
+| 148.6 | Brockway Summit | Mon 2:30 PM | Sun 3:12 – 9:18 PM | Designated parking, walk 0.6 mi. |
+| 163.6 | Village Green | Mon 10:00 PM | Sun 8:48 PM – Mon 3:33 AM | Park in designated crew areas (marked green). |
 | 200.4 | Finish (Heavenly) | Tue 6:00 PM | **Mon 9:00 AM – 5:00 PM** | Same site as start. |
 
 ---
@@ -43,10 +43,10 @@ Between crew stops, track Harvey on the GPS and drive to the next stop ahead of 
 
 ## Pacer handoffs she's managing
 
-- **Loon Lake (mi 87.6):** Harvey runs this leg solo — no Leg A pacer. First crew access after Sierra at Tahoe.
-- **Barker Pass (mi 103.1):** NO crew access — Gangle picks Harvey up here as a pacer. Amanda cannot get to him.
-- **Tahoe City (mi 130.0):** Pacer swap. Gangle (Leg B) hands off to Queen Z (Leg C). Amanda is here too.
-- **Brockway Summit (mi 148.6):** Queen Z's leg ends here. Harvey continues solo to the finish — no Leg D pacer.
+- **Loon Lake (mi 87.6):** First crew access after Sierra at Tahoe, and the **first legal pacer pickup**. The Leg A pacer (Loon Lake → Tahoe City) joins here once assigned.
+- **Barker Pass (mi 103.1):** NO crew access, and **NOT a pacer pickup point** — it's a mid-leg sleep stop Harvey passes through. Amanda cannot get to him here.
+- **Tahoe City (mi 130.0):** Pacer swap. The Leg A pacer hands off to Queen Z (Leg B). Amanda is here too.
+- **Brockway Summit (mi 148.6):** Queen Z's leg (Leg B) ends here. Legs C and D (Brockway → finish) are still being assigned — don't assume Harvey is solo from here.
 
 ---
 

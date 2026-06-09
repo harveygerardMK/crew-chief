@@ -60,17 +60,17 @@ This is an emotional moment. The plan:
 
 ## Pacer No-Show
 
-### Gangle (Leg B) doesn't make it to Barker Pass
-- Harvey runs Leg B solo — it's legal, just harder
-- Crew cannot get to Barker Pass or Stephen Jones to help
-- Text Gangle's leg info and start time to the next available person
-- Queen Z still picks up at Tahoe City as planned
-- If Gangle is just late: Harvey can wait at Barker Pass sleep station up to 6 hours
+### Leg A pacer doesn't make it to Loon Lake
+- Harvey runs Leg A solo — it's legal, just a long, hard 42.4 miles to Tahoe City with no crew in between
+- A pacer can only join at Loon Lake (NOT Barker Pass or Stephen Jones), so any replacement must reach Loon Lake before Harvey leaves
+- Text the Leg A start time and info to the next available person
+- Queen Z still picks up at Tahoe City as planned (Leg B)
+- If the pacer is just late: Harvey can wait at Loon Lake (crew is here), but the 72hr window keeps moving
 
-### Queen Z (Leg C) doesn't make it to Tahoe City
-- Harvey runs Leg C solo
+### Queen Z (Leg B) doesn't make it to Tahoe City
+- Harvey runs Leg B solo
 - Crew is at both Tahoe City and Brockway, so Harvey has crew support at each end
-- Text next available person for Leg D pickup at Brockway
+- Text the next available person for a Leg C pickup at Brockway
 
 ### Any other pacer no-show
 - All legs from Loon Lake onward are legal without a pacer

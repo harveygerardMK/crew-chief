@@ -5,9 +5,11 @@ The full ~90-hour crew operation from Thursday check-in through Monday finish. S
 Race start: **Friday June 12, 9:00 AM**  
 Target finish: **Monday June 15, ~9 AM–5 PM** (72–80 hr pace)
 
+**Home base: Eli's house in Truckee.** No car sleeping this race — the stops are spaced far enough apart that crew sleeps in a real bed for almost every window. Truckee drive times: Brockway ~15 min · Tahoe City ~25 min · Village Green ~35 min · Heavenly ~1 hr · Sierra ~1h15 · Loon Lake ~2h+ (the one long haul).
+
 ---
 
-## Thursday June 12 — Check-In Day
+## Thursday June 11 — Check-In Day
 
 | Time | Activity | Who |
 |------|----------|-----|
@@ -36,16 +38,16 @@ Target finish: **Monday June 15, ~9 AM–5 PM** (72–80 hr pace)
 ### Crew Sleep Window #1 — LONG
 **~11 AM Fri to 9:30 PM Fri (10+ hours)**
 
-- Sierra at Tahoe is ~1.5 hours from Heavenly
-- Harvey won't arrive until Fri 10:20 PM at earliest (72hr pace)
-- Sleep in car, hotel, or campground near Sierra at Tahoe
-- Set alarm for 9:30 PM
+- After the start, drive to Eli's in Truckee (~1 hr from Heavenly)
+- Harvey won't arrive at Sierra until Fri 10:20 PM at earliest (72hr pace)
+- Sleep in a real bed at Eli's — Sierra is ~1h15 away
 
 | Time | Activity |
 |------|----------|
-| 11 AM–9:30 PM | 💤 CREW SLEEP — hotel, car, or campground near Sierra at Tahoe |
-| 9:30 PM | Wake up, eat, set up foot care station |
-| 10:15 PM | Be at aid station, ready |
+| 11 AM–7:30 PM | 💤 CREW SLEEP — Eli's in Truckee (real bed) |
+| 7:30 PM | Wake up, eat, pack the car |
+| 8:45 PM | Leave Truckee for Sierra (~1h15) |
+| 10:15 PM | At Sierra aid station, set up foot care |
 
 ### Sierra at Tahoe Stop
 | Time | Activity |
@@ -64,11 +66,13 @@ Harvey is in the Rubicon wilderness. Crew cannot reach him. Track via wheresharv
 | ~2:30 AM | Arrive Loon Lake area (Icehouse Rd) |
 
 ### Crew Sleep Window #2 — LONG
-**~3 AM Sat to 1:00 PM Sat (10 hours)**
+**~3 AM Sat to ~1:00 PM Sat (10 hours)**
+
+Loon Lake is the one long haul (~2h+ from Eli's). Sleep at Eli's in Truckee if the double drive is worth a real bed, or rest closer to the course — your call.
 
 | Time | Activity |
 |------|----------|
-| 3:00 AM–1:00 PM Sat | 💤 CREW SLEEP — sleep in car at Loon Lake area |
+| 3:00 AM–1:00 PM Sat | 💤 CREW SLEEP — Eli's in Truckee (real bed) or near the course |
 | 1:00 PM | Wake up, eat, set up for Harvey |
 | 1:45 PM | Be ready at aid station — Harvey's 72hr window opens at 2:48 PM |
 
@@ -82,13 +86,13 @@ Harvey is in the Rubicon wilderness. Crew cannot reach him. Track via wheresharv
 ### Crew Sleep Window #3 — LONG
 **~7 PM Sat to 7 AM Sun (up to 12 hours)**
 
-Harvey is with Gangle on Legs A+B. No crew access between Loon Lake and Tahoe City. This is the longest free window.
+Harvey is on Leg A (Loon Lake → Tahoe City) with his pacer — one continuous leg, no crew access and no pacer swap in between. This is the longest free window.
 
 | Time | Activity |
 |------|----------|
-| Sat 7 PM–Sun 7 AM | 💤 CREW SLEEP — car at Tahoe City Transit Center or hotel nearby |
-| Sun 7:00 AM | Wake up, prep for Harvey |
-| Sun 7:30 AM | Walk 0.2 mi to aid station, set up |
+| Sat 7 PM–Sun 6:30 AM | 💤 CREW SLEEP — Eli's in Truckee (Tahoe City is ~25 min away) |
+| Sun 6:30 AM | Wake at Eli's, leave by 6:45 AM |
+| Sun 7:30 AM | At Tahoe City, walk 0.2 mi to aid station, set up |
 
 ---
 
@@ -110,11 +114,10 @@ Harvey is with Gangle on Legs A+B. No crew access between Loon Lake and Tahoe Ci
 **Harvey sleeps 6 hours after arriving. Crew sleep strategy at Brockway:**
 
 ### Crew Sleep Window #4 — PARTIAL
-**~4–5 hours in the car while Harvey sleeps**
+**~4–5 hours at Eli's while Harvey sleeps**
 
-- One crew person sets Harvey's alarm and stays within earshot
-- Other crew person sleeps in car
-- Swap at halfway point if possible
+- Brockway is ~15 min from Eli's. Once Harvey is down with his 6-hr alarm set (the aid station is staffed), slip home to Eli's and sleep in a real bed.
+- Do NOT skip your own rest. Set an alarm to be back 45 min before he wakes.
 
 | If Harvey arrives 3 PM | He departs by ~9 PM |
 |---|---|
@@ -123,12 +126,12 @@ Harvey is with Gangle on Legs A+B. No crew access between Loon Lake and Tahoe Ci
 
 | Time | Activity |
 |------|----------|
-| During Harvey's sleep | 💤 CREW SLEEP in car — take turns |
+| During Harvey's sleep | 💤 CREW SLEEP at Eli's (15 min away) — back 45 min before he wakes |
 | 30 min before Harvey wakes | Set up wake-up kit: coffee, gels, warm clothes |
 | Harvey wakes | Full kit, hot food, headlamp check, send him out |
 
 ### After Brockway
-Harvey is with Queen Z / Leg C–D pacers. Drive to Village Green.
+Queen Z's leg (Leg B) ends at Brockway. Harvey heads out on Leg C (Brockway → Village Green), then Leg D to the finish — those pacers are still being assigned. Drive to Village Green.
 
 | Time | Activity |
 |------|----------|
@@ -158,12 +161,12 @@ Harvey is with Queen Z / Leg C–D pacers. Drive to Village Green.
 
 | Window | Duration | Location |
 |--------|----------|----------|
-| Thu night | 6–8 hrs | Hotel/home |
-| Fri 11 AM – 9:30 PM | **~10.5 hrs** | Near Sierra at Tahoe |
-| Sat 3 AM – 1 PM | **~10 hrs** | Loon Lake area (car) |
-| Sat 7 PM – Sun 7 AM | **~12 hrs** | Tahoe City (car or hotel) |
-| Brockway sleep overlap | **~4–5 hrs** | Brockway lot (car, in shifts) |
-| **Total crew sleep available** | **~43 hrs** over the 80-hr event | |
+| Thu night | 6–8 hrs | Eli's in Truckee |
+| Fri 11 AM – 8:45 PM | **~9.5 hrs** | Eli's in Truckee |
+| Sat 3 AM – 1 PM | **~10 hrs** | Eli's (long haul) or near course |
+| Sat 7 PM – Sun 6:30 AM | **~11.5 hrs** | Eli's in Truckee |
+| Brockway sleep overlap | **~4–5 hrs** | Eli's (15 min, while he sleeps) |
+| **Total crew sleep available** | **~40 hrs** over the 80-hr event | |
 
 The windows are there — **use them**. A tired crew misses things, makes wrong turns, and can't run a good foot care station at 3 AM.
 
@@ -184,7 +187,7 @@ The windows are there — **use them**. A tired crew misses things, makes wrong 
 
 ## Crew Logistics Notes
 
-- **One vehicle max** per runner. Max dimensions: 20 ft × 8.5 ft. No RVs or trailers larger. Rivian R1S is confirmed to fit.
+- **One vehicle max** per runner. Max dimensions: 20 ft × 8.5 ft. No RVs or trailers larger. Our Chrysler Pacifica is confirmed to fit.
 - Crew parking pass must be displayed in windshield at all stops.
 - Gas up before remote legs — many stops have no gas nearby.
 - Download offline maps before leaving cell service areas (Sierra Nevada = limited coverage).

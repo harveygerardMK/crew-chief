@@ -144,7 +144,7 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 **Coordinates:** 38.98226, -120.31479
 
 **Race position:** 44% complete · ~30–34 hours elapsed. Harvey has just completed the brutal Rubicon section. He should have slept at Wrights Lake (70.7) — expect him to arrive here somewhat recovered but with heavy legs and fatigue.  
-**Conditions ahead:** Pacer #1 starts here. Leg A: 15.5 miles, 2,712 ft gain to Barker Pass (103.1). Evening into night. Terrain improves relative to the Rubicon but climbs are real. Barker Pass is a sleep station (no crew). Next crew is Tahoe City, 42.4 miles away.  
+**Conditions ahead:** Pacer pickup here — Leg A starts, the long 42.4-mile pacer leg to Tahoe City (130.0) with no crew or pacer swap in between. First climb is 2,712 ft to Barker Pass (103.1), a sleep station (no crew, and NOT a pacer swap — pacers run through it). Evening into night; climbs are real. Next crew is Tahoe City, 42.4 miles away.  
 **Next crew stop:** Tahoe City (mile 130.0) — drive time ~1.5 hrs · depart by mid-morning Sun
 
 ### Pacer #1 Logistics (biggest item at this stop)
@@ -198,7 +198,7 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 **Coordinates:** 39.16445, -120.14735
 
 **Race position:** 65% complete · ~47–53 hours elapsed. Over two days of running. Harvey may show signs of deep fatigue, emotional swings, or nausea — all normal at this stage. Pacer has been with him since Loon Lake.  
-**Conditions ahead:** Leg C — the biggest climb on the back half. 18.6 miles and 3,476 ft of gain to Brockway Summit (148.6). Sleep stop at Brockway. Afternoon heat is possible if on 80-hour pace. This section will hurt. 70.4 miles to the finish.  
+**Conditions ahead:** Leg B — the biggest climb on the back half. 18.6 miles and 3,476 ft of gain to Brockway Summit (148.6). Sleep stop at Brockway. Afternoon heat is possible if on 80-hour pace. This section will hurt. 70.4 miles to the finish.  
 **Next crew stop:** Brockway Summit (mile 148.6) — drive time ~1 hr · depart by early afternoon Sun
 
 ### Pacer Swap (if doing Pacer #2)
@@ -247,7 +247,7 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 **Coordinates:** 39.25748, -120.08087
 
 **Race position:** 74% complete · ~54–61 hours elapsed. Harvey has just finished the biggest climb on the back half. He's going to be exhausted. This is the planned sleep stop before the final 51.8 miles.  
-**Conditions ahead:** Leg D — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Night section, quad punishment after a big climb. Then Leg E — the hardest mental leg, 18.7 miles and 3,716 ft of climbing to Spooner Summit. Sleep here is the single most important thing for a strong finish.  
+**Conditions ahead:** Leg C — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Night section, quad punishment after a big climb. Then Leg D — the final 36.8 miles to the finish, 3,716 ft up to Spooner Summit (182.3, a run-through, not a pacer swap) and on to Heavenly. Sleep here is the single most important thing for a strong finish.  
 **Next crew stop:** Village Green (mile 163.6) — drive time ~1 hr · depart by 7 PM Sun minimum (crew may need sleep first)
 
 ### Sleep Setup (have this ready when he arrives)
@@ -301,7 +301,7 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 **Coordinates:** 39.24127, -119.94491
 
 **Race position:** 82% complete · ~60–67 hours elapsed. Harvey is in the final stretch. He's been running for 2.5–2.8 days. Deeply fatigued, possibly experiencing hallucinations or emotional waves — completely normal at this stage. Keep morale high.  
-**Conditions ahead:** Leg E — the hardest mental leg of the race. 18.7 miles and 3,716 ft of climbing to Spooner Summit (182.3), likely pre-dawn. Then Leg F (last pacer leg, 18.1 miles to the finish). 36.8 miles to go.  
+**Conditions ahead:** Leg D — the final push and second-longest leg, 36.8 miles to the finish with no pacer swap. 3,716 ft up to Spooner Summit (182.3, a run-through), likely pre-dawn, then 3,294 ft up to the finish ridge at Heavenly. 36.8 miles to go.  
 **Next crew stop:** Finish at Heavenly — depart immediately after this stop, ~1 hour drive
 
 ### Priority Order (quick, high-energy stop)

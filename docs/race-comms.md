@@ -21,12 +21,11 @@ Fill this in before race week. Keep a printed copy in the crew vehicle.
 |--------|------|-------|-------|
 | Amanda | Crew chief | | |
 | Harvey | Runner | | Limited access once on course |
-| Gangle | Pacer Leg B | | Barker Pass → Tahoe City |
-| Queen Z | Pacer Leg C | | Tahoe City → Brockway |
-| Leg A pacer | TBD | | Loon Lake → Barker Pass |
-| Leg D pacer | TBD | | Brockway → Village Green |
-| Leg E pacer | TBD | | Village Green → Spooner |
-| Leg F pacer | TBD | | Spooner → Finish |
+| Queen Z | Pacer — Leg B | | Tahoe City → Brockway Summit |
+| Gangle | Confirmed pacer — leg TBD | | Committed to the Tahoe City run-in; now part of Leg A. Confirm assignment |
+| Leg A pacer | TBD | | Loon Lake → Tahoe City (42.4 mi; no swap at Barker/Stephen Jones) |
+| Leg C pacer | TBD | | Brockway Summit → Village Green |
+| Leg D pacer | TBD | | Village Green → Finish (through Spooner, no swap) |
 | Destination Trail (race) | Race org | | On-course emergency |
 | Tahoe 200 Medical | Race medical | | Annette Florczak, Tasha Swartley, Julie Burges |
 | Emergency | 911 | 911 | Last resort — contact race staff first |
@@ -45,7 +44,7 @@ Set up a group text with all pacers + crew before Thursday check-in. Include:
 Use the group text for:
 - Harvey's position updates (screenshot from wheresharvey.com)
 - "Harvey just left Sierra at Tahoe — estimated Loon Lake Sat 3–6 PM"
-- Pacer coordination ("Gangle, Harvey is 2 hrs out from Barker Pass")
+- Pacer coordination ("Queen Z, Harvey is 2 hrs out from Tahoe City")
 - Schedule changes
 
 ---
