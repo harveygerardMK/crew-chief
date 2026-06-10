@@ -1,36 +1,3 @@
 {
-  "updates": [
-    {
-      "updated_at": "2026-05-27T21:31:25.840Z",
-      "updated_by": "crew",
-      "doing": "Taller!",
-      "last_seen": {
-        "station": "Stephen Jones Memorial",
-        "time_label": "Wed, 2:31 PM PDT"
-      },
-      "note": null,
-      "photos": [
-        {
-          "url": "/race-updates/2026-05-27T21-31-24-683Z-stephen-jones-memorial-1.jpg",
-          "alt": "Harvey at Stephen Jones Memorial"
-        }
-      ]
-    },
-    {
-      "updated_at": "2026-05-27T21:09:05.785Z",
-      "updated_by": "crew",
-      "doing": "He's somehow gotten EVEN shorter?",
-      "last_seen": {
-        "station": "Tahoe City",
-        "time_label": "Wed, 2:08 PM PDT"
-      },
-      "note": null,
-      "photos": [
-        {
-          "url": "/race-updates/2026-05-27T21-08-57-484Z-tahoe-city-1.jpg",
-          "alt": "Harvey at Tahoe City"
-        }
-      ]
-    }
-  ]
+  "updates": []
 }
