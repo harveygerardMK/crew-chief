@@ -26,6 +26,7 @@
       "First major restock",
       "Hot food + savory calories",
       "Foot care + sock change (Leukotape, let feet dry)",
+      "Shoe change 1 \u2014 fresh wet-section pair (bag the wet pair)",
       "Fresh shirt",
       "Top off water",
       "Check feet for hot spots"
@@ -45,7 +46,9 @@
       "Calorie restock for back half",
       "Poles handoff",
       "Headlamp + spare batteries",
-      "Warm layer for night"
+      "Warm layer for night",
+      "Shoe change 2 \u2014 fresh wet-section pair (size up if swelling)",
+      "Hand off Night-1 headlamp battery bank to charge (return at Tahoe City)"
     ]
   },
   {
@@ -61,7 +64,10 @@
       "Major fuel restock for final 70 mi",
       "Hot food",
       "Foot care round 2",
-      "Caffeine top-up"
+      "Caffeine top-up",
+      "Shoe change 3 \u2014 dry-section pair for the final 70.4 mi",
+      "Return charged Night-1 battery bank (ready for Night 3)",
+      "Day-3 gear swap \u2014 lighter layers; stash headlamp for Brockway"
     ]
   },
   {
@@ -69,15 +75,15 @@
     "aid_station": "Brockway Summit",
     "mile": 148.6,
     "cutoff": "Mon 2:30 PM",
-    "planned_eta": "Sun 3:12 – 9:18 PM (72–80 hr window) · sleep stop",
+    "planned_eta": "Sun 3:12 – 9:18 PM (72–80 hr window) · ~30-min reset nap",
     "parking": "Park in the designated area and walk 0.6 mi to the aid station.",
     "drive_notes": "Coordinates: 39.25748, -120.08087",
     "restock_priorities": [
-      "SLEEP STOP \u2014 sleeping bag, ear plugs",
+      "~30-min reset NAP \u2014 sleeping bag, ear plugs, eye mask",
       "Full dry change of clothes",
       "Warm puffy",
-      "Hot food before sleeping",
-      "Set alarm \u2014 6-hour sleep cap"
+      "Hot food before the nap",
+      "Set 30-min alarm \u2014 short reset, crew stays on site"
     ]
   },
   {

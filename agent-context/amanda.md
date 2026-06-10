@@ -29,7 +29,7 @@ General defaults until Harvey updates this:
 - Feet: check blisters at every crew stop after mile 87.6.
 - Headlamp swap: charged lamp ready at every night stop.
 - Drop bags: Harvey has drop bags at most stops — Amanda's crew bag supplements, not replaces.
-- Sleep stops: Wrights Lake (mi 70.7) and Barker Pass (mi 103.1) are NO crew access. She cannot get to him there. Brockway Summit (mi 148.6) IS crew accessible — plan to be there.
+- Sleep stops: Wrights Lake (mi 70.7) and Barker Pass (mi 103.1) are NO crew access. She cannot get to him there. Brockway Summit (mi 148.6) IS crew accessible — plan to be there. Harvey takes only a ~30-min reset nap at Brockway (crew stays on site, no going home).
 
 ---
 

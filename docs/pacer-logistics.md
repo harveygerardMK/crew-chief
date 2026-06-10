@@ -67,7 +67,7 @@ This is why there are exactly **four** pacer legs, not six.
 
 **End of leg at Brockway Summit (mile 148.6):**
 - Crew is here (0.6 mi walk from designated parking).
-- Sleep station, 6-hour max — Harvey may sleep at Brockway.
+- Sleep station, but Harvey plans only a ~30-min reset nap here (not a long sleep).
 - The Leg C pacer takes over here (once assigned). Arrange Queen Z's ride home from Brockway or back to Tahoe City for her car.
 
 ---

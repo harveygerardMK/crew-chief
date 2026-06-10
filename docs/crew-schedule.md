@@ -105,29 +105,29 @@ Harvey is on Leg A (Loon Lake → Tahoe City) with his pacer — one continuous 
 | Sun 9:00 AM–2:00 PM | Depart for Brockway Summit (~45 min drive) |
 | Sun 10:00 AM–3:00 PM | Arrive Brockway, park in designated lot |
 
-### Brockway Summit Stop (Sleep Station)
+### Brockway Summit Stop (★ Reset Nap)
 | Time | Activity |
 |------|----------|
-| Sun 3:12–9:18 PM | Harvey arrives — sleep stop, 6-hour max |
+| Sun 3:12–9:18 PM | Harvey arrives — **~30-min reset nap**, not a long sleep |
 | Walk 0.6 mi from parking to aid station |  |
 
-**Harvey sleeps 6 hours after arriving. Crew sleep strategy at Brockway:**
+**Harvey naps ~30 minutes here — just enough to reset without locking up. Crew strategy at Brockway:**
 
-### Crew Sleep Window #4 — PARTIAL
-**~4–5 hours at Eli's while Harvey sleeps**
+### Crew Sleep Window #4 — NONE (stay on site)
+**Brockway is a ~30-min reset nap, not a home stop.**
 
-- Brockway is ~15 min from Eli's. Once Harvey is down with his 6-hr alarm set (the aid station is staffed), slip home to Eli's and sleep in a real bed.
-- Do NOT skip your own rest. Set an alarm to be back 45 min before he wakes.
+- No going home on this one — there isn't time. Stay on site: rest in the car or aid tent, refuel, and be ready the moment his alarm goes off.
+- Respect his sleep call (~30 min). Do not let him sleep past his target — wake him.
 
-| If Harvey arrives 3 PM | He departs by ~9 PM |
+| If Harvey arrives 3 PM | He departs by ~4:30 PM |
 |---|---|
-| If Harvey arrives 6 PM | He departs by ~midnight |
-| If Harvey arrives 9 PM | He departs by ~3 AM Mon |
+| If Harvey arrives 6 PM | He departs by ~7:30 PM |
+| If Harvey arrives 9 PM | He departs by ~10:30 PM |
 
 | Time | Activity |
 |------|----------|
-| During Harvey's sleep | 💤 CREW SLEEP at Eli's (15 min away) — back 45 min before he wakes |
-| 30 min before Harvey wakes | Set up wake-up kit: coffee, gels, warm clothes |
+| During Harvey's nap (~30 min) | Stay on site — rest in the car, refuel, stay ready |
+| As soon as the alarm goes | Wake-up kit: coffee, caffeinated gels, warm clothes |
 | Harvey wakes | Full kit, hot food, headlamp check, send him out |
 
 ### After Brockway
@@ -165,8 +165,8 @@ Queen Z's leg (Leg B) ends at Brockway. Harvey heads out on Leg C (Brockway → 
 | Fri 11 AM – 8:45 PM | **~9.5 hrs** | Eli's in Truckee |
 | Sat 3 AM – 1 PM | **~10 hrs** | Eli's (long haul) or near course |
 | Sat 7 PM – Sun 6:30 AM | **~11.5 hrs** | Eli's in Truckee |
-| Brockway sleep overlap | **~4–5 hrs** | Eli's (15 min, while he sleeps) |
-| **Total crew sleep available** | **~40 hrs** over the 80-hr event | |
+| Brockway (his nap) | **~0 (on site)** | Rest in car, stay ready |
+| **Total crew sleep available** | **~33 hrs** over the 80-hr event | |
 
 The windows are there — **use them**. A tired crew misses things, makes wrong turns, and can't run a good foot care station at 3 AM.
 

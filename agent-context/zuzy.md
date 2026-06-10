@@ -34,7 +34,7 @@ You are talking to Zuzy — call her Queen Z. She is pacing Harvey on Leg B, pic
 General defaults:
 - He'll be in deep race mode. Energy and humor help; demands and urgency don't.
 - Keep him eating. Real food if available.
-- Brockway is a sleep station — Amanda will have a sleep plan ready. Queen Z's job is to get him there.
+- Brockway is a sleep station, but Harvey plans only a ~30-min reset nap there (not a long sleep) — crew stays on site. Queen Z's job is to get him there in good shape.
 
 ---
 

@@ -125,6 +125,7 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 - [ ] Scissors + nail clippers
 - [ ] Blister kit: sterile needle, antiseptic wipes, moleskin
 - [ ] 2+ pairs fresh socks on hand
+- [ ] Shoe change 1: fresh wet-section pair (still wet to Barker) — bag his wet pair to dry
 
 ### Crew Extras
 - [ ] Warm blanket or puffy to throw over his shoulders during foot care
@@ -179,12 +180,14 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 ### Foot Care
 - [ ] Full station setup (same as Sierra at Tahoe)
 - [ ] 2+ pairs fresh socks
+- [ ] Shoe change 2: fresh wet-section pair (size up if swelling) — bag his wet pair
 
 ### Gear Handoffs
 - [ ] Trekking poles (if not already in Wrights Lake drop bag)
 - [ ] Headlamp with fresh batteries loaded
 - [ ] Backup headlamp
 - [ ] 2+ dust masks
+- [ ] Take Harvey's Night-1 headlamp battery bank to charge — return it at Tahoe City for Night 3 (he carries a fresh bank for Night 2)
 
 **Target stop time: 20–30 minutes**  
 **After this stop:** Drive to Tahoe City. Park at Transit Center (walk 0.2 mi to aid). Depart by 6 AM Sun at latest to beat the 72hr window.
@@ -198,7 +201,7 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 **Coordinates:** 39.16445, -120.14735
 
 **Race position:** 65% complete · ~47–53 hours elapsed. Over two days of running. Harvey may show signs of deep fatigue, emotional swings, or nausea — all normal at this stage. Pacer has been with him since Loon Lake.  
-**Conditions ahead:** Leg B — the biggest climb on the back half. 18.6 miles and 3,476 ft of gain to Brockway Summit (148.6). Sleep stop at Brockway. Afternoon heat is possible if on 80-hour pace. This section will hurt. 70.4 miles to the finish.  
+**Conditions ahead:** Leg B — the biggest climb on the back half. 18.6 miles and 3,476 ft of gain to Brockway Summit (148.6). Reset nap at Brockway. Afternoon heat is possible if on 80-hour pace. This section will hurt. 70.4 miles to the finish.  
 **Next crew stop:** Brockway Summit (mile 148.6) — drive time ~1 hr · depart by early afternoon Sun
 
 ### Pacer Swap (if doing Pacer #2)
@@ -229,6 +232,12 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 ### Foot Care
 - [ ] Full station setup
 - [ ] 130 miles on feet — treat anything developing
+- [ ] Shoe change 3: dry-section pair for the final 70.4 mi (no more wet crossings past Barker) — bag his last wet pair
+
+### Gear & Battery — Day 3
+- [ ] Return the charged Night-1 battery bank (labeled, ready for Night 3)
+- [ ] Day-3 kit: lighter layers, fresh day shirt, sunscreen
+- [ ] Collect overnight layers; stash the headlamp for Brockway (he'll need it again at night)
 
 ### Extras
 - [ ] Anti-nausea: ginger chews, Zofran (if prescribed)
@@ -246,23 +255,24 @@ Depart for Sierra at Tahoe (52.2). Drive time ~2 hours. Expect Harvey to arrive 
 **Cutoff:** Mon 2:30 PM  
 **Coordinates:** 39.25748, -120.08087
 
-**Race position:** 74% complete · ~54–61 hours elapsed. Harvey has just finished the biggest climb on the back half. He's going to be exhausted. This is the planned sleep stop before the final 51.8 miles.  
-**Conditions ahead:** Leg C — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Night section, quad punishment after a big climb. Then Leg D — the final 36.8 miles to the finish, 3,716 ft up to Spooner Summit (182.3, a run-through, not a pacer swap) and on to Heavenly. Sleep here is the single most important thing for a strong finish.  
-**Next crew stop:** Village Green (mile 163.6) — drive time ~1 hr · depart by 7 PM Sun minimum (crew may need sleep first)
+**Race position:** 74% complete · ~54–61 hours elapsed. Harvey has just finished the biggest climb on the back half. He's going to be exhausted. This is the planned **~30-min reset nap** before the final 51.8 miles.  
+**Conditions ahead:** Leg C — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Night section, quad punishment after a big climb. Then Leg D — the final 36.8 miles to the finish, 3,716 ft up to Spooner Summit (182.3, a run-through, not a pacer swap) and on to Heavenly. A quick reset nap here is the single most important thing for a strong finish.  
+**Next crew stop:** Village Green (mile 163.6) — drive time ~1 hr · crew stays on site through his nap, then drives to Village Green
 
-### Sleep Setup (have this ready when he arrives)
+### Reset-Nap Setup (have this ready when he arrives)
 - [ ] Sleeping bag laid out
 - [ ] Sleeping pad or cot (if station allows)
 - [ ] Ear plugs pre-unwrapped and ready
 - [ ] Eye mask
 - [ ] Thick warm sleep socks
-- [ ] **Set alarm: 6-hour max from when he lies down**
+- [ ] **Set 30-min alarm — short reset nap, not a long sleep**
+- [ ] Night-3 departure kit + fresh headlamp batteries ready to go
 
 ### Priority Order
 1. Foot care + full clothing change before lying down
-2. Hot food before sleeping
-3. Into sleeping bag
-4. Alarm set, crew sleeps in shifts
+2. Hot food before the nap
+3. Into sleeping bag for ~30 min
+4. 30-min alarm set; crew stays on site (no time to go home on this one)
 5. Wake-up: coffee, caffeinated gels, warm clothes, out the door
 
 ### Full Clothing Change

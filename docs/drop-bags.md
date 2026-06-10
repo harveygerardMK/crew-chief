@@ -286,17 +286,17 @@ Major crew stop with possible pacer swap. Drop bag is backup. Crew parks at Tran
 ---
 
 ## Bag 9 — Brockway Summit (Mile 148.6)
-*Sleep station · Crew access*
+*Sleep station (planned ~30-min reset nap) · Crew access*
 
-**Label: `BAG 9 · BROCKWAY SUMMIT · MILE 148.6 · SLEEP`**
+**Label: `BAG 9 · BROCKWAY SUMMIT · MILE 148.6 · NAP`**
 
 **Race position:** 74% complete · ~54–61 hours elapsed  
-**Conditions ahead:** Leg C — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Quad punishment after a big climb. Night section. Then Leg D — the final 36.8 miles to the finish, climbing 3,716 ft to Spooner Summit (182.3, a run-through, not a pacer swap) and on to Heavenly. Sleep here is critical to finishing strong.  
+**Conditions ahead:** Leg C — 15.0 miles mostly downhill (3,142 ft loss) to Village Green (163.6). Quad punishment after a big climb. Night section. Then Leg D — the final 36.8 miles to the finish, climbing 3,716 ft to Spooner Summit (182.3, a run-through, not a pacer swap) and on to Heavenly. A quick reset nap here is critical to finishing strong.  
 **Arrival window:** Sun ~3:00 PM – 9:30 PM (afternoon/evening)
 
-Crew walks 0.6 mi from parking. Sleep stop — 6-hour max. Drop bag covers if crew is delayed or I arrive before them.
+Crew walks 0.6 mi from parking. Reset nap (~30 min) — crew stays on site, no going home. Drop bag covers if crew is delayed or I arrive before them.
 
-### Sleep (backup)
+### Reset nap (backup)
 - [ ] Sleeping bag
 - [ ] Ear plugs
 - [ ] Eye mask
@@ -313,7 +313,7 @@ Crew walks 0.6 mi from parking. Sleep stop — 6-hour max. Drop bag covers if cr
 - [ ] 1 blister kit (needle, antiseptic, moleskin)
 - [ ] Small scissors
 
-### Nutrition (post-sleep start fuel)
+### Nutrition (post-nap start fuel)
 - [ ] 4 caffeinated gels
 - [ ] 2 bars
 - [ ] 8 electrolyte tabs
