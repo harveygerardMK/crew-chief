@@ -170,7 +170,8 @@ def test_pre_race_simulation_block_in_prompt(settings: Settings) -> None:
         "enabled": True,
         "route_mile": 4.7,
         "simulation": True,
-        "race_status": "active",
+        # Not "active"/"racing" — those select on-course mode for pre-June-12 evals.
+        "race_status": "unknown",
         "course_context": {"place_label": "on leg Start → Heavenly"},
         "signal_gap": {
             "active": True,
