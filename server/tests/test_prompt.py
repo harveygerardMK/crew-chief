@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from config import REPO_ROOT
-from prompt import load_course_content
+from prompt import load_course_content, load_crew_map_block, load_crew_ops_content
 
 
 def test_load_course_content_returns_nonempty_string() -> None:
@@ -17,6 +17,20 @@ def test_load_course_content_includes_all_pages() -> None:
     assert "course" in text.lower()
     assert "pacer" in text.lower()
     assert "rules" in text.lower()
+
+
+def test_load_crew_ops_content_includes_drop_bags_and_schedule() -> None:
+    text = load_crew_ops_content()
+    assert len(text) > 1000
+    assert "drop bag" in text.lower()
+    assert "crew schedule" in text.lower() or "june 12" in text.lower()
+
+
+def test_load_crew_map_block_includes_my_maps_url() -> None:
+    text = load_crew_map_block()
+    assert "1hDy3W90tn-FWzyzCNs5yWMKOBYy7pg4" in text
+    assert "Loon Lake" in text
+    assert "google.com/maps/search" in text
 
 
 from prompt import load_agent_context

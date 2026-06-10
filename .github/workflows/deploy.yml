@@ -46,7 +46,9 @@ jobs:
         run: |
           test -f dist/data/aid-stations.json
           curl -sf "file://$PWD/dist/data/aid-stations.json" | python3 -c "import json,sys; d=json.load(sys.stdin); assert len(d)>=10"
-          echo "aid-stations.json published at /data/ for agent API fetch"
+          test -f dist/data/race-broadcast.json
+          curl -sf "file://$PWD/dist/data/race-broadcast.json" | python3 -c "import json,sys; d=json.load(sys.stdin); assert 'updates' in d"
+          echo "aid-stations.json and race-broadcast.json published at /data/ for agent API fetch"
 
       - name: Smoke test live agent API
         if: vars.PUBLIC_AGENT_API_URL != ''
@@ -60,14 +62,10 @@ jobs:
             echo "::warning::Live agent smoke test failed — Pages deploy will continue. Fix droplet/API and re-run verify-agent.sh locally."
             exit 0
           }
-      - name: Verify live updates rendered
+      - name: Verify crew-site points to Ask Harvey for updates
         run: |
-          JSON_COUNT=$(node -e "const d=require('./data/race-broadcast.json'); console.log(Array.isArray(d.updates)?d.updates.length:0)")
-          HTML_COUNT=$(grep -o 'class="live-update-item"' dist/crew-site/index.html | wc -l | tr -d ' ')
-          if [ "$JSON_COUNT" != "$HTML_COUNT" ]; then
-            echo "Live update count mismatch: race-broadcast.json has $JSON_COUNT, crew-site/index.html has $HTML_COUNT"
-            exit 1
-          fi
+          grep -q "Crew updates in Ask Harvey" dist/crew-site/index.html
+          echo "crew-site directs family to Ask Harvey chat for Amanda posts"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

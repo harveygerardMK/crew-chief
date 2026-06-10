@@ -11,6 +11,7 @@ Harvey's Tahoe 200 (2026) crew/family site: **Astro 5** static site at repo root
 | Service | Command | URL |
 |---------|---------|-----|
 | Astro dev (primary) | `npm run dev` (repo root) | http://localhost:4321/ |
+| Ask Harvey local UI | `npm run dev:agent` (repo root) | http://localhost:4321/ → API :8080 |
 | Astro preview | `npm run build && npm run preview` | printed in terminal |
 | Broadcast Worker | `cd workers/broadcast && npm run dev` | http://127.0.0.1:8787 |
 
@@ -45,6 +46,7 @@ Use tmux for dev servers, e.g. session `astro-dev-server` with `npm run dev` at 
 | Chat UI (built) | `PUBLIC_AGENT_API_URL=http://127.0.0.1:8080 npm run build && npm run preview` | http://localhost:4321/ |
 
 - **Deploy runbook:** `docs/superpowers/runbooks/crew-chief-agent-deploy.md`
+- **Cody simulation demo (local):** `docs/superpowers/runbooks/agent-simulation-demo.md`
 - **Architecture spec:** `docs/superpowers/specs/crew-chief-agent-architecture.md`
 - **Smoke test:** `./scripts/verify-agent.sh http://127.0.0.1:8080`
 - **Langfuse trace check:** `./scripts/verify-langfuse-traces.sh http://127.0.0.1:8080` (needs `LANGFUSE_*` env; see runbook)

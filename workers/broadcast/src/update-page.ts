@@ -170,7 +170,7 @@ export const UPDATE_PAGE_HTML = `<!DOCTYPE html>
 </head>
 <body>
   <h1>Crew update</h1>
-  <p class="lead">Short note for family on the homepage. Takes a few minutes to show up after you save.</p>
+  <p class="lead">Short note for family in <strong>Ask Harvey</strong> (wheresharvey.com chat). Takes a few minutes after you save.</p>
   <p id="status" class="update-status" role="status" aria-live="polite" hidden></p>
 
   <form id="broadcast-form" class="update-panel" method="post" action="/broadcast" enctype="multipart/form-data">
@@ -290,7 +290,7 @@ const UPDATE_PAGE_SCRIPT = `
             setStatus(data.message || "Save failed. Try again.", "error");
             return;
           }
-          setStatus("Saved — should show on the homepage in a few minutes.", "success");
+          setStatus("Saved — family will see this in Ask Harvey chat in a few minutes.", "success");
           form.reset();
           if (timeInput) timeInput.value = defaultDatetimeLocal();
           syncTimeLabel();

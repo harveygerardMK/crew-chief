@@ -521,6 +521,86 @@ body {
   }
 }
 
+/* Return visit — crew updates since last check-in */
+.since-header {
+  margin: 0.75rem 0 0.25rem;
+  padding: 0 0.25rem;
+}
+
+.since-header__title {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.since-header__meta {
+  margin: 0.2rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.msg--crew .msg__label {
+  color: var(--accent);
+}
+
+.crew-update-card {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.crew-update-card__doing {
+  margin: 0;
+  padding: 0.85rem 0.85rem 0.35rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.crew-update-card__meta {
+  margin: 0;
+  padding: 0 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.crew-update-card__note {
+  margin: 0;
+  padding: 0.45rem 0.85rem 0.85rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.crew-update-card__photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.35rem;
+  padding: 0 0.35rem 0.35rem;
+}
+
+.crew-update-card__photos a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #121110;
+}
+
+.crew-update-card__photos img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
 /* Art card */
 .art-card {
   margin-top: 0.5rem;

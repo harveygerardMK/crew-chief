@@ -224,8 +224,8 @@ function htmlSuccessPage(): Response {
 </head>
 <body>
   <h1>Update saved</h1>
-  <p>Your note is on its way to the race site. It usually shows on the homepage in <strong>3–5 minutes</strong> after the site rebuilds.</p>
-  <p><a href="${HOMEPAGE_URL}">Go to the homepage</a> · <a href="${UPDATE_PAGE_URL}">Post another update</a></p>
+  <p>Your note is on its way to <strong>Ask Harvey</strong>. Family usually sees it in chat in <strong>3–5 minutes</strong> after the site rebuilds.</p>
+  <p><a href="${HOMEPAGE_URL}">Open Ask Harvey</a> · <a href="${UPDATE_PAGE_URL}">Post another update</a></p>
 </body>
 </html>`;
   return new Response(html, {

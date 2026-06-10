@@ -494,6 +494,75 @@ function appendThinkingMessage() {
   return wrap;
 }
 
+function appendCrewUpdatesHeader(count, context) {
+  const wrap = document.createElement("div");
+  wrap.className = "since-header";
+  const title =
+    context === "since_last_visit" ? "Since you were here" : "Latest from Amanda";
+  wrap.innerHTML = `
+    <p class="since-header__title">${title}</p>
+    <p class="since-header__meta">${count} crew update${count === 1 ? "" : "s"}</p>
+  `;
+  messagesEl.appendChild(wrap);
+  scrollMessagesToBottom();
+}
+
+function appendCrewUpdateCard(update) {
+  const wrap = document.createElement("article");
+  wrap.className = "msg msg--crew";
+
+  const label = document.createElement("div");
+  label.className = "msg__label";
+  label.textContent = "From crew";
+
+  const card = document.createElement("div");
+  card.className = "crew-update-card";
+
+  const parts = [];
+  if (update.doing) {
+    parts.push(`<p class="crew-update-card__doing">${escapeHtml(update.doing)}</p>`);
+  }
+  if (update.station || update.time_label) {
+    const station = update.station ? escapeHtml(update.station) : "Aid station";
+    const when = update.time_label ? ` · ${escapeHtml(update.time_label)}` : "";
+    parts.push(`<p class="crew-update-card__meta">${station}${when}</p>`);
+  }
+  if (update.note) {
+    parts.push(`<p class="crew-update-card__note">${escapeHtml(update.note)}</p>`);
+  }
+  card.innerHTML = parts.join("");
+
+  if (Array.isArray(update.photos) && update.photos.length > 0) {
+    const gallery = document.createElement("div");
+    gallery.className = "crew-update-card__photos";
+    for (const photo of update.photos) {
+      const link = document.createElement("a");
+      link.href = photo.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      const img = document.createElement("img");
+      img.src = photo.url;
+      img.alt = photo.alt || "Crew photo";
+      img.loading = "lazy";
+      link.appendChild(img);
+      gallery.appendChild(link);
+    }
+    card.appendChild(gallery);
+  }
+
+  wrap.append(label, card);
+  messagesEl.appendChild(wrap);
+  scrollMessagesToBottom();
+}
+
+function appendCrewUpdates(updates, context = "since_last_visit") {
+  if (!Array.isArray(updates) || updates.length === 0) return;
+  appendCrewUpdatesHeader(updates.length, context);
+  for (const update of updates) {
+    appendCrewUpdateCard(update);
+  }
+}
+
 function appendMessage({ role, text, artPrompt = null, artImageUrl = null }) {
   const wrap = document.createElement("article");
   wrap.className = `msg msg--${role}`;
@@ -627,6 +696,9 @@ async function loadGreeting() {
   try {
     const data = await requestChat(null, []);
     loading.remove();
+    if (data.crew_updates?.length) {
+      appendCrewUpdates(data.crew_updates, data.crew_updates_context || "latest");
+    }
     appendMessage({
       role: "harvey",
       text: data.reply,
@@ -644,7 +716,7 @@ async function loadGreeting() {
       role: "system",
       text:
         err.message ||
-        "Could not reach Harvey right now. The crew site still has the latest public updates.",
+        "Could not reach Harvey right now. Try again in a moment — crew updates appear here when the line is back.",
     });
   }
 }

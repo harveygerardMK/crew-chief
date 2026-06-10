@@ -62,11 +62,11 @@ npm run preview  # serve the production build locally
 
 ## Crew updates for family (race weekend)
 
-Your wife can post **how you’re doing**, **last seen**, a **note**, and **photos** from:
+Amanda posts **how you’re doing**, **last seen**, a **note**, and **photos** from one bookmark:
 
-**https://harveygerardmk.github.io/crew-chief/update/**
+**https://crew-chief-broadcast.harvey-schaefer.workers.dev/update**
 
-Homepage and Follow show updates after a normal deploy (~3–5 minutes).
+(`https://wheresharvey.com/update/` redirects there.) Family sees updates in **Ask Harvey chat** after a normal deploy (~3–5 minutes).
 
 **One-time setup (Harvey):** [docs/superpowers/runbooks/broadcast-worker-setup.md](docs/superpowers/runbooks/broadcast-worker-setup.md)
 
@@ -108,7 +108,7 @@ When the race is on-course, the home page and Follow page show a **Where's Harve
 2. Set Worker vars and redeploy:
    ```bash
    cd workers/broadcast
-   npx wrangler secret put TRACKLEADERS_EVENT_SLUG   # e.g. tahoe20026
+   npx wrangler secret put TRACKLEADERS_EVENT_SLUG   # e.g. tahoe200-26
    npx wrangler secret put TRACKLEADERS_RUNNER_NAME  # exact sidebar name, spaces → underscores in URL
    npx wrangler deploy
    ```

@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+from broadcast import format_missed_updates_block, get_broadcast_block
 from config import REPO_ROOT, Settings
 from course_context import format_catchup_block
 from race_data import SCOPE_LOCK, get_race_data_block
@@ -89,6 +93,78 @@ def load_course_content() -> str:
         if path.is_file():
             parts.append(path.read_text(encoding="utf-8").strip())
     return "\n\n---\n\n".join(parts)
+
+
+_CREW_OPS_DIR = REPO_ROOT / "docs"
+_CREW_OPS_DOC_ORDER = [
+    "crew-schedule.md",
+    "aid-station-crew-lists.md",
+    "drop-bags.md",
+    "master-supply-list.md",
+    "pacer-logistics.md",
+    "race-comms.md",
+    "contingency-plan.md",
+]
+_TAHOE200_CREW_MAP_URL = (
+    "https://www.google.com/maps/d/viewer?mid=1hDy3W90tn-FWzyzCNs5yWMKOBYy7pg4&usp=sharing"
+)
+_KML_NS = "http://www.opengis.net/kml/2.2"
+
+
+def load_crew_ops_content() -> str:
+    """Race-week crew logistics (drop bags, schedule, comms, contingencies)."""
+    parts = []
+    for filename in _CREW_OPS_DOC_ORDER:
+        path = _CREW_OPS_DIR / filename
+        if path.is_file():
+            parts.append(path.read_text(encoding="utf-8").strip())
+    return "\n\n---\n\n".join(parts)
+
+
+def _maps_search_url(lat: float, lng: float) -> str:
+    return f"https://www.google.com/maps/search/?api=1&query={lat},{lng}"
+
+
+def _parse_kml_placemarks(path: Path) -> list[tuple[str, float, float]]:
+    if not path.is_file():
+        return []
+    root = ET.parse(path).getroot()
+    tag = f"{{{_KML_NS}}}"
+    rows: list[tuple[str, float, float]] = []
+    for placemark in root.iter(f"{tag}Placemark"):
+        name_el = placemark.find(f"{tag}name")
+        coord_el = placemark.find(f".//{tag}coordinates")
+        if name_el is None or coord_el is None or not (coord_el.text or "").strip():
+            continue
+        name = (name_el.text or "").strip()
+        bits = coord_el.text.strip().split(",")
+        if len(bits) < 2:
+            continue
+        lng, lat = float(bits[0]), float(bits[1])
+        rows.append((name, lat, lng))
+    return rows
+
+
+def load_crew_map_block() -> str:
+    """Interactive crew map URL plus compact pin list from tahoe200-locations.kml."""
+    kml_path = _CREW_OPS_DIR / "tahoe200-locations.kml"
+    lines = [
+        "## Crew / pacer map",
+        f"Interactive Google My Map (all aids, crew stops, parking, pacer pickups): {_TAHOE200_CREW_MAP_URL}",
+        "Color key: green = crew vehicle access; blue = drop bag only (no crew); "
+        "red = sleep station; yellow = pacer pickup; purple = crew parking (walk to aid).",
+        "",
+        "For driving directions, share the map link or a pin below — do not invent roads or parking.",
+    ]
+    placemarks = _parse_kml_placemarks(kml_path)
+    if placemarks:
+        lines.append("")
+        lines.append("| Location | Maps |")
+        lines.append("|----------|------|")
+        for name, lat, lng in placemarks:
+            safe_name = name.replace("|", "/")
+            lines.append(f"| {safe_name} | {_maps_search_url(lat, lng)} |")
+    return "\n".join(lines)
 
 
 _AGENT_CONTEXT_DIR = REPO_ROOT / "agent-context"
@@ -217,6 +293,7 @@ def build_system_prompt(
     status: dict,
     visitor: dict,
     include_art: bool = False,
+    missed_updates: list[dict] | None = None,
 ) -> str:
     parts = [
         SCOPE_LOCK,
@@ -230,6 +307,26 @@ def build_system_prompt(
     course_content = load_course_content()
     if course_content:
         parts.append(f"## Course & race context\n\n{course_content}")
+    crew_ops = load_crew_ops_content()
+    if crew_ops:
+        parts.append(
+            "## Crew operations & logistics (authoritative)\n\n"
+            "Use for drop bags, crew packing, schedule, pacer legs, comms, and contingencies. "
+            "Harvey defers live dispatch to Amanda, but may answer from these plans in his voice.\n\n"
+            f"{crew_ops}"
+        )
+    crew_map = load_crew_map_block()
+    if crew_map:
+        parts.append(crew_map)
+    broadcast = get_broadcast_block(settings)
+    if broadcast:
+        parts.append(broadcast)
+
+    if missed_updates:
+        missed_block = format_missed_updates_block(missed_updates)
+        if missed_block:
+            parts.append(missed_block)
+
     parts.extend(
         [
             format_status_block(status),
@@ -250,7 +347,12 @@ def build_system_prompt(
     if tone:
         parts.append(f"## Audience tone for this chat\n{tone}")
 
-    if not settings.race_started:
+    # Treat as on-course if the clock says so OR if the injected/live status says racing/sleeping/finished.
+    # The status-based check lets the eval suite test mid-race scenarios before June 12.
+    status_race_status = str(status.get("race_status") or "").lower()
+    race_is_live = settings.race_started or status_race_status in {"racing", "sleeping", "finished", "active"}
+
+    if not race_is_live:
         parts.append(format_pre_race_mode_block(status))
     else:
         parts.append(
@@ -286,18 +388,40 @@ def _greeting_variety_hint(visitor: dict) -> str:
     return "\n".join(lines)
 
 
-def build_greeting_user_message(visitor: dict, *, status: dict, settings: Settings) -> str:
+def build_greeting_user_message(
+    visitor: dict,
+    *,
+    status: dict,
+    settings: Settings,
+    missed_updates: list[dict] | None = None,
+) -> str:
     name = visitor.get("name", "friend")
     count = int(visitor.get("checkin_count", 0))
     variety = _greeting_variety_hint(visitor)
+    crew_hint = ""
+    if missed_updates:
+        if count == 0:
+            crew_hint = (
+                f"\n\nAmanda's latest crew update is shown above your message with photos. "
+                "Mention the headline (how you're doing, last aid, any note) in your greeting. "
+                "Do not repeat every field verbatim."
+            )
+        else:
+            crew_hint = (
+                f"\n\nAmanda posted {len(missed_updates)} crew update(s) since their last visit — "
+                "the app is showing those above your message with photos. "
+                "Weave the key lines into your greeting (how you're doing, last aid, any note). "
+                "Do not repeat every field verbatim."
+            )
 
     if count == 0:
         return (
             f"[Session start — first visit. Greet {name} warmly by name. "
             "Introduce yourself briefly as Harvey on the Tahoe 200 journey. "
             "Mention where you are on course using the course position block if mile data exists. "
+            "If Amanda posted a crew update, weave it in briefly. "
             "Invite them to ask how you're doing. Keep it short.\n\n"
-            f"{variety}]"
+            f"{variety}{crew_hint}]"
         )
 
     catchup = format_catchup_block(visitor, status, settings)
@@ -309,6 +433,8 @@ def build_greeting_user_message(visitor: dict, *, status: dict, settings: Settin
         "socks/prep/site-tour bit you used last time.\n\n"
         f"{variety}\n\n"
         f"Catch-up to weave in (your own words): {catchup_hint} "
+        "Cover miles/progress first, then any new crew posts."
+        f"{crew_hint} "
         "Then ask what they want to know. Keep it warm and short. "
         "Do not ask if they want a catch-up — just give it.]"
     )

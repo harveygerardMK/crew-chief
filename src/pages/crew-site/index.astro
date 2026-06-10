@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import StatusBlock from "../../components/StatusBlock.astro";
-import LiveRaceUpdates from "../../components/LiveRaceUpdates.astro";
 import CrewOps from "../../components/CrewOps.astro";
 import RaceDataBand from "../../components/RaceDataBand.astro";
 import site from "../../../data/site.json";
@@ -87,7 +86,18 @@ const heroAidStations = aidStations
   <div class="container container--wide page-stack page-stack--home zone-content">
     <RaceDataBand />
     <div class="home-mission__grid">
-      <LiveRaceUpdates />
+      <section class="card-surface" aria-labelledby="crew-updates-chat-heading">
+        <header class="card-surface__header">
+          <p class="card-surface__eyebrow">Family feed</p>
+          <h2 id="crew-updates-chat-heading" class="card-surface__title">
+            Crew updates in Ask Harvey
+          </h2>
+        </header>
+        <p class="card-surface__body">
+          When Amanda posts from the trail, updates show up in <a href={base}>Ask Harvey (chat)</a> —
+          inline photos and Harvey’s voice, not on this logistics page.
+        </p>
+      </section>
       <CrewOps />
     </div>
     <p class="card__meta site-meta site-meta--compact">

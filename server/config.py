@@ -61,7 +61,7 @@ def load_settings() -> Settings:
     try:
         from dotenv import load_dotenv
 
-        load_dotenv(REPO_ROOT / "server" / ".env")
+        load_dotenv(REPO_ROOT / "server" / ".env", override=True)
     except ImportError:
         pass
 

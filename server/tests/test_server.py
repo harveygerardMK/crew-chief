@@ -312,6 +312,49 @@ def test_greeting_ignores_client_history(settings: Settings, monkeypatch: pytest
     assert captured["history"] == []
 
 
+def test_return_greeting_includes_crew_updates(
+    settings: Settings, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import app as app_module
+
+    def fake_completion(
+        _settings: Settings,
+        *,
+        system: str,
+        user_message: str,
+        history: list | None = None,
+        require_art: bool = False,
+    ) -> dict[str, str]:
+        return {"reply": "Welcome back."}
+
+    missed = [
+        {
+            "updated_at": "2026-06-10T20:00:00.000Z",
+            "doing": "Grilled cheese acquired",
+            "last_seen": {"station": "Sierra at Tahoe", "time_label": "Wed 8 PM"},
+            "note": None,
+            "photos": [{"url": "/race-updates/test.jpg", "alt": "Harvey at Sierra"}],
+        }
+    ]
+
+    monkeypatch.setattr(app_module, "chat_completion", fake_completion)
+    monkeypatch.setattr(app_module, "get_updates_since", lambda _since: missed)
+    monkeypatch.setattr(app_module, "settings", settings)
+    client = TestClient(app_module.app)
+
+    created = client.post("/visitors", json={"name": "Dan", "audience": "remote"})
+    visitor_id = created.json()["visitor_id"]
+    record_checkin(settings, visitor_id, harvey_mile=40.0)
+
+    response = client.post("/chat", json={"visitor_id": visitor_id})
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body["crew_updates"]) == 1
+    assert body["crew_updates_context"] == "since_last_visit"
+    assert body["crew_updates"][0]["doing"] == "Grilled cheese acquired"
+    assert body["crew_updates"][0]["photos"][0]["url"].endswith("/race-updates/test.jpg")
+
+
 def test_greeting_records_last_hook(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> None:
     import app as app_module
 

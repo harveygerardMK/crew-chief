@@ -1,6 +1,6 @@
 # Crew broadcast — one-time setup (Harvey)
 
-This lets your wife post updates at **`/crew-chief/update/`** (password + simple form). Saves go to the homepage in a few minutes after GitHub Pages rebuilds.
+Amanda posts updates at the **Worker `/update`** form (one bookmark). Saves appear in **Ask Harvey chat** in a few minutes after GitHub Pages rebuilds. `https://wheresharvey.com/update/` redirects to the Worker.
 
 You only do this once before race weekend.
 
@@ -97,7 +97,7 @@ Push any commit to `main` (or re-run the Pages workflow) so the site build picks
 
 ## 6. Test end-to-end
 
-1. Open https://harveygerardmk.github.io/crew-chief/update/  
+1. Open https://crew-chief-broadcast.harvey-schaefer.workers.dev/update (or https://wheresharvey.com/update/)  
 2. Enter the family password → **Continue**  
 3. Fill a short test message → **Save update**  
 4. On GitHub, confirm a new commit changed `data/race-broadcast.json`  
@@ -116,9 +116,7 @@ Delete or overwrite the test message before race weekend if you like.
 
 (Replace with your Worker URL + `/update` if different.)
 
-You can also use **`/crew-chief/update/`** on the public site when home Wi‑Fi works.
-
-1. Open the direct link (or `/crew-chief/update/`) in Safari/Chrome  
+1. Open the Worker link (or `https://wheresharvey.com/update/`, which redirects) in Safari/Chrome  
 2. **Share** → **Add to Home Screen** (optional but helpful)  
 3. Tell her the **password** (voice or text — not in the public site)  
 

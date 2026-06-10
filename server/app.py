@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from art import lookup_nga_image
+from broadcast import get_latest_updates, get_updates_since, to_crew_update_card
 from art_trigger import should_include_art_card
 from chat_history import sanitize_history
 from claude import ClaudeError, chat_completion, fallback_response
@@ -17,6 +18,7 @@ from config import Settings, load_settings
 from langfuse_setup import init_langfuse_tracing
 from observability import auth_check, chat_trace
 from prompt import augment_chat_user_message, build_greeting_user_message, build_system_prompt
+from broadcast import warm_broadcast_cache
 from race_data import warm_race_data_cache
 from race_log import log_note, log_question
 from status import load_enriched_status, load_status
@@ -38,6 +40,7 @@ settings: Settings = load_settings()
 async def lifespan(_app: FastAPI):
     init_langfuse_tracing(settings)
     warm_race_data_cache(settings)
+    warm_broadcast_cache(settings)
     yield
 
 
@@ -70,11 +73,27 @@ class ChatRequest(BaseModel):
     history: list[dict[str, Any]] = Field(default_factory=list)
 
 
+class CrewUpdatePhoto(BaseModel):
+    url: str
+    alt: str
+
+
+class CrewUpdateCard(BaseModel):
+    updated_at: str
+    doing: Optional[str] = None
+    station: Optional[str] = None
+    time_label: Optional[str] = None
+    note: Optional[str] = None
+    photos: list[CrewUpdatePhoto] = Field(default_factory=list)
+
+
 class ChatResponse(BaseModel):
     reply: str
     harvey_status_snapshot: dict[str, Any]
     art_prompt: Optional[str] = None
     art_image_url: Optional[str] = None
+    crew_updates: list[CrewUpdateCard] = Field(default_factory=list)
+    crew_updates_context: Optional[str] = None
     fallback: bool = False
     trace_id: Optional[str] = None
 
@@ -185,8 +204,27 @@ def post_chat(body: ChatRequest) -> ChatResponse:
     is_greeting = not message
     include_art = should_include_art_card(message)
     history = [] if is_greeting else sanitize_history(body.history)
+
+    missed_updates: list[dict[str, Any]] = []
+    crew_updates_context: str | None = None
+    if is_greeting:
+        checkin_count = int(visitor.get("checkin_count", 0))
+        if checkin_count > 0:
+            missed_updates = get_updates_since(str(visitor.get("last_seen") or ""))
+            if missed_updates:
+                crew_updates_context = "since_last_visit"
+        elif not missed_updates:
+            missed_updates = get_latest_updates(limit=1)
+            if missed_updates:
+                crew_updates_context = "latest"
+
     user_message = (
-        build_greeting_user_message(visitor, status=status, settings=settings)
+        build_greeting_user_message(
+            visitor,
+            status=status,
+            settings=settings,
+            missed_updates=missed_updates or None,
+        )
         if is_greeting
         else augment_chat_user_message(message)
     )
@@ -196,6 +234,7 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         status=status,
         visitor=visitor,
         include_art=include_art,
+        missed_updates=missed_updates or None,
     )
 
     trace_cm = chat_trace(
@@ -269,11 +308,28 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         except VisitorNotFound:
             pass
 
+    crew_cards: list[CrewUpdateCard] = []
+    if is_greeting:
+        for entry in missed_updates:
+            card = to_crew_update_card(entry)
+            crew_cards.append(
+                CrewUpdateCard(
+                    updated_at=card["updated_at"],
+                    doing=card.get("doing"),
+                    station=card.get("station"),
+                    time_label=card.get("time_label"),
+                    note=card.get("note"),
+                    photos=[CrewUpdatePhoto(**p) for p in card.get("photos", [])],
+                )
+            )
+
     return ChatResponse(
         reply=reply,
         harvey_status_snapshot=status,
         art_prompt=art_prompt,
         art_image_url=lookup_nga_image(settings, status) if art_prompt else None,
+        crew_updates=crew_cards,
+        crew_updates_context=crew_updates_context,
         fallback=fallback,
         trace_id=trace_id,
     )

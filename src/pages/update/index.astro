@@ -1,116 +1,40 @@
 ---
-import UpdateLayout from "../../layouts/UpdateLayout.astro";
-import { aidStations } from "../../lib/data";
-
-const apiUrl = import.meta.env.PUBLIC_BROADCAST_API_URL ?? "";
-const directUpdateUrl = apiUrl ? `${apiUrl.replace(/\/$/, "")}/update` : "";
-const stationNames = aidStations.map((s) => s.name);
-const formAction = apiUrl ? `${apiUrl.replace(/\/$/, "")}/broadcast` : "";
+/** Amanda posts at the broadcast Worker — one form, same-origin saves (no CORS). */
+const workerBase =
+  (import.meta.env.PUBLIC_BROADCAST_API_URL ?? "").replace(/\/$/, "") ||
+  "https://crew-chief-broadcast.harvey-schaefer.workers.dev";
+const updateUrl = `${workerBase}/update`;
 ---
 
-<UpdateLayout title="Crew update">
-  <div id="update-app" class="container update-page page-stack" data-api-url={apiUrl}>
-    <h1>Crew update</h1>
-    <p class="lead">Short note for family on the homepage. Takes a few minutes to show up after you save.</p>
-
-    {directUpdateUrl && (
-      <p class="update-direct">
-        Best on race weekend: use the{" "}
-        <a href={directUpdateUrl}>direct update link</a> (bookmark it).
-      </p>
-    )}
-
-    <p id="status" class="update-status" role="status" aria-live="polite" hidden></p>
-
-    <form
-      id="broadcast-form"
-      class="update-panel"
-      method="post"
-      action={formAction}
-      enctype="multipart/form-data"
-    >
-      <h2>Update for family</h2>
-
-      <label class="update-field">
-        <span class="update-field__label">How's Harvey doing?</span>
-        <textarea
-          id="doing"
-          name="doing"
-          rows="2"
-          maxlength="200"
-          class="update-input"
-          placeholder="e.g. Tired but moving — just left Sierra"></textarea>
-      </label>
-
-      <label class="update-field">
-        <span class="update-field__label">Last seen aid station</span>
-        <select id="station" name="station" class="update-input">
-          <option value="">— Skip if you're only posting a quick line —</option>
-          {stationNames.map((name) => <option value={name}>{name}</option>)}
-          <option value="__other__">Other…</option>
-        </select>
-      </label>
-
-      <label class="update-field">
-        <span class="update-field__label">Other station name</span>
-        <input id="station_other" type="text" class="update-input" hidden maxlength="80" />
-      </label>
-
-      <label class="update-field">
-        <span class="update-field__label">Time last seen</span>
-        <input id="time_seen" type="datetime-local" class="update-input" />
-      </label>
-      <input type="hidden" name="time_label" id="time_label" value="" />
-
-      <label class="update-field">
-        <span class="update-field__label">Note for family (optional)</span>
-        <textarea
-          id="note"
-          name="note"
-          rows="4"
-          maxlength="500"
-          class="update-input"
-          placeholder="Sleeping at Wrights — see you at Tahoe City Monday AM"></textarea>
-      </label>
-
-      <label class="update-field">
-        <span class="update-field__label">Photo 1 (optional)</span>
-        <input name="photo0" type="file" accept="image/jpeg,image/png,image/webp" class="update-input" />
-      </label>
-
-      <label class="update-field">
-        <span class="update-field__label">Photo 2 (optional)</span>
-        <input name="photo1" type="file" accept="image/jpeg,image/png,image/webp" class="update-input" />
-      </label>
-
-      <button id="save-btn" type="submit" class="btn btn--primary">Save update</button>
-    </form>
-  </div>
-
-  <script is:inline>
-    (function () {
-      function blockNativeSubmit() {
-        var form = document.getElementById("broadcast-form");
-        if (!form || form.dataset.bound === "1") return;
-        form.dataset.bound = "1";
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-        });
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${updateUrl}`} />
+    <link rel="canonical" href={updateUrl} />
+    <title>Crew update · Tahoe 200</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 28rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.5;
+        color: #1b2a2e;
+        background: #f2ede3;
       }
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", blockNativeSubmit);
-      } else {
-        blockNativeSubmit();
+      a {
+        color: #b5451f;
+        font-weight: 600;
       }
-    })();
-  </script>
-
-  <script>
-    import { initBroadcastAdmin } from "../../scripts/broadcast-admin.ts";
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => initBroadcastAdmin());
-    } else {
-      initBroadcastAdmin();
-    }
-  </script>
-</UpdateLayout>
+    </style>
+  </head>
+  <body>
+    <p>Opening the crew update form…</p>
+    <p>
+      <a href={updateUrl}>Tap here if you are not redirected</a>
+    </p>
+  </body>
+</html>
