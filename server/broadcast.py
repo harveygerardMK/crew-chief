@@ -123,10 +123,10 @@ def _format_entry(entry: dict[str, Any], index: int) -> str:
         for photo in photos:
             if not isinstance(photo, dict):
                 continue
-            url = str(photo.get("url") or "").strip()
+            url = _absolute_photo_url(str(photo.get("url") or "").strip())
             alt = str(photo.get("alt") or "Crew photo").strip()
-            if url.startswith("/"):
-                url = f"{SITE_BASE}{url}"
+            if not url:
+                continue
             if url:
                 lines.append(f"  - {alt}: {url}")
 
@@ -170,10 +170,19 @@ def _parse_iso(value: str | None) -> datetime | None:
         return None
 
 
+def _normalize_photo_path(url: str) -> str:
+    """Legacy Worker JSON used /crew-chief/race-updates/ before wheresharvey.com root."""
+    path = url.strip()
+    if path.startswith("/crew-chief/"):
+        return path.replace("/crew-chief/", "/", 1)
+    return path
+
+
 def _absolute_photo_url(url: str) -> str:
-    if url.startswith("/"):
-        return f"{SITE_BASE}{url}"
-    return url
+    path = _normalize_photo_path(url)
+    if path.startswith("/"):
+        return f"{SITE_BASE}{path}"
+    return path
 
 
 def get_latest_updates(limit: int = 1) -> list[dict[str, Any]]:

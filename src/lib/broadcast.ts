@@ -26,6 +26,14 @@ export type RaceBroadcastFile = {
 
 const MAX_UPDATES = 50;
 
+/** Legacy broadcast JSON stored /crew-chief/race-updates/ before wheresharvey.com root. */
+export function normalizePhotoUrl(url: string): string {
+  if (url.startsWith("/crew-chief/")) {
+    return url.replace("/crew-chief/", "/");
+  }
+  return url;
+}
+
 export function entryHasContent(b: RaceBroadcastEntry): boolean {
   return Boolean(
     b.doing?.trim() ||
@@ -43,14 +51,22 @@ export function hasBroadcastUpdates(updates: RaceBroadcastEntry[]): boolean {
   return updates.some(entryHasContent);
 }
 
+function withNormalizedPhotos(entry: RaceBroadcastEntry): RaceBroadcastEntry {
+  return {
+    ...entry,
+    photos: entry.photos.map((p) => ({ ...p, url: normalizePhotoUrl(p.url) })),
+  };
+}
+
 export function getBroadcastUpdates(raw: unknown): RaceBroadcastEntry[] {
   if (Array.isArray(raw)) {
     return raw
       .filter(isEntry)
       .filter(entryHasContent)
-      .sort(sortNewestFirst);
+      .sort(sortNewestFirst)
+      .map(withNormalizedPhotos);
   }
-  return parseBroadcastFile(raw);
+  return parseBroadcastFile(raw).map(withNormalizedPhotos);
 }
 
 function parseBroadcastFile(raw: unknown): RaceBroadcastEntry[] {
@@ -101,12 +117,14 @@ function legacyToEntry(obj: Record<string, unknown>): RaceBroadcastEntry {
         : null,
     note: typeof obj.note === "string" ? obj.note : null,
     photos: Array.isArray(obj.photos)
-      ? obj.photos.filter(
-          (p): p is RaceBroadcastPhoto =>
-            p !== null &&
-            typeof p === "object" &&
-            typeof (p as RaceBroadcastPhoto).url === "string",
-        )
+      ? obj.photos
+          .filter(
+            (p): p is RaceBroadcastPhoto =>
+              p !== null &&
+              typeof p === "object" &&
+              typeof (p as RaceBroadcastPhoto).url === "string",
+          )
+          .map((p) => ({ ...p, url: normalizePhotoUrl(p.url) }))
       : [],
   };
 }

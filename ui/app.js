@@ -507,6 +507,17 @@ function appendCrewUpdatesHeader(count, context) {
   scrollMessagesToBottom();
 }
 
+function normalizeCrewPhotoUrl(url) {
+  if (!url) return url;
+  if (url.startsWith("/crew-chief/")) {
+    return `https://wheresharvey.com${url.replace("/crew-chief", "")}`;
+  }
+  if (url.startsWith("/")) {
+    return `https://wheresharvey.com${url}`;
+  }
+  return url;
+}
+
 function appendCrewUpdateCard(update) {
   const wrap = document.createElement("article");
   wrap.className = "msg msg--crew";
@@ -536,12 +547,13 @@ function appendCrewUpdateCard(update) {
     const gallery = document.createElement("div");
     gallery.className = "crew-update-card__photos";
     for (const photo of update.photos) {
+      const photoUrl = normalizeCrewPhotoUrl(photo.url);
       const link = document.createElement("a");
-      link.href = photo.url;
+      link.href = photoUrl;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       const img = document.createElement("img");
-      img.src = photo.url;
+      img.src = photoUrl;
       img.alt = photo.alt || "Crew photo";
       img.loading = "lazy";
       link.appendChild(img);

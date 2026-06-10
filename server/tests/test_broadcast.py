@@ -117,6 +117,25 @@ def test_to_crew_update_card_absolute_photo_url() -> None:
     assert card["photos"][0]["url"] == "https://wheresharvey.com/race-updates/test.jpg"
 
 
+def test_to_crew_update_card_rewrites_legacy_crew_chief_photo_path() -> None:
+    card = to_crew_update_card(
+        {
+            "updated_at": "2026-06-10T20:00:00.000Z",
+            "doing": "Smiling",
+            "photos": [
+                {
+                    "url": "/crew-chief/race-updates/2026-06-10T16-29-29-877Z-update-1.png",
+                    "alt": "Harvey",
+                }
+            ],
+        }
+    )
+    assert (
+        card["photos"][0]["url"]
+        == "https://wheresharvey.com/race-updates/2026-06-10T16-29-29-877Z-update-1.png"
+    )
+
+
 def test_get_broadcast_block_uses_local_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     data_dir = tmp_path / "data"
     data_dir.mkdir()
