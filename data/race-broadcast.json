@@ -1,6 +1,19 @@
 {
   "updates": [
     {
+      "updated_at": "2026-06-10T16:29:31.743Z",
+      "updated_by": "crew",
+      "doing": "Test from Amanda's phone",
+      "last_seen": null,
+      "note": null,
+      "photos": [
+        {
+          "url": "/crew-chief/race-updates/2026-06-10T16-29-29-877Z-update-1.png",
+          "alt": "Harvey on course"
+        }
+      ]
+    },
+    {
       "updated_at": "2026-06-10T16:26:37.973Z",
       "updated_by": "crew",
       "doing": "DIRECT LINK TEST: Amanda bookmark works (ignore)",
