@@ -12,6 +12,7 @@ const STORAGE = {
   simulationDismissed: "cc_simulation_dismissed",
   chatHistory: "cc_chat_history",
   welcomeSeen: "cc_welcome_seen",
+  broadcastSeen: "cc_broadcast_seen",
 };
 
 const MAX_CHAT_HISTORY = 10;
@@ -32,6 +33,8 @@ const PROMPT_CHIPS = {
 const ON_COURSE_RELATIONSHIPS = new Set(["crew", "pacer"]);
 
 const STATUS_POLL_MS = 60_000;
+const BROADCAST_POLL_MS = 60_000;
+const MAX_INITIAL_CREW_UPDATES = 5;
 const RACE_START_MS = Date.parse("2026-06-12T16:00:00.000Z"); // Fri 9 AM PDT
 const STALE_MS = 2 * 60 * 60 * 1000;
 
@@ -459,6 +462,172 @@ async function refreshStatus() {
   }
 }
 
+function getSeenBroadcastIds() {
+  try {
+    const raw = sessionStorage.getItem(STORAGE.broadcastSeen);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(parsed) ? parsed : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function markBroadcastSeen(updatedAt) {
+  const seen = getSeenBroadcastIds();
+  seen.add(updatedAt);
+  sessionStorage.setItem(STORAGE.broadcastSeen, JSON.stringify([...seen]));
+}
+
+function parseBroadcastUpdates(raw) {
+  if (!raw || typeof raw !== "object") return [];
+
+  const updates = Array.isArray(raw)
+    ? raw
+    : Array.isArray(raw.updates)
+      ? raw.updates
+      : typeof raw.updated_at === "string"
+        ? [raw]
+        : [];
+
+  return updates
+    .filter((entry) => entry && typeof entry.updated_at === "string")
+    .filter((entry) =>
+      Boolean(
+        entry.doing?.trim() ||
+          entry.last_seen?.station?.trim() ||
+          entry.note?.trim() ||
+          (Array.isArray(entry.photos) && entry.photos.length > 0),
+      ),
+    )
+    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+}
+
+async function fetchBroadcastUpdates() {
+  try {
+    const res = await fetch(`/data/race-broadcast.json?ts=${Date.now()}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return parseBroadcastUpdates(data);
+  } catch {
+    return [];
+  }
+}
+
+function isBroadcastDisplayed(updatedAt) {
+  return Boolean(messagesEl?.querySelector(`[data-broadcast-at="${updatedAt}"]`));
+}
+
+function formatBroadcastTime(iso) {
+  return new Date(iso).toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+}
+
+function buildCrewUpdateText(entry) {
+  const parts = [];
+  if (entry.doing?.trim()) parts.push(entry.doing.trim());
+  if (entry.last_seen?.station?.trim()) {
+    const station = entry.last_seen.station.trim();
+    const timeLabel = entry.last_seen.time_label?.trim();
+    parts.push(timeLabel ? `Last seen: ${station} · ${timeLabel}` : `Last seen: ${station}`);
+  }
+  if (entry.note?.trim()) parts.push(entry.note.trim());
+  return parts.join("\n\n");
+}
+
+function appendCrewUpdate(entry) {
+  if (!messagesEl || isBroadcastDisplayed(entry.updated_at)) return;
+
+  const wrap = document.createElement("article");
+  wrap.className = "msg msg--crew";
+  wrap.dataset.broadcastAt = entry.updated_at;
+
+  const label = document.createElement("div");
+  label.className = "msg__label";
+  label.textContent = "Amanda";
+
+  wrap.appendChild(label);
+
+  const text = buildCrewUpdateText(entry);
+  if (text) {
+    const bubble = document.createElement("div");
+    bubble.className = "msg__bubble";
+    bubble.textContent = text;
+    wrap.appendChild(bubble);
+  }
+
+  const photos = Array.isArray(entry.photos) ? entry.photos : [];
+  if (photos.length > 0) {
+    const row = document.createElement("div");
+    row.className = "crew-photos";
+    row.setAttribute("role", "group");
+    row.setAttribute("aria-label", "Photos from Amanda");
+
+    for (const photo of photos) {
+      if (!photo?.url) continue;
+      const link = document.createElement("a");
+      link.className = "crew-photos__link";
+      link.href = photo.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+
+      const img = document.createElement("img");
+      img.src = photo.url;
+      img.alt = photo.alt || "Photo from Amanda";
+      img.loading = "lazy";
+      img.width = 120;
+      img.height = 120;
+
+      link.appendChild(img);
+      row.appendChild(link);
+    }
+
+    if (row.childElementCount > 0) wrap.appendChild(row);
+  }
+
+  const meta = document.createElement("div");
+  meta.className = "msg__meta";
+  meta.textContent = formatBroadcastTime(entry.updated_at);
+  wrap.appendChild(meta);
+
+  messagesEl.appendChild(wrap);
+  markBroadcastSeen(entry.updated_at);
+}
+
+function selectPendingCrewUpdates(updates) {
+  const seen = getSeenBroadcastIds();
+  const unseen = updates.filter((entry) => !seen.has(entry.updated_at) && !isBroadcastDisplayed(entry.updated_at));
+  if (unseen.length === 0) return [];
+
+  const capped =
+    unseen.length > MAX_INITIAL_CREW_UPDATES ? unseen.slice(0, MAX_INITIAL_CREW_UPDATES) : unseen;
+
+  return capped.sort(
+    (a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime(),
+  );
+}
+
+async function refreshCrewUpdates() {
+  if (!messagesEl) return;
+
+  const updates = await fetchBroadcastUpdates();
+  const pending = selectPendingCrewUpdates(updates);
+  if (pending.length === 0) return;
+
+  for (const entry of pending) {
+    appendCrewUpdate(entry);
+  }
+  scrollMessagesToBottom();
+}
+
 function scrollMessagesToBottom() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
@@ -708,6 +877,7 @@ onboardingForm.addEventListener("submit", async (event) => {
     setVisitor(data.visitor_id, data.name, data.audience || audience);
     showChat();
     await refreshStatus();
+    await refreshCrewUpdates();
     await loadGreeting();
   } catch (err) {
     onboardingError.textContent = err.message || "Could not register — try again.";
@@ -866,6 +1036,8 @@ async function init() {
   }
 
   setInterval(refreshStatus, STATUS_POLL_MS);
+  setInterval(refreshCrewUpdates, BROADCAST_POLL_MS);
+  refreshCrewUpdates();
 
   const visitorId = getVisitorId();
   if (visitorId) {
@@ -877,6 +1049,7 @@ async function init() {
     }
     clearChatHistory();
     showChat();
+    await refreshCrewUpdates();
     await loadGreeting();
   }
 

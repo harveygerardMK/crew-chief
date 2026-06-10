@@ -443,7 +443,8 @@ body {
 }
 
 .msg--harvey,
-.msg--system {
+.msg--system,
+.msg--crew {
   align-self: flex-start;
   max-width: 100%;
 }
@@ -482,6 +483,48 @@ body {
   font-size: 0.875rem;
   color: var(--text-muted);
   border: 1px dashed var(--border);
+}
+
+.msg--crew .msg__label {
+  color: #e8a4b8;
+}
+
+.msg--crew .msg__bubble {
+  background: rgba(232, 164, 184, 0.12);
+  border: 1px solid rgba(232, 164, 184, 0.35);
+}
+
+.msg__meta {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.crew-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.crew-photos__link {
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  line-height: 0;
+}
+
+.crew-photos__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.crew-photos img {
+  display: block;
+  width: 7.5rem;
+  height: 7.5rem;
+  object-fit: cover;
 }
 
 /* Thinking dots */
