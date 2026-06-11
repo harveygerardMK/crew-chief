@@ -1,6 +1,23 @@
 {
   "updates": [
     {
+      "updated_at": "2026-06-11T21:55:46.453Z",
+      "updated_by": "crew",
+      "doing": "Hay is in the barn!",
+      "last_seen": null,
+      "note": null,
+      "photos": [
+        {
+          "url": "/race-updates/2026-06-11T21-55-42-951Z-update-1.jpg",
+          "alt": "Harvey on course"
+        },
+        {
+          "url": "/race-updates/2026-06-11T21-55-42-951Z-update-2.jpg",
+          "alt": "Harvey on course"
+        }
+      ]
+    },
+    {
       "updated_at": "2026-06-11T01:16:53.843Z",
       "updated_by": "crew",
       "doing": "En route to Tahoe. He’s been quiet for a while…I’m pretty sure he’s doing a mental inventory of his sock situation.",
