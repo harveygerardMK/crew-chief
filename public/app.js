@@ -791,8 +791,7 @@ onboardingForm.addEventListener("submit", async (event) => {
     });
     setVisitor(data.visitor_id, data.name, data.audience || audience);
     showChat();
-    await refreshStatus();
-    await loadGreeting();
+    await Promise.all([refreshStatus(), loadGreeting()]);
   } catch (err) {
     onboardingError.textContent = err.message || "Could not register — try again.";
     onboardingError.classList.remove("hidden");

@@ -484,7 +484,7 @@ function appendThinkingMessage() {
   wrap.innerHTML = `
     <div class="msg__label">Harvey</div>
     <div class="msg__bubble">
-      <span class="thinking-dots" aria-label="Harvey is typing">
+      <span class="thinking-dots" aria-label="Harvey is typing — first reply can take a few seconds">
         <span></span><span></span><span></span>
       </span>
     </div>
@@ -791,8 +791,7 @@ onboardingForm.addEventListener("submit", async (event) => {
     });
     setVisitor(data.visitor_id, data.name, data.audience || audience);
     showChat();
-    await refreshStatus();
-    await loadGreeting();
+    await Promise.all([refreshStatus(), loadGreeting()]);
   } catch (err) {
     onboardingError.textContent = err.message || "Could not register — try again.";
     onboardingError.classList.remove("hidden");
@@ -943,25 +942,23 @@ async function init() {
   const cached = loadCachedStatus();
   if (cached) renderStatus(cached);
 
-  try {
-    await refreshStatus();
-  } catch {
-    /* cached */
-  }
-
+  const statusRefresh = refreshStatus().catch(() => null);
   setInterval(refreshStatus, STATUS_POLL_MS);
 
   const visitorId = getVisitorId();
   if (visitorId) {
-    try {
-      const profile = await api(`/visitors/${encodeURIComponent(visitorId)}`);
-      if (profile.audience) setVisitor(visitorId, profile.name, profile.audience);
-    } catch {
-      /* use localStorage audience / legacy migration */
-    }
     clearChatHistory();
     showChat();
-    await loadGreeting();
+    const profileFetch = api(`/visitors/${encodeURIComponent(visitorId)}`)
+      .then((profile) => {
+        if (profile.audience) setVisitor(visitorId, profile.name, profile.audience);
+      })
+      .catch(() => {
+        /* use localStorage audience / legacy migration */
+      });
+    await Promise.all([statusRefresh, profileFetch, loadGreeting()]);
+  } else {
+    await statusRefresh;
   }
 
   $("visitor-name")?.addEventListener("input", applyAudienceSuggestionFromName);
