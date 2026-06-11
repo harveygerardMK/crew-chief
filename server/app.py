@@ -10,15 +10,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from art import lookup_nga_image
-from broadcast import get_latest_updates, get_updates_since, to_crew_update_card
+from broadcast import get_latest_updates, get_updates_since, to_crew_update_card, warm_broadcast_cache
 from art_trigger import should_include_art_card
 from chat_history import sanitize_history
 from claude import ClaudeError, chat_completion, fallback_response
 from config import Settings, load_settings
-from langfuse_setup import init_langfuse_tracing
-from observability import auth_check, chat_trace
 from prompt import augment_chat_user_message, build_greeting_user_message, build_system_prompt
-from broadcast import warm_broadcast_cache
 from race_data import warm_race_data_cache
 from race_log import log_note, log_question
 from status import load_enriched_status, load_status
@@ -38,7 +35,6 @@ settings: Settings = load_settings()
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    init_langfuse_tracing(settings)
     warm_race_data_cache(settings)
     warm_broadcast_cache(settings)
     yield
@@ -95,7 +91,6 @@ class ChatResponse(BaseModel):
     crew_updates: list[CrewUpdateCard] = Field(default_factory=list)
     crew_updates_context: Optional[str] = None
     fallback: bool = False
-    trace_id: Optional[str] = None
 
 
 class NoteCreate(BaseModel):
@@ -125,8 +120,6 @@ def ready() -> dict[str, Any]:
         "status_enabled": bool(status.get("enabled")),
         "data_stale": bool(status.get("data_stale")),
         "race_status": status.get("race_status", "unknown"),
-        "langfuse_configured": settings.langfuse_configured,
-        "langfuse_ok": auth_check(settings),
     }
 
 
@@ -235,48 +228,34 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         visitor=visitor,
         include_art=include_art,
         missed_updates=missed_updates or None,
+        message=message or None,
     )
 
-    trace_cm = chat_trace(
-        settings,
-        visitor=visitor,
-        status=status,
-        user_message=user_message,
-        is_greeting=is_greeting,
-    )
-    trace_id: str | None = None
-    with trace_cm as trace:
-        try:
-            model_out = chat_completion(
-                settings,
-                system=system,
-                user_message=user_message,
-                history=history,
-                require_art=include_art,
-            )
-            fallback = False
-        except ClaudeError as err:
-            model_out = fallback_response(
-                settings,
-                include_art=include_art,
-                status=status,
-                visitor=visitor,
-                is_greeting=is_greeting,
-            )
-            fallback = True
-            if trace is not None:
-                trace.record_fallback(reason=str(err), output=model_out)
+    try:
+        model_out = chat_completion(
+            settings,
+            system=system,
+            user_message=user_message,
+            history=history,
+            require_art=include_art,
+        )
+        fallback = False
+    except ClaudeError:
+        model_out = fallback_response(
+            settings,
+            include_art=include_art,
+            status=status,
+            visitor=visitor,
+            is_greeting=is_greeting,
+        )
+        fallback = True
 
-        reply = model_out["reply"]
-        art_prompt: str | None = None
-        if include_art:
-            art_prompt = model_out.get("art_prompt") or (
-                "Wanderer Above the Sea of Fog, Friedrich — still moving, still out here."
-            )
-
-        if trace is not None:
-            trace.record_result(reply=reply, fallback=fallback, art_prompt=art_prompt)
-            trace_id = trace.trace_id
+    reply = model_out["reply"]
+    art_prompt: str | None = None
+    if include_art:
+        art_prompt = model_out.get("art_prompt") or (
+            "Wanderer Above the Sea of Fog, Friedrich — still moving, still out here."
+        )
 
     if message:
         log_question(
@@ -331,5 +310,4 @@ def post_chat(body: ChatRequest) -> ChatResponse:
         crew_updates=crew_cards,
         crew_updates_context=crew_updates_context,
         fallback=fallback,
-        trace_id=trace_id,
     )

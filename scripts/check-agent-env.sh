@@ -72,16 +72,7 @@ if not d.get('claude_configured'):
     raise SystemExit('claude_configured=false — key not loaded; pm2 restart crew-chief-api')
 if not d.get('api_key_ascii'):
     raise SystemExit('api_key_ascii=false')
-lf = d.get('langfuse_configured')
-lf_ok = d.get('langfuse_ok')
 print('✓ /ready:', 'claude_configured', d.get('claude_configured'), '| race_status', d.get('race_status'))
-if lf:
-    if lf_ok is True:
-        print('✓ Langfuse configured and authenticated')
-    else:
-        print('! Langfuse keys set but auth failed — check LANGFUSE_* in server/.env')
-else:
-    print('  Langfuse not configured (optional for test-week tracing)')
 "
 else
   warn "API not running on :8080 — start with: pm2 start deploy/ecosystem.config.cjs"

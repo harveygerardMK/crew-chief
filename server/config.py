@@ -40,9 +40,6 @@ class Settings:
     segments_path: Path
     questions_path: Path
     notes_path: Path
-    langfuse_public_key: str | None
-    langfuse_secret_key: str | None
-    langfuse_base_url: str
 
     @property
     def race_started(self) -> bool:
@@ -51,10 +48,6 @@ class Settings:
     @property
     def claude_configured(self) -> bool:
         return bool(self.anthropic_api_key)
-
-    @property
-    def langfuse_configured(self) -> bool:
-        return bool(self.langfuse_public_key and self.langfuse_secret_key)
 
 
 def load_settings() -> Settings:
@@ -95,7 +88,4 @@ def load_settings() -> Settings:
             os.environ.get("QUESTIONS_PATH", REPO_ROOT / "data" / "questions.json"),
         ),
         notes_path=Path(os.environ.get("NOTES_PATH", REPO_ROOT / "data" / "notes.json")),
-        langfuse_public_key=os.environ.get("LANGFUSE_PUBLIC_KEY") or None,
-        langfuse_secret_key=os.environ.get("LANGFUSE_SECRET_KEY") or None,
-        langfuse_base_url=os.environ.get("LANGFUSE_BASE_URL", "https://cloud.langfuse.com"),
     )

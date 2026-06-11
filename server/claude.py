@@ -38,7 +38,13 @@ def chat_completion(
         response = client.messages.create(
             model=settings.claude_model,
             max_tokens=settings.claude_max_tokens,
-            system=system,
+            system=[
+                {
+                    "type": "text",
+                    "text": system,
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
             messages=messages,
         )
     except APIError as err:

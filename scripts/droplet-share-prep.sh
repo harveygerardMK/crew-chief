@@ -15,6 +15,9 @@ git pull --ff-only origin main
 echo "==> Resetting status to pre-race share state (mile 0, last ping none, anxious)..."
 bash scripts/reset-share-status.sh
 
+echo "==> Syncing crew broadcast from live site (drops stale droplet test posts)..."
+bash scripts/reset-share-broadcast.sh
+
 echo "==> Restarting API (cloudflared unchanged — tunnel URL stays stable)..."
 python3 -m pip install -q -r server/requirements.txt
 pm2 restart crew-chief-api --update-env || {
@@ -46,5 +49,6 @@ bash scripts/check-agent-env.sh 2>/dev/null || echo "WARN: check-agent-env.sh ha
 echo ""
 echo "Share prep complete."
 echo "  • Status is PINNED — poller cron will not overwrite until race week."
+echo "  • Crew broadcast synced from wheresharvey.com (stale test posts cleared)."
 echo "  • June 12: sudo bash scripts/race-week-switch.sh (unpins + live TrackLeaders)."
 echo "  • Redeploy GitHub Pages if tunnel URL changed (not needed with named tunnel — see crew-chief-agent-named-tunnel.md)."

@@ -84,41 +84,106 @@ _CONTENT_PAGE_ORDER = [
     "pacer-onboarding.md",
     "rules-summary.md",
 ]
-
-
-def load_course_content() -> str:
-    parts = []
-    for filename in _CONTENT_PAGE_ORDER:
-        path = _CONTENT_PAGES_DIR / filename
-        if path.is_file():
-            parts.append(path.read_text(encoding="utf-8").strip())
-    return "\n\n---\n\n".join(parts)
+_CONTENT_PAGE_REMOTE = [
+    "about-the-race.md",
+    "course-overview.md",
+]
 
 
 _CREW_OPS_DIR = REPO_ROOT / "docs"
-_CREW_OPS_DOC_ORDER = [
+_CREW_OPS_REMOTE = ["crew-schedule.md", "race-comms.md"]
+_CREW_OPS_ON_COURSE_CORE = [
     "crew-schedule.md",
-    "aid-station-crew-lists.md",
-    "drop-bags.md",
-    "master-supply-list.md",
-    "pacer-logistics.md",
     "race-comms.md",
+    "drop-bags.md",
+]
+_CREW_OPS_HEAVY = [
+    "aid-station-crew-lists.md",
+    "master-supply-list.md",
     "contingency-plan.md",
 ]
+_LOGISTICS_KEYWORDS = (
+    "drop bag",
+    "drop-bag",
+    "gear",
+    "pack",
+    "packing",
+    "supply",
+    "supplies",
+    "contingency",
+    "backup",
+    "plan b",
+    "crew list",
+    "what to bring",
+    "master list",
+    "vehicle stock",
+)
+_PACER_KEYWORDS = ("pacer", "pickup", "pick up", "barker pass")
 _TAHOE200_CREW_MAP_URL = (
     "https://www.google.com/maps/d/viewer?mid=1hDy3W90tn-FWzyzCNs5yWMKOBYy7pg4&usp=sharing"
 )
 _KML_NS = "http://www.opengis.net/kml/2.2"
 
 
-def load_crew_ops_content() -> str:
-    """Race-week crew logistics (drop bags, schedule, comms, contingencies)."""
+def load_course_content(*, audience: str = "remote", race_is_live: bool = False) -> str:
+    pages = _CONTENT_PAGE_ORDER if audience == "on_course" or race_is_live else _CONTENT_PAGE_REMOTE
     parts = []
-    for filename in _CREW_OPS_DOC_ORDER:
+    for filename in pages:
+        path = _CONTENT_PAGES_DIR / filename
+        if path.is_file():
+            parts.append(path.read_text(encoding="utf-8").strip())
+    return "\n\n---\n\n".join(parts)
+
+
+def _message_matches_keywords(message: str | None, keywords: tuple[str, ...]) -> bool:
+    if not message:
+        return False
+    lower = message.lower()
+    return any(keyword in lower for keyword in keywords)
+
+
+def _crew_ops_filenames(
+    *,
+    audience: str,
+    race_is_live: bool,
+    message: str | None,
+) -> list[str]:
+    if audience == "remote":
+        docs = list(_CREW_OPS_REMOTE)
+        if race_is_live and _message_matches_keywords(message, _LOGISTICS_KEYWORDS):
+            docs.append("drop-bags.md")
+        return docs
+
+    docs = list(_CREW_OPS_ON_COURSE_CORE)
+    if race_is_live or _message_matches_keywords(message, _PACER_KEYWORDS):
+        docs.append("pacer-logistics.md")
+    if race_is_live or _message_matches_keywords(message, _LOGISTICS_KEYWORDS):
+        docs.extend(_CREW_OPS_HEAVY)
+    return docs
+
+
+def _load_crew_ops_docs(filenames: list[str]) -> str:
+    parts = []
+    for filename in filenames:
         path = _CREW_OPS_DIR / filename
         if path.is_file():
             parts.append(path.read_text(encoding="utf-8").strip())
     return "\n\n---\n\n".join(parts)
+
+
+def load_crew_ops_content(
+    *,
+    audience: str = "remote",
+    race_is_live: bool = False,
+    message: str | None = None,
+) -> str:
+    """Race-week crew logistics — tiered to keep Claude prompts under rate limits."""
+    filenames = _crew_ops_filenames(
+        audience=audience,
+        race_is_live=race_is_live,
+        message=message,
+    )
+    return _load_crew_ops_docs(filenames)
 
 
 def _maps_search_url(lat: float, lng: float) -> str:
@@ -145,7 +210,7 @@ def _parse_kml_placemarks(path: Path) -> list[tuple[str, float, float]]:
     return rows
 
 
-def load_crew_map_block() -> str:
+def load_crew_map_block(*, compact: bool = False) -> str:
     """Interactive crew map URL plus compact pin list from tahoe200-locations.kml."""
     kml_path = _CREW_OPS_DIR / "tahoe200-locations.kml"
     lines = [
@@ -156,6 +221,8 @@ def load_crew_map_block() -> str:
         "",
         "For driving directions, share the map link or a pin below — do not invent roads or parking.",
     ]
+    if compact:
+        return "\n".join(lines)
     placemarks = _parse_kml_placemarks(kml_path)
     if placemarks:
         lines.append("")
@@ -294,7 +361,18 @@ def build_system_prompt(
     visitor: dict,
     include_art: bool = False,
     missed_updates: list[dict] | None = None,
+    message: str | None = None,
 ) -> str:
+    audience = resolve_audience(visitor)
+    status_race_status = str(status.get("race_status") or "").lower()
+    race_is_live = settings.race_started or status_race_status in {
+        "racing",
+        "sleeping",
+        "finished",
+        "active",
+    }
+    map_is_compact = audience == "remote" and not race_is_live
+
     parts = [
         SCOPE_LOCK,
         NILBOG_SCOPE,
@@ -304,10 +382,14 @@ def build_system_prompt(
     profile = load_harvey_profile()
     if profile:
         parts.append(profile)
-    course_content = load_course_content()
+    course_content = load_course_content(audience=audience, race_is_live=race_is_live)
     if course_content:
         parts.append(f"## Course & race context\n\n{course_content}")
-    crew_ops = load_crew_ops_content()
+    crew_ops = load_crew_ops_content(
+        audience=audience,
+        race_is_live=race_is_live,
+        message=message,
+    )
     if crew_ops:
         parts.append(
             "## Crew operations & logistics (authoritative)\n\n"
@@ -315,7 +397,7 @@ def build_system_prompt(
             "Harvey defers live dispatch to Amanda, but may answer from these plans in his voice.\n\n"
             f"{crew_ops}"
         )
-    crew_map = load_crew_map_block()
+    crew_map = load_crew_map_block(compact=map_is_compact)
     if crew_map:
         parts.append(crew_map)
     broadcast = get_broadcast_block(settings)
@@ -342,16 +424,12 @@ def build_system_prompt(
     if catchup:
         parts.append(catchup)
 
-    audience = resolve_audience(visitor)
     tone = AUDIENCE_TONE.get(audience)
     if tone:
         parts.append(f"## Audience tone for this chat\n{tone}")
 
     # Treat as on-course if the clock says so OR if the injected/live status says racing/sleeping/finished.
     # The status-based check lets the eval suite test mid-race scenarios before June 12.
-    status_race_status = str(status.get("race_status") or "").lower()
-    race_is_live = settings.race_started or status_race_status in {"racing", "sleeping", "finished", "active"}
-
     if not race_is_live:
         parts.append(format_pre_race_mode_block(status))
     else:
