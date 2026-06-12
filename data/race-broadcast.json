@@ -1,6 +1,22 @@
 {
   "updates": [
     {
+      "updated_at": "2026-06-12T18:26:58.874Z",
+      "updated_by": "crew",
+      "doing": "10 miles in already!  Perfect start.  Vibes are V high.",
+      "last_seen": {
+        "station": "Heavenly",
+        "time_label": "Fri, 11:26 AM PDT"
+      },
+      "note": null,
+      "photos": [
+        {
+          "url": "/race-updates/2026-06-12T18-26-56-909Z-heavenly-1.jpg",
+          "alt": "Harvey at Heavenly"
+        }
+      ]
+    },
+    {
       "updated_at": "2026-06-12T15:53:31.205Z",
       "updated_by": "crew",
       "doing": "LFG!!!!",
