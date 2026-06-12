@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from typing import Any
 from urllib.error import URLError
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 from config import Settings
 
@@ -40,6 +40,8 @@ RACE_FACTS = """- 200.4 miles, one loop around Lake Tahoe, mostly Tahoe Rim Trai
 
 RELOAD_SECONDS = 30 * 60
 CREW_SITE_DATA_BASE = "https://wheresharvey.com/data"
+# Cloudflare 403s the default Python-urllib User-Agent; a normal UA is allowed.
+FETCH_USER_AGENT = "crew-chief-agent/1.0 (+https://wheresharvey.com)"
 
 _lock = threading.Lock()
 _cached_block: str | None = None
@@ -89,7 +91,8 @@ def _load_local_aid_stations(settings: Settings) -> list[dict[str, Any]]:
 def _fetch_remote_aid_stations() -> list[dict[str, Any]] | None:
     url = f"{CREW_SITE_DATA_BASE}/aid-stations.json"
     try:
-        with urlopen(url, timeout=15) as resp:
+        req = Request(url, headers={"User-Agent": FETCH_USER_AGENT})
+        with urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read().decode("utf-8"))
     except (URLError, TimeoutError, json.JSONDecodeError, OSError):
         return None

@@ -12,7 +12,7 @@ from typing import Any
 
 UTC = timezone.utc
 from urllib.error import URLError
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 from config import REPO_ROOT, Settings
 
@@ -20,6 +20,9 @@ SITE_BASE = "https://wheresharvey.com"
 CHAT_URL = f"{SITE_BASE}/"
 RELOAD_SECONDS = 5 * 60
 MAX_UPDATES_IN_PROMPT = 5
+# Cloudflare 403s the default Python-urllib User-Agent, which silently dropped
+# fresh crew posts and served the stale local checkout. A normal UA is allowed.
+FETCH_USER_AGENT = "crew-chief-agent/1.0 (+https://wheresharvey.com)"
 
 _lock = threading.Lock()
 _cached_block: str | None = None
@@ -75,7 +78,8 @@ def _load_local_broadcast() -> list[dict[str, Any]]:
 def _fetch_remote_broadcast() -> list[dict[str, Any]] | None:
     url = "https://wheresharvey.com/data/race-broadcast.json"
     try:
-        with urlopen(url, timeout=15) as resp:
+        req = Request(url, headers={"User-Agent": FETCH_USER_AGENT})
+        with urlopen(req, timeout=15) as resp:
             raw = json.loads(resp.read().decode("utf-8"))
     except (URLError, TimeoutError, json.JSONDecodeError, OSError):
         return None
