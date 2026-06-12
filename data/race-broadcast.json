@@ -1,6 +1,26 @@
 {
   "updates": [
     {
+      "updated_at": "2026-06-12T15:53:31.205Z",
+      "updated_by": "crew",
+      "doing": "LFG!!!!",
+      "last_seen": {
+        "station": "Start (Heavenly Stagecoach)",
+        "time_label": "Fri, 8:53 AM PDT"
+      },
+      "note": null,
+      "photos": [
+        {
+          "url": "/race-updates/2026-06-12T15-53-27-910Z-start-heavenly-stagecoach-1.jpg",
+          "alt": "Harvey at Start (Heavenly Stagecoach)"
+        },
+        {
+          "url": "/race-updates/2026-06-12T15-53-27-910Z-start-heavenly-stagecoach-2.jpg",
+          "alt": "Harvey at Start (Heavenly Stagecoach)"
+        }
+      ]
+    },
+    {
       "updated_at": "2026-06-12T12:06:05.087Z",
       "updated_by": "crew",
       "doing": "And he’s going to be running around this entire lake!  Mind boggling.  Good luck to our boy!  Run, Harvey, Run!!",
