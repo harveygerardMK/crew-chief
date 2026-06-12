@@ -48,7 +48,7 @@ pass "GET /status"
 # Register visitor
 VISITOR=$(curl -sf -X POST "$BASE/visitors" \
   -H 'Content-Type: application/json' \
-  -d '{"name":"VerifyBot","relationship":"stranger"}') || fail "POST /visitors"
+  -d '{"name":"VerifyBot","audience":"remote"}') || fail "POST /visitors"
 VID=$(echo "$VISITOR" | python3 -c "import sys,json; print(json.load(sys.stdin)['visitor_id'])") || fail "visitor_id parse"
 pass "POST /visitors → $VID"
 
