@@ -8,7 +8,9 @@ from pathlib import Path
 import pytest
 
 from broadcast import (
+    FETCH_USER_AGENT,
     _build_broadcast_block,
+    _fetch_remote_broadcast,
     _parse_updates,
     get_broadcast_block,
     get_updates_since,
@@ -134,6 +136,48 @@ def test_to_crew_update_card_rewrites_legacy_crew_chief_photo_path() -> None:
         card["photos"][0]["url"]
         == "https://wheresharvey.com/race-updates/2026-06-10T16-29-29-877Z-update-1.png"
     )
+
+
+def test_fetch_remote_broadcast_sends_browser_user_agent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Cloudflare 403s the default Python-urllib UA; a real UA must be sent so
+    fresh crew posts reach the chat instead of silently falling back to local."""
+    import broadcast as broadcast_mod
+
+    captured: dict[str, object] = {}
+
+    class _FakeResp:
+        def __enter__(self) -> "_FakeResp":
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+        def read(self) -> bytes:
+            return json.dumps(
+                {
+                    "updates": [
+                        {
+                            "updated_at": "2026-06-12T12:06:05.087Z",
+                            "doing": "Remote update",
+                            "photos": [],
+                        }
+                    ]
+                }
+            ).encode("utf-8")
+
+    def _fake_urlopen(req: object, timeout: float = 0) -> _FakeResp:  # noqa: ARG001
+        captured["user_agent"] = req.get_header("User-agent")  # type: ignore[attr-defined]
+        return _FakeResp()
+
+    monkeypatch.setattr(broadcast_mod, "urlopen", _fake_urlopen)
+
+    updates = _fetch_remote_broadcast()
+    assert updates is not None
+    assert updates[0]["doing"] == "Remote update"
+    assert captured["user_agent"] == FETCH_USER_AGENT
+    assert "python-urllib" not in str(captured["user_agent"]).lower()
 
 
 def test_get_broadcast_block_uses_local_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
