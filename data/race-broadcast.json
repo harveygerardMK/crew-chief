@@ -1,6 +1,26 @@
 {
   "updates": [
     {
+      "updated_at": "2026-06-14T17:24:05.528Z",
+      "updated_by": "crew",
+      "doing": "Made it to Tahoe city!  He’s taking a 90 min snoozle. We will get him some real food, new change of clothes, and send him out back with Zuz!  Last big day!",
+      "last_seen": {
+        "station": "Tahoe City",
+        "time_label": "Sun, 10:24 AM PDT"
+      },
+      "note": null,
+      "photos": [
+        {
+          "url": "/race-updates/2026-06-14T17-24-02-240Z-tahoe-city-1.jpg",
+          "alt": "Harvey at Tahoe City"
+        },
+        {
+          "url": "/race-updates/2026-06-14T17-24-02-240Z-tahoe-city-2.jpg",
+          "alt": "Harvey at Tahoe City"
+        }
+      ]
+    },
+    {
       "updated_at": "2026-06-14T12:47:27.835Z",
       "updated_by": "crew",
       "doing": "The boys made it through the night!  And they’re cruising.  Pacer swap later this morning / early afternoon at Tahoe City and Zuzy will keep him company for 18 miles!  LAST FULL DAY!",
