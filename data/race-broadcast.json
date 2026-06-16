@@ -1,6 +1,23 @@
 {
   "updates": [
     {
+      "updated_at": "2026-06-16T15:15:47.082Z",
+      "updated_by": "crew",
+      "doing": "He finished!  And now we sleep.",
+      "last_seen": null,
+      "note": null,
+      "photos": [
+        {
+          "url": "/race-updates/2026-06-16T15-15-43-593Z-update-1.jpg",
+          "alt": "Harvey on course"
+        },
+        {
+          "url": "/race-updates/2026-06-16T15-15-43-593Z-update-2.jpg",
+          "alt": "Harvey on course"
+        }
+      ]
+    },
+    {
       "updated_at": "2026-06-16T06:09:52.772Z",
       "updated_by": "crew",
       "doing": "He finished!  And now we sleep.",
