@@ -24,6 +24,9 @@ describe("Crew Chief shutdown", () => {
 
     expect(app).toContain("function showCrewChiefOffline()");
     expect(app).toContain("Race complete");
+    expect(app).toMatch(
+      /function showCrewChiefOffline\(\) \{[\s\S]*\$\("welcome-overlay"\)\?\.classList\.add\("hidden"\);/,
+    );
     expect(app).toContain("showCrewChiefOffline();");
   });
 });

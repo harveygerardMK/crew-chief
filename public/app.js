@@ -201,6 +201,7 @@ function showCrewChiefOffline() {
   onboardingPanel.classList.add("hidden");
   chatPanel.classList.remove("hidden");
   composerWrap.classList.add("hidden");
+  $("welcome-overlay")?.classList.add("hidden");
   if (noteBtn) noteBtn.classList.add("hidden");
   messagesEl.innerHTML = "";
   appendMessage({
