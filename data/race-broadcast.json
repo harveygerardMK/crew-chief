@@ -1,6 +1,23 @@
 {
   "updates": [
     {
+      "updated_at": "2026-06-16T06:09:52.772Z",
+      "updated_by": "crew",
+      "doing": "He finished!  And now we sleep.",
+      "last_seen": null,
+      "note": null,
+      "photos": [
+        {
+          "url": "/race-updates/2026-06-16T06-09-49-210Z-update-1.jpg",
+          "alt": "Harvey on course"
+        },
+        {
+          "url": "/race-updates/2026-06-16T06-09-49-210Z-update-2.jpg",
+          "alt": "Harvey on course"
+        }
+      ]
+    },
+    {
       "updated_at": "2026-06-15T22:51:00.713Z",
       "updated_by": "crew",
       "doing": "Hi friends.  It’s been a minute.  Our boy is in single digits.  Our squad is ready to bring him home.  Soon.  So, so soon.",
