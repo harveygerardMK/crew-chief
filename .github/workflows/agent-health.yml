@@ -1,41 +1,14 @@
-name: Agent health check
+name: Agent health check (disabled)
 
 on:
-  schedule:
-    # 8 AM and 8 PM UTC during May–June race prep
-    - cron: "0 8,20 * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  smoke:
+  disabled:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Resolve API URL
-        id: url
-        run: |
-          URL="${{ vars.PUBLIC_AGENT_API_URL }}"
-          if [[ -z "$URL" ]]; then
-            echo "::error::PUBLIC_AGENT_API_URL repo variable is not set"
-            exit 1
-          fi
-          echo "api_url=$URL" >> "$GITHUB_OUTPUT"
-
-      - name: Smoke test agent API
-        run: |
-          chmod +x scripts/verify-agent.sh
-          ./scripts/verify-agent.sh "${{ steps.url.outputs.api_url }}"
-
-      - name: Verify Pages config matches variable
-        run: |
-          API="${{ steps.url.outputs.api_url }}"
-          CONFIG=$(curl -sf "https://wheresharvey.com/agent/config.js")
-          echo "$CONFIG" | grep -qF "$API" || {
-            echo "::warning::Pages config.js may not match PUBLIC_AGENT_API_URL — redeploy Pages"
-            exit 1
-          }
-          echo "Pages config.js includes tunnel URL"
+      - name: Crew Chief is shut down
+        run: echo "Race is over; live Crew Chief smoke checks are disabled to avoid token spend."

@@ -28,19 +28,19 @@ jobs:
       - name: Build site
         env:
           PUBLIC_BROADCAST_API_URL: ${{ vars.PUBLIC_BROADCAST_API_URL }}
-          PUBLIC_AGENT_API_URL: ${{ vars.PUBLIC_AGENT_API_URL }}
+          PUBLIC_AGENT_API_URL: ""
         run: npm run build
-      - name: Verify agent UI in dist
+      - name: Verify agent UI is offline in dist
         run: |
           test -f dist/index.html
           test -f dist/agent/index.html
           test -f dist/app.js
           grep -q 'CREW_CHIEF_API' dist/config.js
-          grep -qE 'CREW_CHIEF_API = "https://' dist/config.js || {
-            echo "PUBLIC_AGENT_API_URL missing or empty — set repo variable before deploy"
+          grep -q 'CREW_CHIEF_API = ""' dist/config.js || {
+            echo "Crew Chief should deploy with an empty API URL after race shutdown"
             exit 1
           }
-          echo "Agent UI present at / and /agent/"
+          echo "Agent UI present at / and /agent/ in offline mode"
 
       - name: Verify race data published for agent
         run: |
@@ -50,18 +50,6 @@ jobs:
           curl -sf "file://$PWD/dist/data/race-broadcast.json" | python3 -c "import json,sys; d=json.load(sys.stdin); assert 'updates' in d"
           echo "aid-stations.json and race-broadcast.json published at /data/ for agent API fetch"
 
-      - name: Smoke test live agent API
-        if: vars.PUBLIC_AGENT_API_URL != ''
-        continue-on-error: true
-        env:
-          # Static site deploy must not block on droplet chat/API blips — update droplet separately.
-          VERIFY_AGENT_STRICT: "0"
-        run: |
-          chmod +x scripts/verify-agent.sh
-          ./scripts/verify-agent.sh "${{ vars.PUBLIC_AGENT_API_URL }}" || {
-            echo "::warning::Live agent smoke test failed — Pages deploy will continue. Fix droplet/API and re-run verify-agent.sh locally."
-            exit 0
-          }
       - name: Verify crew-site points to Ask Harvey for updates
         run: |
           grep -q "Crew updates in Ask Harvey" dist/crew-site/index.html

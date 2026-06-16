@@ -185,6 +185,31 @@ function apiBase() {
   return base;
 }
 
+function showCrewChiefOffline() {
+  statusHeader.classList.remove("status-header--stale", "status-header--prerace");
+  if (statPlace) statPlace.classList.add("hidden");
+  if (simulationBanner) simulationBanner.classList.add("hidden");
+
+  $("stat-mile").textContent = "200.4";
+  $("stat-speed").textContent = "—";
+  $("stat-update").textContent = "Race over";
+  $("stat-race").textContent = "finished";
+  statusBanner.textContent =
+    "RACE COMPLETE — Crew Chief is offline now so the live AI line stops spending tokens.";
+  statusBanner.classList.remove("hidden");
+
+  onboardingPanel.classList.add("hidden");
+  chatPanel.classList.remove("hidden");
+  composerWrap.classList.add("hidden");
+  if (noteBtn) noteBtn.classList.add("hidden");
+  messagesEl.innerHTML = "";
+  appendMessage({
+    role: "harvey",
+    text:
+      "Race complete. Crew Chief is shut down for the season, and the live chat line is no longer calling the AI backend. Thanks for following along.",
+  });
+}
+
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")
@@ -484,7 +509,7 @@ function appendThinkingMessage() {
   wrap.innerHTML = `
     <div class="msg__label">Harvey</div>
     <div class="msg__bubble">
-      <span class="thinking-dots" aria-label="Harvey is typing">
+      <span class="thinking-dots" aria-label="Harvey is typing — first reply can take a few seconds">
         <span></span><span></span><span></span>
       </span>
     </div>
@@ -933,34 +958,30 @@ async function init() {
   try {
     apiBase();
   } catch {
-    statusBanner.textContent =
-      "Chat API not configured in this build — crew site updates still work.";
-    statusBanner.classList.remove("hidden");
+    showCrewChiefOffline();
     return;
   }
 
   const cached = loadCachedStatus();
   if (cached) renderStatus(cached);
 
-  try {
-    await refreshStatus();
-  } catch {
-    /* cached */
-  }
-
+  const statusRefresh = refreshStatus().catch(() => null);
   setInterval(refreshStatus, STATUS_POLL_MS);
 
   const visitorId = getVisitorId();
   if (visitorId) {
-    try {
-      const profile = await api(`/visitors/${encodeURIComponent(visitorId)}`);
-      if (profile.audience) setVisitor(visitorId, profile.name, profile.audience);
-    } catch {
-      /* use localStorage audience / legacy migration */
-    }
     clearChatHistory();
     showChat();
-    await loadGreeting();
+    const profileFetch = api(`/visitors/${encodeURIComponent(visitorId)}`)
+      .then((profile) => {
+        if (profile.audience) setVisitor(visitorId, profile.name, profile.audience);
+      })
+      .catch(() => {
+        /* use localStorage audience / legacy migration */
+      });
+    await Promise.all([statusRefresh, profileFetch, loadGreeting()]);
+  } else {
+    await statusRefresh;
   }
 
   $("visitor-name")?.addEventListener("input", applyAudienceSuggestionFromName);

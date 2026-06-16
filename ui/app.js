@@ -185,6 +185,31 @@ function apiBase() {
   return base;
 }
 
+function showCrewChiefOffline() {
+  statusHeader.classList.remove("status-header--stale", "status-header--prerace");
+  if (statPlace) statPlace.classList.add("hidden");
+  if (simulationBanner) simulationBanner.classList.add("hidden");
+
+  $("stat-mile").textContent = "200.4";
+  $("stat-speed").textContent = "—";
+  $("stat-update").textContent = "Race over";
+  $("stat-race").textContent = "finished";
+  statusBanner.textContent =
+    "RACE COMPLETE — Crew Chief is offline now so the live AI line stops spending tokens.";
+  statusBanner.classList.remove("hidden");
+
+  onboardingPanel.classList.add("hidden");
+  chatPanel.classList.remove("hidden");
+  composerWrap.classList.add("hidden");
+  if (noteBtn) noteBtn.classList.add("hidden");
+  messagesEl.innerHTML = "";
+  appendMessage({
+    role: "harvey",
+    text:
+      "Race complete. Crew Chief is shut down for the season, and the live chat line is no longer calling the AI backend. Thanks for following along.",
+  });
+}
+
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")
@@ -933,9 +958,7 @@ async function init() {
   try {
     apiBase();
   } catch {
-    statusBanner.textContent =
-      "Chat API not configured in this build — crew site updates still work.";
-    statusBanner.classList.remove("hidden");
+    showCrewChiefOffline();
     return;
   }
 
