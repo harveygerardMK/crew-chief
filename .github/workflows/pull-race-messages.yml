@@ -1,0 +1,43 @@
+name: Pull race messages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    if: github.repository == 'harveygerardMK/crew-chief'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch notes and questions from droplet
+        env:
+          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
+          DROPLET_USER: ${{ secrets.DROPLET_USER }}
+          DROPLET_SSH_KEY: ${{ secrets.DROPLET_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          install -m 600 /dev/null ~/.ssh/id_ed25519
+          printf '%s\n' "$DROPLET_SSH_KEY" > ~/.ssh/id_ed25519
+          ssh-keyscan -H "$DROPLET_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          scp "${DROPLET_USER}@${DROPLET_HOST}:/var/crew-chief/data/notes.json" notes.json 2>/dev/null || echo '[]' > notes.json
+          scp "${DROPLET_USER}@${DROPLET_HOST}:/var/crew-chief/data/questions.json" questions.json 2>/dev/null || echo '[]' > questions.json
+
+      - name: Format report
+        run: |
+          python3 scripts/format-race-messages.py notes.json questions.json | tee race-messages.md
+          echo "---"
+          wc -l notes.json questions.json race-messages.md
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: race-messages
+          path: |
+            race-messages.md
+            notes.json
+            questions.json
+          retention-days: 30
