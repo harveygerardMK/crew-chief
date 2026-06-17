@@ -17,7 +17,7 @@ from claude import ClaudeError, chat_completion, fallback_response
 from config import Settings, load_settings
 from prompt import augment_chat_user_message, build_greeting_user_message, build_system_prompt
 from race_data import warm_race_data_cache
-from race_log import log_note, log_question
+from race_log import load_logged_entries, log_note, log_question
 from status import load_enriched_status, load_status
 from visitors import (
     InvalidAudience,
@@ -156,6 +156,18 @@ def get_visitor_profile(visitor_id: str) -> VisitorResponse:
         name=visitor["name"],
         audience=resolve_audience(visitor),
     )
+
+
+@app.get("/questions")
+def get_questions() -> list[dict[str, Any]]:
+    """Export logged chat messages (for post-race review)."""
+    return load_logged_entries(settings.questions_path)
+
+
+@app.get("/notes")
+def get_notes() -> list[dict[str, Any]]:
+    """Export visitor notes left for Harvey."""
+    return load_logged_entries(settings.notes_path)
 
 
 @app.post("/notes", response_model=NoteResponse)
