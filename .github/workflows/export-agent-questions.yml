@@ -1,0 +1,35 @@
+name: Export agent questions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    if: github.repository == 'harveygerardMK/crew-chief'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download questions.json from droplet
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          source: "/var/crew-chief/data/questions.json"
+          target: "data/"
+
+      - name: Format question list
+        run: python3 scripts/export-questions.py data/questions.json > questions-export.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-questions
+          path: |
+            data/questions.json
+            questions-export.txt
+          if-no-files-found: error
