@@ -432,6 +432,15 @@ def test_api_endpoints(settings: Settings, monkeypatch: pytest.MonkeyPatch) -> N
     assert profile.status_code == 200
     assert profile.json()["audience"] == "remote"
 
+    questions = client.get("/questions")
+    assert questions.status_code == 200
+    logged = questions.json()
+    assert any(entry.get("message") == "How is he doing?" for entry in logged)
+
+    notes = client.get("/notes")
+    assert notes.status_code == 200
+    assert any(entry.get("note_text") == "Proud of you." for entry in notes.json())
+
 
 def test_legacy_visitor_migrates_relationship_to_audience(settings: Settings) -> None:
     import json

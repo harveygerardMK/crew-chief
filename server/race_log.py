@@ -51,6 +51,16 @@ def log_question(
     )
 
 
+def load_logged_entries(path: Path) -> list[dict[str, Any]]:
+    if not path.is_file():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    return data if isinstance(data, list) else []
+
+
 def log_note(
     path: Path,
     *,
