@@ -1,23 +1,11 @@
-name: Deploy agent to droplet
+name: Deploy agent to droplet (manual only)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "server/**"
-      - "poller/**"
-      - "voice.md"
-      - "harvey.md"
-      - "agent-context/**"
-      - "data/known-people.json"
-      - "src/content/pages/**"
-      - "deploy/**"
-      - "scripts/droplet-update*.sh"
-      - "scripts/reset-share-status.sh"
-      - "scripts/race-week-switch.sh"
-      - "data/harvey_status.example.json"
-      - ".github/workflows/agent-droplet-deploy.yml"
   workflow_dispatch:
+    inputs:
+      confirm_restart:
+        description: "Type RESTART to deploy code and restart the live Crew Chief API."
+        required: true
 
 permissions:
   contents: read
@@ -25,8 +13,8 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Skip fork PRs; requires repo secrets on harveygerardMK/crew-chief.
-    if: github.repository == 'harveygerardMK/crew-chief'
+    # Race is over; live API restarts must be intentional because they can resume token spend.
+    if: github.repository == 'harveygerardMK/crew-chief' && github.event.inputs.confirm_restart == 'RESTART'
     steps:
       - uses: actions/checkout@v4
 
@@ -41,13 +29,3 @@ jobs:
             set -euo pipefail
             cd /var/crew-chief
             bash scripts/droplet-update-code.sh
-
-      - name: Smoke test live API
-        if: vars.PUBLIC_AGENT_API_URL != ''
-        continue-on-error: true
-        run: |
-          chmod +x scripts/verify-agent.sh
-          ./scripts/verify-agent.sh "${{ vars.PUBLIC_AGENT_API_URL }}" || {
-            echo "::warning::Post-deploy smoke test failed — check pm2 logs on droplet"
-            exit 0
-          }
